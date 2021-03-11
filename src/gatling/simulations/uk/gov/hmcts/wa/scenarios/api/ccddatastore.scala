@@ -22,6 +22,7 @@ val ccdDataStoreUrl = "http://ccd-data-store-api-perftest.service.core-compute-p
 val escaseDataUrl = "https://ccd-api-gateway-web-perftest.service.core-compute-perftest.internal"
 val dmStoreUrl = "http://dm-store-perftest.service.core-compute-perftest.internal"
 val ccdClientId = "ccd_gateway"
+val ccdScope = "openid profile authorities acr roles openid profile roles"
 val ccdGatewayClientSecret = config.getString("ccdGatewayCS")
 val feedIACUserData = csv("IACUserData.csv").circular
 
@@ -80,3 +81,4 @@ val ccdIdamLogin =
       .header("Content-Type","application/json")
       .body(ElFileBody("IACCreateCase.json"))
       .check(jsonPath("$.id").saveAs("caseId")))
+}
