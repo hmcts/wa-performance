@@ -1,0 +1,66 @@
+{
+    "data": {
+      "checklist": {
+        "checklist5": [
+          "isResidingInUK"
+        ],
+        "checklist2": [
+          "isNotDetained"
+        ],
+        "checklist7": [
+          "isNotEUDecision"
+        ]
+      },
+      "homeOfficeReferenceNumber": "12345678",
+      "homeOfficeDecisionDate": "2021-02-16",
+      "uploadTheNoticeOfDecisionExplanation": null,
+      "appellantTitle": "mr",
+      "appellantGivenNames": "john",
+      "appellantFamilyName": "smith",
+      "appellantDateOfBirth": "1990-01-19",
+      "appellantStateless": "hasNationality",
+      "appellantNationalities": [
+        {
+          "value": {
+            "code": "AL"
+          },
+          "id": null
+        }
+      ],
+      "appellantHasFixedAddress": "Yes",
+      "appellantAddress": {
+        "AddressLine1": "6 Hibernia Gardens",
+        "AddressLine2": "",
+        "AddressLine3": "",
+        "PostTown": "Hounslow",
+        "County": "",
+        "PostCode": "TW3 3SD",
+        "Country": "United Kingdom"
+      },
+      "contactPreference": "wantsEmail",
+      "email": "john@test.com",
+      "appealType": "refusalOfHumanRights",
+      "appealGroundsHumanRightsRefusal": {
+        "values": [
+          "protectionHumanRights"
+        ]
+      },
+      "deportationOrderOptions": "No",
+      "hasNewMatters": "No",
+      "hasOtherAppeals": "No",
+      "legalRepCompany": "legal company",
+      "legalRepName": "steve smith",
+      "legalRepReferenceNumber": "perf testing",
+      "isFeePaymentEnabled": null,
+      "isRemissionsEnabled": null,
+      "uploadTheNoticeOfDecisionDocument": null
+    },
+    "event": {
+      "id": "startAppeal",
+      "summary": "",
+      "description": ""
+    },
+    "event_token": "${eventToken}",
+    "ignore_warning": false,
+    "draft_id": null
+  }

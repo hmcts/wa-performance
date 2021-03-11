@@ -8,3 +8,4 @@ target/**
 build/**
 *.log
 out/**
+src/gatling/resources/application.conf
