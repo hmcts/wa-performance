@@ -16,8 +16,16 @@ class APISimulation extends Simulation  {
     .proxy(Proxy("proxyout.reform.hmcts.net", 8080).httpsPort(8080))
     .doNotTrackHeader("1")
 
+  val IACCaseCreate = scenario("IAC Case Create via CCD")
+    .repeat(1) {
+      exec(ccddatastore.ccdIdamLogin)
+      .repeat(1) { 
+        exec(ccddatastore.ccdCreateCase)
+      }
+    }
 
   setUp(
-    
+    IACCaseCreate.inject(rampUsers(1) during (1 minutes))
+  )
     .protocols(httpProtocol)
 }
