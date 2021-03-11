@@ -1,0 +1,26 @@
+#!groovy
+
+properties([
+        pipelineTriggers([cron('00 21 * * *')]),
+        parameters([
+                string(name: 'BaseURL', defaultValue: 'https://', description: 'The Base Url'),
+        ])
+])
+
+@Library("Infrastructure") 
+
+def product = "wa"
+def component = "wa-performance-tests"
+
+withNightlyPipeline("java", product, component) {
+    env.BaseURL = 'https://'
+
+    enablePerformanceTest()
+
+    after('performanceTest') {
+        steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
+    }
+
+    //enableSlackNotifications('#jui-nightly-builds')
+
+}
