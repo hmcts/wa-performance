@@ -22,4 +22,5 @@ object Environment {
   val xuiMCUrl = "https://manage-case.perftest.platform.hmcts.net/oauth2/callback"
   val xuiBaseURL = "https://manage-case.perftest.platform.hmcts.net"
   val dmStore = "http://dm-store-perftest.service.core-compute-perftest.internal"
+  val waTMURL = "http://wa-task-management-api-perftest.service.core-compute-perftest.internal"
 }

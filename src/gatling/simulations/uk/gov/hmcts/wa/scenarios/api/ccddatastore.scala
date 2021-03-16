@@ -7,7 +7,7 @@ import com.typesafe.config.{Config, ConfigFactory}
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import uk.gov.hmcts.wa.scenarios.utils._
-import java.io.{BufferedWriter, FileWriter}
+// import java.io.{BufferedWriter, FileWriter}
 
 object ccddatastore {
 
@@ -33,7 +33,7 @@ val ccdIdamLogin =
   .exec(http("GetS2SToken")
     .post(s2sUrl + "/testing-support/lease")
     .header("Content-Type", "application/json")
-    .body(StringBody("{\"microservice\":\"ccd_data\"}"))
+    .body(StringBody("{\"microservice\":\"wa_task_management_api\"}"))
     .check(bodyString.saveAs("bearerToken")))
     .exitHereIfFailed
 
