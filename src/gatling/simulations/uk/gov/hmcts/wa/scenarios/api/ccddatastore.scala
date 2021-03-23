@@ -33,7 +33,7 @@ val ccdIdamLogin =
   .exec(http("GetS2SToken")
     .post(s2sUrl + "/testing-support/lease")
     .header("Content-Type", "application/json")
-    .body(StringBody("{\"microservice\":\"wa_task_management_api\"}"))
+    .body(StringBody("{\"microservice\":\"ccd_data\"}"))
     .check(bodyString.saveAs("bearerToken")))
     .exitHereIfFailed
 
@@ -80,5 +80,22 @@ val ccdIdamLogin =
       .header("Authorization", "Bearer ${access_token}")
       .header("Content-Type","application/json")
       .body(ElFileBody("IACCreateCase.json"))
+      .check(jsonPath("$.id").saveAs("caseId")))
+
+  val ccdSubmitAppeal = 
+
+    exec(http("API_IAC_GetEventToken")
+      .get(ccdDataStoreUrl + "/caseworkers/${idamId}/jurisdictions/${IACJurisdiction}/case-types/${IACCaseType}/cases/${caseId}/event-triggers/submitAppeal/token")
+      .header("ServiceAuthorization", "Bearer ${bearerToken}")
+      .header("Authorization", "Bearer ${access_token}")
+      .header("Content-Type","application/json")
+      .check(jsonPath("$.token").saveAs("eventToken")))
+
+    .exec(http("API_IAC_SubmitAppeal")
+      .post(ccdDataStoreUrl + "/caseworkers/${idamId}/jurisdictions/${IACJurisdiction}/case-types/${IACCaseType}/cases/${caseId}/events")
+      .header("ServiceAuthorization", "Bearer ${bearerToken}")
+      .header("Authorization", "Bearer ${access_token}")
+      .header("Content-Type","application/json")
+      .body(ElFileBody("IACSubmitAppeal.json"))
       .check(jsonPath("$.id").saveAs("caseId")))
 }

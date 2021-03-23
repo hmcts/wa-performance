@@ -23,7 +23,7 @@ val WAAuthoriseUser =
   .exec(http("GetS2SToken")
     .post(s2sUrl + "/testing-support/lease")
     .header("Content-Type", "application/json")
-    .body(StringBody("{\"microservice\":\"ccd_data\"}"))
+    .body(StringBody("{\"microservice\":\"ccd_data\"}")) //wa_task_management_api
     .check(bodyString.saveAs("bearerToken")))
     .exitHereIfFailed
 

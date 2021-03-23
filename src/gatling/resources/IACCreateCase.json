@@ -12,10 +12,10 @@
         ]
       },
       "homeOfficeReferenceNumber": "12345678",
-      "homeOfficeDecisionDate": "2021-02-16",
+      "homeOfficeDecisionDate": "2021-03-23",
       "uploadTheNoticeOfDecisionExplanation": null,
       "appellantTitle": "mr",
-      "appellantGivenNames": "john",
+      "appellantGivenNames": "perf",
       "appellantFamilyName": "smith",
       "appellantDateOfBirth": "1990-01-19",
       "appellantStateless": "hasNationality",
@@ -38,7 +38,7 @@
         "Country": "United Kingdom"
       },
       "contactPreference": "wantsEmail",
-      "email": "john@test.com",
+      "email": "perf@perftest.com",
       "appealType": "refusalOfHumanRights",
       "appealGroundsHumanRightsRefusal": {
         "values": [
@@ -48,7 +48,7 @@
       "deportationOrderOptions": "No",
       "hasNewMatters": "No",
       "hasOtherAppeals": "No",
-      "legalRepCompany": "legal company",
+      "legalRepCompany": "perf company",
       "legalRepName": "steve smith",
       "legalRepReferenceNumber": "perf testing",
       "isFeePaymentEnabled": null,

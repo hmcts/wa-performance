@@ -29,6 +29,7 @@ class APISimulation extends Simulation  {
       exec(ccddatastore.ccdIdamLogin)
       .repeat(1) { 
         exec(ccddatastore.ccdCreateCase)
+        .exec(ccddatastore.ccdSubmitAppeal)
       }
     }
 
@@ -41,8 +42,8 @@ class APISimulation extends Simulation  {
     }
 
   setUp(
-    // IACCaseCreate.inject(rampUsers(1) during (1 minutes))
-    WAPostRetrieveTask.inject(rampUsers(1) during (1 minutes))
+    IACCaseCreate.inject(rampUsers(1) during (1 minutes))
+    // WAPostRetrieveTask.inject(rampUsers(1) during (1 minutes))
     // WAGetTask.inject(rampUsers(1) during (1 minutes))
   )
     .protocols(httpProtocol)
