@@ -1,0 +1,6 @@
+{
+  "case_id": "string",
+  "case_jurisdiction": "string",
+  "case_type": "string",
+  "event_id": "string"
+}

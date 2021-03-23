@@ -29,6 +29,8 @@ val WAAuthoriseUser =
 
 val GetTask =
 
+  //Retrieve a Task Resource identified by its unique id.
+
   feed(taskListFeeder)
 
   .exec(http("WA_GetTask")
@@ -39,10 +41,74 @@ val GetTask =
 
 val PostTaskRetrieve = 
 
+  //Retrieve a list of Task resources identified by set of search criteria.
+
   exec(http("WA_PostTaskRetrieve")
     .post(waUrl + "/task")
     .header("ServiceAuthorization", "Bearer ${bearerToken}")
     .header("Authorization", "Bearer ${access_token}")
     .header("Content-Type", "application/json")
     .body(ElFileBody("WA_searchTaskRequest.json")))
+
+val PostTaskSearchCompletable =
+
+  //Retrieve a list of Task resources identified by set of search criteria that are eligible for automatic completion
+
+  exec(http("WA_PostTaskSearchCompletable")
+    .post(waUrl + "/task/search-for-completable")
+    .header("ServiceAuthorization", "Bearer ${bearerToken}")
+    .header("Authorization", "Bearer ${access_token}")
+    .header("Content-Type", "application/json")
+    .body(ElFileBody("WA_searchTaskCompletable.json")))
+
+val PostAssignTask =
+
+  //Assign the identified Task to a specified user.
+
+  exec(http("WA_PostAssignTask")
+    .post(waUrl + "/task/${taskId}/assign")
+    .header("ServiceAuthorization", "Bearer ${bearerToken}")
+    .header("Authorization", "Bearer ${access_token}")
+    .header("Content-Type", "application/json")
+    .body(ElFileBody("WA_assignTaskToUser.json")))
+
+val CancelTask =
+
+  //Cancel a Task identified by an id.
+
+  exec(http("WA_CancelTask")
+    .post(waUrl + "/task/${taskId}/cancel")
+    .header("ServiceAuthorization", "Bearer ${bearerToken}")
+    .header("Authorization", "Bearer ${access_token}")
+    .header("Content-Type", "application/json"))
+
+val ClaimTask =
+
+  //Claim the identified Task for the currently logged in user.
+
+  exec(http("WA_ClaimTask")
+    .post(waUrl + "/task/${taskId}/claim")
+    .header("ServiceAuthorization", "Bearer ${bearerToken}")
+    .header("Authorization", "Bearer ${access_token}")
+    .header("Content-Type", "application/json"))
+
+val CompleteTask =
+
+  //Completes a Task identified by an id.
+
+  exec(http("WA_CompleteTask")
+    .post(waUrl + "/task/${taskId}/complete")
+    .header("ServiceAuthorization", "Bearer ${bearerToken}")
+    .header("Authorization", "Bearer ${access_token}")
+    .header("Content-Type", "application/json"))
+
+val UnclaimTask =
+
+  //Unclaim the identified Task for the currently logged in user.
+
+  exec(http("WA_UnclaimTask")
+    .post(waUrl + "/task/${taskId}/unclaim")
+    .header("ServiceAuthorization", "Bearer ${bearerToken}")
+    .header("Authorization", "Bearer ${access_token}")
+    .header("Content-Type", "application/json"))
 }
