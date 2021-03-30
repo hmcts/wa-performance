@@ -1,6 +1,6 @@
 {
-  "case_id": "string",
-  "case_jurisdiction": "string",
-  "case_type": "string",
-  "event_id": "string"
+  "case_id": "1616515788668391",
+  "case_jurisdiction": "IA",
+  "case_type": "Asylum",
+  "event_id": "reviewAppeal"
 }

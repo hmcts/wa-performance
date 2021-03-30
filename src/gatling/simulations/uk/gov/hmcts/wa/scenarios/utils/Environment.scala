@@ -23,4 +23,6 @@ object Environment {
   val xuiBaseURL = "https://manage-case.perftest.platform.hmcts.net"
   val dmStore = "http://dm-store-perftest.service.core-compute-perftest.internal"
   val waTMURL = "http://wa-task-management-api-perftest.service.core-compute-perftest.internal"
+  val ccdRedirectUri = "https://ccd-data-store-api-perftest.service.core-compute-perftest.internal/oauth2redirect"
+  val camundaURL = "http://camunda-api-perftest.service.core-compute-perftest.internal"
 }

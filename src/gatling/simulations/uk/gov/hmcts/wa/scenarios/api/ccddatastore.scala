@@ -7,7 +7,7 @@ import com.typesafe.config.{Config, ConfigFactory}
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import uk.gov.hmcts.wa.scenarios.utils._
-// import java.io.{BufferedWriter, FileWriter}
+import java.io.{BufferedWriter, FileWriter}
 
 object ccddatastore {
 
@@ -82,6 +82,8 @@ val ccdIdamLogin =
       .body(ElFileBody("IACCreateCase.json"))
       .check(jsonPath("$.id").saveAs("caseId")))
 
+    .pause(Environment.constantthinkTime)
+
   val ccdSubmitAppeal = 
 
     exec(http("API_IAC_GetEventToken")
@@ -98,4 +100,16 @@ val ccdIdamLogin =
       .header("Content-Type","application/json")
       .body(ElFileBody("IACSubmitAppeal.json"))
       .check(jsonPath("$.id").saveAs("caseId")))
+
+    // .exec {
+    //   session =>
+    //     val fw = new BufferedWriter(new FileWriter("IACSubmittedCaseIds.csv", true))
+    //     try {
+    //       fw.write(session("caseId").as[String] + "\r\n")
+    //     }
+    //     finally fw.close()
+    //     session
+    // }
+
+    .pause(Environment.constantthinkTime)
 }
