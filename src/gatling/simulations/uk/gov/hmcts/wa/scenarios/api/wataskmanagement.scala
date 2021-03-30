@@ -26,6 +26,7 @@ val feedIACUserData = csv("IACUserData.csv").circular
 val feedWASeniorUserData = csv("WA_SeniorTribunalUsers.csv").circular
 val feedWATribunalUserData = csv("WA_TribunalUsers.csv").circular
 val caseListFeeder = csv("WA_CaseList.csv").circular
+val feedStaticTasksFeeder = csv("WA_StaticTasks.csv").random
 
 val WAS2SLogin = 
 
@@ -105,6 +106,18 @@ val GetTask =
   //Retrieve a Task Resource identified by its unique id.
 
   feed(taskListFeeder)
+
+  .exec(http("WA_GetTask")
+    .get(waUrl + "/task/${taskId}")
+    .header("ServiceAuthorization", "Bearer ${bearerToken}")
+    .header("Authorization", "Bearer ${access_token}")
+    .header("Content-Type", "application/json"))
+
+val GetTaskForSearches =
+
+  //Retrieve a Task Resource identified by its unique id.
+
+  feed(feedStaticTasksFeeder)
 
   .exec(http("WA_GetTask")
     .get(waUrl + "/task/${taskId}")
