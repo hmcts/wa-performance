@@ -11,7 +11,7 @@
           "isNotEUDecision"
         ]
       },
-      "homeOfficeReferenceNumber": "12345678",
+      "homeOfficeReferenceNumber": "123453789",
       "homeOfficeDecisionDate": "2021-03-23",
       "uploadTheNoticeOfDecisionExplanation": null,
       "appellantTitle": "mr",
@@ -29,12 +29,12 @@
       ],
       "appellantHasFixedAddress": "Yes",
       "appellantAddress": {
-        "AddressLine1": "6 Hibernia Gardens",
-        "AddressLine2": "",
+        "AddressLine1": "The Engine Group",
+        "AddressLine2": "60 Great Portland Street",
         "AddressLine3": "",
-        "PostTown": "Hounslow",
+        "PostTown": "London",
         "County": "",
-        "PostCode": "TW3 3SD",
+        "PostCode": "W1W 7RT",
         "Country": "United Kingdom"
       },
       "contactPreference": "wantsEmail",
