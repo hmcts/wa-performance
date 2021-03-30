@@ -112,7 +112,7 @@ class APISimulation extends Simulation  {
     }
 
   setUp(
-    // IACCaseCreate.inject(rampUsers(1) during (1 minutes))
+    // IACCaseCreate.inject(rampUsers(10) during (1 minutes))
     // WAGetTask.inject(rampUsers(1) during (1 minutes))
     // WAPostRetrieveTask.inject(rampUsers(1) during (1 minutes))
     // WASearchCompletable.inject(rampUsers(1) during (1 minutes))
