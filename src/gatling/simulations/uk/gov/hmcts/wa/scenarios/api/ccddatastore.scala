@@ -101,15 +101,15 @@ val ccdIdamLogin =
       .body(ElFileBody("IACSubmitAppeal.json"))
       .check(jsonPath("$.id").saveAs("caseId")))
 
-    // .exec {
-    //   session =>
-    //     val fw = new BufferedWriter(new FileWriter("IACSubmittedCaseIds.csv", true))
-    //     try {
-    //       fw.write(session("caseId").as[String] + "\r\n")
-    //     }
-    //     finally fw.close()
-    //     session
-    // }
+    .exec {
+      session =>
+        val fw = new BufferedWriter(new FileWriter("IACSubmittedCaseIds.csv", true))
+        try {
+          fw.write(session("caseId").as[String] + "\r\n")
+        }
+        finally fw.close()
+        session
+    }
 
     .pause(Environment.constantthinkTime)
 }
