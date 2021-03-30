@@ -122,9 +122,9 @@ class APISimulation extends Simulation  {
     // CamundaGetCase.inject(rampUsers(1) during (1 minutes))
 
     //Scenarios required for perf test
-    IACCaseCreate.inject(rampUsers(4) during (1 minutes))
-    WACompleteTask.inject(rampUsers(6) during (1 minutes))
-    WACancelTask.inject(rampUsers(3) during (1 minutes))
+    IACCaseCreate.inject(rampUsers(4) during (1 minutes)),
+    WACompleteTask.inject(rampUsers(6) during (1 minutes)),
+    WACancelTask.inject(rampUsers(3) during (1 minutes)),
     WAGetTask.inject(rampUsers(80) during (5 minutes))
   )
     .protocols(httpProtocol)
