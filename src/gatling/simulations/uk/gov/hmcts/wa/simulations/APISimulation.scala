@@ -20,7 +20,7 @@ class APISimulation extends Simulation  {
       exec(wataskmanagement.WAS2SLogin)
       .exec(wataskmanagement.WASeniorIdamLogin)
       .repeat(6) { 
-        exec(wataskmanagement.GetTask)
+        exec(wataskmanagement.GetTaskForSearches)
         .exec(WaitforNextIteration.waitforNextIteration)
       }
     }
@@ -37,10 +37,10 @@ class APISimulation extends Simulation  {
   val IACCaseCreate = scenario("IAC Case Create via CCD")
     .repeat(1) {
       exec(ccddatastore.ccdIdamLogin)
-      .repeat(10) { 
+      .repeat(20) { 
         exec(ccddatastore.ccdCreateCase)
         .exec(ccddatastore.ccdSubmitAppeal)
-        .exec(WaitforNextIteration.waitforNextIteration)
+        // .exec(WaitforNextIteration.waitforNextIteration)
       }
     }
 
@@ -106,7 +106,7 @@ class APISimulation extends Simulation  {
   val CamundaGetCase = scenario("Camunda DB - Get Case details")
     .repeat(1) {
       exec(wataskmanagement.WAS2SLogin)
-      .repeat(100) {
+      .repeat(244) {
         exec(wataskmanagement.CamundaGetCase)
       }
     }
