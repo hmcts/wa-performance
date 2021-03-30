@@ -119,7 +119,7 @@ val GetTaskForSearches =
 
   feed(feedStaticTasksFeeder)
 
-  .exec(http("WA_GetTask")
+  .exec(http("WA_SearchGetTask")
     .get(waUrl + "/task/${taskId}")
     .header("ServiceAuthorization", "Bearer ${bearerToken}")
     .header("Authorization", "Bearer ${access_token}")
