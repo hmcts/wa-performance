@@ -159,10 +159,45 @@ object xuiwa {
 
     .pause(Environment.constantthinkTime)
 
-    .exec(http("XUI_CancelTask_005")
-			.post("/workallocation/task/${taskId}/cancel")
-			.headers(XUIHeaders.headers_ct24)
-			.body(StringBody("{}")))
+  val assignTaskForCompletion =
+
+    feed(feedCompleteTaskListFeeder)
+
+    .exec(http("XUI_OpenTask")
+			.get("/workallocation/task/${taskId}")
+			.headers(XUIHeaders.headers_tm0))
+
+    // .exec(http("request_11")
+		// 	.get("/workallocation/location")
+		// 	.headers(XUIHeaders.headers_tm0))
+
+    // .exec(http("request_13")
+		// 	.get("/api/monitoring-tools")
+		// 	.headers(XUIHeaders.headers_tm0))
+
+    .pause(Environment.constantthinkTime)
+
+    .exec(http("XUI_AssignTask_005")
+			.post("/workallocation/task/${taskId}/assign")
+			.headers(XUIHeaders.headers_assign33)
+			.body(StringBody("""{"userId":"${idamId}"}""")))
+
+    .exec(http("XUI_AssignTask_010")
+			.get("/api/healthCheck?path=%2Ftasks%2Ftask-manager%23manage_${taskId}")
+			.headers(XUIHeaders.headers_assign35))
+
+    .pause(Environment.constantthinkTime)
+
+    .exec(http("XUI_OpenTaskManager_005")
+			.get("/workallocation/location")
+			.headers(XUIHeaders.headers_assign35))
+
+    .exec(http("XUI_OpenTaskManager_010")
+			.post("/workallocation/task")
+			.headers(XUIHeaders.headers_tm10)
+			.body(StringBody("""{"searchRequest":{"search_parameters":[{"key":"location","operator":"IN","values":["231596","698118","198444","386417","512401","227101","562808","765324"]},{"key":"user","operator":"IN","values":[]}],"sorting_parameters":[{"sort_by":"dueDate","sort_order":"asc"}]},"view":"TaskManager"}""")))
+
+    .pause(Environment.constantthinkTime)
 
   val cancelTask =
 
