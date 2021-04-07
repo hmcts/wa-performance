@@ -210,10 +210,10 @@ val CamundaGetCase =
 
   .exec(http("Camunda_GetTask")
     .get(CamundaUrl + "/engine-rest/task?processVariables=caseId_eq_${caseId}")
+    // .get(CamundaUrl + "/engine-rest/task?processVariables=caseName_eq_perf*")
     .header("ServiceAuthorization", "Bearer ${bearerToken}")
     .check(regex("""id":"(.*)","name""").saveAs("taskId")))
 
-  // .doIf(session=>session("statusvalue").as[String].contains("200")) {
     .exec {
       session =>
         val fw = new BufferedWriter(new FileWriter("TaskIDs.csv", true))
@@ -222,8 +222,6 @@ val CamundaGetCase =
         }
         finally fw.close()
         session
-    }
-  // }
-  
+    }  
 
 }
