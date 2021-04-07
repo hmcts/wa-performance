@@ -53,8 +53,8 @@ class UISimulation extends Simulation  {
     }
 
   setUp(
-    AssignTask.inject(rampUsers(3) during (5 minutes))
-    CompleteTask.inject(rampUsers(6) during (5 minutes))
+    AssignTask.inject(rampUsers(3) during (5 minutes)),
+    CompleteTask.inject(rampUsers(6) during (5 minutes)),
     CancelTask.inject(rampUsers(4) during (5 minutes))
     
     )
