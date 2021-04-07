@@ -40,7 +40,7 @@ class APISimulation extends Simulation  {
       .repeat(10) {  //10
         exec(ccddatastore.ccdCreateCase)
         .exec(ccddatastore.ccdSubmitAppeal)
-        .exec(WaitforNextIteration.waitforNextIteration)
+        // .exec(WaitforNextIteration.waitforNextIteration)
       }
     }
 
@@ -73,7 +73,7 @@ class APISimulation extends Simulation  {
   val WAClaimUnclaimTask = scenario("Work Allocation API - Claim and then Unclaim a Task")
     .repeat(1) {
       exec(wataskmanagement.WAS2SLogin)
-      .exec(wataskmanagement.WATribunalIdamLogin)
+      .exec(wataskmanagement.WASeniorIdamLogin)
       .repeat(1) { 
         exec(wataskmanagement.ClaimTask)
         .exec(wataskmanagement.UnclaimTask)
@@ -95,37 +95,37 @@ class APISimulation extends Simulation  {
   val WACancelTask = scenario("Work Allocation API - Cancel a Task")
     .repeat(1) {
       exec(wataskmanagement.WAS2SLogin)
-      .exec(wataskmanagement.WATribunalIdamLogin)
-      .repeat(11) {
-        exec(wataskmanagement.GetTask)
-        .exec(wataskmanagement.CancelTask)
-        .exec(WaitforNextIteration.waitforNextIteration)
+      .exec(wataskmanagement.WASeniorIdamLogin)
+      .repeat(552) { //11
+        // exec(wataskmanagement.GetTask)
+        exec(wataskmanagement.CancelTask)
+        // .exec(WaitforNextIteration.waitforNextIteration)
       }
     }
 
   val CamundaGetCase = scenario("Camunda DB - Get Case details")
     .repeat(1) {
       exec(wataskmanagement.WAS2SLogin)
-      .repeat(200) {
+      .repeat(20) {
         exec(wataskmanagement.CamundaGetCase)
       }
     }
 
   setUp(
-    // IACCaseCreate.inject(rampUsers(10) during (1 minutes))
+    // IACCaseCreate.inject(rampUsers(1) during (1 minutes))
     // WAGetTask.inject(rampUsers(1) during (1 minutes))
     // WAPostRetrieveTask.inject(rampUsers(1) during (1 minutes))
     // WASearchCompletable.inject(rampUsers(1) during (1 minutes))
     // WAUnclaimTask.inject(rampUsers(1) during (1 minutes))
     // WAClaimUnclaimTask.inject(rampUsers(1) during (1 minutes))
     // WACancelTask.inject(rampUsers(1) during (1 minutes))
-    // CamundaGetCase.inject(rampUsers(1) during (1 minutes))
+    CamundaGetCase.inject(rampUsers(1) during (1 minutes))
 
     //Scenarios required for perf test
-    IACCaseCreate.inject(rampUsers(4) during (1 minutes)),
-    WACompleteTask.inject(rampUsers(6) during (1 minutes)),
-    WACancelTask.inject(rampUsers(3) during (1 minutes)),
-    WAGetTask.inject(rampUsers(80) during (5 minutes))
+    // IACCaseCreate.inject(rampUsers(4) during (1 minutes)),
+    // WACompleteTask.inject(rampUsers(6) during (1 minutes)),
+    // WACancelTask.inject(rampUsers(3) during (1 minutes)),
+    // WAGetTask.inject(rampUsers(80) during (5 minutes))
   )
     .protocols(httpProtocol)
 }
