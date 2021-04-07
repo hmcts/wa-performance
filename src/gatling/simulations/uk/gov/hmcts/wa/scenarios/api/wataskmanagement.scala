@@ -165,7 +165,7 @@ val CancelTask =
   feed(taskCancelListFeeder)
 
   .exec(http("WA_CancelTask")
-    .post(waUrl + "/task/${taskId}/cancel")
+    .post(waUrl + "/task/${taskId}/cancel") //${taskId}
     .header("ServiceAuthorization", "Bearer ${bearerToken}")
     .header("Authorization", "Bearer ${access_token}")
     .header("Content-Type", "application/json"))
@@ -187,7 +187,7 @@ val CompleteTask =
   //Completes a Task identified by an id.
 
   exec(http("WA_CompleteTask")
-    .post(waUrl + "/task/${taskId}/complete")
+    .post(waUrl + "/task/${taskId}/complete") //${taskId}
     .header("ServiceAuthorization", "Bearer ${bearerToken}")
     .header("Authorization", "Bearer ${access_token}")
     .header("Content-Type", "application/json"))
