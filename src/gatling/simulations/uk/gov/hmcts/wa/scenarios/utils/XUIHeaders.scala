@@ -162,6 +162,9 @@ object XUIHeaders {
   //Task Manager Headers
   val headers_tm0 = Map(
 		"Accept" -> "application/json, text/plain, */*",
+		"Accept-Encoding" -> "gzip, deflate, br",
+		"Accept-Language" -> "en-US,en;q=0.9",
+		"Connection" -> "keep-alive",
 		"Pragma" -> "no-cache",
 		"Sec-Fetch-Dest" -> "empty",
 		"Sec-Fetch-Mode" -> "cors",
