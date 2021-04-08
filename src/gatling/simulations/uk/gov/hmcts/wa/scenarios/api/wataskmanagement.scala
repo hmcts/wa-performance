@@ -21,6 +21,7 @@ val ccdClientId = "ccd_gateway"
 val ccdScope = "openid profile authorities acr roles openid profile roles"
 val ccdGatewayClientSecret = config.getString("ccdGatewayCS")
 val taskListFeeder = csv("WA_TaskList.csv").circular
+val feedCompleteTaskListFeeder = csv("WA_TasksToComplete.csv")
 val taskCancelListFeeder = csv("WA_TasksToCancel.csv").circular
 val feedIACUserData = csv("IACUserData.csv").circular
 val feedWASeniorUserData = csv("WA_SeniorTribunalUsers.csv").circular
@@ -106,6 +107,18 @@ val GetTask =
   //Retrieve a Task Resource identified by its unique id.
 
   feed(taskListFeeder)
+
+  .exec(http("WA_GetTask")
+    .get(waUrl + "/task/${taskId}")
+    .header("ServiceAuthorization", "Bearer ${bearerToken}")
+    .header("Authorization", "Bearer ${access_token}")
+    .header("Content-Type", "application/json"))
+
+val GetTaskForCompletion =
+
+  //Retrieve a Task Resource identified by its unique id.
+
+  feed(feedCompleteTaskListFeeder)
 
   .exec(http("WA_GetTask")
     .get(waUrl + "/task/${taskId}")
