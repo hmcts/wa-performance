@@ -19,7 +19,7 @@ class UISimulation extends Simulation  {
     .repeat(1) {
       exec(xuiwa.manageCasesHomePage)
       .exec(xuiwa.manageCasesLoginSenior)
-      .repeat(1) { 
+      .repeat(6) { //6
         exec(xuiwa.openTaskManager)
         .exec(xuiwa.assignTaskForCompletion)
         .exec(xuiwa.openTaskList)
@@ -34,7 +34,7 @@ class UISimulation extends Simulation  {
     .repeat(1) {
       exec(xuiwa.manageCasesHomePage)
       .exec(xuiwa.manageCasesLoginSenior)
-      .repeat(12) { 
+      .repeat(12) { //12
         exec(xuiwa.openTaskManager)
         .exec(xuiwa.assignTask)
         .exec(WaitforNextIteration.waitforNextIteration)
@@ -46,7 +46,7 @@ class UISimulation extends Simulation  {
     .repeat(1) {
       exec(xuiwa.manageCasesHomePage)
       .exec(xuiwa.manageCasesLoginSenior)
-      .repeat(8) { 
+      .repeat(8) { //8
         exec(xuiwa.openTaskManager)
         .exec(xuiwa.cancelTask)
         .exec(WaitforNextIteration.waitforNextIteration)
@@ -55,7 +55,7 @@ class UISimulation extends Simulation  {
     }
 
   setUp(
-    AssignTask.inject(rampUsers(3) during (5 minutes)),
+    AssignTask.inject(rampUsers(3) during (5 minutes)), //3
     CompleteTask.inject(rampUsers(6) during (5 minutes)), //6
     CancelTask.inject(rampUsers(4) during (5 minutes)) //4
     
