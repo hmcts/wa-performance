@@ -303,6 +303,19 @@ object XUIHeaders {
 		"sec-ch-ua" -> """Google Chrome";v="89", "Chromium";v="89", ";Not A Brand";v="99""",
 		"sec-ch-ua-mobile" -> "?0")
 
+	//Complete Task header
+	val headers_complete = Map(
+		"Accept" -> "application/json, text/plain, */*",
+		"Content-Type" -> "application/json",
+		"Origin" -> "https://manage-case.perftest.platform.hmcts.net",
+		"Pragma" -> "no-cache",
+		"Sec-Fetch-Dest" -> "empty",
+		"Sec-Fetch-Mode" -> "cors",
+		"Sec-Fetch-Site" -> "same-origin",
+		"X-XSRF-TOKEN" -> "${xsrfToken}",
+		"sec-ch-ua" -> """Google Chrome";v="89", "Chromium";v="89", ";Not A Brand";v="99""",
+		"sec-ch-ua-mobile" -> "?0")
+
 	val headers_logout = Map(
     "Pragma" -> "no-cache",
     "Sec-Fetch-Dest" -> "document",

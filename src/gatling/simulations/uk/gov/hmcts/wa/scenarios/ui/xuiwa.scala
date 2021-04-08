@@ -152,7 +152,7 @@ object xuiwa {
 			.get("/workallocation/location")
 			.headers(XUIHeaders.headers_assign35))
 
-    .exec(http("XUI_OpenTaskManager_010")
+    .exec(http("XUI_OpenTaskManager_020")
 			.post("/workallocation/task")
 			.headers(XUIHeaders.headers_tm10)
 			.body(StringBody("""{"searchRequest":{"search_parameters":[{"key":"location","operator":"IN","values":["231596","698118","198444","386417","512401","227101","562808","765324"]},{"key":"user","operator":"IN","values":[]}],"sorting_parameters":[{"sort_by":"dueDate","sort_order":"asc"}]},"view":"TaskManager"}""")))
@@ -192,12 +192,33 @@ object xuiwa {
 			.get("/workallocation/location")
 			.headers(XUIHeaders.headers_assign35))
 
-    .exec(http("XUI_OpenTaskManager_010")
+    .exec(http("XUI_OpenTaskManager_020")
 			.post("/workallocation/task")
 			.headers(XUIHeaders.headers_tm10)
 			.body(StringBody("""{"searchRequest":{"search_parameters":[{"key":"location","operator":"IN","values":["231596","698118","198444","386417","512401","227101","562808","765324"]},{"key":"user","operator":"IN","values":[]}],"sorting_parameters":[{"sort_by":"dueDate","sort_order":"asc"}]},"view":"TaskManager"}""")))
 
     .pause(Environment.constantthinkTime)
+
+  val completeTask =
+
+    exec(http("XUI_OpenTask")
+			.get("/workallocation/task/${taskId}")
+			.headers(XUIHeaders.headers_tm0))
+
+    .pause(Environment.constantthinkTime)
+
+    .exec(http("XUI_CompleteTask")
+			.post("/workallocation/task/${taskId}/complete")
+			.headers(XUIHeaders.headers_complete))
+
+    .exec(http("XUI_OpenTaskManager_005")
+			.get("/workallocation/location")
+			.headers(XUIHeaders.headers_assign35))
+
+    .exec(http("XUI_OpenTaskManager_020")
+			.post("/workallocation/task")
+			.headers(XUIHeaders.headers_tm10)
+			.body(StringBody("""{"searchRequest":{"search_parameters":[{"key":"location","operator":"IN","values":["231596","698118","198444","386417","512401","227101","562808","765324"]},{"key":"user","operator":"IN","values":[]}],"sorting_parameters":[{"sort_by":"dueDate","sort_order":"asc"}]},"view":"TaskManager"}""")))
 
   val cancelTask =
 
@@ -222,7 +243,7 @@ object xuiwa {
 			.get("/workallocation/location")
 			.headers(XUIHeaders.headers_ct26))
     
-    .exec(http("XUI_CancelTask_020")
+    .exec(http("XUI_OpenTaskManager_020")
 			.post("/workallocation/task")
 			.headers(XUIHeaders.headers_ct31)
 			.body(StringBody("""{"searchRequest":{"search_parameters":[{"key":"location","operator":"IN","values":["231596","698118","198444","386417","512401","227101","562808","765324"]},{"key":"user","operator":"IN","values":[]}],"sorting_parameters":[{"sort_by":"dueDate","sort_order":"asc"}]},"view":"TaskManager"}""")))
@@ -243,12 +264,12 @@ object xuiwa {
 			.get("/api/healthCheck?path=%2Ftasks%2Flist")
 			.headers(XUIHeaders.headers_tl1))
 
-    .exec(http("XUI_OpenTaskList_020")
+    .exec(http("XUI_OpenTaskManager_020")
 			.post("/workallocation/task")
 			.headers(XUIHeaders.headers_tl5)
 			.body(StringBody("""{"searchRequest":{"search_parameters":[{"key":"user","operator":"IN","values":["${idamId}"]}],"sorting_parameters":[{"sort_by":"dueDate","sort_order":"asc"}]},"view":"MyTasks"}"""))
       .check(regex("""id":"(.*)","name""").saveAs("taskId"))
-      .check(regex("""case_id":"(.*)","case_category""").saveAs("caseId"))
+      // .check(regex("""case_id":"(.*)","case_category""").saveAs("caseId"))
       )
 
     .pause(Environment.constantthinkTime)
