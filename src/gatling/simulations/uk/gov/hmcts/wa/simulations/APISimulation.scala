@@ -96,7 +96,7 @@ class APISimulation extends Simulation  {
     .repeat(1) {
       exec(wataskmanagement.WAS2SLogin)
       .exec(wataskmanagement.WASeniorIdamLogin)
-      .repeat(120) { //11
+      .repeat(37) { //11
         // exec(wataskmanagement.GetTask)
         exec(wataskmanagement.CancelTask)
         // .exec(WaitforNextIteration.waitforNextIteration)
@@ -106,7 +106,7 @@ class APISimulation extends Simulation  {
   val CamundaGetCase = scenario("Camunda DB - Get Case details")
     .repeat(1) {
       exec(wataskmanagement.WAS2SLogin)
-      .repeat(110) {
+      .repeat(111) {
         exec(wataskmanagement.CamundaGetCase)
       }
     }

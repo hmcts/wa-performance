@@ -22,9 +22,7 @@ class UISimulation extends Simulation  {
       .repeat(6) { //6
         exec(xuiwa.openTaskManager)
         .exec(xuiwa.assignTaskForCompletion)
-        .exec(xuiwa.openTaskList)
-        .exec(xuiwa.OpenTask)
-        .exec(xuiwa.EndAppealCaseEvent)
+        .exec(xuiwa.completeTask)
         .exec(WaitforNextIteration.waitforNextIteration)
       }
       .exec(xuiwa.XUILogout)
