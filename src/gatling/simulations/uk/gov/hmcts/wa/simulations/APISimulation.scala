@@ -85,7 +85,7 @@ class APISimulation extends Simulation  {
       exec(wataskmanagement.WAS2SLogin)
       .exec(wataskmanagement.WASeniorIdamLogin)
       .repeat(6) {
-        exec(wataskmanagement.GetTask)
+        exec(wataskmanagement.GetTaskForCompletion)
         .exec(wataskmanagement.PostAssignTask)
         .exec(wataskmanagement.CompleteTask)
         .exec(WaitforNextIteration.waitforNextIteration)
