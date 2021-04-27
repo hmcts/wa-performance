@@ -79,7 +79,7 @@ val ccdIdamLogin =
       .header("ServiceAuthorization", "Bearer ${bearerToken}")
       .header("Authorization", "Bearer ${access_token}")
       .header("Content-Type","application/json")
-      .body(ElFileBody("IACCreateCase.json"))
+      .body(ElFileBody("IACCreateCaseNew.json"))
       .check(jsonPath("$.id").saveAs("caseId")))
 
     .pause(Environment.constantthinkTime)
