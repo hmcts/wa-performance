@@ -1,0 +1,59 @@
+{
+  "data": {
+     "isOutOfCountryEnabled": "Yes",
+     "checklist": {
+        "checklist2": [
+           "isNotDetained"
+        ],
+        "checklist7": [
+           "isNotEUDecision"
+        ]
+     },
+     "appellantInUk": "Yes",
+     "homeOfficeReferenceNumber": "123456789",
+     "homeOfficeDecisionDate": "2021-04-27",
+     "uploadTheNoticeOfDecisionDocs": [
+        {
+           "value": {
+              "description": "test",
+              "document": {
+                 "document_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/5cd627a4-deb2-415e-9dfe-83afe3394400",
+                 "document_binary_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/5cd627a4-deb2-415e-9dfe-83afe3394400/binary",
+                 "document_filename": "1MB.pdf"
+              }
+           },
+           "id": null
+        }
+     ],
+     "appellantTitle": "mr",
+     "appellantGivenNames": "perftest",
+     "appellantFamilyName": "team",
+     "appellantDateOfBirth": "1990-02-01",
+     "appellantStateless": "isStateless",
+     "appellantHasFixedAddress": "No",
+     "contactPreference": "wantsEmail",
+     "email": "john@smith.coim",
+     "appealType": "refusalOfHumanRights",
+     "appealGroundsHumanRightsRefusal": {
+        "values": [
+           "protectionHumanRights"
+        ]
+     },
+     "deportationOrderOptions": "No",
+     "hasNewMatters": "No",
+     "hasOtherAppeals": "No",
+     "legalRepCompany": "test company",
+     "legalRepName": "steve smith",
+     "legalRepReferenceNumber": "123",
+     "isFeePaymentEnabled": null,
+     "isRemissionsEnabled": null
+  },
+  "event": {
+     "id": "startAppeal",
+     "summary": "",
+     "description": ""
+  },
+  "event_token": "${eventToken}",
+  "ignore_warning": false,
+  "draft_id": null
+}

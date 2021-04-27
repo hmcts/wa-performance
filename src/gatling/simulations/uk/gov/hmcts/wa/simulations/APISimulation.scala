@@ -106,13 +106,13 @@ class APISimulation extends Simulation  {
   val CamundaGetCase = scenario("Camunda DB - Get Case details")
     .repeat(1) {
       exec(wataskmanagement.WAS2SLogin)
-      .repeat(50) {
+      .repeat(200) {
         exec(wataskmanagement.CamundaGetCase)
       }
     }
 
   setUp(
-    // IACCaseCreate.inject(rampUsers(1) during (1 minutes))
+    // IACCaseCreate.inject(rampUsers(10) during (1 minutes))
     // WAGetTask.inject(rampUsers(1) during (1 minutes))
     // WAPostRetrieveTask.inject(rampUsers(1) during (1 minutes))
     // WASearchCompletable.inject(rampUsers(1) during (1 minutes))
