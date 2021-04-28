@@ -37,10 +37,10 @@ class APISimulation extends Simulation  {
   val IACCaseCreate = scenario("IAC Case Create via CCD")
     .repeat(1) {
       exec(ccddatastore.ccdIdamLogin)
-      .repeat(10) {  //10
+      .repeat(20) {  //10
         exec(ccddatastore.ccdCreateCase)
         .exec(ccddatastore.ccdSubmitAppeal)
-        .exec(WaitforNextIteration.waitforNextIteration)
+        // .exec(WaitforNextIteration.waitforNextIteration)
       }
     }
 
@@ -112,7 +112,7 @@ class APISimulation extends Simulation  {
     }
 
   setUp(
-    // IACCaseCreate.inject(rampUsers(10) during (1 minutes))
+    IACCaseCreate.inject(rampUsers(50) during (1 minutes))
     // WAGetTask.inject(rampUsers(1) during (1 minutes))
     // WAPostRetrieveTask.inject(rampUsers(1) during (1 minutes))
     // WASearchCompletable.inject(rampUsers(1) during (1 minutes))
@@ -122,10 +122,10 @@ class APISimulation extends Simulation  {
     // CamundaGetCase.inject(rampUsers(1) during (1 minutes))
 
     //Scenarios required for perf test
-    IACCaseCreate.inject(rampUsers(4) during (5 minutes)),
-    WACompleteTask.inject(rampUsers(6) during (5 minutes)),
-    WACancelTask.inject(rampUsers(4) during (5 minutes)),
-    WAGetTask.inject(rampUsers(80) during (7 minutes))
+    // IACCaseCreate.inject(rampUsers(4) during (5 minutes)),
+    // WACompleteTask.inject(rampUsers(6) during (5 minutes)),
+    // WACancelTask.inject(rampUsers(4) during (5 minutes)),
+    // WAGetTask.inject(rampUsers(80) during (7 minutes))
   )
     .protocols(httpProtocol)
 }
