@@ -40,7 +40,7 @@ class APISimulation extends Simulation  {
       .repeat(10) {  //10
         exec(ccddatastore.ccdCreateCase)
         .exec(ccddatastore.ccdSubmitAppeal)
-        // .exec(WaitforNextIteration.waitforNextIteration)
+        .exec(WaitforNextIteration.waitforNextIteration)
       }
     }
 
@@ -106,26 +106,26 @@ class APISimulation extends Simulation  {
   val CamundaGetCase = scenario("Camunda DB - Get Case details")
     .repeat(1) {
       exec(wataskmanagement.WAS2SLogin)
-      .repeat(120) {
+      .repeat(100) {
         exec(wataskmanagement.CamundaGetCase)
       }
     }
 
   setUp(
-    // IACCaseCreate.inject(rampUsers(12) during (1 minutes))
+    // IACCaseCreate.inject(rampUsers(10) during (1 minutes))
     // WAGetTask.inject(rampUsers(1) during (1 minutes))
     // WAPostRetrieveTask.inject(rampUsers(1) during (1 minutes))
     // WASearchCompletable.inject(rampUsers(1) during (1 minutes))
     // WAUnclaimTask.inject(rampUsers(1) during (1 minutes))
     // WAClaimUnclaimTask.inject(rampUsers(1) during (1 minutes))
     // WACancelTask.inject(rampUsers(1) during (1 minutes))
-    CamundaGetCase.inject(rampUsers(1) during (1 minutes))
+    // CamundaGetCase.inject(rampUsers(1) during (1 minutes))
 
     //Scenarios required for perf test
-    // IACCaseCreate.inject(rampUsers(4) during (5 minutes)),
-    // WACompleteTask.inject(rampUsers(6) during (5 minutes)),
-    // WACancelTask.inject(rampUsers(4) during (5 minutes)),
-    // WAGetTask.inject(rampUsers(80) during (7 minutes))
+    IACCaseCreate.inject(rampUsers(4) during (5 minutes)),
+    WACompleteTask.inject(rampUsers(6) during (5 minutes)),
+    WACancelTask.inject(rampUsers(4) during (5 minutes)),
+    WAGetTask.inject(rampUsers(80) during (7 minutes))
   )
     .protocols(httpProtocol)
 }
