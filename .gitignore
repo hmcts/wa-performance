@@ -9,5 +9,3 @@ build/**
 *.log
 out/**
 src/gatling/resources/application.conf
-bin/*
-.vscode/*
