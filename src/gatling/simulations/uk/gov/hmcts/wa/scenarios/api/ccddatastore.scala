@@ -66,6 +66,8 @@ val ccdIdamLogin =
     .check(jsonPath("$.access_token").saveAs("access_token")))
     .exitHereIfFailed
 
+  .pause(Environment.constantthinkTime)
+
   val ccdCreateCase = 
 
     exec(http("API_IAC_GetEventToken")
