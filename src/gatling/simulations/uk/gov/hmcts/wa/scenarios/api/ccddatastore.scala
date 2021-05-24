@@ -17,12 +17,13 @@ val IdamURL = Environment.idamURL
 val IdamAPI = Environment.idamAPI
 val CCDEnvurl = Environment.ccdEnvurl
 val s2sUrl = Environment.s2sUrl
-val ccdRedirectUri = "https://ccd-data-store-api-perftest.service.core-compute-perftest.internal/oauth2redirect"
-val ccdDataStoreUrl = "http://ccd-data-store-api-perftest.service.core-compute-perftest.internal"
-val escaseDataUrl = "https://ccd-api-gateway-web-perftest.service.core-compute-perftest.internal"
-val dmStoreUrl = "http://dm-store-perftest.service.core-compute-perftest.internal"
+val ccdRedirectUri = "https://ccd-data-store-api-aat.service.core-compute-aat.internal/oauth2redirect"
+val ccdDataStoreUrl = "http://ccd-data-store-api-aat.service.core-compute-aat.internal"
+val escaseDataUrl = "https://ccd-api-gateway-web-aat.service.core-compute-aat.internal"
+val dmStoreUrl = "http://dm-store-aat.service.core-compute-aat.internal"
 val ccdClientId = "ccd_gateway"
-val ccdScope = "openid profile authorities acr roles openid profile roles"
+// val ccdScope = "openid profile authorities acr roles openid profile roles" //perftest
+val ccdScope = "openid profile authorities acr roles" //aat
 val ccdGatewayClientSecret = config.getString("ccdGatewayCS")
 val feedIACUserData = csv("IACUserData.csv").circular
 
@@ -101,15 +102,15 @@ val ccdIdamLogin =
       .body(ElFileBody("IACSubmitAppeal.json"))
       .check(jsonPath("$.id").saveAs("caseId")))
 
-    .exec {
-      session =>
-        val fw = new BufferedWriter(new FileWriter("IACSubmittedCaseIds.csv", true))
-        try {
-          fw.write(session("caseId").as[String] + "\r\n")
-        }
-        finally fw.close()
-        session
-    }
+    // .exec {
+    //   session =>
+    //     val fw = new BufferedWriter(new FileWriter("IACSubmittedCaseIds.csv", true))
+    //     try {
+    //       fw.write(session("caseId").as[String] + "\r\n")
+    //     }
+    //     finally fw.close()
+    //     session
+    // }
 
     .pause(Environment.constantthinkTime)
 }

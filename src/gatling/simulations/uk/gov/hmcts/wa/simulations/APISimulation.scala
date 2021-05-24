@@ -2,7 +2,7 @@ package uk.gov.hmcts.wa.simulations
 
 import io.gatling.core.Predef._
 import io.gatling.core.scenario.Simulation
-import io.gatling.http.Predef.Proxy
+import io.gatling.http.Predef._
 import uk.gov.hmcts.wa.scenarios._
 import uk.gov.hmcts.wa.scenarios.utils._
 import scala.concurrent.duration._
@@ -19,9 +19,8 @@ class APISimulation extends Simulation  {
     .repeat(1) {
       exec(wataskmanagement.WAS2SLogin)
       .exec(wataskmanagement.WASeniorIdamLogin)
-      .repeat(6) { 
-        exec(wataskmanagement.GetTaskForSearches)
-        .exec(WaitforNextIteration.waitforNextIteration)
+      .repeat(1) { 
+        exec(wataskmanagement.GetTask)
       }
     }
 
@@ -37,7 +36,7 @@ class APISimulation extends Simulation  {
   val IACCaseCreate = scenario("IAC Case Create via CCD")
     .repeat(1) {
       exec(ccddatastore.ccdIdamLogin)
-      .repeat(20) {  //10
+      .repeat(1) {  //10
         exec(ccddatastore.ccdCreateCase)
         .exec(ccddatastore.ccdSubmitAppeal)
         // .exec(WaitforNextIteration.waitforNextIteration)
@@ -96,30 +95,38 @@ class APISimulation extends Simulation  {
     .repeat(1) {
       exec(wataskmanagement.WAS2SLogin)
       .exec(wataskmanagement.WASeniorIdamLogin)
-      .repeat(8) { //8
+      .repeat(500) { //8
         // exec(wataskmanagement.GetTask)
         exec(wataskmanagement.CancelTask)
-        .exec(WaitforNextIteration.waitforNextIteration)
+        // .exec(WaitforNextIteration.waitforNextIteration)
       }
     }
 
   val CamundaGetCase = scenario("Camunda DB - Get Case details")
     .repeat(1) {
       exec(wataskmanagement.WAS2SLogin)
-      .repeat(100) {
+      .repeat(5000) {
         exec(wataskmanagement.CamundaGetCase)
       }
     }
 
+  //Pipeline Scenario
+  val WAPipeline = scenario("Create Case, Create Task")
+      .exec(ccddatastore.ccdIdamLogin)
+      .exec(ccddatastore.ccdCreateCase)
+      .exec(ccddatastore.ccdSubmitAppeal)
+      .pause(30)
+      .exec(Environment.ClearSessionVariables)
+      .exec(wataskmanagement.WAS2SLogin)
+      .exec(wataskmanagement.WASeniorIdamLogin)
+      .exec(wataskmanagement.CamundaGetCase)
+      .exec(wataskmanagement.GetTask)
+      .exec(wataskmanagement.PostAssignTask)
+      .exec(wataskmanagement.CompleteTask)
+
   setUp(
-    IACCaseCreate.inject(rampUsers(25) during (3 minutes))
+    WAPipeline.inject(rampUsers(1) during (1 minutes))
     // WAGetTask.inject(rampUsers(1) during (1 minutes))
-    // WAPostRetrieveTask.inject(rampUsers(1) during (1 minutes))
-    // WASearchCompletable.inject(rampUsers(1) during (1 minutes))
-    // WAUnclaimTask.inject(rampUsers(1) during (1 minutes))
-    // WAClaimUnclaimTask.inject(rampUsers(1) during (1 minutes))
-    // WACancelTask.inject(rampUsers(1) during (1 minutes))
-    // CamundaGetCase.inject(rampUsers(1) during (1 minutes))
 
     //Scenarios required for perf test
     // IACCaseCreate.inject(rampUsers(4) during (5 minutes)),

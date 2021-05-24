@@ -28,32 +28,33 @@ val feedWASeniorUserData = csv("WA_SeniorTribunalUsers.csv").circular
 val feedWATribunalUserData = csv("WA_TribunalUsers.csv").circular
 val caseListFeeder = csv("WA_CaseList.csv").circular
 val feedStaticTasksFeeder = csv("WA_StaticTasks.csv").random
+val pipelineTribunalFeeder = csv("WA_PipelineSenior.csv")
 
 val WAS2SLogin = 
 
-  exec(http("GetS2SToken")
+  exec(http("WA_GetS2SToken")
     .post(s2sUrl + "/testing-support/lease")
     .header("Content-Type", "application/json")
     .body(StringBody("{\"microservice\":\"wa_task_management_api\"}")) //wa_task_management_api
-    .check(bodyString.saveAs("bearerToken")))
+    .check(bodyString.saveAs("bearerToken2")))
     .exitHereIfFailed
 
 val WASeniorIdamLogin =
   
-  feed(feedWASeniorUserData)
+  feed(pipelineTribunalFeeder)
 
-  .exec(http("OIDC01_Authenticate")
+  .exec(http("WA_OIDC01_Authenticate")
     .post(IdamAPI + "/authenticate")
     .header("Content-Type", "application/x-www-form-urlencoded")
-    .formParam("username", "${email}")
-    .formParam("password", "${password}")
+    .formParam("username", "${waemail}")
+    .formParam("password", "${wapassword}")
     .formParam("redirectUri", ccdRedirectUri)
     .formParam("originIp", "0:0:0:0:0:0:0:1")
     .check(status is 200)
     .check(headerRegex("Set-Cookie", "Idam.Session=(.*)").saveAs("authCookie")))
     .exitHereIfFailed
 
-  .exec(http("OIDC02_Authorize")
+  .exec(http("WA_OIDC02_Authorize")
     .post(IdamAPI + "/o/authorize?response_type=code&client_id=" + ccdClientId + "&redirect_uri=" + ccdRedirectUri + "&scope=" + ccdScope).disableFollowRedirect
     .header("Content-Type", "application/x-www-form-urlencoded")
     .header("Cookie", "Idam.Session=${authCookie}")
@@ -62,12 +63,12 @@ val WASeniorIdamLogin =
     .check(headerRegex("Location", "code=(.*)&client_id").saveAs("code")))
     .exitHereIfFailed
 
-  .exec(http("OIDC03_Token")
+  .exec(http("WA_OIDC03_Token")
     .post(IdamAPI + "/o/token?grant_type=authorization_code&code=${code}&client_id=" + ccdClientId +"&redirect_uri=" + ccdRedirectUri + "&client_secret=" + ccdGatewayClientSecret)
     .header("Content-Type", "application/x-www-form-urlencoded")
     .header("Content-Length", "0")
     .check(status is 200)
-    .check(jsonPath("$.access_token").saveAs("access_token")))
+    .check(jsonPath("$.access_token").saveAs("access_token2")))
     .exitHereIfFailed
 
 val WATribunalIdamLogin =
@@ -77,8 +78,8 @@ val WATribunalIdamLogin =
   .exec(http("OIDC01_Authenticate")
     .post(IdamAPI + "/authenticate")
     .header("Content-Type", "application/x-www-form-urlencoded")
-    .formParam("username", "${email}")
-    .formParam("password", "${password}")
+    .formParam("username", "${waemail}")
+    .formParam("password", "${wapassword}")
     .formParam("redirectUri", ccdRedirectUri)
     .formParam("originIp", "0:0:0:0:0:0:0:1")
     .check(status is 200)
@@ -99,32 +100,38 @@ val WATribunalIdamLogin =
     .header("Content-Type", "application/x-www-form-urlencoded")
     .header("Content-Length", "0")
     .check(status is 200)
-    .check(jsonPath("$.access_token").saveAs("access_token")))
+    .check(jsonPath("$.access_token2").saveAs("access_token2")))
     .exitHereIfFailed
+
+  .pause(Environment.constantthinkTime)
 
 val GetTask =
 
   //Retrieve a Task Resource identified by its unique id.
 
-  feed(taskListFeeder)
+  // feed(taskListFeeder)
 
-  .exec(http("WA_GetTask")
-    .get(waUrl + "/task/${taskId}")
-    .header("ServiceAuthorization", "Bearer ${bearerToken}")
-    .header("Authorization", "Bearer ${access_token}")
+  exec(http("WA_GetTask")
+    .get(waUrl + "/task/${taskId}") //${taskId}
+    .header("ServiceAuthorization", "Bearer ${bearerToken2}")
+    .header("Authorization", "Bearer ${access_token2}")
     .header("Content-Type", "application/json"))
+
+  .pause(Environment.constantthinkTime)
 
 val GetTaskForCompletion =
 
   //Retrieve a Task Resource identified by its unique id.
 
-  feed(feedCompleteTaskListFeeder)
+  // feed(feedCompleteTaskListFeeder)
 
-  .exec(http("WA_GetTask")
+  exec(http("WA_GetTask")
     .get(waUrl + "/task/${taskId}")
-    .header("ServiceAuthorization", "Bearer ${bearerToken}")
-    .header("Authorization", "Bearer ${access_token}")
+    .header("ServiceAuthorization", "Bearer ${bearerToken2}")
+    .header("Authorization", "Bearer ${access_token2}")
     .header("Content-Type", "application/json"))
+  
+  .pause(Environment.constantthinkTime)
 
 val GetTaskForSearches =
 
@@ -134,9 +141,11 @@ val GetTaskForSearches =
 
   .exec(http("WA_SearchGetTask")
     .get(waUrl + "/task/${taskId}")
-    .header("ServiceAuthorization", "Bearer ${bearerToken}")
-    .header("Authorization", "Bearer ${access_token}")
+    .header("ServiceAuthorization", "Bearer ${bearerToken2}")
+    .header("Authorization", "Bearer ${access_token2}")
     .header("Content-Type", "application/json"))
+
+  .pause(Environment.constantthinkTime)
 
 val PostTaskRetrieve = 
 
@@ -144,10 +153,12 @@ val PostTaskRetrieve =
 
   exec(http("WA_PostTaskRetrieve")
     .post(waUrl + "/task")
-    .header("ServiceAuthorization", "Bearer ${bearerToken}")
-    .header("Authorization", "Bearer ${access_token}")
+    .header("ServiceAuthorization", "Bearer ${bearerToken2}")
+    .header("Authorization", "Bearer ${access_token2}")
     .header("Content-Type", "application/json")
     .body(ElFileBody("WA_searchTaskRequest.json")))
+
+  .pause(Environment.constantthinkTime)
 
 val PostTaskSearchCompletable =
 
@@ -155,10 +166,12 @@ val PostTaskSearchCompletable =
 
   exec(http("WA_PostTaskSearchCompletable")
     .post(waUrl + "/task/search-for-completable")
-    .header("ServiceAuthorization", "Bearer ${bearerToken}")
-    .header("Authorization", "Bearer ${access_token}")
+    .header("ServiceAuthorization", "Bearer ${bearerToken2}")
+    .header("Authorization", "Bearer ${access_token2}")
     .header("Content-Type", "application/json")
     .body(ElFileBody("WA_searchTaskCompletable.json")))
+
+  .pause(Environment.constantthinkTime)
 
 val PostAssignTask =
 
@@ -166,10 +179,12 @@ val PostAssignTask =
 
   exec(http("WA_PostAssignTask")
     .post(waUrl + "/task/${taskId}/assign")
-    .header("ServiceAuthorization", "Bearer ${bearerToken}")
-    .header("Authorization", "Bearer ${access_token}")
+    .header("ServiceAuthorization", "Bearer ${bearerToken2}")
+    .header("Authorization", "Bearer ${access_token2}")
     .header("Content-Type", "application/json")
     .body(ElFileBody("WA_assignTaskToUser.json")))
+
+  .pause(Environment.constantthinkTime)
 
 val CancelTask =
 
@@ -179,9 +194,11 @@ val CancelTask =
 
   .exec(http("WA_CancelTask")
     .post(waUrl + "/task/${taskId}/cancel") //${taskId}
-    .header("ServiceAuthorization", "Bearer ${bearerToken}")
-    .header("Authorization", "Bearer ${access_token}")
+    .header("ServiceAuthorization", "Bearer ${bearerToken2}")
+    .header("Authorization", "Bearer ${access_token2}")
     .header("Content-Type", "application/json"))
+
+  .pause(Environment.constantthinkTime)
 
 val ClaimTask =
 
@@ -191,9 +208,11 @@ val ClaimTask =
 
   .exec(http("WA_ClaimTask")
     .post(waUrl + "/task/${taskId}/claim")
-    .header("ServiceAuthorization", "Bearer ${bearerToken}")
-    .header("Authorization", "Bearer ${access_token}")
+    .header("ServiceAuthorization", "Bearer ${bearerToken2}")
+    .header("Authorization", "Bearer ${access_token2}")
     .header("Content-Type", "application/json"))
+
+  .pause(Environment.constantthinkTime)
 
 val CompleteTask =
 
@@ -201,9 +220,11 @@ val CompleteTask =
 
   exec(http("WA_CompleteTask")
     .post(waUrl + "/task/${taskId}/complete") //${taskId}
-    .header("ServiceAuthorization", "Bearer ${bearerToken}")
-    .header("Authorization", "Bearer ${access_token}")
+    .header("ServiceAuthorization", "Bearer ${bearerToken2}")
+    .header("Authorization", "Bearer ${access_token2}")
     .header("Content-Type", "application/json"))
+
+  .pause(Environment.constantthinkTime)
 
 val UnclaimTask =
 
@@ -213,28 +234,32 @@ val UnclaimTask =
 
   .exec(http("WA_UnclaimTask")
     .post(waUrl + "/task/${taskId}/unclaim")
-    .header("ServiceAuthorization", "Bearer ${bearerToken}")
-    .header("Authorization", "Bearer ${access_token}")
+    .header("ServiceAuthorization", "Bearer ${bearerToken2}")
+    .header("Authorization", "Bearer ${access_token2}")
     .header("Content-Type", "application/json"))
+
+  .pause(Environment.constantthinkTime)
 
 val CamundaGetCase =
 
-  feed(caseListFeeder)
+  // feed(caseListFeeder)
 
-  .exec(http("Camunda_GetTask")
-    .get(CamundaUrl + "/engine-rest/task?processVariables=caseId_eq_${caseId}")
-    // .get(CamundaUrl + "/engine-rest/task?processVariables=caseName_eq_perf*")
-    .header("ServiceAuthorization", "Bearer ${bearerToken}")
-    .check(regex("""id":"(.*)","name""").saveAs("taskId")))
+  exec(http("Camunda_GetTask")
+    .get(CamundaUrl + "/engine-rest/task?processVariables=caseId_eq_${caseId}") //${caseId}
+    .header("ServiceAuthorization", "Bearer ${bearerToken2}")
+    .check(regex("""id":"(.*?)","name":"Review""").saveAs("taskId"))
+    )
 
-    .exec {
-      session =>
-        val fw = new BufferedWriter(new FileWriter("TaskIDs.csv", true))
-        try {
-          fw.write(session("caseId").as[String] + ","+session("taskId").as[String] + "\r\n")
-        }
-        finally fw.close()
-        session
-    }  
+    .pause(Environment.constantthinkTime)
+
+    // .exec {
+    //   session =>
+    //     val fw = new BufferedWriter(new FileWriter("TaskIDs.csv", true))
+    //     try {
+    //       fw.write(session("caseId").as[String] + ","+session("taskId").as[String] + "\r\n")
+    //     }
+    //     finally fw.close()
+    //     session
+    // }  
 
 }

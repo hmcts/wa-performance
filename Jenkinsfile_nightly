@@ -12,6 +12,27 @@ properties([
 def product = "wa"
 def component = "wa-performance-tests"
 
+def secrets = [
+    // 's2s-aat': [
+    //     secret('microservicekey-rd-professional-api', 'S2S_SECRET')
+    // ],
+    // 'rd-aat': [
+    //     secret('OAUTH2-CLIENT-SECRET', 'OAUTH2_CLIENT_SECRET')
+    // ],
+    'ccd-aat': [
+        secret('ccd-api-gateway-oauth2-client-secret', 'CCD_CLIENT_SECRET')
+    ]
+]
+
+static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
+    [$class     : 'AzureKeyVaultSecret',
+     secretType : 'Secret',
+     name       : secretName,
+     version    : '',
+     envVariable: envVar
+    ]
+}
+
 withNightlyPipeline("java", product, component) {
     env.BaseURL = 'https://'
 
