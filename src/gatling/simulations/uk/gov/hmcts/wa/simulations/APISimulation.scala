@@ -115,7 +115,7 @@ class APISimulation extends Simulation  {
       .exec(ccddatastore.ccdIdamLogin)
       .exec(ccddatastore.ccdCreateCase)
       .exec(ccddatastore.ccdSubmitAppeal)
-      .pause(30)
+      .pause(60)
       .exec(Environment.ClearSessionVariables)
       .exec(wataskmanagement.WAS2SLogin)
       .exec(wataskmanagement.WASeniorIdamLogin)
