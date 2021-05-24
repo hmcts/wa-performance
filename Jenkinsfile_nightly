@@ -34,7 +34,8 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 }
 
 withNightlyPipeline("java", product, component) {
-    env.BaseURL = 'https://'
+    loadVaultSecrets(secrets)
+    //env.BaseURL = 'https://'
 
     enablePerformanceTest()
 
