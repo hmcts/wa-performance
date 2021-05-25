@@ -1,0 +1,58 @@
+{
+	"messageName": "createTaskMessage",
+	"processVariables": {
+		"caseTypeId": {
+			"value": "asylum",
+			"type": "String"
+		},
+		"idempotencyKey": {
+			"value": "A92C8D24D25CBC3DF187F8002E76BC37",
+			"type": "String"
+		},
+		"dueDate": {
+			"value": "2021-05-27T16:00:00",
+			"type": "String"
+		},
+		"jurisdiction": {
+			"value": "ia",
+			"type": "String"
+		},
+		"taskState": {
+			"value": "unconfigured",
+			"type": "String"
+		},
+		"hasWarnings": {
+			"value": false,
+			"type": "Boolean"
+		},
+		"caseId": {
+			"value": "${caseId}",
+			"type": "String"
+		},
+		"name": {
+			"value": "Review the appeal",
+			"type": "String"
+		},
+		"workingDaysAllowed": {
+			"value": 2,
+			"type": "Integer"
+		},
+		"delayUntil": {
+			"value": "2021-05-25T00:00:00",
+			"type": "String"
+		},
+		"taskId": {
+			"value": "reviewTheAppeal",
+			"type": "String"
+		},
+		"group": {
+			"value": "TCW",
+			"type": "String"
+		},
+		"taskCategory": {
+			"value": "Case Progression",
+			"type": "String"
+		}
+	},
+	"all": false
+}

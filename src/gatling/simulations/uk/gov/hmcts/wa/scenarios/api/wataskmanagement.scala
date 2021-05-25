@@ -17,6 +17,7 @@ val s2sUrl = Environment.s2sUrl
 val IdamAPI = Environment.idamAPI
 val CamundaUrl = Environment.camundaURL
 val ccdRedirectUri = Environment.ccdRedirectUri
+val waWorkflowUrl = Environment.waWorkflowApiURL
 val ccdClientId = "ccd_gateway"
 val ccdScope = "openid profile authorities acr roles openid profile roles"
 val ccdGatewayClientSecret = config.getString("ccdGatewayCS")
@@ -35,8 +36,17 @@ val WAS2SLogin =
   exec(http("WA_GetS2SToken")
     .post(s2sUrl + "/testing-support/lease")
     .header("Content-Type", "application/json")
-    .body(StringBody("{\"microservice\":\"wa_task_management_api\"}")) //wa_task_management_api
+    .body(StringBody("{\"microservice\":\"wa_task_management_api\"}")) 
     .check(bodyString.saveAs("bearerToken2")))
+    .exitHereIfFailed
+
+val WATaskS2SLogin = 
+
+  exec(http("WA_GetS2SToken")
+    .post(s2sUrl + "/testing-support/lease")
+    .header("Content-Type", "application/json")
+    .body(StringBody("{\"microservice\":\"wa_case_event_handler\"}")) 
+    .check(bodyString.saveAs("bearerToken3")))
     .exitHereIfFailed
 
 val WASeniorIdamLogin =
@@ -104,6 +114,15 @@ val WATribunalIdamLogin =
     .exitHereIfFailed
 
   .pause(Environment.constantthinkTime)
+
+val CreateTask = 
+
+  exec(http("WA_CreateTask")
+    .post(waWorkflowUrl + "/workflow/message")
+    .header("Content-Type", "application/json")
+    .header("ServiceAuthorization", "Bearer ${bearerToken3}")
+    .body(ElFileBody("WA_CreateTask.json")))
+
 
 val GetTask =
 

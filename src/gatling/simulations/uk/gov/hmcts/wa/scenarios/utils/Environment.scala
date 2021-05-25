@@ -7,7 +7,7 @@ object Environment {
 
   val minThinkTime = 10 //10
   val maxThinkTime = 30 //30
-  val constantthinkTime = 7 //7
+  val constantthinkTime = 10 //7
 
   val minWaitForNextIteration = 60 //120
   val maxWaitForNextIteration = 120 //240
@@ -25,6 +25,7 @@ object Environment {
   val waTMURL = "http://wa-task-management-api-aat.service.core-compute-aat.internal"
   val ccdRedirectUri = "https://ccd-data-store-api-aat.service.core-compute-aat.internal/oauth2redirect"
   val camundaURL = "http://camunda-api-aat.service.core-compute-aat.internal"
+  val waWorkflowApiURL = "http://wa-workflow-api-aat.service.core-compute-aat.internal"
 
   val ClearSessionVariables =
     exec(flushHttpCache)
