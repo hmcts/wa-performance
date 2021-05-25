@@ -2,10 +2,10 @@ plugins {
     id "org.owasp.dependencycheck" version "6.1.6"
     id 'scala'
     id 'com.github.lkishalmi.gatling' version '3.0.2'
-    id 'java-gradle-plugin'
-    id 'groovy'
+    // id 'java-gradle-plugin'
+    // id 'groovy'
     id 'com.gradle.plugin-publish' version '0.15.0'
-    id 'maven-publish'
+    // id 'maven-publish'
     id 'uk.gov.hmcts.java' version '0.12.5'
 }
 
