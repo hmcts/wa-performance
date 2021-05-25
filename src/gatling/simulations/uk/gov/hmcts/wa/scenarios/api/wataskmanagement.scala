@@ -2,10 +2,13 @@ package uk.gov.hmcts.wa.scenarios
 
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.UUID.randomUUID
 
 import com.typesafe.config.{Config, ConfigFactory}
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
+import io.gatling.core.session._
+import io.gatling.commons.validation._
 import uk.gov.hmcts.wa.scenarios.utils._
 import java.io.{BufferedWriter, FileWriter}
 
@@ -30,6 +33,7 @@ val feedWATribunalUserData = csv("WA_TribunalUsers.csv").circular
 val caseListFeeder = csv("WA_CaseList.csv").circular
 val feedStaticTasksFeeder = csv("WA_StaticTasks.csv").random
 val pipelineTribunalFeeder = csv("WA_PipelineSenior.csv")
+def randomkey: String = randomUUID.toString
 
 val WAS2SLogin = 
 
@@ -117,11 +121,27 @@ val WATribunalIdamLogin =
 
 val CreateTask = 
 
-  exec(http("WA_CreateTask")
+  exec(_.setAll(
+            ("createrandomkey", randomkey),
+        ))
+
+  .exec(http("WA_CreateTask")
     .post(waWorkflowUrl + "/workflow/message")
     .header("Content-Type", "application/json")
     .header("ServiceAuthorization", "Bearer ${bearerToken3}")
     .body(ElFileBody("WA_CreateTask.json")))
+    // .exitHereIfFailed
+
+  .pause(Environment.constantthinkTime)
+
+  // // .doIf(session => !session.contains("taskId")) {
+  // .doIf("${taskId.isUndefined()}") {
+  //   // exec {
+  //   //   session => 
+  //   //     println(session("Task was not found, now exiting..."))
+  //   // }
+  //   exitHereIfFailed
+  // }
 
 
 val GetTask =
@@ -266,8 +286,8 @@ val CamundaGetCase =
   exec(http("Camunda_GetTask")
     .get(CamundaUrl + "/engine-rest/task?processVariables=caseId_eq_${caseId}") //${caseId}
     .header("ServiceAuthorization", "Bearer ${bearerToken2}")
-    .check(regex("""id":"(.*?)","name":"Review""").saveAs("taskId"))
-    )
+    .check(regex("""id":"(.*?)","name":"Review""").saveAs("taskId")))
+    .exitHereIfFailed
 
     .pause(Environment.constantthinkTime)
 
