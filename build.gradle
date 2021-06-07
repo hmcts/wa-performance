@@ -45,16 +45,16 @@ ScalaCompileOptions.metaClass.useAnt = false
 ScalaCompileOptions.metaClass.useCompileDaemon = false
 
 dependencies {
-    compile 'org.scala-lang:scala-library:2.12.8'
-    gatlingCompile group: 'io.rest-assured', name: 'rest-assured', version: '3.0.0'
+    //compile 'org.scala-lang:scala-library:2.12.8'
+    //gatlingCompile group: 'io.rest-assured', name: 'rest-assured', version: '3.0.0'
     gatlingCompile 'com.warrenstrange:googleauth:1.1.5'
-    compile group: 'io.gatling', name: 'gatling-app', version: '3.2.0'
-    compile group: 'io.gatling', name: 'gatling-recorder', version: '3.2.0'
-    compile group: 'io.gatling.highcharts', name: 'gatling-charts-highcharts', version: '3.2.0'
+    //compile group: 'io.gatling', name: 'gatling-app', version: '3.2.0'
+    //compile group: 'io.gatling', name: 'gatling-recorder', version: '3.2.0'
+    //compile group: 'io.gatling.highcharts', name: 'gatling-charts-highcharts', version: '3.2.1'
 }
 
 gatling {
-    toolVersion '3.2.0'
+    toolVersion '3.2.1'
     scalaVersion '2.12.8'
     simulations = [ 
                     'uk.gov.hmcts.wa.simulations.APISimulation'
