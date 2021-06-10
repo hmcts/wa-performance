@@ -17,8 +17,8 @@
            "value": {
               "description": "test",
               "document": {
-                 "document_url": "http://dm-store-aat.service.core-compute-aat.internal/documents/b3797485-f878-4ee9-8009-f229cf169235",
-                 "document_binary_url": "http://dm-store-aat.service.core-compute-aat.internal/documents/b3797485-f878-4ee9-8009-f229cf169235/binary",
+                 "document_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/5cd627a4-deb2-415e-9dfe-83afe3394400",
+                 "document_binary_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/5cd627a4-deb2-415e-9dfe-83afe3394400/binary",
                  "document_filename": "1MB.pdf"
               }
            },
