@@ -55,13 +55,13 @@ val WATaskS2SLogin =
 
 val WASeniorIdamLogin =
   
-  feed(pipelineTribunalFeeder)
+  feed(feedWASeniorUserData)
 
   .exec(http("WA_OIDC01_Authenticate")
     .post(IdamAPI + "/authenticate")
     .header("Content-Type", "application/x-www-form-urlencoded")
-    .formParam("username", "${waemail}")
-    .formParam("password", "${wapassword}")
+    .formParam("username", "${email}")
+    .formParam("password", "${password}")
     .formParam("redirectUri", ccdRedirectUri)
     .formParam("originIp", "0:0:0:0:0:0:0:1")
     .check(status is 200)
@@ -129,7 +129,7 @@ val CreateTask =
     .post(waWorkflowUrl + "/workflow/message")
     .header("Content-Type", "application/json")
     .header("ServiceAuthorization", "Bearer ${bearerToken3}")
-    .body(ElFileBody("WA_CreateTask.json")))
+    .body(ElFileBody("WA_CreateTask.json"))) ////Update to ${caseId} if using a dynamically created case
     // .exitHereIfFailed
 
   .pause(Environment.constantthinkTime)
@@ -142,6 +142,15 @@ val CreateTask =
   //   // }
   //   exitHereIfFailed
   // }
+
+val GetAllTasks =
+
+  exec(http("WA_GetAllTasks")
+    .post(waUrl + "/task")
+    .header("ServiceAuthorization", "Bearer ${bearerToken2}")
+    .header("Authorization", "Bearer ${access_token2}")
+    .header("Content-Type", "application/json")
+    .body(ElFileBody("WARequests/WA_GetAllTasks.json")))
 
 
 val GetTask =

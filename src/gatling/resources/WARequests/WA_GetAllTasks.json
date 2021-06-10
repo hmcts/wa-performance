@@ -1,0 +1,30 @@
+{
+	"search_parameters": [
+		{
+			"key": "location",
+			"operator": "IN",
+			"values": [
+				"324339",
+				"231596",
+				"698118",
+				"366559",
+				"386417",
+				"512401",
+				"366796",
+				"227101",
+				"765324"
+			]
+		},
+		{
+			"key": "user",
+			"operator": "IN",
+			"values": []
+		}
+	],
+	"sorting_parameters": [
+		{
+			"sort_by": "dueDate",
+			"sort_order": "asc"
+		}
+	]
+}

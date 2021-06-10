@@ -127,8 +127,32 @@ class APISimulation extends Simulation  {
       .exec(wataskmanagement.PostAssignTask)
       .exec(wataskmanagement.CompleteTask)
 
+  val TaskManagerTests = scenario("Creates cases & tasks for Task Manager searches/rendering")
+    // .repeat(1) {
+    //   exec(ccddatastore.ccdIdamLogin)
+    //   .exec(ccddatastore.ccdCreateCase)
+    //   .exec(ccddatastore.ccdSubmitAppeal)
+    //   .pause(10)
+    //   }
+    .repeat(1) {//Update for required number of tasks
+      exec(wataskmanagement.WATaskS2SLogin)
+      .repeat(500) {
+        exec(wataskmanagement.CreateTask)
+      }
+    }
+
+  val GetAllTasks = scenario("WA - Get All Tasks")
+    .repeat(1) {
+      exec(wataskmanagement.WAS2SLogin)
+      .exec(wataskmanagement.WASeniorIdamLogin)
+      .repeat(10) { 
+        exec(wataskmanagement.GetAllTasks)
+      }
+    }
+
   setUp(
-    WAPipeline.inject(rampUsers(1) during (1 minutes))
+    // TaskManagerTests.inject(rampUsers(1) during (1 minutes))
+    GetAllTasks.inject(rampUsers(1) during (1 minutes))
     // WAGetTask.inject(rampUsers(1) during (1 minutes))
 
     //Scenarios required for perf test
