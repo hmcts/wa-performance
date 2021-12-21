@@ -128,7 +128,7 @@ val CreateTask =
   .exec(http("WA_CreateTask")
     .post(waWorkflowUrl + "/workflow/message")
     .header("Content-Type", "application/json")
-    .header("ServiceAuthorization", "Bearer ${bearerToken3}")
+    .header("ServiceAuthorization", "Bearer ${wa_case_event_handlerBearerToken}")
     .body(ElFileBody("WA_CreateTask.json"))) ////Update to ${caseId} if using a dynamically created case
     // .exitHereIfFailed
 
@@ -147,8 +147,8 @@ val GetAllTasks =
 
   exec(http("WA_GetAllTasks")
     .post(waUrl + "/task")
-    .header("ServiceAuthorization", "Bearer ${bearerToken2}")
-    .header("Authorization", "Bearer ${access_token2}")
+    .header("ServiceAuthorization", "Bearer ${wa_case_event_handlerBearerToken}")
+    .header("Authorization", "Bearer ${access_token}")
     .header("Content-Type", "application/json")
     .body(ElFileBody("WARequests/WA_GetAllTasks.json")))
 
@@ -161,8 +161,8 @@ val GetTask =
 
   exec(http("WA_GetTask")
     .get(waUrl + "/task/${taskId}") //${taskId}
-    .header("ServiceAuthorization", "Bearer ${bearerToken2}")
-    .header("Authorization", "Bearer ${access_token2}")
+    .header("ServiceAuthorization", "Bearer ${wa_case_event_handlerBearerToken}")
+    .header("Authorization", "Bearer ${access_token}")
     .header("Content-Type", "application/json"))
 
   .pause(Environment.constantthinkTime)
@@ -227,8 +227,8 @@ val PostAssignTask =
 
   exec(http("WA_PostAssignTask")
     .post(waUrl + "/task/${taskId}/assign")
-    .header("ServiceAuthorization", "Bearer ${bearerToken2}")
-    .header("Authorization", "Bearer ${access_token2}")
+    .header("ServiceAuthorization", "Bearer ${wa_task_management_apiBearerToken}")
+    .header("Authorization", "Bearer ${access_token}")
     .header("Content-Type", "application/json")
     .body(ElFileBody("WA_assignTaskToUser.json")))
 
@@ -242,8 +242,8 @@ val CancelTask =
 
   .exec(http("WA_CancelTask")
     .post(waUrl + "/task/${taskId}/cancel") //${taskId}
-    .header("ServiceAuthorization", "Bearer ${bearerToken2}")
-    .header("Authorization", "Bearer ${access_token2}")
+    .header("ServiceAuthorization", "Bearer ${wa_task_management_apiBearerToken}")
+    .header("Authorization", "Bearer ${access_token}")
     .header("Content-Type", "application/json"))
 
   .pause(Environment.constantthinkTime)
@@ -268,8 +268,8 @@ val CompleteTask =
 
   exec(http("WA_CompleteTask")
     .post(waUrl + "/task/${taskId}/complete") //${taskId}
-    .header("ServiceAuthorization", "Bearer ${bearerToken2}")
-    .header("Authorization", "Bearer ${access_token2}")
+    .header("ServiceAuthorization", "Bearer ${wa_task_management_apiBearerToken}")
+    .header("Authorization", "Bearer ${access_token}")
     .header("Content-Type", "application/json"))
 
   .pause(Environment.constantthinkTime)
@@ -290,11 +290,11 @@ val UnclaimTask =
 
 val CamundaGetCase =
 
-  // feed(caseListFeeder)
+  feed(caseListFeeder)
 
-  exec(http("Camunda_GetTask")
+  .exec(http("Camunda_GetTask")
     .get(CamundaUrl + "/engine-rest/task?processVariables=caseId_eq_${caseId}") //${caseId}
-    .header("ServiceAuthorization", "Bearer ${bearerToken2}")
+    .header("ServiceAuthorization", "Bearer ${wa_task_management_apiBearerToken}")
     .check(regex("""id":"(.*?)","name":"Review""").saveAs("taskId")))
     .exitHereIfFailed
 
