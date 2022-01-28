@@ -2,41 +2,31 @@
   "data": {
      "isOutOfCountryEnabled": "Yes",
      "checklist": {
-        "checklist2": [
-           "isNotDetained"
-        ],
-        "checklist7": [
-           "isNotEUDecision"
-        ]
-     },
-     "appellantInUk": "Yes",
+      "checklist5": [
+        "isResidingInUK"
+      ],
+      "checklist2": [
+        "isNotDetained"
+      ],
+      "checklist7": [
+        "isNotEUDecision"
+      ]
+    },
      "homeOfficeReferenceNumber": "123456789",
-     "homeOfficeDecisionDate": "2021-05-17",
-     "uploadTheNoticeOfDecisionDocs": [
-        {
-           "value": {
-              "description": "test",
-              "document": {
-                 "document_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/5cd627a4-deb2-415e-9dfe-83afe3394400",
-                 "document_binary_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/5cd627a4-deb2-415e-9dfe-83afe3394400/binary",
-                 "document_filename": "1MB.pdf"
-              }
-           },
-           "id": null
-        }
-     ],
+     "homeOfficeDecisionDate": "2022-01-19",
+     "uploadTheNoticeOfDecisionExplanation": null,
      "appellantTitle": "mr",
-     "appellantGivenNames": "perftest",
-     "appellantFamilyName": "team",
-     "appellantDateOfBirth": "1990-02-01",
+     "appellantGivenNames": "${firstName}",
+     "appellantFamilyName": "${lastName}",
+     "appellantDateOfBirth": "${dobYear}-${dobMonth}-${dobDay}",
      "appellantStateless": "isStateless",
      "appellantHasFixedAddress": "No",
      "contactPreference": "wantsEmail",
-     "email": "john@smith.com",
-     "appealType": "refusalOfHumanRights",
-     "appealGroundsHumanRightsRefusal": {
+     "email": "${firstName}@${lastName}.com",
+     "appealType": "revocationOfProtection",
+     "appealGroundsRevocation": {
         "values": [
-           "protectionHumanRights"
+           "revocationRefugeeConvention"
         ]
      },
      "deportationOrderOptions": "No",
@@ -46,7 +36,8 @@
      "legalRepName": "steve smith",
      "legalRepReferenceNumber": "123",
      "isFeePaymentEnabled": null,
-     "isRemissionsEnabled": null
+     "isRemissionsEnabled": null,
+     "uploadTheNoticeOfDecisionDocument": null
   },
   "event": {
      "id": "startAppeal",

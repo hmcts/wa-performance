@@ -70,7 +70,13 @@ val ccdIdamLogin =
 
 val ccdCreateCase = 
 
-  exec(http("API_IAC_GetEventToken")
+  exec(_.setAll(  "firstName"  -> ("Perf" + Common.randomString(5)),
+                  "lastName"  -> ("Test" + Common.randomString(5)),
+                  "dobDay" -> Common.getDay(),
+                  "dobMonth" -> Common.getMonth(),
+                  "dobYear" -> Common.getDobYear()))
+
+  .exec(http("API_IAC_GetEventToken")
     .get(ccdDataStoreUrl + "/caseworkers/${idamId}/jurisdictions/${IACJurisdiction}/case-types/${IACCaseType}/event-triggers/startAppeal/token")
     .header("ServiceAuthorization", "Bearer ${ccd_dataBearerToken}")
     .header("Authorization", "Bearer ${access_token}")
@@ -101,18 +107,37 @@ val ccdSubmitAppeal =
     .header("ServiceAuthorization", "Bearer ${ccd_dataBearerToken}")
     .header("Authorization", "Bearer ${access_token}")
     .header("Content-Type","application/json")
-    .body(ElFileBody("IACSubmitAppeal.json"))
+    .body(ElFileBody("IACSubmitAppeal.json")))
+    // .check(jsonPath("$.id").saveAs("caseId")))
+
+  .pause(Environment.constantthinkTime)
+
+val ccdRequestHomeOfficeData =
+
+  exec(http("API_IAC_GetEventToken")
+    .get(ccdDataStoreUrl + "/caseworkers/${idamId}/jurisdictions/${IACJurisdiction}/case-types/${IACCaseType}/cases/${caseId}/event-triggers/requestHomeOfficeData/token")
+    .header("ServiceAuthorization", "Bearer ${ccd_dataBearerToken}")
+    .header("Authorization", "Bearer ${access_token}")
+    .header("Content-Type","application/json")
+    .check(jsonPath("$.token").saveAs("eventToken1")))
+
+  .exec(http("API_IAC_RequestHomeOfficeData")
+    .post(ccdDataStoreUrl + "/caseworkers/${idamId}/jurisdictions/${IACJurisdiction}/case-types/${IACCaseType}/cases/${caseId}/events")
+    .header("ServiceAuthorization", "Bearer ${ccd_dataBearerToken}")
+    .header("Authorization", "Bearer ${access_token}")
+    .header("Content-Type","application/json")
+    .body(ElFileBody("IACRequestHomeOfficeData.json"))
     .check(jsonPath("$.id").saveAs("caseId")))
 
-    .exec {
-      session =>
-        val fw = new BufferedWriter(new FileWriter("IACSubmittedCaseIds.csv", true))
-        try {
-          fw.write(session("caseId").as[String] + "\r\n")
-        }
-        finally fw.close()
-        session
-    }
+  .exec {
+    session =>
+      val fw = new BufferedWriter(new FileWriter("IACSubmittedCaseIds.csv", true))
+      try {
+        fw.write(session("caseId").as[String] + "\r\n")
+      }
+      finally fw.close()
+      session
+  }
 
     .pause(Environment.constantthinkTime)
 }
