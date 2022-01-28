@@ -1,0 +1,32 @@
+{
+  "searchRequest": {
+     "search_parameters": [
+        {
+           "key": "state",
+           "operator": "IN",
+           "values": [
+              "unassigned"
+           ]
+        },
+        {
+           "key": "location",
+           "operator": "IN",
+           "values": [
+              "765324"
+           ]
+        }
+     ],
+     "sorting_parameters": [
+        {
+           "sort_by": "dueDate",
+           "sort_order": "desc"
+        }
+     ],
+     "search_by": "caseworker",
+     "pagination_parameters": {
+        "page_number": 1,
+        "page_size": 25
+     }
+  },
+  "view": "AvailableTasks"
+}

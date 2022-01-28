@@ -10,6 +10,7 @@ import scala.concurrent.duration._
 class UISimulation extends Simulation  {
 
   val BaseURL = Environment.xuiBaseURL
+  val feedTribunalUserData = csv("WA_TribunalUsers.csv")
 
   val httpProtocol = Environment.HttpProtocol
     .baseUrl(BaseURL)
@@ -52,11 +53,26 @@ class UISimulation extends Simulation  {
       .exec(xuiwa.XUILogout)
     }
 
+  val R2AssignAndCompleteTasks = scenario("Assign a Task and Complete it")
+    .repeat(1) {
+      exec(xuiwa.manageCasesHomePage)
+      .feed(feedTribunalUserData)
+      .exec(xuiwa.manageCasesLogin)
+      .repeat(1) {
+        exec(xuiMyWork.MyWork)
+        .exec(xuiMyWork.AvailableTasks)
+        .exec(xuiMyWork.AssignToMeAndGo)
+        .exec(xuiwa.RequestRespondentEvidence)
+      }
+      // .exec(xuiwa.XUILogout)
+    }
+
+  
   setUp(
-    AssignTask.inject(rampUsers(3) during (5 minutes)), //3
-    CompleteTask.inject(rampUsers(6) during (5 minutes)), //6
-    CancelTask.inject(rampUsers(4) during (5 minutes)) //4
-    
+    // AssignTask.inject(rampUsers(3) during (5 minutes)), //3
+    // CompleteTask.inject(rampUsers(6) during (5 minutes)), //6
+    // CancelTask.inject(rampUsers(4) during (5 minutes)) //4
+    R2AssignAndCompleteTasks.inject(rampUsers(1) during (1 minutes))
     )
     .protocols(httpProtocol)
 }

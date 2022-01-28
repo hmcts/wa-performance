@@ -322,4 +322,36 @@ object XUIHeaders {
     "Sec-Fetch-Mode" -> "navigate",
     "Sec-Fetch-Site" -> "same-origin",
     "Sec-Fetch-User" -> "?1")
+
+  //R2 Headers
+  val xuiMainHeader = Map(
+    // "accept" -> "*/*",
+		"cache-control" -> "no-cache",
+		"dnt" -> "1",
+		"pragma" -> "no-cache",
+    "origin" -> "https://manage-case.perftest.platform.hmcts.net",
+    "experimental" -> "true",
+		"sec-ch-ua" -> """ Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96""",
+		"sec-ch-ua-mobile" -> "?0",
+		"sec-ch-ua-platform" -> "macOS",
+		"sec-fetch-dest" -> "empty",
+		"sec-fetch-mode" -> "cors",
+		"sec-fetch-site" -> "same-origin",
+    "request-id" -> "|/qDn7.xWuGp"
+  )
+
+  val headers_32 = Map(
+		"accept" -> "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-workbasket-input-details.v2+json;charset=UTF-8",
+		"cache-control" -> "no-cache",
+		"content-type" -> "application/json",
+		"dnt" -> "1",
+		"experimental" -> "true",
+		"pragma" -> "no-cache",
+		"request-id" -> "|/qDn7.xWuGp",
+		"sec-ch-ua" -> """ Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96""",
+		"sec-ch-ua-mobile" -> "?0",
+		"sec-ch-ua-platform" -> "macOS",
+		"sec-fetch-dest" -> "empty",
+		"sec-fetch-mode" -> "cors",
+		"sec-fetch-site" -> "same-origin")
 }

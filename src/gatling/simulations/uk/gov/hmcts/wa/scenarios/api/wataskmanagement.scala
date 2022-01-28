@@ -129,10 +129,23 @@ val CreateTask =
     .post(waWorkflowUrl + "/workflow/message")
     .header("Content-Type", "application/json")
     .header("ServiceAuthorization", "Bearer ${wa_case_event_handlerBearerToken}")
-    .body(ElFileBody("WA_CreateTask.json"))) ////Update to ${caseId} if using a dynamically created case
+    .body(ElFileBody("WA_CreateTask.json")) ////Update to ${caseId} if using a dynamically created case
+    .check(regex("""id":"(.*?)","name":"Review""").saveAs("taskId"))) // THIS REGEX WILL NEED UPDATING
     // .exitHereIfFailed
 
   .pause(Environment.constantthinkTime)
+
+  // UNCOMMENT THE BELOW CODE TO CAPTURE THE TASK ID AND OUTPUT TO A CSV
+  // .exec {
+    //   session =>
+    //     val fw = new BufferedWriter(new FileWriter("TaskIDs.csv", true))
+    //     try {
+    //       fw.write(session("caseId").as[String] + ","+session("taskId").as[String] + "\r\n")
+    //     }
+    //     finally fw.close()
+    //     session
+    // }  
+
 
   // // .doIf(session => !session.contains("taskId")) {
   // .doIf("${taskId.isUndefined()}") {
@@ -293,7 +306,7 @@ val CamundaGetCase =
   feed(caseListFeeder)
 
   .exec(http("Camunda_GetTask")
-    .get(CamundaUrl + "/engine-rest/task?processVariables=caseId_eq_${caseId}") //${caseId}
+    .get(CamundaUrl + "/engine-rest/task?processVariables=caseId_eq_1642599911192931") //${caseId}
     .header("ServiceAuthorization", "Bearer ${wa_task_management_apiBearerToken}")
     .check(regex("""id":"(.*?)","name":"Review""").saveAs("taskId")))
     .exitHereIfFailed

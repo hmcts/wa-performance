@@ -105,7 +105,7 @@ class APISimulation extends Simulation  {
       .exec(wataskmanagement.PostAssignTask)
       .exec(wataskmanagement.CompleteTask)
 
-  val TaskManagerTests = scenario("Creates cases & tasks for Task Manager searches/rendering")
+  val CreateNewTask = scenario("Creates cases & tasks for Task Manager searches/rendering")
     // .repeat(1) {
     //   exec(ccddatastore.ccdIdamLogin)
     //   .exec(ccddatastore.ccdCreateCase)
@@ -114,9 +114,20 @@ class APISimulation extends Simulation  {
     //   }
     .repeat(1) {//Update for required number of tasks
       exec(S2S.s2s("wa_case_event_handler"))
-      .repeat(1) {
+      .repeat(30) {
         exec(wataskmanagement.CreateTask)
       }
+    }
+
+  val CreateTaskFromCCD = scenario("Creates cases & tasks for Task Manager searches/rendering")
+    .feed(feedIACUserData)
+    .exec(S2S.s2s("ccd_data"))
+    .exec(IdamLogin.GetIdamToken)
+    .repeat(1) {
+      exec(ccddatastore.ccdCreateCase)
+      .exec(ccddatastore.ccdSubmitAppeal)
+      .exec(ccddatastore.ccdRequestHomeOfficeData)
+      .pause(1)
     }
 
   val GetAllTasks = scenario("WA - Get All Tasks")
@@ -130,15 +141,16 @@ class APISimulation extends Simulation  {
     }
 
   setUp(
-    // TaskManagerTests.inject(rampUsers(1) during (1 minutes))
+    // CreateNewTask.inject(rampUsers(1) during (1 minutes))
     // WACompleteTask.inject(rampUsers(1) during (1 minutes))
-    WAAssignTask.inject(rampUsers(1) during (1 minutes))
+    // WAAssignTask.inject(rampUsers(1) during (1 minutes))
     // GetAllTasks.inject(rampUsers(1) during (1 minutes))
     // CamundaGetCase.inject(rampUsers(1) during (1 minutes))
     // WAGetTask.inject(rampUsers(1) during (1 minutes))
+    CreateTaskFromCCD.inject(rampUsers(50) during (10 minutes))
 
     //Scenarios required for perf test
-    // IACCaseCreate.inject(rampUsers(1) during (5 minutes)),
+    // CreateNewTask.inject(rampUsers(1) during (5 minutes)),
     // WACompleteTask.inject(rampUsers(6) during (5 minutes)),
     // WACancelTask.inject(rampUsers(4) during (5 minutes)),
     // WAGetTask.inject(rampUsers(80) during (7 minutes))
