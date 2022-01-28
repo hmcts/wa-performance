@@ -123,7 +123,7 @@ class APISimulation extends Simulation  {
     .feed(feedIACUserData)
     .exec(S2S.s2s("ccd_data"))
     .exec(IdamLogin.GetIdamToken)
-    .repeat(1) {
+    .repeat(30) {
       exec(ccddatastore.ccdCreateCase)
       .exec(ccddatastore.ccdSubmitAppeal)
       .exec(ccddatastore.ccdRequestHomeOfficeData)
