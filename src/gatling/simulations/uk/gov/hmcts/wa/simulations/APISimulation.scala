@@ -123,11 +123,11 @@ class APISimulation extends Simulation  {
     .feed(feedIACUserData)
     .exec(S2S.s2s("ccd_data"))
     .exec(IdamLogin.GetIdamToken)
-    .repeat(30) {
+    .repeat(60) {
       exec(ccddatastore.ccdCreateCase)
       .exec(ccddatastore.ccdSubmitAppeal)
       .exec(ccddatastore.ccdRequestHomeOfficeData)
-      .pause(1)
+      .pause(10)
     }
 
   val GetAllTasks = scenario("WA - Get All Tasks")
@@ -147,7 +147,7 @@ class APISimulation extends Simulation  {
     // GetAllTasks.inject(rampUsers(1) during (1 minutes))
     // CamundaGetCase.inject(rampUsers(1) during (1 minutes))
     // WAGetTask.inject(rampUsers(1) during (1 minutes))
-    CreateTaskFromCCD.inject(rampUsers(50) during (10 minutes))
+    CreateTaskFromCCD.inject(rampUsers(25) during (10 minutes))
 
     //Scenarios required for perf test
     // CreateNewTask.inject(rampUsers(1) during (5 minutes)),
