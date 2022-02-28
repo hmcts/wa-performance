@@ -88,7 +88,7 @@ val ccdCreateCase =
     .header("ServiceAuthorization", "Bearer ${ccd_dataBearerToken}")
     .header("Authorization", "Bearer ${access_token}")
     .header("Content-Type","application/json")
-    .body(ElFileBody("IACCreateCaseNew.json"))
+    .body(ElFileBody("IACCreateCaseFeb2022.json"))
     .check(jsonPath("$.id").saveAs("caseId")))
 
   .pause(Environment.constantthinkTime)
@@ -107,7 +107,7 @@ val ccdSubmitAppeal =
     .header("ServiceAuthorization", "Bearer ${ccd_dataBearerToken}")
     .header("Authorization", "Bearer ${access_token}")
     .header("Content-Type","application/json")
-    .body(ElFileBody("IACSubmitAppeal.json")))
+    .body(ElFileBody("IACSubmitAppealFeb2022.json")))
     // .check(jsonPath("$.id").saveAs("caseId")))
 
   .pause(Environment.constantthinkTime)

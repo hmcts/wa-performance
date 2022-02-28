@@ -1,0 +1,15 @@
+{
+  "data": {
+     "legalRepDeclaration": [
+        "hasDeclared"
+     ],
+     "appealType": "revocationOfProtection"
+  },
+  "event": {
+     "id": "submitAppeal",
+     "summary": "",
+     "description": ""
+  },
+  "event_token": "${eventToken}",
+  "ignore_warning": false
+}

@@ -11,6 +11,9 @@ class UISimulation extends Simulation  {
 
   val BaseURL = Environment.xuiBaseURL
   val feedTribunalUserData = csv("WA_TribunalUsers.csv")
+  val feedJudicialUserData = csv("WA_JudicialUsers.csv")
+  val feedIACUserData = csv("IACUserData.csv").circular
+  val feedCaseList = csv("WA_R2Cases.csv")
 
   val httpProtocol = Environment.HttpProtocol
     .baseUrl(BaseURL)
@@ -44,11 +47,12 @@ class UISimulation extends Simulation  {
   val CancelTask = scenario("Cancel a Task")
     .repeat(1) {
       exec(xuiwa.manageCasesHomePage)
-      .exec(xuiwa.manageCasesLoginSenior)
-      .repeat(8) { //8
-        exec(xuiwa.openTaskManager)
-        .exec(xuiwa.cancelTask)
-        .exec(WaitforNextIteration.waitforNextIteration)
+      .feed(feedTribunalUserData)
+      .exec(xuiwa.manageCasesLogin)
+      .repeat(1904) { //8
+        // exec(xuiwa.openTaskManager)
+        exec(xuiwa.cancelTask)
+        // .exec(WaitforNextIteration.waitforNextIteration)
       }
       .exec(xuiwa.XUILogout)
     }
@@ -58,21 +62,64 @@ class UISimulation extends Simulation  {
       exec(xuiwa.manageCasesHomePage)
       .feed(feedTribunalUserData)
       .exec(xuiwa.manageCasesLogin)
-      .repeat(1) {
-        exec(xuiMyWork.MyWork)
-        .exec(xuiMyWork.AvailableTasks)
-        .exec(xuiMyWork.AssignToMeAndGo)
+      .repeat(10) {
+        exec(xuiAllWork.allWorkTasks)
+        .feed(feedCaseList)
+        .exec(xuiAllWork.allWorkViewTask)
+        .exec(xuiwa.AssignRoles)
         .exec(xuiwa.RequestRespondentEvidence)
+        .exec(WaitforNextIteration.waitforNextIteration)
       }
-      // .exec(xuiwa.XUILogout)
+      .exec(xuiwa.XUILogout)
+    }
+
+  val CreateTaskFromCCD = scenario("Creates cases & tasks for Task Manager searches/rendering")
+    .feed(feedIACUserData)
+    .exec(S2S.s2s("ccd_data"))
+    .exec(IdamLogin.GetIdamToken)
+    .repeat(75) { //75
+      exec(ccddatastore.ccdCreateCase)
+      .exec(ccddatastore.ccdSubmitAppeal)
+      .exec(ccddatastore.ccdRequestHomeOfficeData)
+    }
+
+
+  val R2CancelTask = scenario("Cancel a Task")
+    .repeat(1) {
+      exec(xuiwa.manageCasesHomePage)
+      .feed(feedTribunalUserData)
+      .exec(xuiwa.manageCasesLogin)
+      .repeat(8) {
+        exec(xuiMyWork.AvailableTasks)
+        .exec(xuiwa.cancelTask)
+        .exec(WaitforNextIteration.waitforNextIteration)
+      }
+      .exec(xuiwa.XUILogout)
+    }
+
+  val R2JudicialUserJourney = scenario("Judicial User Journey")
+    .repeat(1) {
+      exec(xuiwa.manageCasesHomePage)
+      .feed(feedJudicialUserData)
+      .exec(xuiwa.manageCasesLogin)
+      .repeat(10) {
+        exec(xuiAllWork.judicialUserAllWork)
+        .exec(xuiAllWork.judicialUserOpenCase)
+        .exec(xuiAllWork.judicialUserAllocateRole)
+        .exec(xuiAllWork.judicialUserRemoveRole)
+        .exec(WaitforNextIteration.waitforNextIteration)
+      }
+      .exec(xuiwa.XUILogout)
     }
 
   
   setUp(
-    // AssignTask.inject(rampUsers(3) during (5 minutes)), //3
-    // CompleteTask.inject(rampUsers(6) during (5 minutes)), //6
-    // CancelTask.inject(rampUsers(4) during (5 minutes)) //4
-    R2AssignAndCompleteTasks.inject(rampUsers(1) during (1 minutes))
+    R2AssignAndCompleteTasks.inject(rampUsers(60) during (10 minutes)),
+    R2CancelTask.inject(rampUsers(5) during (20 minutes)),
+    CreateTaskFromCCD.inject(rampUsers(20) during (10 minutes)),
+    R2JudicialUserJourney.inject(rampUsers(37) during (10 minutes))
     )
+    .maxDuration(60 minutes)
     .protocols(httpProtocol)
+    
 }

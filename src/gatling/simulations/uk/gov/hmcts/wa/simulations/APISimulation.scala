@@ -132,8 +132,8 @@ class APISimulation extends Simulation  {
 
   val GetAllTasks = scenario("WA - Get All Tasks")
     .repeat(1) {
-      feed(feedWASeniorUserData)
-      .exec(S2S.s2s("wa_case_event_handler"))
+      feed(feedWATribunalUserData)
+      .exec(S2S.s2s("wa_task_management_api"))
       .exec(IdamLogin.GetIdamToken)
       .repeat(1) { 
         exec(wataskmanagement.GetAllTasks)
@@ -144,10 +144,10 @@ class APISimulation extends Simulation  {
     // CreateNewTask.inject(rampUsers(1) during (1 minutes))
     // WACompleteTask.inject(rampUsers(1) during (1 minutes))
     // WAAssignTask.inject(rampUsers(1) during (1 minutes))
-    // GetAllTasks.inject(rampUsers(1) during (1 minutes))
+    GetAllTasks.inject(rampUsers(1) during (1 minutes))
     // CamundaGetCase.inject(rampUsers(1) during (1 minutes))
     // WAGetTask.inject(rampUsers(1) during (1 minutes))
-    CreateTaskFromCCD.inject(rampUsers(25) during (10 minutes))
+    // CreateTaskFromCCD.inject(rampUsers(25) during (10 minutes))
 
     //Scenarios required for perf test
     // CreateNewTask.inject(rampUsers(1) during (5 minutes)),
