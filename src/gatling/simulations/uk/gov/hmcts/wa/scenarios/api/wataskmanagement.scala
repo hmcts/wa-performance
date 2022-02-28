@@ -159,11 +159,11 @@ val CreateTask =
 val GetAllTasks =
 
   exec(http("WA_GetAllTasks")
-    .post(waUrl + "/task")
-    .header("ServiceAuthorization", "Bearer ${wa_case_event_handlerBearerToken}")
+    .post(waUrl + "/task?first_result=2900&max_results=100")
+    .header("ServiceAuthorization", "Bearer ${wa_task_management_apiBearerToken}")
     .header("Authorization", "Bearer ${access_token}")
     .header("Content-Type", "application/json")
-    .body(ElFileBody("WARequests/WA_GetAllTasks.json")))
+    .body(ElFileBody("WARequests/WA_GetAllTasksNew.json")))
 
 
 val GetTask =

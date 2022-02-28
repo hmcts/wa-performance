@@ -2,11 +2,6 @@
   "searchRequest": {
      "search_parameters": [
         {
-           "key": "available_tasks_only",
-           "operator": "BOOLEAN",
-           "value": true
-        },
-        {
            "key": "jurisdiction",
            "operator": "IN",
            "values": [
@@ -14,20 +9,18 @@
            ]
         },
         {
-           "key": "location",
+           "key": "state",
            "operator": "IN",
            "values": [
-              "765324"
+              "assigned",
+              "unassigned"
            ]
         },
         {
-           "key": "work_type",
+           "key": "role_category",
            "operator": "IN",
            "values": [
-              "hearing_work",
-              "routine_work",
-              "decision_making_work",
-              "applications"
+              "LEGAL_OPERATIONS"
            ]
         }
      ],
@@ -43,5 +36,5 @@
         "page_size": 25
      }
   },
-  "view": "AvailableTasks"
+  "view": "AllWork"
 }

@@ -1,0 +1,19 @@
+{
+  "caseId": "${caseId}",
+  "jurisdiction": "IA",
+  "state": 4,
+  "typeOfRole": {
+     "id": "lead-judge",
+     "name": "Lead Judge"
+  },
+  "allocateTo": "Reserve to me",
+  "person": null,
+  "durationOfRole": "7 days",
+  "action": "allocate",
+  "period": {
+     "startDate": "${currentDate}T00:00:00.000Z",
+     "endDate": "${currentDatePlusSeven}T00:00:00.000Z"
+  },
+  "lastError": null,
+  "roleCategory": "JUDICIAL"
+}
