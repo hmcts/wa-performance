@@ -320,7 +320,7 @@ object xuiwa {
 
     feed(taskCancelListFeeder)
 
-    /*.exec(http("XUI_OpenTask_005_GetUserDetails")
+    .exec(http("XUI_OpenTask_005_GetUserDetails")
 			.get("/api/user/details")
 			.headers(XUIHeaders.xuiMainHeader))
 
@@ -340,15 +340,13 @@ object xuiwa {
 		// 	.get("/api/user/details")
 		// 	.headers(XUIHeaders.xuiMainHeader))
 
-		.pause(3)
-*/
     .exec(http("XUI_CancelTask_005_Cancel")
 			.post("/workallocation2/task/${taskId}/cancel")
 			.headers(XUIHeaders.xuiMainHeader)
       .header("content-type", "application/json")
       .header("x-xsrf-token", "${xsrfToken}")
 			.body(StringBody("{}")))
-/*
+
     .exec(http("XUI_CancelTask_010_Healthcheck")
 			.get("/api/healthCheck?path=%2Fwork%2Fall-work%2Ftasks")
 			.headers(XUIHeaders.xuiMainHeader))
@@ -371,7 +369,7 @@ object xuiwa {
       .header("content-type", "application/json")
       .header("x-xsrf-token", "${xsrfToken}")
 			.body(ElFileBody("xuiBodies/AllWork.json")))
-*/
+
     .pause(Environment.constantthinkTime)
 
   val openTaskList =
