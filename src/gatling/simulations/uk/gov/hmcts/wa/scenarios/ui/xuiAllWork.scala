@@ -173,7 +173,7 @@ object xuiAllWork {
         .headers(XUIHeaders.xuiMainHeader)
         .check(jsonPath("$[0].id").saveAs("taskId")))
 
-      .exec(http("XUI_GetJudicialUsersNull")
+      .exec(http("XUI_002_ViewTask_GetJudicialUsersNull")
         .post("/api/role-access/roles/getJudicialUsers")
         .headers(XUIHeaders.xuiMainHeader)
         .header("content-type", "application/json")
@@ -195,7 +195,7 @@ object xuiAllWork {
         .get("/workallocation2/case/task/${caseId}")
         .headers(XUIHeaders.xuiMainHeader))
 
-      .exec(http("XUI_GetJudicialUsers")
+      .exec(http("XUI_003_AssignTask_GetJudicialUsers")
         .post("/api/role-access/roles/getJudicialUsers")
         .headers(XUIHeaders.xuiMainHeader)
         .header("content-type", "application/json")
@@ -341,7 +341,7 @@ object xuiAllWork {
         .header("x-xsrf-token", "${xsrfToken}")
         .body(StringBody("""{"caseId":"${caseId}","jurisdiction":"IA","caseType":"Asylum"}""")))
 
-      .exec(http("XUI_GetJudicialUsers")
+      .exec(http("XUI_Judicial_003_AddRole_GetJudicialUsers")
         .post("/api/role-access/roles/getJudicialUsers")
         .headers(XUIHeaders.xuiMainHeader)
         .header("content-type", "application/json")
@@ -408,14 +408,14 @@ object xuiAllWork {
         .header("x-xsrf-token", "${xsrfToken}")
         .body(StringBody("""{"caseId":"${caseId}","jurisdiction":"IA","caseType":"Asylum"}""")))
 
-      .exec(http("XUI_GetJudicialUsersIdam")
+      .exec(http("XUI_Judicial_004_ConfirmRoleAllocation_GetJudicialUsersIdam")
         .post("/api/role-access/roles/getJudicialUsers")
         .headers(XUIHeaders.xuiMainHeader)
         .header("content-type", "application/json")
         .header("x-xsrf-token", "${xsrfToken}")
         .body(StringBody("""{"userIds":["${idamId}"],"services":["IA"]}""")))
 
-      .exec(http("XUI_GetJudicialUsers")
+      .exec(http("XUI_Judicial_004_ConfirmRoleAllocation_GetJudicialUsers")
         .post("/api/role-access/roles/getJudicialUsers")
         .headers(XUIHeaders.xuiMainHeader)
         .header("content-type", "application/json")
@@ -447,7 +447,7 @@ object xuiAllWork {
         .header("x-xsrf-token", "${xsrfToken}")
         .body(StringBody("""{"caseId":"${caseId}","jurisdiction":"IA","caseType":"Asylum","assignmentId":"${roleAllocateId}"}""")))
         
-      .exec(http("XUI_GetJudicialUsersIdam")
+      .exec(http("XUI_Judicial_005_RemoveRole_GetJudicialUsersIdam")
         .post("/api/role-access/roles/getJudicialUsers")
         .headers(XUIHeaders.xuiMainHeader)
         .header("content-type", "application/json")
@@ -495,7 +495,7 @@ object xuiAllWork {
         .header("x-xsrf-token", "${xsrfToken}")
         .body(StringBody("""{"caseId":"${caseId}","jurisdiction":"IA","caseType":"Asylum"}""")))
 
-      .exec(http("XUI_GetJudicialUsersNull")
+      .exec(http("XUI_Judicial_006_ConfirmRemoveRole_GetJudicialUsersNull")
         .post("/api/role-access/roles/getJudicialUsers")
         .headers(XUIHeaders.xuiMainHeader)
         .header("content-type", "application/json")
