@@ -81,6 +81,7 @@ class UISimulation extends Simulation  {
       exec(ccddatastore.ccdCreateCase)
       .exec(ccddatastore.ccdSubmitAppeal)
       .exec(ccddatastore.ccdRequestHomeOfficeData)
+      .exec(WaitforNextIteration.waitforNextIteration)
     }
 
 

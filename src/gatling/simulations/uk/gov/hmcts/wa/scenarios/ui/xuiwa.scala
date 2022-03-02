@@ -441,7 +441,7 @@ object xuiwa {
         .header("x-xsrf-token", "${xsrfToken}")
         .body(StringBody("""{"caseId":"${caseId}","jurisdiction":"IA","caseType":"Asylum"}""")))
 
-      .exec(http("XUI_AssignRoles_ViewRolesTab_025")
+      .exec(http("XUI_GetJudicialUsers")
         .post("/api/role-access/roles/getJudicialUsers")
         .headers(XUIHeaders.xuiMainHeader)
         .header("content-type", "application/json")
@@ -521,7 +521,7 @@ object xuiwa {
         .header("x-xsrf-token", "${xsrfToken}")
         .body(ElFileBody("xuiBodies/XUIgetJudicialUsers.json")))
 
-      .exec(http("XUI_ConfirmRoleAllocation_045")
+      .exec(http("XUI_GetJudicialUsers")
         .post("/api/role-access/roles/getJudicialUsers")
         .headers(XUIHeaders.xuiMainHeader)
         .header("content-type", "application/json")
