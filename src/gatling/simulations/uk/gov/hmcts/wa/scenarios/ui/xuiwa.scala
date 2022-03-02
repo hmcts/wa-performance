@@ -441,22 +441,22 @@ object xuiwa {
         .header("x-xsrf-token", "${xsrfToken}")
         .body(StringBody("""{"caseId":"${caseId}","jurisdiction":"IA","caseType":"Asylum"}""")))
 
-      .exec(http("XUI_AssignRoles_ViewRolesTab_GetJudicialUsers")
-        .post("/api/role-access/roles/getJudicialUsers")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("content-type", "application/json")
-        .header("x-xsrf-token", "${xsrfToken}")
-        .body(StringBody("""{"userIds":[],"services":["IA"]}"""))
-        // .check(status.is(403))
-        )
-
-      .exec(http("XUI_AssignRoles_ViewRolesTab_030")
+      .exec(http("XUI_AssignRoles_ViewRolesTab_025")
         .post("/api/role-access/roles/getJudicialUsers")
         .headers(XUIHeaders.xuiMainHeader)
         .header("content-type", "application/json")
         .header("x-xsrf-token", "${xsrfToken}")
         .body(ElFileBody("xuiBodies/XUIgetJudicialUsers.json")))
     }
+
+    .exec(http("XUI_AssignRoles_ViewRolesTab_GetJudicialUsers")
+      .post("/api/role-access/roles/getJudicialUsers")
+      .headers(XUIHeaders.xuiMainHeader)
+      .header("content-type", "application/json")
+      .header("x-xsrf-token", "${xsrfToken}")
+      .body(StringBody("""{"userIds":[],"services":["IA"]}"""))
+      // .check(status.is(403))
+      )
 
     .pause(Environment.constantthinkTime)
 
@@ -520,16 +520,18 @@ object xuiwa {
         .header("content-type", "application/json")
         .header("x-xsrf-token", "${xsrfToken}")
         .body(ElFileBody("xuiBodies/XUIgetJudicialUsers.json")))
-
-      .exec(http("XUI_ConfirmRoleAllocation_GetJudicialUsers")
-        .post("/api/role-access/roles/getJudicialUsers")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("content-type", "application/json")
-        .header("x-xsrf-token", "${xsrfToken}")
-        .body(StringBody("""{"userIds":[],"services":["IA"]}"""))
-        // .check(status.is(403))
-        )
     }
+
+    .exec(http("XUI_ConfirmRoleAllocation_GetJudicialUsers")
+      .post("/api/role-access/roles/getJudicialUsers")
+      .headers(XUIHeaders.xuiMainHeader)
+      .header("content-type", "application/json")
+      .header("x-xsrf-token", "${xsrfToken}")
+      .body(StringBody("""{"userIds":[],"services":["IA"]}"""))
+      // .check(status.is(403))
+      )
+
+    .pause(Environment.constantthinkTime)
 
   val EndAppealCaseEvent =
 
