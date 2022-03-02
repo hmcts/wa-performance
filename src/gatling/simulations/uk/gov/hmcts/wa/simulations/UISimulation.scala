@@ -77,11 +77,10 @@ class UISimulation extends Simulation  {
     .feed(feedIACUserData)
     .exec(S2S.s2s("ccd_data"))
     .exec(IdamLogin.GetIdamToken)
-    .repeat(75) { //75
+    .repeat(100) { //75
       exec(ccddatastore.ccdCreateCase)
       .exec(ccddatastore.ccdSubmitAppeal)
       .exec(ccddatastore.ccdRequestHomeOfficeData)
-      .exec(WaitforNextIteration.waitforNextIteration)
     }
 
 
@@ -117,7 +116,7 @@ class UISimulation extends Simulation  {
   setUp(
     R2AssignAndCompleteTasks.inject(rampUsers(60) during (10 minutes)),
     R2CancelTask.inject(rampUsers(5) during (20 minutes)),
-    CreateTaskFromCCD.inject(rampUsers(20) during (10 minutes)),
+    CreateTaskFromCCD.inject(rampUsers(15) during (10 minutes)),
     R2JudicialUserJourney.inject(rampUsers(37) during (10 minutes))
     )
     .maxDuration(60 minutes)
