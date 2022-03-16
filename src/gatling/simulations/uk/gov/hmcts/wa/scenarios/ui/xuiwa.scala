@@ -320,97 +320,94 @@ object xuiwa {
 
     feed(taskCancelListFeeder)
 
-    .exec(http("XUI_OpenTask_005_GetUserDetails")
-			.get("/api/user/details")
-			.headers(XUIHeaders.xuiMainHeader))
+    .group("XUI_OpenTask"){
+      exec(http("XUI_OpenTask_005_GetUserDetails")
+        .get("/api/user/details")
+        .headers(XUIHeaders.xuiMainHeader))
 
-		.exec(http("XUI_OpenTask_010_GetRoles")
-			.get("/workallocation2/task/${taskId}/roles")
-			.headers(XUIHeaders.xuiMainHeader))
+      .exec(http("XUI_OpenTask_010_GetRoles")
+        .get("/workallocation2/task/${taskId}/roles")
+        .headers(XUIHeaders.xuiMainHeader))
 
-    .exec(http("XUI_OpenTask_015")
-			.get("/workallocation2/task/${taskId}")
-			.headers(XUIHeaders.xuiMainHeader))
+      .exec(http("XUI_OpenTask_015")
+        .get("/workallocation2/task/${taskId}")
+        .headers(XUIHeaders.xuiMainHeader))
+    }
 
-    // .exec(http("request_3")
-		// 	.get("/workallocation2/task/${taskId}")
-		// 	.headers(XUIHeaders.xuiMainHeader))
+    .pause(Environment.constantthinkTime)
 
-    // .exec(http("request_4")
-		// 	.get("/api/user/details")
-		// 	.headers(XUIHeaders.xuiMainHeader))
+    .group("XUI_CancelTask") {
+      exec(http("XUI_CancelTask_005_Cancel")
+        .post("/workallocation2/task/${taskId}/cancel")
+        .headers(XUIHeaders.xuiMainHeader)
+        .header("content-type", "application/json")
+        .header("x-xsrf-token", "${xsrfToken}")
+        .body(StringBody("{}")))
 
-    .exec(http("XUI_CancelTask_005_Cancel")
-			.post("/workallocation2/task/${taskId}/cancel")
-			.headers(XUIHeaders.xuiMainHeader)
-      .header("content-type", "application/json")
-      .header("x-xsrf-token", "${xsrfToken}")
-			.body(StringBody("{}")))
+      .exec(http("XUI_CancelTask_010_Healthcheck")
+        .get("/api/healthCheck?path=%2Fwork%2Fall-work%2Ftasks")
+        .headers(XUIHeaders.xuiMainHeader))
+        
+      .exec(http("XUI_CancelTask_015_GetJurisdictions")
+        .get("/api/wa-supported-jurisdiction/get")
+        .headers(XUIHeaders.xuiMainHeader))
 
-    .exec(http("XUI_CancelTask_010_Healthcheck")
-			.get("/api/healthCheck?path=%2Fwork%2Fall-work%2Ftasks")
-			.headers(XUIHeaders.xuiMainHeader))
-      
-    .exec(http("XUI_CancelTask_015_GetJurisdictions")
-			.get("/api/wa-supported-jurisdiction/get")
-			.headers(XUIHeaders.xuiMainHeader))
+      .exec(http("XUI_CancelTask_020_GetUserDetails")
+        .get("/api/user/details")
+        .headers(XUIHeaders.xuiMainHeader))
 
-    // .exec(http("request_10")
-		// 	.get("/api/wa-supported-jurisdiction/get")
-		// 	.headers(XUIHeaders.xuiMainHeader))
-
-    .exec(http("XUI_CancelTask_020_GetUserDetails")
-			.get("/api/user/details")
-			.headers(XUIHeaders.xuiMainHeader))
-
-    .exec(http("XUI_CancelTask_025_AllWork")
-			.post("/workallocation2/task")
-			.headers(XUIHeaders.xuiMainHeader)
-      .header("content-type", "application/json")
-      .header("x-xsrf-token", "${xsrfToken}")
-			.body(ElFileBody("xuiBodies/AllWork.json")))
+      .exec(http("XUI_CancelTask_025_AllWork")
+        .post("/workallocation2/task")
+        .headers(XUIHeaders.xuiMainHeader)
+        .header("content-type", "application/json")
+        .header("x-xsrf-token", "${xsrfToken}")
+        .body(ElFileBody("xuiBodies/AllWork.json")))
+    }
 
     .pause(Environment.constantthinkTime)
 
   val openTaskList =
 
-    exec(http("XUI_OpenTaskList_005")
-      .get("/auth/isAuthenticated")
-			.headers(XUIHeaders.headers_tl1))
+    group("XUI_OpenTask") {
+      exec(http("XUI_OpenTaskList_005")
+        .get("/auth/isAuthenticated")
+        .headers(XUIHeaders.headers_tl1))
 
-    .exec(http("XUI_OpenTaskList_010")
-			.get("/api/healthCheck?path=%2Ftasks%2Flist")
-			.headers(XUIHeaders.headers_tl1))
+      .exec(http("XUI_OpenTaskList_010")
+        .get("/api/healthCheck?path=%2Ftasks%2Flist")
+        .headers(XUIHeaders.headers_tl1))
 
-    .exec(http("XUI_OpenTaskList_015")
-			.get("/api/healthCheck?path=%2Ftasks%2Flist")
-			.headers(XUIHeaders.headers_tl1))
+      .exec(http("XUI_OpenTaskList_015")
+        .get("/api/healthCheck?path=%2Ftasks%2Flist")
+        .headers(XUIHeaders.headers_tl1))
 
-    .exec(http("XUI_OpenTaskManager_020")
-			.post("/workallocation/task")
-			.headers(XUIHeaders.headers_tl5)
-			.body(StringBody("""{"searchRequest":{"search_parameters":[{"key":"user","operator":"IN","values":["${idamId}"]}],"sorting_parameters":[{"sort_by":"dueDate","sort_order":"asc"}]},"view":"MyTasks"}"""))
-      .check(regex("""id":"(.*)","name""").saveAs("taskId"))
-      // .check(regex("""case_id":"(.*)","case_category""").saveAs("caseId"))
-      )
+      .exec(http("XUI_OpenTaskManager_020")
+        .post("/workallocation/task")
+        .headers(XUIHeaders.headers_tl5)
+        .body(StringBody("""{"searchRequest":{"search_parameters":[{"key":"user","operator":"IN","values":["${idamId}"]}],"sorting_parameters":[{"sort_by":"dueDate","sort_order":"asc"}]},"view":"MyTasks"}"""))
+        .check(regex("""id":"(.*)","name""").saveAs("taskId"))
+        // .check(regex("""case_id":"(.*)","case_category""").saveAs("caseId"))
+        )
+    }
 
     .pause(Environment.constantthinkTime)
 
   val OpenTask =
 
     // feed(feedCompleteTaskListFeeder)
+    group("XUI_OpenTask") {
+      exec(http("XUI_OpenTask_005")
+        .get("/auth/isAuthenticated")
+        .headers(XUIHeaders.headers_tl1))
 
-    exec(http("XUI_OpenTask_005")
-			.get("/auth/isAuthenticated")
-			.headers(XUIHeaders.headers_tl1))
+      .exec(http("XUI_OpenTask_010")
+        .get("/api/healthCheck?path=%2Fcases%2Fcase-details%2F${caseId}")
+        .headers(XUIHeaders.headers_apihealthcheck))
 
-    .exec(http("XUI_OpenTask_010")
-			.get("/api/healthCheck?path=%2Fcases%2Fcase-details%2F${caseId}")
-			.headers(XUIHeaders.headers_apihealthcheck))
-
-    .exec(http("XUI_OpenTask_015")
-			.get("/data/internal/cases/${caseId}")
-			.headers(XUIHeaders.headers_viewcase))
+      .exec(http("XUI_OpenTask_015")
+        .get("/data/internal/cases/${caseId}")
+        .headers(XUIHeaders.headers_viewcase))
+    }
 
   val AssignRoles = 
 
