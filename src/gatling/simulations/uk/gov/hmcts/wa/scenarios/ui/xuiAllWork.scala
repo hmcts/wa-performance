@@ -174,12 +174,12 @@ object xuiAllWork {
         .check(jsonPath("$[0].id").saveAs("taskId")))
     }
 
-    .exec(http("XUI_002_ViewTask_GetJudicialUsersNull")
-      .post("/api/role-access/roles/getJudicialUsers")
-      .headers(XUIHeaders.xuiMainHeader)
-      .header("content-type", "application/json")
-      .header("x-xsrf-token", "${xsrfToken}")
-      .body(StringBody("""{"userIds":[null],"services":["IA"]}""")))
+    // .exec(http("XUI_002_ViewTask_GetJudicialUsersNull")
+    //   .post("/api/role-access/roles/getJudicialUsers")
+    //   .headers(XUIHeaders.xuiMainHeader)
+    //   .header("content-type", "application/json")
+    //   .header("x-xsrf-token", "${xsrfToken}")
+    //   .body(StringBody("""{"userIds":[null],"services":["IA"]}""")))
 
     .pause(Environment.constantthinkTime) 
     
@@ -196,12 +196,12 @@ object xuiAllWork {
         .headers(XUIHeaders.xuiMainHeader))
     }
 
-    .exec(http("XUI_003_AssignTask_GetJudicialUsers")
-      .post("/api/role-access/roles/getJudicialUsers")
-      .headers(XUIHeaders.xuiMainHeader)
-      .header("content-type", "application/json")
-      .header("x-xsrf-token", "${xsrfToken}")
-      .body(StringBody("""{"userIds":[],"services":["IA"]}""")))
+    // .exec(http("XUI_003_AssignTask_GetJudicialUsers")
+    //   .post("/api/role-access/roles/getJudicialUsers")
+    //   .headers(XUIHeaders.xuiMainHeader)
+    //   .header("content-type", "application/json")
+    //   .header("x-xsrf-token", "${xsrfToken}")
+    //   .body(StringBody("""{"userIds":[],"services":["IA"]}""")))
 
     .pause(Environment.constantthinkTime)
 
@@ -232,6 +232,13 @@ object xuiAllWork {
         .body(ElFileBody("xuiBodies/AllWorkJudicial.json"))
         .check(jsonPath("$.tasks[0].id").saveAs("taskId"))
         .check(jsonPath("$.tasks[0].case_id").saveAs("caseId")))
+
+      .exec(http("XUI_Judicial_001_ViewAllWork_030_GetJudicialUsers")
+        .post("/api/role-access/roles/getJudicialUsers")
+        .headers(XUIHeaders.xuiMainHeader)
+        .header("content-type", "application/json")
+        .header("x-xsrf-token", "${xsrfToken}")
+        .body(StringBody("""{"userIds":["${idamId}"],"services":[]}""")))
     }
 
 		.pause(Environment.constantthinkTime)
@@ -354,13 +361,6 @@ object xuiAllWork {
         .headers(XUIHeaders.xuiMainHeader))
     }
 
-    .exec(http("XUI_Judicial_003_AddRole_GetJudicialUsers")
-      .post("/api/role-access/roles/getJudicialUsers")
-      .headers(XUIHeaders.xuiMainHeader)
-      .header("content-type", "application/json")
-      .header("x-xsrf-token", "${xsrfToken}")
-      .body(StringBody("""{"userIds":[],"services":["IA"]}""")))
-      
 		.pause(Environment.constantthinkTime)
 
     .exec(_.setAll( "currentDate" -> now.format(patternDate),
@@ -407,21 +407,14 @@ object xuiAllWork {
         .header("content-type", "application/json")
         .header("x-xsrf-token", "${xsrfToken}")
         .body(StringBody("""{"caseId":"${caseId}","jurisdiction":"IA","caseType":"Asylum"}""")))
+
+      .exec(http("XUI_Judicial_004_ConfirmRoleAllocation_035_GetJudicialUsers")
+        .post("/api/role-access/roles/getJudicialUsers")
+        .headers(XUIHeaders.xuiMainHeader)
+        .header("content-type", "application/json")
+        .header("x-xsrf-token", "${xsrfToken}")
+        .body(StringBody("""{"userIds":["${idamId}"],"services":["IA"]}""")))
     }
-
-    .exec(http("XUI_Judicial_004_ConfirmRoleAllocation_GetJudicialUsersIdam")
-      .post("/api/role-access/roles/getJudicialUsers")
-      .headers(XUIHeaders.xuiMainHeader)
-      .header("content-type", "application/json")
-      .header("x-xsrf-token", "${xsrfToken}")
-      .body(StringBody("""{"userIds":["${idamId}"],"services":["IA"]}""")))
-
-    .exec(http("XUI_Judicial_004_ConfirmRoleAllocation_GetJudicialUsers")
-      .post("/api/role-access/roles/getJudicialUsers")
-      .headers(XUIHeaders.xuiMainHeader)
-      .header("content-type", "application/json")
-      .header("x-xsrf-token", "${xsrfToken}")
-      .body(StringBody("""{"userIds":[],"services":["IA"]}""")))
 
     .pause(Environment.constantthinkTime)
 
@@ -446,14 +439,14 @@ object xuiAllWork {
         .header("content-type", "application/json")
         .header("x-xsrf-token", "${xsrfToken}")
         .body(StringBody("""{"caseId":"${caseId}","jurisdiction":"IA","caseType":"Asylum","assignmentId":"${roleAllocateId}"}""")))
-    }
         
-    .exec(http("XUI_Judicial_005_RemoveRole_GetJudicialUsersIdam")
-      .post("/api/role-access/roles/getJudicialUsers")
-      .headers(XUIHeaders.xuiMainHeader)
-      .header("content-type", "application/json")
-      .header("x-xsrf-token", "${xsrfToken}")
-      .body(StringBody("""{"userIds":["${idamId}"],"services":["IA"]}""")))
+      .exec(http("XUI_Judicial_005_RemoveRole_025_GetJudicialUsers")
+        .post("/api/role-access/roles/getJudicialUsers")
+        .headers(XUIHeaders.xuiMainHeader)
+        .header("content-type", "application/json")
+        .header("x-xsrf-token", "${xsrfToken}")
+        .body(StringBody("""{"userIds":["${idamId}"],"services":["IA"]}""")))
+    }
 
     .pause(Environment.constantthinkTime)
 
@@ -494,14 +487,14 @@ object xuiAllWork {
         .header("content-type", "application/json")
         .header("x-xsrf-token", "${xsrfToken}")
         .body(StringBody("""{"caseId":"${caseId}","jurisdiction":"IA","caseType":"Asylum"}""")))
-    }
 
-    .exec(http("XUI_Judicial_006_ConfirmRemoveRole_GetJudicialUsersNull")
-      .post("/api/role-access/roles/getJudicialUsers")
-      .headers(XUIHeaders.xuiMainHeader)
-      .header("content-type", "application/json")
-      .header("x-xsrf-token", "${xsrfToken}")
-      .body(StringBody("""{"userIds":[],"services":["IA"]}""")))
+      .exec(http("XUI_Judicial_006_ConfirmRemoveRole_040_GetJudicialUsers")
+        .post("/api/role-access/roles/getJudicialUsers")
+        .headers(XUIHeaders.xuiMainHeader)
+        .header("content-type", "application/json")
+        .header("x-xsrf-token", "${xsrfToken}")
+        .body(StringBody("""{"userIds":["${idamId}"],"services":["IA"]}""")))
+    }
 
     .pause(Environment.constantthinkTime)
 
