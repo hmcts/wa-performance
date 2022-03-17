@@ -120,7 +120,7 @@ object xuiMyWork {
         .get("/api/user/details")
         .headers(XUIHeaders.xuiMainHeader)) //3
 
-      .exec(http("XUI_MyAvailableTasks")
+      .exec(http("XUI_MyAvailableTasksRequest")
         .post("/workallocation2/task")
         .headers(XUIHeaders.xuiMainHeader) //4
         .header("content-type", "application/json")
