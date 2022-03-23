@@ -77,7 +77,7 @@ class UISimulation extends Simulation  {
     .feed(feedIACUserData)
     .exec(S2S.s2s("ccd_data"))
     .exec(IdamLogin.GetIdamToken)
-    .repeat(100) { //75
+    .repeat(100) { //100
       exec(ccddatastore.ccdCreateCase)
       .exec(ccddatastore.ccdSubmitAppeal)
       .exec(ccddatastore.ccdRequestHomeOfficeData)
@@ -89,7 +89,7 @@ class UISimulation extends Simulation  {
       exec(xuiwa.manageCasesHomePage)
       .feed(feedTribunalUserData)
       .exec(xuiwa.manageCasesLogin)
-      .repeat(8) {
+      .repeat(8) { //8
         exec(xuiMyWork.AvailableTasks)
         .exec(xuiwa.cancelTask)
         .exec(WaitforNextIteration.waitforNextIteration)
@@ -102,7 +102,7 @@ class UISimulation extends Simulation  {
       exec(xuiwa.manageCasesHomePage)
       .feed(feedJudicialUserData)
       .exec(xuiwa.manageCasesLogin)
-      .repeat(10) {
+      .repeat(10) { //10
         exec(xuiAllWork.judicialUserAllWork)
         .exec(xuiAllWork.judicialUserOpenCase)
         .exec(xuiAllWork.judicialUserAllocateRole)
@@ -116,10 +116,15 @@ class UISimulation extends Simulation  {
   setUp(
     R2AssignAndCompleteTasks.inject(rampUsers(60) during (10 minutes)),
     R2CancelTask.inject(rampUsers(5) during (20 minutes)),
-    CreateTaskFromCCD.inject(rampUsers(15) during (10 minutes)),
+    // CreateTaskFromCCD.inject(rampUsers(15) during (10 minutes)),
     R2JudicialUserJourney.inject(rampUsers(37) during (10 minutes))
     )
     .maxDuration(60 minutes)
     .protocols(httpProtocol)
+
+  // setUp(
+  //   R2CancelTask.inject(rampUsers(1) during (1 minutes)).disablePauses
+  //   )
+  //   .protocols(httpProtocol)
     
 }
