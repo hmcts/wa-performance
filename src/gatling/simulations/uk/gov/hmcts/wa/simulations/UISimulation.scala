@@ -68,7 +68,7 @@ class UISimulation extends Simulation  {
         .exec(xuiAllWork.allWorkViewTask)
         .exec(xuiwa.AssignRoles)
         .exec(xuiwa.RequestRespondentEvidence)
-        // .exec(WaitforNextIteration.waitforNextIteration)
+        .exec(WaitforNextIteration.waitforNextIteration)
       }
       .exec(xuiwa.XUILogout)
     }
