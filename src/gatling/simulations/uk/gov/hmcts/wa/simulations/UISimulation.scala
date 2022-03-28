@@ -62,13 +62,13 @@ class UISimulation extends Simulation  {
       exec(xuiwa.manageCasesHomePage)
       .feed(feedTribunalUserData)
       .exec(xuiwa.manageCasesLogin)
-      .repeat(50) { //10
+      .repeat(21) { //10
         exec(xuiAllWork.allWorkTasks)
         .feed(feedCaseList)
         .exec(xuiAllWork.allWorkViewTask)
         .exec(xuiwa.AssignRoles)
         .exec(xuiwa.RequestRespondentEvidence)
-        .exec(WaitforNextIteration.waitforNextIteration)
+        // .exec(WaitforNextIteration.waitforNextIteration)
       }
       .exec(xuiwa.XUILogout)
     }
