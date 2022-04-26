@@ -66,7 +66,7 @@ class UISimulation extends Simulation  {
         exec(xuiAllWork.allWorkTasks)
         .feed(feedCaseList)
         .exec(xuiAllWork.allWorkViewTask)
-        // .exec(xuiwa.AssignRoles)
+        .exec(xuiwa.AssignRoles)
         .exec(xuiwa.RequestRespondentEvidence)
         .exec(WaitforNextIteration.waitforNextIteration)
       }
@@ -123,8 +123,18 @@ class UISimulation extends Simulation  {
     .protocols(httpProtocol)
 
   // setUp(
-  //   R2AssignAndCompleteTasks.inject(rampUsers(1) during (1 minutes)).disablePauses
+  //   R2CancelTask.inject(rampUsers(1) during (1 minutes)).disablePauses
   //   )
   //   .protocols(httpProtocol)
+
+  // setUp(
+    // R2AssignAndCompleteTasks.inject(rampUsers(5) during (1 minutes)),
+    // R2CancelTask.inject(rampUsers(5) during (1 minutes)),
+    // CreateTaskFromCCD.inject(rampUsers(5) during (1 minutes)),
+    // R2JudicialUserJourney.inject(rampUsers(3) during (1 minutes))
+    // )
+    // .maxDuration(5 minutes)
+    // .protocols(httpProtocol)
+    // .disablePauses
     
 }
