@@ -146,6 +146,7 @@ object xuiwa {
         .body(ElFileBody("xuiBodies/MyWork.json"))
         .header("content-type", "application/json"))
     }
+    .exitHereIfFailed
 
     .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain("manage-case.perftest.platform.hmcts.net").saveAs("xsrfToken")))
 
