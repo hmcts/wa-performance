@@ -62,13 +62,13 @@ class UISimulation extends Simulation  {
       exec(xuiwa.manageCasesHomePage)
       .feed(feedTribunalUserData)
       .exec(xuiwa.manageCasesLogin)
-      .repeat(10) { //10
+      .repeat(40) { //10
         exec(xuiAllWork.allWorkTasks)
         .feed(feedCaseList)
         .exec(xuiAllWork.allWorkViewTask)
         .exec(xuiwa.AssignRoles)
         .exec(xuiwa.RequestRespondentEvidence)
-        .exec(WaitforNextIteration.waitforNextIteration)
+        // .exec(WaitforNextIteration.waitforNextIteration)
       }
       .exec(xuiwa.XUILogout)
     }
@@ -115,11 +115,11 @@ class UISimulation extends Simulation  {
   
   setUp(
     R2AssignAndCompleteTasks.inject(rampUsers(60) during (10 minutes)), //60 during 10
-    R2CancelTask.inject(rampUsers(5) during (20 minutes)),
-    CreateTaskFromCCD.inject(rampUsers(15) during (10 minutes)),
-    R2JudicialUserJourney.inject(rampUsers(36) during (2 minutes))
+    // R2CancelTask.inject(rampUsers(5) during (20 minutes)),
+    // CreateTaskFromCCD.inject(rampUsers(15) during (10 minutes)),
+    // R2JudicialUserJourney.inject(rampUsers(36) during (2 minutes))
     )
-    .maxDuration(60 minutes)
+    // .maxDuration(60 minutes)
     .protocols(httpProtocol)
 
   // setUp(
