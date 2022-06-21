@@ -3,8 +3,8 @@
   "jurisdiction": "IA",
   "state": 4,
   "typeOfRole": {
-     "id": "lead-judge",
-     "name": "Lead Judge"
+     "id": "hearing-judge",
+     "name": "Hearing Judge"
   },
   "allocateTo": "Reserve to me",
   "person": null,
