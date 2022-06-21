@@ -102,7 +102,7 @@ class UISimulation extends Simulation  {
       exec(xuiwa.manageCasesHomePage)
       .feed(feedJudicialUserData)
       .exec(xuiwa.manageCasesLogin)
-      .repeat(20) { //10
+      .repeat(15) { //10
         exec(xuiAllWork.judicialUserAllWork)
         .exec(xuiAllWork.judicialUserOpenCase)
         .exec(xuiAllWork.judicialUserAllocateRole)
