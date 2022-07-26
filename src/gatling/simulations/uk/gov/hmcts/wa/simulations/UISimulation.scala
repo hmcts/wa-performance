@@ -41,7 +41,7 @@ class UISimulation extends Simulation  {
   val feedCaseList = csv("WA_R2Cases.csv")
 
 	/* PERFORMANCE TEST CONFIGURATION */
-	val assignAndCompleteTargetPerHour: Double = 600
+	val assignAndCompleteTargetPerHour: Double = 700
 	val cancelTaskTargetPerHour: Double = 40
 	val iacCreateTargetPerHour: Double = 1500
 	val judicialTargetPerHour: Double = 360
