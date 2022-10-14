@@ -141,7 +141,7 @@ object xuiwa {
         .header("content-type", "application/json")) //32
 
       .exec(http("XUI_010_095_Login")
-        .post("/workallocation2/task")
+        .post("/workallocation/task")
         .headers(XUIHeaders.xuiMainHeader) //33
         .body(ElFileBody("xuiBodies/MyWork.json"))
         .header("content-type", "application/json"))

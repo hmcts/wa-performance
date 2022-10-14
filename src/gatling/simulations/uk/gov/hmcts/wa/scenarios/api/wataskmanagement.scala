@@ -159,11 +159,24 @@ val CreateTask =
 val GetAllTasks =
 
   exec(http("WA_GetAllTasks")
-    .post(waUrl + "/task?first_result=2900&max_results=100")
+    .post(waUrl + "/task") //?first_result=1&max_results=1000")
     .header("ServiceAuthorization", "Bearer ${wa_task_management_apiBearerToken}")
     .header("Authorization", "Bearer ${access_token}")
     .header("Content-Type", "application/json")
-    .body(ElFileBody("WARequests/WA_GetAllTasksNew.json")))
+    .body(ElFileBody("WARequests/WA_GetAllTasksNew.json"))
+    // .check(jsonPath("$.tasks[0].id").saveAs("taskId"))
+    .check(bodyString.saveAs("Response"))
+    )
+
+  .exec {
+      session =>
+        val fw = new BufferedWriter(new FileWriter("1000Tasks.json", true))
+        try {
+          fw.write(session("Response").as[String] + "\r\n")
+        }
+        finally fw.close()
+        session
+    } 
 
 
 val GetTask =
@@ -173,8 +186,8 @@ val GetTask =
   // feed(taskListFeeder)
 
   exec(http("WA_GetTask")
-    .get(waUrl + "/task/${taskId}") //${taskId}
-    .header("ServiceAuthorization", "Bearer ${wa_case_event_handlerBearerToken}")
+    .get(waUrl + "/task/f23dd3bd-9a4d-11ec-80f8-c656fc890203") //${taskId}
+    .header("ServiceAuthorization", "Bearer ${wa_task_management_apiBearerToken}")
     .header("Authorization", "Bearer ${access_token}")
     .header("Content-Type", "application/json"))
 
@@ -259,7 +272,7 @@ val CancelTask =
     .header("Authorization", "Bearer ${access_token}")
     .header("Content-Type", "application/json"))
 
-  .pause(Environment.constantthinkTime)
+  // .pause(Environment.constantthinkTime)
 
 val ClaimTask =
 
@@ -303,24 +316,26 @@ val UnclaimTask =
 
 val CamundaGetCase =
 
-  feed(caseListFeeder)
+  feed(taskCancelListFeeder)
 
   .exec(http("Camunda_GetTask")
-    .get(CamundaUrl + "/engine-rest/task?processVariables=caseId_eq_1642599911192931") //${caseId}
+    .get(CamundaUrl + "/engine-rest/task?processVariables=caseId_eq_${caseId}") //${caseId}
+    // .get(CamundaUrl + "/engine-rest/history/task?taskId=b4e10f2e-9a42-11ec-a4aa-aef88624ce66") //${caseId}
+    // .get(CamundaUrl + "/engine-rest/task?type=reviewTheAppeal&maxResults=40&sortBy=startTime&sortOrder=desc") //${caseId}
     .header("ServiceAuthorization", "Bearer ${wa_task_management_apiBearerToken}")
-    .check(regex("""id":"(.*?)","name":"Review""").saveAs("taskId")))
-    .exitHereIfFailed
+    .check(jsonPath("$[0].id").saveAs("taskId")))
+    // .exitHereIfFailed
 
-    .pause(Environment.constantthinkTime)
+    // .pause(Environment.constantthinkTime)
 
-    // .exec {
-    //   session =>
-    //     val fw = new BufferedWriter(new FileWriter("TaskIDs.csv", true))
-    //     try {
-    //       fw.write(session("caseId").as[String] + ","+session("taskId").as[String] + "\r\n")
-    //     }
-    //     finally fw.close()
-    //     session
-    // }  
+    .exec {
+      session =>
+        val fw = new BufferedWriter(new FileWriter("CancelTaskIDs.csv", true))
+        try {
+          fw.write(session("caseId").as[String] + "," +session("taskId").as[String] + "\r\n")
+        }
+        finally fw.close()
+        session
+    }  
 
 }

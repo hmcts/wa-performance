@@ -11,133 +11,223 @@ import java.io.{BufferedWriter, FileWriter}
 
 object ccddatastore {
 
-val config: Config = ConfigFactory.load()
+  val config: Config = ConfigFactory.load()
 
-val IdamURL = Environment.idamURL
-val IdamAPI = Environment.idamAPI
-val CCDEnvurl = Environment.ccdEnvurl
-val s2sUrl = Environment.s2sUrl
-val ccdRedirectUri = "https://ccd-data-store-api-perftest.service.core-compute-perftest.internal/oauth2redirect"
-val ccdDataStoreUrl = "http://ccd-data-store-api-perftest.service.core-compute-perftest.internal"
-val escaseDataUrl = "https://ccd-api-gateway-web-perftest.service.core-compute-perftest.internal"
-val dmStoreUrl = "http://dm-store-perftest.service.core-compute-perftest.internal"
-val ccdClientId = "ccd_gateway"
-val ccdScope = "openid profile authorities acr roles openid profile roles" //perftest
-// val ccdScope = "openid profile authorities acr roles" //aat
-val ccdGatewayClientSecret = config.getString("ccdGatewayCS")
-val feedIACUserData = csv("IACUserData.csv").circular
+  val IdamURL = Environment.idamURL
+  val IdamAPI = Environment.idamAPI
+  val CCDEnvurl = Environment.ccdEnvurl
+  val s2sUrl = Environment.s2sUrl
+  val ccdRedirectUri = "https://ccd-data-store-api-perftest.service.core-compute-perftest.internal/oauth2redirect"
+  val ccdDataStoreUrl = "http://ccd-data-store-api-perftest.service.core-compute-perftest.internal"
+  val escaseDataUrl = "https://ccd-api-gateway-web-perftest.service.core-compute-perftest.internal"
+  val dmStoreUrl = "http://dm-store-perftest.service.core-compute-perftest.internal"
+  val ccdClientId = "ccd_gateway"
+  val ccdScope = "openid profile authorities acr roles openid profile roles" //perftest
+  // val ccdScope = "openid profile authorities acr roles" //aat
+  val ccdGatewayClientSecret = config.getString("ccdGatewayCS")
 
-val ccdIdamLogin =
+  val ccdIdamLogin =
 
-  feed(feedIACUserData)
+    exec(http("GetS2SToken")
+      .post(s2sUrl + "/testing-support/lease")
+      .header("Content-Type", "application/json")
+      .body(StringBody("{\"microservice\":\"ccd_data\"}"))
+      .check(bodyString.saveAs("bearerToken")))
+      .exitHereIfFailed
 
-  .exec(http("GetS2SToken")
-    .post(s2sUrl + "/testing-support/lease")
-    .header("Content-Type", "application/json")
-    .body(StringBody("{\"microservice\":\"ccd_data\"}"))
-    .check(bodyString.saveAs("bearerToken")))
-    .exitHereIfFailed
+    .exec(http("OIDC01_Authenticate")
+      .post(IdamAPI + "/authenticate")
+      .header("Content-Type", "application/x-www-form-urlencoded")
+      .formParam("username", "${email}")
+      .formParam("password", "${password}")
+      .formParam("redirectUri", ccdRedirectUri)
+      .formParam("originIp", "0:0:0:0:0:0:0:1")
+      .check(status is 200)
+      .check(headerRegex("Set-Cookie", "Idam.Session=(.*)").saveAs("authCookie")))
+      .exitHereIfFailed
 
-  .exec(http("OIDC01_Authenticate")
-    .post(IdamAPI + "/authenticate")
-    .header("Content-Type", "application/x-www-form-urlencoded")
-    .formParam("username", "${IACUserName}")
-    .formParam("password", "${IACUserPassword}")
-    .formParam("redirectUri", ccdRedirectUri)
-    .formParam("originIp", "0:0:0:0:0:0:0:1")
-    .check(status is 200)
-    .check(headerRegex("Set-Cookie", "Idam.Session=(.*)").saveAs("authCookie")))
-    .exitHereIfFailed
+    .exec(http("OIDC02_Authorize_CCD")
+      .post(IdamAPI + "/o/authorize?response_type=code&client_id=" + ccdClientId + "&redirect_uri=" + ccdRedirectUri + "&scope=" + ccdScope).disableFollowRedirect
+      .header("Content-Type", "application/x-www-form-urlencoded")
+      .header("Cookie", "Idam.Session=${authCookie}")
+      .header("Content-Length", "0")
+      .check(status is 302)
+      .check(headerRegex("Location", "code=(.*)&client_id").saveAs("code")))
+      .exitHereIfFailed
 
-  .exec(http("OIDC02_Authorize_CCD")
-    .post(IdamAPI + "/o/authorize?response_type=code&client_id=" + ccdClientId + "&redirect_uri=" + ccdRedirectUri + "&scope=" + ccdScope).disableFollowRedirect
-    .header("Content-Type", "application/x-www-form-urlencoded")
-    .header("Cookie", "Idam.Session=${authCookie}")
-    .header("Content-Length", "0")
-    .check(status is 302)
-    .check(headerRegex("Location", "code=(.*)&client_id").saveAs("code")))
-    .exitHereIfFailed
-
-  .exec(http("OIDC03_Token_CCD")
-    .post(IdamAPI + "/o/token?grant_type=authorization_code&code=${code}&client_id=" + ccdClientId +"&redirect_uri=" + ccdRedirectUri + "&client_secret=" + ccdGatewayClientSecret)
-    .header("Content-Type", "application/x-www-form-urlencoded")
-    .header("Content-Length", "0")
-    .check(status is 200)
-    .check(jsonPath("$.access_token").saveAs("access_token")))
-    .exitHereIfFailed
-
-  .pause(Environment.constantthinkTime)
-
-val ccdCreateCase = 
-
-  exec(_.setAll(  "firstName"  -> ("Perf" + Common.randomString(5)),
-                  "lastName"  -> ("Test" + Common.randomString(5)),
-                  "dobDay" -> Common.getDay(),
-                  "dobMonth" -> Common.getMonth(),
-                  "dobYear" -> Common.getDobYear()))
-
-  .exec(http("API_IAC_GetEventToken")
-    .get(ccdDataStoreUrl + "/caseworkers/${idamId}/jurisdictions/${IACJurisdiction}/case-types/${IACCaseType}/event-triggers/startAppeal/token")
-    .header("ServiceAuthorization", "Bearer ${ccd_dataBearerToken}")
-    .header("Authorization", "Bearer ${access_token}")
-    .header("Content-Type","application/json")
-    .check(jsonPath("$.token").saveAs("eventToken")))
-
-  .exec(http("API_IAC_CreateCase")
-    .post(ccdDataStoreUrl + "/caseworkers/${idamId}/jurisdictions/${IACJurisdiction}/case-types/${IACCaseType}/cases")
-    .header("ServiceAuthorization", "Bearer ${ccd_dataBearerToken}")
-    .header("Authorization", "Bearer ${access_token}")
-    .header("Content-Type","application/json")
-    .body(ElFileBody("IACCreateCaseFeb2022.json"))
-    .check(jsonPath("$.id").saveAs("caseId")))
-
-  .pause(Environment.constantthinkTime)
-
-val ccdSubmitAppeal = 
-
-  exec(http("API_IAC_GetEventToken")
-    .get(ccdDataStoreUrl + "/caseworkers/${idamId}/jurisdictions/${IACJurisdiction}/case-types/${IACCaseType}/cases/${caseId}/event-triggers/submitAppeal/token")
-    .header("ServiceAuthorization", "Bearer ${ccd_dataBearerToken}")
-    .header("Authorization", "Bearer ${access_token}")
-    .header("Content-Type","application/json")
-    .check(jsonPath("$.token").saveAs("eventToken")))
-
-  .exec(http("API_IAC_SubmitAppeal")
-    .post(ccdDataStoreUrl + "/caseworkers/${idamId}/jurisdictions/${IACJurisdiction}/case-types/${IACCaseType}/cases/${caseId}/events")
-    .header("ServiceAuthorization", "Bearer ${ccd_dataBearerToken}")
-    .header("Authorization", "Bearer ${access_token}")
-    .header("Content-Type","application/json")
-    .body(ElFileBody("IACSubmitAppealFeb2022.json")))
-    // .check(jsonPath("$.id").saveAs("caseId")))
-
-  .pause(Environment.constantthinkTime)
-
-val ccdRequestHomeOfficeData =
-
-  exec(http("API_IAC_GetEventToken")
-    .get(ccdDataStoreUrl + "/caseworkers/${idamId}/jurisdictions/${IACJurisdiction}/case-types/${IACCaseType}/cases/${caseId}/event-triggers/requestHomeOfficeData/token")
-    .header("ServiceAuthorization", "Bearer ${ccd_dataBearerToken}")
-    .header("Authorization", "Bearer ${access_token}")
-    .header("Content-Type","application/json")
-    .check(jsonPath("$.token").saveAs("eventToken1")))
-
-  .exec(http("API_IAC_RequestHomeOfficeData")
-    .post(ccdDataStoreUrl + "/caseworkers/${idamId}/jurisdictions/${IACJurisdiction}/case-types/${IACCaseType}/cases/${caseId}/events")
-    .header("ServiceAuthorization", "Bearer ${ccd_dataBearerToken}")
-    .header("Authorization", "Bearer ${access_token}")
-    .header("Content-Type","application/json")
-    .body(ElFileBody("IACRequestHomeOfficeData.json"))
-    .check(jsonPath("$.id").saveAs("caseId")))
-
-  .exec {
-    session =>
-      val fw = new BufferedWriter(new FileWriter("IACSubmittedCaseIds.csv", true))
-      try {
-        fw.write(session("caseId").as[String] + "\r\n")
-      }
-      finally fw.close()
-      session
-  }
+    .exec(http("OIDC03_Token_CCD")
+      .post(IdamAPI + "/o/token?grant_type=authorization_code&code=${code}&client_id=" + ccdClientId +"&redirect_uri=" + ccdRedirectUri + "&client_secret=" + ccdGatewayClientSecret)
+      .header("Content-Type", "application/x-www-form-urlencoded")
+      .header("Content-Length", "0")
+      .check(status is 200)
+      .check(jsonPath("$.access_token").saveAs("access_token")))
+      .exitHereIfFailed
 
     .pause(Environment.constantthinkTime)
+
+  val ccdCreateIACCase = 
+
+    exec(_.setAll(  "firstName"  -> ("Perf" + Common.randomString(5)),
+                    "lastName"  -> ("Test" + Common.randomString(5)),
+                    "dobDay" -> Common.getDay(),
+                    "dobMonth" -> Common.getMonth(),
+                    "dobYear" -> Common.getDobYear()))
+
+    .exec(http("API_IAC_GetEventToken")
+      .get(ccdDataStoreUrl + "/caseworkers/${idamId}/jurisdictions/${IACJurisdiction}/case-types/${IACCaseType}/event-triggers/startAppeal/token")
+      .header("ServiceAuthorization", "Bearer ${ccd_dataBearerToken}")
+      .header("Authorization", "Bearer ${access_token}")
+      .header("Content-Type","application/json")
+      .check(jsonPath("$.token").saveAs("eventToken")))
+
+    .exec(http("API_IAC_CreateCase")
+      .post(ccdDataStoreUrl + "/caseworkers/${idamId}/jurisdictions/${IACJurisdiction}/case-types/${IACCaseType}/cases")
+      .header("ServiceAuthorization", "Bearer ${ccd_dataBearerToken}")
+      .header("Authorization", "Bearer ${access_token}")
+      .header("Content-Type","application/json")
+      .body(ElFileBody("iacBodies/IACCreateCaseFeb2022.json"))
+      .check(jsonPath("$.id").saveAs("caseId")))
+
+    .pause(Environment.constantthinkTime)
+
+  val ccdIACSubmitAppeal = 
+
+    exec(http("API_IAC_GetEventToken")
+      .get(ccdDataStoreUrl + "/caseworkers/${idamId}/jurisdictions/${IACJurisdiction}/case-types/${IACCaseType}/cases/${caseId}/event-triggers/submitAppeal/token")
+      .header("ServiceAuthorization", "Bearer ${ccd_dataBearerToken}")
+      .header("Authorization", "Bearer ${access_token}")
+      .header("Content-Type","application/json")
+      .check(jsonPath("$.token").saveAs("eventToken")))
+
+    .exec(http("API_IAC_SubmitAppeal")
+      .post(ccdDataStoreUrl + "/caseworkers/${idamId}/jurisdictions/${IACJurisdiction}/case-types/${IACCaseType}/cases/${caseId}/events")
+      .header("ServiceAuthorization", "Bearer ${ccd_dataBearerToken}")
+      .header("Authorization", "Bearer ${access_token}")
+      .header("Content-Type","application/json")
+      .body(ElFileBody("iacBodies/IACSubmitAppealFeb2022.json")))
+      // .check(jsonPath("$.id").saveAs("caseId")))
+
+    .pause(Environment.constantthinkTime)
+
+  val ccdIACRequestHomeOfficeData =
+
+    exec(http("API_IAC_GetEventToken")
+      .get(ccdDataStoreUrl + "/caseworkers/${idamId}/jurisdictions/${IACJurisdiction}/case-types/${IACCaseType}/cases/${caseId}/event-triggers/requestHomeOfficeData/token")
+      .header("ServiceAuthorization", "Bearer ${ccd_dataBearerToken}")
+      .header("Authorization", "Bearer ${access_token}")
+      .header("Content-Type","application/json")
+      .check(jsonPath("$.token").saveAs("eventToken1")))
+
+    .exec(http("API_IAC_RequestHomeOfficeData")
+      .post(ccdDataStoreUrl + "/caseworkers/${idamId}/jurisdictions/${IACJurisdiction}/case-types/${IACCaseType}/cases/${caseId}/events")
+      .header("ServiceAuthorization", "Bearer ${ccd_dataBearerToken}")
+      .header("Authorization", "Bearer ${access_token}")
+      .header("Content-Type","application/json")
+      .body(ElFileBody("iacBodies/IACRequestHomeOfficeData.json"))
+      .check(jsonPath("$.id").saveAs("caseId")))
+
+    .exec {
+      session =>
+        val fw = new BufferedWriter(new FileWriter("IACSubmittedCaseIds.csv", true))
+        try {
+          fw.write(session("caseId").as[String] + "\r\n")
+        }
+        finally fw.close()
+        session
+    }
+
+    .pause(Environment.constantthinkTime)
+
+  val civilCreateCase = 
+
+    exec(http("API_Civil_GetEventToken")
+      .get(ccdDataStoreUrl + "/caseworkers/${idamId}/jurisdictions/CIVIL/case-types/CIVIL/event-triggers/CREATE_CLAIM/token")
+      .header("ServiceAuthorization", "Bearer ${ccd_dataBearerToken}")
+      .header("Authorization", "Bearer ${access_token}")
+      .header("Content-Type","application/json")
+      .check(jsonPath("$.token").saveAs("eventToken1")))
+
+    .exec(http("API_Civil_CreateUnspecifiedClaim")
+      .post(ccdDataStoreUrl + "/caseworkers/${idamId}/jurisdictions/CIVIL/case-types/CIVIL/cases/")
+      .header("ServiceAuthorization", "Bearer ${ccd_dataBearerToken}")
+      .header("Authorization", "Bearer ${access_token}")
+      .header("Content-Type","application/json")
+      .body(ElFileBody("civilBodies/CreateSpecifiedClaim.json"))
+      .check(jsonPath("$.id").saveAs("caseId")))
+
+    .exec {
+      session =>
+        val fw = new BufferedWriter(new FileWriter("CivilCreatedCaseIds.csv", true))
+        try {
+          fw.write(session("caseId").as[String] + "\r\n")
+        }
+        finally fw.close()
+        session
+    }
+
+    .pause(Environment.constantthinkTime)
+
+  val civilNotifyClaim = 
+
+    exec(http("API_Civil_GetEventToken")
+      .get(ccdDataStoreUrl + "/caseworkers/${idamId}/jurisdictions/CIVIL/case-types/CIVIL/cases/${caseId}/event-triggers/NOTIFY_DEFENDANT_OF_CLAIM/token")
+      .header("ServiceAuthorization", "Bearer ${ccd_dataBearerToken}")
+      .header("Authorization", "Bearer ${access_token}")
+      .header("Content-Type","application/json")
+      .check(jsonPath("$.token").saveAs("eventToken2")))
+
+    .exec(http("API_Civil_NotifyClaim")
+      .post(ccdDataStoreUrl + "/caseworkers/${idamId}/jurisdictions/CIVIL/case-types/CIVIL/cases/${caseId}/events")
+      .header("ServiceAuthorization", "Bearer ${ccd_dataBearerToken}")
+      .header("Authorization", "Bearer ${access_token}")
+      .header("Content-Type","application/json")
+      .body(ElFileBody("civilBodies/NotifyClaim.json")))
+
+    .pause(Environment.constantthinkTime)
+
+  val civilNotifyClaimDetails = 
+
+    exec(http("API_Civil_GetEventToken")
+      .get(ccdDataStoreUrl + "/caseworkers/${idamId}/jurisdictions/CIVIL/case-types/CIVIL/cases/${caseId}/event-triggers/NOTIFY_DEFENDANT_OF_CLAIM_DETAILS/token")
+      .header("ServiceAuthorization", "Bearer ${ccd_dataBearerToken}")
+      .header("Authorization", "Bearer ${access_token}")
+      .header("Content-Type","application/json")
+      .check(jsonPath("$.token").saveAs("eventToken3")))
+
+    .exec(http("API_Civil_NotifyClaimDetails")
+      .post(ccdDataStoreUrl + "/caseworkers/${idamId}/jurisdictions/CIVIL/case-types/CIVIL/cases/${caseId}/events")
+      .header("ServiceAuthorization", "Bearer ${ccd_dataBearerToken}")
+      .header("Authorization", "Bearer ${access_token}")
+      .header("Content-Type","application/json")
+      .body(ElFileBody("civilBodies/NotifyClaimDetails.json")))
+
+    .pause(Environment.constantthinkTime)
+
+  val civilUpdateDate = 
+
+    exec(http("API_Civil_UpdateDate")
+      .put("http://civil-service-perftest.service.core-compute-perftest.internal/testing-support/case/${caseId}")
+      .header("Authorization", "Bearer ${access_token}")
+      .header("Content-type", "application/json")
+      .body(ElFileBody("civilBodies/UpdateClaimDate.json")))
+
+    .pause(Environment.constantthinkTime)
+
+  val civilRequestDefaultJudgement = 
+
+    exec(http("API_Civil_GetEventToken")
+      .get(ccdDataStoreUrl + "/caseworkers/${idamId}/jurisdictions/CIVIL/case-types/CIVIL/cases/${caseId}/event-triggers/DEFAULT_JUDGEMENT/token")
+      .header("ServiceAuthorization", "Bearer ${ccd_dataBearerToken}")
+      .header("Authorization", "Bearer ${access_token}")
+      .header("Content-Type","application/json")
+      .check(jsonPath("$.token").saveAs("eventToken4")))
+
+    .exec(http("API_Civil_RequestDefaultJudgement")
+      .post(ccdDataStoreUrl + "/caseworkers/${idamId}/jurisdictions/CIVIL/case-types/CIVIL/cases/${caseId}/events")
+      .header("ServiceAuthorization", "Bearer ${ccd_dataBearerToken}")
+      .header("Authorization", "Bearer ${access_token}")
+      .header("Content-Type","application/json")
+      .body(ElFileBody("civilBodies/RequestDefaultJudgement.json")))
+
+    .pause(Environment.constantthinkTime)    
 }

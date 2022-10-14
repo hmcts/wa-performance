@@ -14,26 +14,10 @@
            "values": [
               "assigned"
            ]
-        },
-        {
-           "key": "location",
-           "operator": "IN",
-           "values": [
-              "765324"
-           ]
         }
      ],
-     "sorting_parameters": [
-        {
-           "sort_by": "dueDate",
-           "sort_order": "asc"
-        }
-     ],
-     "search_by": "caseworker",
-     "pagination_parameters": {
-        "page_number": 1,
-        "page_size": 25
-     }
+     "sorting_parameters": [],
+     "search_by": "caseworker"
   },
   "view": "MyTasks"
 }
