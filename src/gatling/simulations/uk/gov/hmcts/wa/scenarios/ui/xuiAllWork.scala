@@ -125,7 +125,7 @@ object xuiAllWork {
         .headers(XUIHeaders.xuiMainHeader))
         
       .exec(http("XUI_001_ViewAllWork_025")
-        .post("/workallocation2/task")
+        .post("/workallocation/task")
         .headers(XUIHeaders.xuiMainHeader) //10
         .header("content-type", "application/json")
         .header("x-xsrf-token", "${xsrfToken}")

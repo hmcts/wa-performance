@@ -1,0 +1,19 @@
+{
+  "data": {
+     "servedDocumentFiles": {
+        "particularsOfClaimText": "perf test claim",
+        "particularsOfClaimDocument": [],
+        "medicalReport": [],
+        "scheduleOfLoss": [],
+        "certificateOfSuitability": [],
+        "other": []
+     }
+  },
+  "event": {
+     "id": "NOTIFY_DEFENDANT_OF_CLAIM_DETAILS",
+     "summary": "",
+     "description": ""
+  },
+  "event_token": "${eventToken3}",
+  "ignore_warning": false
+}

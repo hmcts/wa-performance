@@ -1,0 +1,111 @@
+{
+  "data": {
+     "orderSDODocumentDJ": {
+        "document_url": "${orderSDODocumentDJDocumentURL}",
+        "document_binary_url": "${orderSDODocumentDJDocumentURL}/binary",
+        "document_filename": "${orderSDODocumentDJName}",
+        "document_hash": "${orderSDODocumentDJHash}"
+     }
+  },
+  "event": {
+     "id": "STANDARD_DIRECTION_ORDER_DJ",
+     "summary": "",
+     "description": ""
+  },
+  "event_data": {
+     "applicantVRespondentText": "john smith v steve smith",
+     "caseManagementOrderSelection": "DISPOSAL_HEARING",
+     "disposalHearingOrderAndHearingDetailsDJ": {},
+     "disposalHearingJudgesRecitalDJ": {
+        "input": "Vishal Sahu, Upon considering the claim form and Particulars of Claim/statements of case [and the directions questionnaires] \n\nIT IS ORDERED that:-",
+        "judgeNameTitle": "Vishal Sahu"
+     },
+     "disposalHearingDisclosureOfDocumentsDJToggle": [
+        "SHOW"
+     ],
+     "disposalHearingDisclosureOfDocumentsDJ": {
+        "input": "The parties shall serve on each other copies of the documents upon which reliance is to be placed at the disposal hearing by 4pm on",
+        "date": "${disposalHearingDisclosureOfDocumentsDJdate}"
+     },
+     "disposalHearingWitnessOfFactDJToggle": [
+        "SHOW"
+     ],
+     "disposalHearingWitnessOfFactDJ": {
+        "input1": "The claimant shall serve on every other party the witness statements of all witnesses of fact on whose evidence reliance is to be placed by 4pm on",
+        "date1": "${disposalHearingWitnessOfFactDJdate1}",
+        "input2": "The provisions of CPR 32.6 apply to such evidence.",
+        "input3": "The claimant must upload to the Digital Portal copies of the witness statements of all witnesses whose evidence they wish the court to consider when deciding the amount of damages by by 4pm on",
+        "date2": "${disposalHearingWitnessOfFactDJdate2}",
+        "input4": "The provisions of CPR 32.6 apply to such evidence.",
+        "input5": "Any application by the defendant/s pursuant to CPR 32.7 must be made by 4pm on",
+        "date3": "${disposalHearingWitnessOfFactDJdate3}",
+        "input6": "and must be accompanied by proposed directions for allocation and listing for trial on quantum as cross-examination will result in the hearing exceeding the 30 minute maximum time estimate for a disposal hearing"
+     },
+     "disposalHearingMedicalEvidenceDJToggle": [
+        "SHOW"
+     ],
+     "disposalHearingMedicalEvidenceDJ": {
+        "input1": "The claimant has permission to rely upon the written expert evidence already uploaded to the Digital Portal with the particulars of claim and in addition has permission to rely upon any associated correspondence or updating report which is uploaded to the Digital Portal by 4pm on",
+        "date1": "${disposalHearingMedicalEvidenceDJdate1}"
+     },
+     "disposalHearingQuestionsToExpertsDJToggle": [
+        "SHOW"
+     ],
+     "disposalHearingQuestionsToExpertsDJ": {
+        "date": "${disposalHearingQuestionsToExpertsDJdate}"
+     },
+     "disposalHearingSchedulesOfLossDJToggle": [
+        "SHOW"
+     ],
+     "disposalHearingSchedulesOfLossDJ": {
+        "input1": "If there is a claim for ongoing/future loss in the original schedule of losses then the claimant must send an up to date schedule of loss to the defendant by 4pm on the",
+        "date1": "${disposalHearingSchedulesOfLossDJdate1}",
+        "input2": "If the defendant wants to challenge this claim, they must send an up-to-date counter-schedule of loss to the claimant by 4pm on",
+        "date3": "${disposalHearingSchedulesOfLossDJdate3}",
+        "input3": "If the defendant wants to challenge the sums claimed in the schedule of loss they must upload to the Digital Portal an updated counter schedule of loss by 4pm on",
+        "date2": "${disposalHearingSchedulesOfLossDJdate2}"
+     },
+     "disposalHearingFinalDisposalHearingDJToggle": [
+        "SHOW"
+     ],
+     "disposalHearingFinalDisposalHearingDJ": {
+        "input": "This claim be listed for final disposal before a Judge on the first available date after.",
+        "date": "${disposalHearingFinalDisposalHearingDJdate}",
+        "time": "THIRTY_MINUTES"
+     },
+     "disposalHearingMethodDJ": "disposalHearingMethodInPerson",
+     "disposalHearingMethodInPersonDJ": {
+        "value": {
+           "code": "4ba147ab-0c1c-423b-b6de-9088f2046ae2",
+           "label": "Birmingham Civil and Family Justice Centre - PRIORY COURTS, 33 BULL STREET - B4 6DS"
+        }
+     },
+     "disposalHearingBundleDJToggle": [
+        "SHOW"
+     ],
+     "disposalHearingBundleDJ": {
+        "input": "The claimant must lodge at court at least 7 days before the disposal",
+        "type": "DOCUMENTS"
+     },
+     "disposalHearingClaimSettlingDJToggle": [
+        "SHOW"
+     ],
+     "disposalHearingCostsDJToggle": [
+        "SHOW"
+     ],
+     "disposalHearingNotesDJ": {
+        "input": "This order has been made without a hearing. Each party has the right to apply to have this order set aside or varied. Any such application must be uploaded to the Digital Portal together with payment of any appropriate fee, by 4pm on",
+        "date": "${disposalHearingNotesDJdate}"
+     },
+     "disposalHearingAddNewDirectionsDJ": [],
+     "orderSDODocumentDJ": {
+        "document_url": "${orderSDODocumentDJDocumentURL}",
+        "document_binary_url": "${orderSDODocumentDJDocumentURL}/binary",
+        "document_filename": "${orderSDODocumentDJName}",
+        "document_hash": "${orderSDODocumentDJHash}"
+     }
+  },
+  "event_token": "${eventToken}",
+  "ignore_warning": false,
+  "case_reference": "${caseId}"
+}

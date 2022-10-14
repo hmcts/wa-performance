@@ -38,12 +38,16 @@ class UISimulation extends Simulation  {
   val feedTribunalUserData = csv("WA_TribunalUsers.csv").circular
   val feedJudicialUserData = csv("WA_JudicialUsers.csv").circular
   val feedIACUserData = csv("IACUserData.csv").circular
-  val feedCaseList = csv("WA_R2Cases.csv")
+  val feedCivilUserData = csv("CivilUserData.csv").circular
+  val feedCivilJudgeData = csv("CivilJudicialData.csv").circular
+  val feedIACCaseList = csv("WA_R2Cases.csv")
+  val feedCivilCaseList = csv("CivilCaseData.csv")
 
 	/* PERFORMANCE TEST CONFIGURATION */
 	val assignAndCompleteTargetPerHour: Double = 700
 	val cancelTaskTargetPerHour: Double = 40
 	val iacCreateTargetPerHour: Double = 1500
+  val civilCompleteTargetPerHour: Double = 100
 	val judicialTargetPerHour: Double = 360
 
 	val rampUpDurationMins = 5
@@ -73,29 +77,59 @@ class UISimulation extends Simulation  {
 		println(s"Debug Mode: ${debugMode}")
 	}
 
-  val R2AssignAndCompleteTasks = scenario("Assign a Task and Complete it")
+  val R2AssignAndCompleteTasks = scenario("Assign an IAC Task and Complete it")
     .exitBlockOnFail {
       exec(_.set("env", s"${env}"))
       .exec(xuiwa.manageCasesHomePage)
       .feed(feedTribunalUserData)
       .exec(xuiwa.manageCasesLogin)
       .exec(xuiAllWork.allWorkTasks)
-      .feed(feedCaseList)
+      .feed(feedIACCaseList)
       .exec(xuiAllWork.allWorkViewTask)
       .exec(xuiwa.AssignRoles)
       .exec(xuiwa.RequestRespondentEvidence)
       .exec(xuiwa.XUILogout)
     }
 
-  val CreateTaskFromCCD = scenario("Creates cases & tasks for Task Manager searches/rendering")
+  val CivilAssignAndCompleteTask = scenario("Assign a Civil Task and Complete it")
+    .exitBlockOnFail {
+      exec(_.set("env", s"${env}"))
+      .exec(xuiwa.manageCasesHomePage)
+      .feed(feedCivilJudgeData)
+      .exec(xuiwa.manageCasesLogin)
+      .exec(xuiAllWork.allWorkTasks)
+      .feed(feedCivilCaseList)
+      .exec(xuiSearchChallengedAccess.GlobalSearch)
+      // .exec(xuiSearchChallengedAccess.ChallengedAccess)
+      .exec(xuiSearchChallengedAccess.ViewCase)
+      .exec(xuiwa.XUILogout)
+    }
+
+  val CreateIACTaskFromCCD = scenario("Creates IAC cases & tasks for Task Manager")
     .exitBlockOnFail {
       exec(_.set("env", s"${env}"))
       .feed(feedIACUserData)
       .exec(S2S.s2s("ccd_data"))
       .exec(IdamLogin.GetIdamToken)
-      .exec(ccddatastore.ccdCreateCase)
-      .exec(ccddatastore.ccdSubmitAppeal)
-      .exec(ccddatastore.ccdRequestHomeOfficeData)
+      .exec(ccddatastore.ccdCreateIACCase)
+      .exec(ccddatastore.ccdIACSubmitAppeal)
+      .exec(ccddatastore.ccdIACRequestHomeOfficeData)
+    }
+
+  val CreateCivilTaskFromCCD = scenario("Creates Civil case, case events & task for Task Manager")
+    .exitBlockOnFail {
+      exec(_.set("env", s"${env}"))
+      .feed(feedCivilUserData)
+      .exec(S2S.s2s("ccd_data"))
+      .exec(IdamLogin.GetIdamToken)
+      // .repeat(5) {
+      //   exec(ccddatastore.civilCreateCase)
+      // }
+      .feed(feedCivilCaseList)
+      // .exec(ccddatastore.civilNotifyClaim)
+      // .exec(ccddatastore.civilNotifyClaimDetails)
+      // .exec(ccddatastore.civilUpdateDate)
+      .exec(ccddatastore.civilRequestDefaultJudgement)
     }
 
 
@@ -176,10 +210,12 @@ class UISimulation extends Simulation  {
   }
   
   setUp(
-    R2AssignAndCompleteTasks.inject(simulationProfile(testType, assignAndCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    R2CancelTask.inject(simulationProfile(testType, cancelTaskTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    CreateTaskFromCCD.inject(simulationProfile(testType, iacCreateTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    R2JudicialUserJourney.inject(simulationProfile(testType, judicialTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
+    // R2AssignAndCompleteTasks.inject(simulationProfile(testType, assignAndCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // R2CancelTask.inject(simulationProfile(testType, cancelTaskTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // CreateIACTaskFromCCD.inject(simulationProfile(testType, iacCreateTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // R2JudicialUserJourney.inject(simulationProfile(testType, judicialTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
+    CivilAssignAndCompleteTask.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // CreateCivilTaskFromCCD.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     )
     .maxDuration(60 minutes)
     .protocols(httpProtocol)

@@ -1,0 +1,10 @@
+{
+  "data": {},
+  "event": {
+     "id": "NOTIFY_DEFENDANT_OF_CLAIM",
+     "summary": "",
+     "description": ""
+  },
+  "event_token": "${eventToken2}",
+  "ignore_warning": false
+}

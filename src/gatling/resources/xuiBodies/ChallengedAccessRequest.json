@@ -1,0 +1,33 @@
+{
+  "roleRequest": {
+     "assignerId": "${idamId}",
+     "process": "challenged-access",
+     "reference": "${caseId}/challenged-access-legal-ops/${idamId}",
+     "replaceExisting": true
+  },
+  "requestedRoles": [
+     {
+        "actorIdType": "IDAM",
+        "actorId": "${idamId}",
+        "roleType": "CASE",
+        "roleName": "challenged-access-legal-ops",
+        "classification": "PUBLIC",
+        "roleCategory": "LEGAL_OPERATIONS",
+        "grantType": "CHALLENGED",
+        "beginTime": "2022-10-10T14:11:25.378Z",
+        "endTime": "2022-10-10T23:59:59.999Z",
+        "attributes": {
+           "caseId": "${caseId}",
+           "isNew": true,
+           "accessReason": "{\"reason\":3,\"caseReference\":null,\"otherReason\":\"Perf test challenged access\"}"
+        },
+        "notes": [
+           {
+              "userId": "${idamId}",
+              "time": "2022-10-10T14:11:25.378Z",
+              "comment": "{\"reason\":3,\"caseReference\":null,\"otherReason\":\"Perf test challenged access\"}"
+           }
+        ]
+     }
+  ]
+}
