@@ -149,6 +149,7 @@ object xuiwa {
     .exitHereIfFailed
 
     .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain("manage-case.perftest.platform.hmcts.net").saveAs("xsrfToken")))
+    .exec(getCookieValue(CookieKey("__auth__").saveAs("bearerToken")))
 
     .pause(Environment.constantthinkTime)
 

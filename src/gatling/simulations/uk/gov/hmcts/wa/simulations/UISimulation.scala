@@ -39,9 +39,10 @@ class UISimulation extends Simulation  {
   val feedJudicialUserData = csv("WA_JudicialUsers.csv").circular
   val feedIACUserData = csv("IACUserData.csv").circular
   val feedCivilUserData = csv("CivilUserData.csv").circular
-  val feedCivilJudgeData = csv("CivilJudicialData.csv").circular
+  val feedCivilJudgeData = csv("CivilJudicialUserData.csv").circular
   val feedIACCaseList = csv("WA_R2Cases.csv")
   val feedCivilCaseList = csv("CivilCaseData.csv")
+  val feedCivilJudicialCases = csv("CivilJudicialCaseData.csv")
 
 	/* PERFORMANCE TEST CONFIGURATION */
 	val assignAndCompleteTargetPerHour: Double = 700
@@ -98,10 +99,16 @@ class UISimulation extends Simulation  {
       .feed(feedCivilJudgeData)
       .exec(xuiwa.manageCasesLogin)
       .exec(xuiAllWork.allWorkTasks)
-      .feed(feedCivilCaseList)
+      .feed(feedCivilJudicialCases)
       .exec(xuiSearchChallengedAccess.GlobalSearch)
-      // .exec(xuiSearchChallengedAccess.ChallengedAccess)
+      .doIf(session => session("accessRequired").as[String].equals("Vector(CHALLENGED)")) {
+        exec(xuiSearchChallengedAccess.ChallengedAccess)
+      }
       .exec(xuiSearchChallengedAccess.ViewCase)
+      .doIf("${taskId.exists()}") {
+        exec(xuiJudicialTask.AssignTask)
+        .exec(xuiJudicialTask.StandardDirectionOrder)
+      }
       .exec(xuiwa.XUILogout)
     }
 
@@ -117,20 +124,21 @@ class UISimulation extends Simulation  {
     }
 
   val CreateCivilTaskFromCCD = scenario("Creates Civil case, case events & task for Task Manager")
-    .exitBlockOnFail {
-      exec(_.set("env", s"${env}"))
+    // .exitBlockOnFail {
+      .exec(_.set("env", s"${env}"))
       .feed(feedCivilUserData)
       .exec(S2S.s2s("ccd_data"))
       .exec(IdamLogin.GetIdamToken)
-      // .repeat(5) {
-      //   exec(ccddatastore.civilCreateCase)
-      // }
-      .feed(feedCivilCaseList)
+      .repeat(1) {
+        // exec(ccddatastore.civilCreateCase)
+      
+      feed(feedCivilCaseList)
       // .exec(ccddatastore.civilNotifyClaim)
       // .exec(ccddatastore.civilNotifyClaimDetails)
       // .exec(ccddatastore.civilUpdateDate)
       .exec(ccddatastore.civilRequestDefaultJudgement)
-    }
+      }
+    // }
 
 
   val R2CancelTask = scenario("Cancel a Task")
