@@ -2,7 +2,7 @@
   "roleRequest": {
      "assignerId": "${idamId}",
      "process": "challenged-access",
-     "reference": "${caseId}/challenged-access-legal-ops/${idamId}",
+     "reference": "${caseId}/challenged-access-judiciary/${idamId}",
      "replaceExisting": true
   },
   "requestedRoles": [
@@ -10,22 +10,22 @@
         "actorIdType": "IDAM",
         "actorId": "${idamId}",
         "roleType": "CASE",
-        "roleName": "challenged-access-legal-ops",
+        "roleName": "challenged-access-judiciary",
         "classification": "PUBLIC",
-        "roleCategory": "LEGAL_OPERATIONS",
+        "roleCategory": "JUDICIAL",
         "grantType": "CHALLENGED",
-        "beginTime": "2022-10-10T14:11:25.378Z",
-        "endTime": "2022-10-10T23:59:59.999Z",
+        "beginTime": "${currentDate}T14:33:21.148Z",
+        "endTime": "${currentDate}T23:59:59.999Z",
         "attributes": {
            "caseId": "${caseId}",
            "isNew": true,
-           "accessReason": "{\"reason\":3,\"caseReference\":null,\"otherReason\":\"Perf test challenged access\"}"
+           "accessReason": "{\"reason\":1,\"caseReference\":null,\"otherReason\":null}"
         },
         "notes": [
            {
               "userId": "${idamId}",
-              "time": "2022-10-10T14:11:25.378Z",
-              "comment": "{\"reason\":3,\"caseReference\":null,\"otherReason\":\"Perf test challenged access\"}"
+              "time": "${currentDate}T14:33:21.148Z",
+              "comment": "{\"reason\":1,\"caseReference\":null,\"otherReason\":null}"
            }
         ]
      }

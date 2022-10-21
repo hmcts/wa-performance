@@ -2,7 +2,6 @@ package uk.gov.hmcts.wa.scenarios.utils
 
 object XUIHeaders {
 
- val baseURL = Environment.baseURL
  val IdamUrl = Environment.idamURL
 
  val headers_0 = Map(
