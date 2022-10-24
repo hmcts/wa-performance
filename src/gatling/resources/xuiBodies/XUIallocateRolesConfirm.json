@@ -11,7 +11,7 @@
   "durationOfRole": "Indefinite",
   "action": "allocate",
   "period": {
-     "startDate": "2022-02-28T00:00:00.000Z",
+     "startDate": "${currentDate}T00:00:00.000Z",
      "endDate": null
   },
   "lastError": null,

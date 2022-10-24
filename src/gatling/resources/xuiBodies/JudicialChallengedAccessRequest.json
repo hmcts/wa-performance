@@ -2,7 +2,7 @@
   "roleRequest": {
      "assignerId": "${idamId}",
      "process": "challenged-access",
-     "reference": "${caseId}/challenged-access/${idamId}",
+     "reference": "${caseId}/challenged-access-judiciary/${idamId}",
      "replaceExisting": true
   },
   "requestedRoles": [
@@ -10,9 +10,9 @@
         "actorIdType": "IDAM",
         "actorId": "${idamId}",
         "roleType": "CASE",
-        "roleName": "challenged-access",
+        "roleName": "challenged-access-judiciary",
         "classification": "PUBLIC",
-        "roleCategory": "LEGAL-OPS",
+        "roleCategory": "JUDICIAL",
         "grantType": "CHALLENGED",
         "beginTime": "${currentDate}T14:33:21.148Z",
         "endTime": "${currentDate}T23:59:59.999Z",
