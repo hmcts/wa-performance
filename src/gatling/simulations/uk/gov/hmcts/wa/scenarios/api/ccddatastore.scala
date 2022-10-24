@@ -26,52 +26,14 @@ object ccddatastore {
   // val ccdScope = "openid profile authorities acr roles" //aat
   val ccdGatewayClientSecret = config.getString("ccdGatewayCS")
 
-  val ccdIdamLogin =
-
-    exec(http("GetS2SToken")
-      .post(s2sUrl + "/testing-support/lease")
-      .header("Content-Type", "application/json")
-      .body(StringBody("{\"microservice\":\"ccd_data\"}"))
-      .check(bodyString.saveAs("bearerToken")))
-      .exitHereIfFailed
-
-    .exec(http("OIDC01_Authenticate")
-      .post(IdamAPI + "/authenticate")
-      .header("Content-Type", "application/x-www-form-urlencoded")
-      .formParam("username", "${email}")
-      .formParam("password", "${password}")
-      .formParam("redirectUri", ccdRedirectUri)
-      .formParam("originIp", "0:0:0:0:0:0:0:1")
-      .check(status is 200)
-      .check(headerRegex("Set-Cookie", "Idam.Session=(.*)").saveAs("authCookie")))
-      .exitHereIfFailed
-
-    .exec(http("OIDC02_Authorize_CCD")
-      .post(IdamAPI + "/o/authorize?response_type=code&client_id=" + ccdClientId + "&redirect_uri=" + ccdRedirectUri + "&scope=" + ccdScope).disableFollowRedirect
-      .header("Content-Type", "application/x-www-form-urlencoded")
-      .header("Cookie", "Idam.Session=${authCookie}")
-      .header("Content-Length", "0")
-      .check(status is 302)
-      .check(headerRegex("Location", "code=(.*)&client_id").saveAs("code")))
-      .exitHereIfFailed
-
-    .exec(http("OIDC03_Token_CCD")
-      .post(IdamAPI + "/o/token?grant_type=authorization_code&code=${code}&client_id=" + ccdClientId +"&redirect_uri=" + ccdRedirectUri + "&client_secret=" + ccdGatewayClientSecret)
-      .header("Content-Type", "application/x-www-form-urlencoded")
-      .header("Content-Length", "0")
-      .check(status is 200)
-      .check(jsonPath("$.access_token").saveAs("access_token")))
-      .exitHereIfFailed
-
-    .pause(Environment.constantthinkTime)
-
   val ccdCreateIACCase = 
 
     exec(_.setAll(  "firstName"  -> ("Perf" + Common.randomString(5)),
                     "lastName"  -> ("Test" + Common.randomString(5)),
                     "dobDay" -> Common.getDay(),
                     "dobMonth" -> Common.getMonth(),
-                    "dobYear" -> Common.getDobYear()))
+                    "dobYear" -> Common.getDobYear(),
+                    "todayDate" -> Common.getDate()))
 
     .exec(http("API_IAC_GetEventToken")
       .get(ccdDataStoreUrl + "/caseworkers/${idamId}/jurisdictions/${IACJurisdiction}/case-types/${IACCaseType}/event-triggers/startAppeal/token")
@@ -85,7 +47,7 @@ object ccddatastore {
       .header("ServiceAuthorization", "Bearer ${ccd_dataBearerToken}")
       .header("Authorization", "Bearer ${access_token}")
       .header("Content-Type","application/json")
-      .body(ElFileBody("iacBodies/IACCreateCaseFeb2022.json"))
+      .body(ElFileBody("iacBodies/IACCreateCase.json"))
       .check(jsonPath("$.id").saveAs("caseId")))
 
     .pause(Environment.constantthinkTime)
@@ -104,7 +66,7 @@ object ccddatastore {
       .header("ServiceAuthorization", "Bearer ${ccd_dataBearerToken}")
       .header("Authorization", "Bearer ${access_token}")
       .header("Content-Type","application/json")
-      .body(ElFileBody("iacBodies/IACSubmitAppealFeb2022.json")))
+      .body(ElFileBody("iacBodies/IACSubmitAppeal.json")))
       // .check(jsonPath("$.id").saveAs("caseId")))
 
     .pause(Environment.constantthinkTime)

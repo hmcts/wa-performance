@@ -148,24 +148,12 @@ object xuiAllWork {
         .get("/auth/isAuthenticated")
         .headers(XUIHeaders.xuiMainHeader))
 
-      .exec(http("XUI_002_ViewTask_015")
-        .get("/api/healthCheck?path=%2Fcases%2Fcase-details%2F${caseId}%2Ftasks")
-        .headers(XUIHeaders.xuiMainHeader))
+      // .exec(http("XUI_002_ViewTask_015")
+      //   .get("/api/healthCheck?path=%2Fcases%2Fcase-details%2F${caseId}%2Ftasks")
+      //   .headers(XUIHeaders.xuiMainHeader))
 
       .exec(http("XUI_002_ViewTask_020")
         .get("/data/internal/cases/${caseId}")
-        .headers(XUIHeaders.xuiMainHeader))
-
-      .exec(http("XUI_002_ViewTask_025")
-        .get("/api/user/details")
-        .headers(XUIHeaders.xuiMainHeader))
-
-      .exec(http("XUI_002_ViewTask_030")
-        .get("/api/user/details")
-        .headers(XUIHeaders.xuiMainHeader))
-
-      .exec(http("XUI_002_ViewTask_035")
-        .get("/api/user/details")
         .headers(XUIHeaders.xuiMainHeader))
         
       .exec(http("XUI_002_ViewTask_040")

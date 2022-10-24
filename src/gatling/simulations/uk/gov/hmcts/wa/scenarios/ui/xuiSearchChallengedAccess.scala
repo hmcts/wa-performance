@@ -46,7 +46,7 @@ object xuiSearchChallengedAccess {
       .header("content-type", "application/json")
       .header("x-xsrf-token", "${xsrfToken}")
 			.body(ElFileBody("xuiBodies/GlobalSearchRequest.json"))
-      .check(jsonPath("$.results[*].processForAccess").findAll.optional.saveAs("accessRequired")))
+      .check(jsonPath("$.results[*].processForAccess").optional.saveAs("accessRequired")))
             		
 		.exec(http("XUI_GlobalSearch_020_IsAuthenticated")
 			.get("/auth/isAuthenticated")
@@ -71,6 +71,27 @@ object xuiSearchChallengedAccess {
     //     println(session)
     //     session
     // }
+
+  val JudicialChallengedAccess =
+
+    exec(_.setAll(
+      "currentDate" -> (Common.getDate)
+      ))
+
+    .exec(http("XUI_RequestChallengedAccess_Request")
+			.post("/api/challenged-access-request")
+			.headers(XUIHeaders.xuiMainHeader)
+      .header("accept", "application/json, text/plain, */*")
+      .header("content-type", "application/json")
+      .header("x-xsrf-token", "${xsrfToken}")
+			.body(ElFileBody("xuiBodies/JudicialChallengedAccessRequest.json")))
+
+    .exec(http("XUI_RequestChallengedAccess_UserDetails")
+			.get("/api/user/details")
+			.headers(XUIHeaders.xuiMainHeader)
+      .header("accept", "application/json, text/plain, */*"))
+
+    .pause(Environment.constantthinkTime)
 
   val ChallengedAccess =
 

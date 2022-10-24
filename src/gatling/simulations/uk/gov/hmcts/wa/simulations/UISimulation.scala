@@ -84,10 +84,17 @@ class UISimulation extends Simulation  {
       .exec(xuiwa.manageCasesHomePage)
       .feed(feedTribunalUserData)
       .exec(xuiwa.manageCasesLogin)
-      .exec(xuiAllWork.allWorkTasks)
+      // .exec(xuiAllWork.allWorkTasks)
       .feed(feedIACCaseList)
-      .exec(xuiAllWork.allWorkViewTask)
+      .exec(_.set("jurisdiction", "IA"))
+      .exec(xuiSearchChallengedAccess.GlobalSearch)
+      .doIf(session => session("accessRequired").as[String].equals("CHALLENGED")) {
+        exec(xuiSearchChallengedAccess.ChallengedAccess)
+      }
+      .exec(xuiSearchChallengedAccess.ViewCase)
+      .exec(xuiwa.ViewTasksTab)
       .exec(xuiwa.AssignRoles)
+      .exec(xuiwa.AssignTask)
       .exec(xuiwa.RequestRespondentEvidence)
       .exec(xuiwa.XUILogout)
     }
@@ -100,9 +107,10 @@ class UISimulation extends Simulation  {
       .exec(xuiwa.manageCasesLogin)
       .exec(xuiAllWork.allWorkTasks)
       .feed(feedCivilJudicialCases)
+      .exec(_.set("jurisdiction", "CIVIL"))
       .exec(xuiSearchChallengedAccess.GlobalSearch)
-      .doIf(session => session("accessRequired").as[String].equals("Vector(CHALLENGED)")) {
-        exec(xuiSearchChallengedAccess.ChallengedAccess)
+      .doIf(session => session("accessRequired").as[String].equals("CHALLENGED")) {
+        exec(xuiSearchChallengedAccess.JudicialChallengedAccess)
       }
       .exec(xuiSearchChallengedAccess.ViewCase)
       .doIf("${taskId.exists()}") {
@@ -220,9 +228,9 @@ class UISimulation extends Simulation  {
   setUp(
     // R2AssignAndCompleteTasks.inject(simulationProfile(testType, assignAndCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     // R2CancelTask.inject(simulationProfile(testType, cancelTaskTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    // CreateIACTaskFromCCD.inject(simulationProfile(testType, iacCreateTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    CreateIACTaskFromCCD.inject(simulationProfile(testType, iacCreateTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     // R2JudicialUserJourney.inject(simulationProfile(testType, judicialTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
-    CivilAssignAndCompleteTask.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // CivilAssignAndCompleteTask.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     // CreateCivilTaskFromCCD.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     )
     .maxDuration(60 minutes)
