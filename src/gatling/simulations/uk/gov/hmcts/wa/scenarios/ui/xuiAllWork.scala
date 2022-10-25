@@ -200,10 +200,6 @@ object xuiAllWork {
         .get("/auth/isAuthenticated")
         .headers(XUIHeaders.xuiMainHeader))
       
-      .exec(http("XUI_Judicial_001_ViewAllWork_010")
-        .get("/api/healthCheck?path=%2Fwork%2Fall-work%2Ftasks")
-        .headers(XUIHeaders.xuiMainHeader))
-
       .exec(http("XUI_Judicial_001_ViewAllWork_015")
         .get("/api/wa-supported-jurisdiction/get")
         .headers(XUIHeaders.xuiMainHeader))
@@ -213,7 +209,7 @@ object xuiAllWork {
         .headers(XUIHeaders.xuiMainHeader))
         
       .exec(http("XUI_Judicial_001_ViewAllWork_025")
-        .post("/workallocation2/task")
+        .post("/workallocation/task")
         .headers(XUIHeaders.xuiMainHeader) //10
         .header("content-type", "application/json")
         .header("x-xsrf-token", "${xsrfToken}")
@@ -272,37 +268,9 @@ object xuiAllWork {
         .get("/api/monitoring-tools")
         .headers(XUIHeaders.xuiMainHeader))
         
-      .exec(http("XUI_Judicial_002_OpenCase_045")
-        .get("/api/healthCheck?path=%2Fcases%2Fcase-details%2F${caseId}%23overview")
-        .headers(XUIHeaders.xuiMainHeader))
-        
       .exec(http("XUI_Judicial_002_OpenCase_050")
         .get("/data/internal/cases/${caseId}")
         .headers(XUIHeaders.xuiMainHeader)) //29
-
-      .exec(http("XUI_Judicial_002_OpenCase_055")
-        .get("/api/user/details")
-        .headers(XUIHeaders.xuiMainHeader))
-        
-      .exec(http("XUI_Judicial_002_OpenCase_060")
-        .get("/api/healthCheck?path=%2Fcases%2Fcase-details%2F${caseId}")
-        .headers(XUIHeaders.xuiMainHeader))
-      
-      .exec(http("XUI_Judicial_002_OpenCase_065")
-        .get("/data/internal/cases/${caseId}")
-        .headers(XUIHeaders.xuiMainHeader))
-
-      .exec(http("XUI_Judicial_002_OpenCase_070")
-        .get("/api/user/details")
-        .headers(XUIHeaders.xuiMainHeader))
-
-      .exec(http("XUI_Judicial_002_OpenCase_075")
-        .get("/api/healthCheck?path=%2Fcases%2Fcase-details%2F${caseId}%23Overview")
-        .headers(XUIHeaders.xuiMainHeader))
-
-      .exec(http("XUI_Judicial_002_OpenCase_080")
-        .get("/api/user/details")
-        .headers(XUIHeaders.xuiMainHeader))
     }
 
 		.pause(Environment.constantthinkTime)
@@ -310,11 +278,7 @@ object xuiAllWork {
   val judicialUserAllocateRole = 
       
     group("XUI_Judicial_003_AddRole") {
-      exec(http("XUI_Judicial_003_AddRole_005")
-        .get("/api/healthCheck?path=%2Fcases%2Fcase-details%2F${caseId}%2Froles-and-access")
-        .headers(XUIHeaders.xuiMainHeader))
-
-      .exec(http("XUI_Judicial_003_AddRole_010")
+      exec(http("XUI_Judicial_003_AddRole_010")
         .get("/data/internal/cases/${caseId}")
         .headers(XUIHeaders.xuiMainHeader))
 
@@ -338,10 +302,6 @@ object xuiAllWork {
 
       .exec(http("XUI_Judicial_003_AddRole_030")
         .get("/auth/isAuthenticated")
-        .headers(XUIHeaders.xuiMainHeader))
-
-      .exec(http("XUI_Judicial_003_AddRole_035")
-        .get("/api/healthCheck?path=%2Frole-access%2Fallocate-role%2Fallocate%3FcaseId%3D${caseId}%26jurisdiction%3DIA%26roleCategory%3DJUDICIAL")
         .headers(XUIHeaders.xuiMainHeader))
 
       .exec(http("XUI_Judicial_003_AddRole_040")
@@ -374,10 +334,6 @@ object xuiAllWork {
         .get("/auth/isAuthenticated")
         .headers(XUIHeaders.xuiMainHeader))
 
-      .exec(http("XUI_Judicial_004_ConfirmRoleAllocation_015")
-        .get("/api/healthCheck?path=%2Fcases%2Fcase-details%2F${caseId}%2Froles-and-access")
-        .headers(XUIHeaders.xuiMainHeader))
-        
       .exec(http("XUI_Judicial_004_ConfirmRoleAllocation_020")
         .get("/api/user/details")
         .headers(XUIHeaders.xuiMainHeader))
@@ -413,10 +369,6 @@ object xuiAllWork {
         .get("/auth/isAuthenticated")
         .headers(XUIHeaders.xuiMainHeader))
 
-      .exec(http("XUI_Judicial_005_RemoveRole_010")
-        .get("/api/healthCheck?path=%2Frole-access%2Fallocate-role%2Fremove%3FcaseId%3D${caseId}%26assignmentId%3D${roleAllocateId}%26caseType%3DAsylum%26jurisdiction%3DIA%26typeOfRole%3Dlead-judge%26roleCategory%3DJUDICIAL%26actorId%3D${idamId}")
-        .headers(XUIHeaders.xuiMainHeader))
-
       .exec(http("XUI_Judicial_005_RemoveRole_015")
         .get("/api/user/details")
         .headers(XUIHeaders.xuiMainHeader))
@@ -450,10 +402,6 @@ object xuiAllWork {
         .get("/auth/isAuthenticated")
         .headers(XUIHeaders.xuiMainHeader))
 
-      .exec(http("XUI_Judicial_006_ConfirmRemoveRole_015")
-        .get("/api/healthCheck?path=%2Fcases%2Fcase-details%2F${caseId}%2Froles-and-access")
-        .headers(XUIHeaders.xuiMainHeader))
-        
       .exec(http("XUI_Judicial_006_ConfirmRemoveRole_020")
         .get("/api/user/details")
         .headers(XUIHeaders.xuiMainHeader))
