@@ -328,11 +328,11 @@ object xuiwa {
         .headers(XUIHeaders.xuiMainHeader))
 
       .exec(http("XUI_OpenTask_010_GetRoles")
-        .get("/workallocation2/task/${taskId}/roles")
+        .get("/workallocation/task/${taskId}/roles")
         .headers(XUIHeaders.xuiMainHeader))
 
       .exec(http("XUI_OpenTask_015")
-        .get("/workallocation2/task/${taskId}")
+        .get("/workallocation/task/${taskId}")
         .headers(XUIHeaders.xuiMainHeader))
     }
 
@@ -340,16 +340,12 @@ object xuiwa {
 
     .group("XUI_CancelTask") {
       exec(http("XUI_CancelTask_005_Cancel")
-        .post("/workallocation2/task/${taskId}/cancel")
+        .post("/workallocation/task/${taskId}/cancel")
         .headers(XUIHeaders.xuiMainHeader)
         .header("content-type", "application/json")
         .header("x-xsrf-token", "${xsrfToken}")
         .body(StringBody("{}")))
 
-      .exec(http("XUI_CancelTask_010_Healthcheck")
-        .get("/api/healthCheck?path=%2Fwork%2Fall-work%2Ftasks")
-        .headers(XUIHeaders.xuiMainHeader))
-        
       .exec(http("XUI_CancelTask_015_GetJurisdictions")
         .get("/api/wa-supported-jurisdiction/get")
         .headers(XUIHeaders.xuiMainHeader))
@@ -359,7 +355,7 @@ object xuiwa {
         .headers(XUIHeaders.xuiMainHeader))
 
       .exec(http("XUI_CancelTask_025_AllWork")
-        .post("/workallocation2/task")
+        .post("/workallocation/task")
         .headers(XUIHeaders.xuiMainHeader)
         .header("content-type", "application/json")
         .header("x-xsrf-token", "${xsrfToken}")

@@ -129,6 +129,35 @@ object ccddatastore {
 
     .pause(Environment.constantthinkTime)
 
+  val civilCreateCaseGA = 
+
+    exec(http("API_Civil_GetEventToken")
+      .get(ccdDataStoreUrl + "/caseworkers/${idamId}/jurisdictions/CIVIL/case-types/CIVIL/event-triggers/CREATE_CLAIM/token")
+      .header("ServiceAuthorization", "Bearer ${ccd_dataBearerToken}")
+      .header("Authorization", "Bearer ${access_token}")
+      .header("Content-Type","application/json")
+      .check(jsonPath("$.token").saveAs("eventToken1")))
+
+    .exec(http("API_Civil_CreateUnspecifiedClaim")
+      .post(ccdDataStoreUrl + "/caseworkers/${idamId}/jurisdictions/CIVIL/case-types/CIVIL/cases/")
+      .header("ServiceAuthorization", "Bearer ${ccd_dataBearerToken}")
+      .header("Authorization", "Bearer ${access_token}")
+      .header("Content-Type","application/json")
+      .body(ElFileBody("civilBodies/CreateSpecifiedClaimGA.json"))
+      .check(jsonPath("$.id").saveAs("caseId")))
+
+    .exec {
+      session =>
+        val fw = new BufferedWriter(new FileWriter("CivilCreatedCaseIdsGA.csv", true))
+        try {
+          fw.write(session("caseId").as[String] + "\r\n")
+        }
+        finally fw.close()
+        session
+    }
+
+    .pause(Environment.constantthinkTime)
+
   val civilNotifyClaim = 
 
     exec(http("API_Civil_GetEventToken")
@@ -191,5 +220,23 @@ object ccddatastore {
       .header("Content-Type","application/json")
       .body(ElFileBody("civilBodies/RequestDefaultJudgement.json")))
 
-    .pause(Environment.constantthinkTime)    
+    .pause(Environment.constantthinkTime)
+
+  val civilCreateGeneralApplication = 
+
+    exec(http("API_Civil_GetEventToken")
+      .get(ccdDataStoreUrl + "/caseworkers/${idamId}/jurisdictions/CIVIL/case-types/CIVIL/cases/${caseId}/event-triggers/DEFAULT_JUDGEMENT/token")
+      .header("ServiceAuthorization", "Bearer ${ccd_dataBearerToken}")
+      .header("Authorization", "Bearer ${access_token}")
+      .header("Content-Type","application/json")
+      .check(jsonPath("$.token").saveAs("eventToken4")))
+
+    .exec(http("API_Civil_RequestDefaultJudgement")
+      .post(ccdDataStoreUrl + "/caseworkers/${idamId}/jurisdictions/CIVIL/case-types/CIVIL/cases/${caseId}/events")
+      .header("ServiceAuthorization", "Bearer ${ccd_dataBearerToken}")
+      .header("Authorization", "Bearer ${access_token}")
+      .header("Content-Type","application/json")
+      .body(ElFileBody("civilBodies/RequestDefaultJudgement.json")))
+
+    .pause(Environment.constantthinkTime)
 }
