@@ -45,11 +45,11 @@ class UISimulation extends Simulation  {
   val feedCivilJudicialCases = csv("CivilJudicialCaseData.csv")
 
 	/* PERFORMANCE TEST CONFIGURATION */
-	val assignAndCompleteTargetPerHour: Double = 700
-	val cancelTaskTargetPerHour: Double = 40
-	val iacCreateTargetPerHour: Double = 1500
-  val civilCompleteTargetPerHour: Double = 100
-	val judicialTargetPerHour: Double = 360
+	val assignAndCompleteTargetPerHour: Double = 70 //700
+	val cancelTaskTargetPerHour: Double = 4 //40
+	val iacCreateTargetPerHour: Double = 150 //1500
+  val civilCompleteTargetPerHour: Double = 10 //100
+	val judicialTargetPerHour: Double = 36 //360
 
 	val rampUpDurationMins = 5
 	val rampDownDurationMins = 5
@@ -131,20 +131,39 @@ class UISimulation extends Simulation  {
       .exec(ccddatastore.ccdIACRequestHomeOfficeData)
     }
 
-  val CreateCivilTaskFromCCD = scenario("Creates Civil case, case events & task for Task Manager")
+  val CreateCivilDJTaskFromCCD = scenario("Creates Civil case, case events & a Default Judgement task for Judicial User")
+    .exitBlockOnFail {
+      exec(_.set("env", s"${env}"))
+      .feed(feedCivilUserData)
+      .exec(S2S.s2s("ccd_data"))
+      .exec(IdamLogin.GetIdamToken)
+      .repeat(1) {
+        exec(ccddatastore.civilCreateCase)
+        .pause(60)
+        // .feed(feedCivilCaseList)
+        .exec(ccddatastore.civilNotifyClaim)
+        .pause(60)
+        .exec(ccddatastore.civilNotifyClaimDetails)
+        .pause(60)
+        .exec(ccddatastore.civilUpdateDate)
+        .exec(ccddatastore.civilRequestDefaultJudgement)
+      }
+    }
+
+  val CreateCivilGATaskFromCCD = scenario("Creates Civil case, case events & a General Application task for Admin User")
     // .exitBlockOnFail {
       .exec(_.set("env", s"${env}"))
       .feed(feedCivilUserData)
       .exec(S2S.s2s("ccd_data"))
       .exec(IdamLogin.GetIdamToken)
       .repeat(1) {
-        // exec(ccddatastore.civilCreateCase)
+        // exec(ccddatastore.civilCreateCaseGA)
       
       feed(feedCivilCaseList)
       // .exec(ccddatastore.civilNotifyClaim)
       // .exec(ccddatastore.civilNotifyClaimDetails)
-      // .exec(ccddatastore.civilUpdateDate)
-      .exec(ccddatastore.civilRequestDefaultJudgement)
+      .exec(ccddatastore.civilUpdateDate)
+      // .exec(ccddatastore.civilRequestDefaultJudgement)
       }
     // }
 
@@ -226,12 +245,12 @@ class UISimulation extends Simulation  {
   }
   
   setUp(
-    // R2AssignAndCompleteTasks.inject(simulationProfile(testType, assignAndCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    // R2CancelTask.inject(simulationProfile(testType, cancelTaskTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    R2AssignAndCompleteTasks.inject(simulationProfile(testType, assignAndCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    R2CancelTask.inject(simulationProfile(testType, cancelTaskTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     CreateIACTaskFromCCD.inject(simulationProfile(testType, iacCreateTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    // R2JudicialUserJourney.inject(simulationProfile(testType, judicialTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
-    // CivilAssignAndCompleteTask.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    // CreateCivilTaskFromCCD.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    R2JudicialUserJourney.inject(simulationProfile(testType, judicialTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    CivilAssignAndCompleteTask.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    CreateCivilDJTaskFromCCD.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     )
     .maxDuration(60 minutes)
     .protocols(httpProtocol)

@@ -121,13 +121,14 @@ object xuiMyWork {
         .headers(XUIHeaders.xuiMainHeader)) //3
 
       .exec(http("XUI_MyAvailableTasksRequest")
-        .post("/workallocation2/task")
+        .post("/workallocation/task")
         .headers(XUIHeaders.xuiMainHeader) //4
         .header("content-type", "application/json")
         .header("x-xsrf-token", "${xsrfToken}")
         .body(ElFileBody("xuiBodies/MyAvailableTasks.json"))
-        .check(jsonPath("$.tasks[0].id").saveAs("taskId"))
-        .check(jsonPath("$.tasks[0].case_id").saveAs("caseId")))
+        // .check(jsonPath("$.tasks[0].id").saveAs("taskId"))
+        // .check(jsonPath("$.tasks[0].case_id").saveAs("caseId"))
+        )
     }
 
 		.pause(Environment.constantthinkTime)
