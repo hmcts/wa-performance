@@ -107,17 +107,6 @@ object xuiJudicialTask {
         .header("accept", "application/json")
         .header("content-type", "application/json"))
 
-      .exec(http("XUI_CaseActivity_Options")
-        .options(Environment.ccdGateway + "/activity/cases/0/activity")
-        .headers(XUIHeaders.caseActivityOptions))
-    
-      .exec(http("XUI_CaseActivity_Get")
-        .get(Environment.ccdGateway + "/activity/cases/0/activity")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("accept", "application/json, text/plain, */*")
-        .header("sec-fetch-site", "same-site")
-        .header("authorization", "Bearer ${bearerToken}"))
-        
       .exec(http("XUI_JudicialSDO_Page1_GetCase")
         .get("/data/internal/cases/${caseId}")
         .headers(XUIHeaders.xuiMainHeader)
@@ -140,31 +129,31 @@ object xuiJudicialTask {
       .exec(http("XUI_JudicialSDO_Page1_ApiUserDetails")
         .get("/api/user/details")
         .headers(XUIHeaders.xuiMainHeader))
-              
-      .exec(http("XUI_CaseActivity_Options")
-        .options(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
-        .headers(XUIHeaders.caseActivityOptions))
-
-      .exec(http("XUI_CaseActivity_Post")
-        .post(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("accept", "application/json, text/plain, */*")
-        .header("sec-fetch-site", "same-site")
-        .header("content-type", "application/json")
-        .header("authorization", "Bearer ${bearerToken}")
-        .body(StringBody("""{"activity":"edit"}""")))
-
-      .exec(http("XUI_CaseActivity_Get")
-        .get(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("accept", "application/json, text/plain, */*")
-        .header("sec-fetch-site", "same-site")
-        .header("authorization", "Bearer ${bearerToken}"))
-        
-      .exec(http("XUI_CaseActivity_Options")
-        .options(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
-        .headers(XUIHeaders.caseActivityOptions))
     }
+              
+    .exec(http("XUI_CaseActivity_Options")
+      .options(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
+      .headers(XUIHeaders.caseActivityOptions))
+
+    .exec(http("XUI_CaseActivity_Post")
+      .post(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
+      .headers(XUIHeaders.xuiMainHeader)
+      .header("accept", "application/json, text/plain, */*")
+      .header("sec-fetch-site", "same-site")
+      .header("content-type", "application/json")
+      .header("authorization", "Bearer ${bearerToken}")
+      .body(StringBody("""{"activity":"edit"}""")))
+
+    .exec(http("XUI_CaseActivity_Get")
+      .get(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
+      .headers(XUIHeaders.xuiMainHeader)
+      .header("accept", "application/json, text/plain, */*")
+      .header("sec-fetch-site", "same-site")
+      .header("authorization", "Bearer ${bearerToken}"))
+      
+    .exec(http("XUI_CaseActivity_Options")
+      .options(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
+      .headers(XUIHeaders.caseActivityOptions))
 
     .pause(Environment.constantthinkTime)
 
@@ -189,31 +178,31 @@ object xuiJudicialTask {
       .exec(http("XUI_JudicialSDO_Page2_ApiUserDetails")
         .get("/api/user/details")
         .headers(XUIHeaders.xuiMainHeader))
-              
-      .exec(http("XUI_CaseActivity_Options")
-        .options(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
-        .headers(XUIHeaders.caseActivityOptions))
-
-      .exec(http("XUI_CaseActivity_Post")
-        .post(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("accept", "application/json, text/plain, */*")
-        .header("sec-fetch-site", "same-site")
-        .header("content-type", "application/json")
-        .header("authorization", "Bearer ${bearerToken}")
-        .body(StringBody("""{"activity":"edit"}""")))
-
-      .exec(http("XUI_CaseActivity_Options")
-        .options(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
-        .headers(XUIHeaders.caseActivityOptions))
-
-      .exec(http("XUI_CaseActivity_Get")
-        .get(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("accept", "application/json, text/plain, */*")
-        .header("sec-fetch-site", "same-site")
-        .header("authorization", "Bearer ${bearerToken}"))
     }
+              
+    .exec(http("XUI_CaseActivity_Options")
+      .options(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
+      .headers(XUIHeaders.caseActivityOptions))
+
+    .exec(http("XUI_CaseActivity_Post")
+      .post(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
+      .headers(XUIHeaders.xuiMainHeader)
+      .header("accept", "application/json, text/plain, */*")
+      .header("sec-fetch-site", "same-site")
+      .header("content-type", "application/json")
+      .header("authorization", "Bearer ${bearerToken}")
+      .body(StringBody("""{"activity":"edit"}""")))
+
+    .exec(http("XUI_CaseActivity_Options")
+      .options(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
+      .headers(XUIHeaders.caseActivityOptions))
+
+    .exec(http("XUI_CaseActivity_Get")
+      .get(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
+      .headers(XUIHeaders.xuiMainHeader)
+      .header("accept", "application/json, text/plain, */*")
+      .header("sec-fetch-site", "same-site")
+      .header("authorization", "Bearer ${bearerToken}"))
 
     .pause(Environment.constantthinkTime)
         
@@ -244,6 +233,8 @@ object xuiJudicialTask {
         .get("/api/user/details")
         .headers(XUIHeaders.xuiMainHeader))
     }
+
+    .pause(Environment.constantthinkTime)
  
     .group("XUI_JudicialSDO_Page4") {     
       exec(http("XUI_JudicialSDO_Page4_Request")
@@ -253,31 +244,31 @@ object xuiJudicialTask {
         .header("content-type", "application/json")
         .header("x-xsrf-token", "${xsrfToken}")
         .body(ElFileBody("xuiBodies/CivilDJPageThree.json")))
-
-      .exec(http("XUI_CaseActivity_Options")
-        .options(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
-        .headers(XUIHeaders.caseActivityOptions))
-
-      .exec(http("XUI_CaseActivity_Post")
-        .post(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("accept", "application/json, text/plain, */*")
-        .header("sec-fetch-site", "same-site")
-        .header("content-type", "application/json")
-        .header("authorization", "Bearer ${bearerToken}")
-        .body(StringBody("""{"activity":"edit"}""")))
-
-      .exec(http("XUI_CaseActivity_Options")
-        .options(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
-        .headers(XUIHeaders.caseActivityOptions))
-
-      .exec(http("XUI_CaseActivity_Get")
-        .get(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("accept", "application/json, text/plain, */*")
-        .header("sec-fetch-site", "same-site")
-        .header("authorization", "Bearer ${bearerToken}"))
     }
+
+    .exec(http("XUI_CaseActivity_Options")
+      .options(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
+      .headers(XUIHeaders.caseActivityOptions))
+
+    .exec(http("XUI_CaseActivity_Post")
+      .post(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
+      .headers(XUIHeaders.xuiMainHeader)
+      .header("accept", "application/json, text/plain, */*")
+      .header("sec-fetch-site", "same-site")
+      .header("content-type", "application/json")
+      .header("authorization", "Bearer ${bearerToken}")
+      .body(StringBody("""{"activity":"edit"}""")))
+
+    .exec(http("XUI_CaseActivity_Options")
+      .options(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
+      .headers(XUIHeaders.caseActivityOptions))
+
+    .exec(http("XUI_CaseActivity_Get")
+      .get(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
+      .headers(XUIHeaders.xuiMainHeader)
+      .header("accept", "application/json, text/plain, */*")
+      .header("sec-fetch-site", "same-site")
+      .header("authorization", "Bearer ${bearerToken}"))
 
     .pause(Environment.constantthinkTime)
 
@@ -304,6 +295,10 @@ object xuiJudicialTask {
         .header("content-type", "application/json")
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json"))
 
+      .exec(http("XUI_JudicialSDO_Submit_WAGGetJurisdictions")
+        .get("/api/wa-supported-jurisdiction/get")
+        .headers(XUIHeaders.xuiMainHeader))
+
       .exec(http("XUI_JudicialSDO_Submit_WASearchForCompletable")
         .post("/workallocation/searchForCompletable")
         .header("content-type", "application/json")
@@ -314,33 +309,30 @@ object xuiJudicialTask {
       .exec(http("XUI_JudicialSDO_Submit_ApiUserDetails")
         .get("/api/user/details")
         .headers(XUIHeaders.xuiMainHeader))
-
-      .exec(http("XUI_CaseActivity_Options")
-        .options(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
-        .headers(XUIHeaders.caseActivityOptions))
-
-      .exec(http("XUI_CaseActivity_Post")
-        .post(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("accept", "application/json, text/plain, */*")
-        .header("sec-fetch-site", "same-site")
-        .header("content-type", "application/json")
-        .header("authorization", "Bearer ${bearerToken}")
-        .body(StringBody("""{"activity":"edit"}""")))
-
-      .exec(http("XUI_CaseActivity_Options")
-        .options(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
-        .headers(XUIHeaders.caseActivityOptions))
-
-      .exec(http("XUI_CaseActivity_Get")
-        .get(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("accept", "application/json, text/plain, */*")
-        .header("sec-fetch-site", "same-site")
-        .header("authorization", "Bearer ${bearerToken}"))
-
-      .exec(http("XUI_JudicialSDO_Submit_WAGGetJurisdictions")
-        .get("/api/wa-supported-jurisdiction/get")
-        .headers(XUIHeaders.xuiMainHeader))
     }
+
+    .exec(http("XUI_CaseActivity_Options")
+      .options(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
+      .headers(XUIHeaders.caseActivityOptions))
+
+    .exec(http("XUI_CaseActivity_Post")
+      .post(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
+      .headers(XUIHeaders.xuiMainHeader)
+      .header("accept", "application/json, text/plain, */*")
+      .header("sec-fetch-site", "same-site")
+      .header("content-type", "application/json")
+      .header("authorization", "Bearer ${bearerToken}")
+      .body(StringBody("""{"activity":"edit"}""")))
+
+    .exec(http("XUI_CaseActivity_Options")
+      .options(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
+      .headers(XUIHeaders.caseActivityOptions))
+
+    .exec(http("XUI_CaseActivity_Get")
+      .get(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
+      .headers(XUIHeaders.xuiMainHeader)
+      .header("accept", "application/json, text/plain, */*")
+      .header("sec-fetch-site", "same-site")
+      .header("authorization", "Bearer ${bearerToken}"))
+
 }
