@@ -252,6 +252,6 @@ class UISimulation extends Simulation  {
     CivilAssignAndCompleteTask.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     CreateCivilDJTaskFromCCD.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     )
-    .maxDuration(60 minutes)
+    // .maxDuration(60 minutes)
     .protocols(httpProtocol)
 }
