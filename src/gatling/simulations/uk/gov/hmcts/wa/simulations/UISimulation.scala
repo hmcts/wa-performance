@@ -45,11 +45,11 @@ class UISimulation extends Simulation  {
   val feedCivilJudicialCases = csv("CivilJudicialCaseData.csv")
 
 	/* PERFORMANCE TEST CONFIGURATION */
-	val assignAndCompleteTargetPerHour: Double = 70 //700
-	val cancelTaskTargetPerHour: Double = 4 //40
-	val iacCreateTargetPerHour: Double = 150 //1500
-  val civilCompleteTargetPerHour: Double = 10 //100
-	val judicialTargetPerHour: Double = 36 //360
+	val assignAndCompleteTargetPerHour: Double = 350 //700
+	val cancelTaskTargetPerHour: Double = 20 //40
+	val iacCreateTargetPerHour: Double = 750 //1500
+  val civilCompleteTargetPerHour: Double = 50 //100
+	val judicialTargetPerHour: Double = 180 //360
 
 	val rampUpDurationMins = 5
 	val rampDownDurationMins = 5
