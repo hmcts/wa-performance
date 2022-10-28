@@ -320,8 +320,6 @@ val CamundaGetCase =
 
   .exec(http("Camunda_GetTask")
     .get(CamundaUrl + "/engine-rest/task?processVariables=caseId_eq_${caseId}") //${caseId}
-    // .get(CamundaUrl + "/engine-rest/history/task?taskId=b4e10f2e-9a42-11ec-a4aa-aef88624ce66") //${caseId}
-    // .get(CamundaUrl + "/engine-rest/task?type=reviewTheAppeal&maxResults=40&sortBy=startTime&sortOrder=desc") //${caseId}
     .header("ServiceAuthorization", "Bearer ${wa_task_management_apiBearerToken}")
     .check(jsonPath("$[0].id").saveAs("taskId")))
     // .exitHereIfFailed
