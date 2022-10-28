@@ -167,7 +167,6 @@ class UISimulation extends Simulation  {
       }
     // }
 
-
   val R2CancelTask = scenario("Cancel a Task")
     .exitBlockOnFail {
       exec(_.set("env", s"${env}"))
@@ -192,9 +191,16 @@ class UISimulation extends Simulation  {
       .exec(xuiwa.XUILogout)
     }
 
+  val getTaskFromCamunda = scenario("Camunda Get Task")
+    .exec(_.set("env", s"${env}"))
+    .exec(S2S.s2s("wa_task_management_api"))
+    .repeat(1350) {
+      exec(wataskmanagement.CamundaGetCase)
+    }
+
 	/*===============================================================================================
 	* Simulation Configuration
-	 ===============================================================================================*/
+	===============================================================================================*/
 
 	def simulationProfile(simulationType: String, userPerHourRate: Double, numberOfPipelineUsers: Double): Seq[OpenInjectionStep] = {
 		val userPerSecRate = userPerHourRate / 3600
@@ -251,6 +257,7 @@ class UISimulation extends Simulation  {
     R2JudicialUserJourney.inject(simulationProfile(testType, judicialTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     CivilAssignAndCompleteTask.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     CreateCivilDJTaskFromCCD.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // getTaskFromCamunda.inject(rampUsers(1) during (1 minute))
     )
     // .maxDuration(60 minutes)
     .protocols(httpProtocol)
