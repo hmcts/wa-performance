@@ -140,7 +140,7 @@ class UISimulation extends Simulation  {
       .repeat(1) {
         exec(ccddatastore.civilCreateCase)
         .pause(60)
-        // .feed(feedCivilCaseList)
+        .feed(feedCivilCaseList)
         .exec(ccddatastore.civilNotifyClaim)
         .pause(60)
         .exec(ccddatastore.civilNotifyClaimDetails)
@@ -150,7 +150,7 @@ class UISimulation extends Simulation  {
       }
     }
 
-  val CreateCivilGATaskFromCCD = scenario("Creates Civil case, case events & a General Application task for Admin User")
+  /*val CreateCivilGATaskFromCCD = scenario("Creates Civil case, case events & a General Application task for Admin User")
     // .exitBlockOnFail {
       .exec(_.set("env", s"${env}"))
       .feed(feedCivilUserData)
@@ -165,7 +165,7 @@ class UISimulation extends Simulation  {
       .exec(ccddatastore.civilUpdateDate)
       // .exec(ccddatastore.civilRequestDefaultJudgement)
       }
-    // }
+    // }*/
 
   val R2CancelTask = scenario("Cancel a Task")
     .exitBlockOnFail {

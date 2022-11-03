@@ -117,16 +117,6 @@ object ccddatastore {
       .body(ElFileBody("civilBodies/CreateSpecifiedClaim.json"))
       .check(jsonPath("$.id").saveAs("caseId")))
 
-    .exec {
-      session =>
-        val fw = new BufferedWriter(new FileWriter("CivilCreatedCaseIds.csv", true))
-        try {
-          fw.write(session("caseId").as[String] + "\r\n")
-        }
-        finally fw.close()
-        session
-    }
-
     .pause(Environment.constantthinkTime)
 
   val civilCreateCaseGA = 
@@ -219,6 +209,16 @@ object ccddatastore {
       .header("Authorization", "Bearer ${access_token}")
       .header("Content-Type","application/json")
       .body(ElFileBody("civilBodies/RequestDefaultJudgement.json")))
+
+    .exec {
+      session =>
+        val fw = new BufferedWriter(new FileWriter("CivilCreatedCaseIds.csv", true))
+        try {
+          fw.write(session("caseId").as[String] + "\r\n")
+        }
+        finally fw.close()
+        session
+    }
 
     .pause(Environment.constantthinkTime)
 
