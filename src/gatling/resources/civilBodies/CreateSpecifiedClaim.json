@@ -572,7 +572,6 @@
         "soleTraderTradingAs": null,
         "soleTraderDateOfBirth": null,
         "partyName": "john smith",
-        "partyEmail": null,
         "partyTypeDisplayValue": "Individual",
         "primaryAddress": {
            "AddressLine1": "Flat 11",
@@ -620,7 +619,6 @@
         "individualDateOfBirth": null,
         "soleTraderDateOfBirth": null,
         "partyName": "steve smith",
-        "partyEmail": null,
         "partyTypeDisplayValue": "Individual",
         "primaryAddress": {
            "AddressLine1": "Flat 14",
