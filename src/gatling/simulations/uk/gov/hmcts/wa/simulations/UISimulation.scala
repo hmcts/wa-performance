@@ -140,7 +140,7 @@ class UISimulation extends Simulation  {
       .repeat(1) {
         exec(ccddatastore.civilCreateCase)
         .pause(60)
-        .feed(feedCivilCaseList)
+        // .feed(feedCivilCaseList)
         .exec(ccddatastore.civilNotifyClaim)
         .pause(60)
         .exec(ccddatastore.civilNotifyClaimDetails)
