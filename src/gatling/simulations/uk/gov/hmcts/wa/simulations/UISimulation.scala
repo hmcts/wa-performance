@@ -48,7 +48,8 @@ class UISimulation extends Simulation  {
 	val assignAndCompleteTargetPerHour: Double = 700 //700
 	val cancelTaskTargetPerHour: Double = 40 //40
 	val iacCreateTargetPerHour: Double = 1500 //1500
-  val civilCompleteTargetPerHour: Double = 100 //100
+  val civilCompleteTargetPerHour: Double = 200 //200
+  val civilJudicialCompleteTargetPerHour: Double = 150 //150
 	val judicialTargetPerHour: Double = 360 //360
 
 	val rampUpDurationMins = 5
@@ -255,7 +256,7 @@ class UISimulation extends Simulation  {
     R2CancelTask.inject(simulationProfile(testType, cancelTaskTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     CreateIACTaskFromCCD.inject(simulationProfile(testType, iacCreateTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     R2JudicialUserJourney.inject(simulationProfile(testType, judicialTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    CivilAssignAndCompleteTask.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    CivilAssignAndCompleteTask.inject(simulationProfile(testType, civilJudicialCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     CreateCivilDJTaskFromCCD.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     // getTaskFromCamunda.inject(rampUsers(1) during (1 minute))
     )
