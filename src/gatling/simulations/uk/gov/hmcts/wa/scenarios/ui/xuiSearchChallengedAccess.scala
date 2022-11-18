@@ -166,7 +166,7 @@ object xuiSearchChallengedAccess {
 			.headers(XUIHeaders.xuiMainHeader)
       .header("accept", "application/json, text/plain, */*")
       .header("sec-fetch-site", "same-site")
-      .check(status.in(200, 304, 403)))
+      .check(status.in(200, 304, 401, 403)))
 
     .exec(http("XUI_CaseActivity_Get")
 			.get(Environment.ccdGateway + "/activity/cases/0/activity")
@@ -174,7 +174,7 @@ object xuiSearchChallengedAccess {
       .header("accept", "application/json, text/plain, */*")
       .header("sec-fetch-site", "same-site")
       .header("authorization", "Bearer ${bearerToken}")
-      .check(status.in(200, 304, 403)))
+      .check(status.in(200, 304, 401, 403)))
 
     .exec(http("XUI_ViewCase_GetCase")
 			.get("/data/internal/cases/${caseId}")
