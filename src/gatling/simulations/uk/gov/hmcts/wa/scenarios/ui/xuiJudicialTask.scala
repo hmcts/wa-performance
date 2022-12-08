@@ -227,7 +227,10 @@ object xuiJudicialTask {
         .check(jsonPath("$.data.disposalHearingSchedulesOfLossDJ.date3").saveAs("disposalHearingSchedulesOfLossDJdate3"))
         .check(jsonPath("$.data.disposalHearingSchedulesOfLossDJ.date2").saveAs("disposalHearingSchedulesOfLossDJdate2"))
         .check(jsonPath("$.data.disposalHearingFinalDisposalHearingDJ.date").saveAs("disposalHearingFinalDisposalHearingDJdate"))
-        .check(jsonPath("$.data.disposalHearingNotesDJ.date").saveAs("disposalHearingNotesDJdate")))
+        .check(jsonPath("$.data.disposalHearingNotesDJ.date").saveAs("disposalHearingNotesDJdate"))
+        .check(jsonPath("$.data.defaultJudgmentDocuments[0].value.documentSize").saveAs("documentSize"))
+        .check(jsonPath("$.data.defaultJudgmentDocuments[0].id").saveAs("documentJudgeId"))
+        .check(jsonPath("$.data.defaultJudgmentDocuments[*].value.createdDatetime").saveAs("documentDateTime")))
 
       .exec(http("XUI_JudicialSDO_Page3_ApiUserDetails")
         .get("/api/user/details")
