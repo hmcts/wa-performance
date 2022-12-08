@@ -21,6 +21,7 @@ object Common {
   val patternMonth = DateTimeFormatter.ofPattern("MM")
   val patternYear = DateTimeFormatter.ofPattern("yyyy")
   val patternReference = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+  val patternTime = DateTimeFormatter.ofPattern("hh:mm:ss")
 
   def randomString(length: Int) = {
     rnd.alphanumeric.filter(_.isLetter).take(length).mkString
@@ -50,6 +51,11 @@ object Common {
   //CurrentDate
   def getDate(): String = {
     now.format(patternReference)
+  }
+
+  //CurrentTime
+  def getTime(): String = {
+    now.format(patternTime)
   }
 
   //Saves partyId

@@ -1,10 +1,28 @@
 {
   "data": {
+     "orderSDODocumentDJCollection": [
+        {
+           "value": {
+              "documentName": "Order_disposal_003DC154.pdf",
+              "documentType": "DEFAULT_JUDGMENT_SDO_ORDER",
+              "documentLink": {
+                 "document_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/631855fc-aaea-4902-94cf-7b8dc1d2e892",
+                 "document_binary_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/631855fc-aaea-4902-94cf-7b8dc1d2e892/binary",
+                 "document_filename": "Order_disposal_003DC154.pdf",
+                 "document_hash": "9c3ee1af191c7c8d8a44131db4eec81ada2b8f3570e1a5dd0251b609133991b6"
+              },
+              "documentSize": "84481",
+              "createdDatetime": "2022-12-08T09:47:19",
+              "createdBy": "Civil"
+           },
+           "id": "f72e80ac-eb58-4b42-86ce-7da5aad83571"
+        }
+     ],
      "orderSDODocumentDJ": {
-        "document_url": "${orderSDODocumentDJDocumentURL}",
-        "document_binary_url": "${orderSDODocumentDJDocumentURL}/binary",
-        "document_filename": "${orderSDODocumentDJName}",
-        "document_hash": "${orderSDODocumentDJHash}"
+        "document_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/631855fc-aaea-4902-94cf-7b8dc1d2e892",
+        "document_binary_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/631855fc-aaea-4902-94cf-7b8dc1d2e892/binary",
+        "document_filename": "Order_disposal_003DC154.pdf",
+        "document_hash": "9c3ee1af191c7c8d8a44131db4eec81ada2b8f3570e1a5dd0251b609133991b6"
      }
   },
   "event": {
@@ -25,58 +43,59 @@
      ],
      "disposalHearingDisclosureOfDocumentsDJ": {
         "input": "The parties shall serve on each other copies of the documents upon which reliance is to be placed at the disposal hearing by 4pm on",
-        "date": "${disposalHearingDisclosureOfDocumentsDJdate}"
+        "date": "2023-01-05"
      },
      "disposalHearingWitnessOfFactDJToggle": [
         "SHOW"
      ],
      "disposalHearingWitnessOfFactDJ": {
         "input1": "The claimant shall serve on every other party the witness statements of all witnesses of fact on whose evidence reliance is to be placed by 4pm on",
-        "date1": "${disposalHearingWitnessOfFactDJdate1}",
+        "date1": "2023-01-05",
         "input2": "The provisions of CPR 32.6 apply to such evidence.",
-        "input3": "The claimant must upload to the Digital Portal copies of the witness statements of all witnesses whose evidence they wish the court to consider when deciding the amount of damages by by 4pm on",
-        "date2": "${disposalHearingWitnessOfFactDJdate2}",
+        "input3": "The claimant must upload to the Digital Portal copies of the witness statements of all witnesses whose evidence they wish the court to consider when deciding the amount of damages by 4pm on",
+        "date2": "2023-01-05",
         "input4": "The provisions of CPR 32.6 apply to such evidence.",
-        "input5": "Any application by the defendant/s pursuant to CPR 32.7 must be made by 4pm on",
-        "date3": "${disposalHearingWitnessOfFactDJdate3}",
-        "input6": "and must be accompanied by proposed directions for allocation and listing for trial on quantum as cross-examination will result in the hearing exceeding the 30 minute maximum time estimate for a disposal hearing"
+        "input5": "Any application by the defendant in relation to CPR 32.7 must be made by 4pm on",
+        "date3": "2022-12-22",
+        "input6": "and must be accompanied by proposed directions for allocation and listing for trial on quantum. This is because cross-examination will cause the hearing to exceed the 30-minute maximum time estimate for a disposal hearing"
      },
      "disposalHearingMedicalEvidenceDJToggle": [
         "SHOW"
      ],
      "disposalHearingMedicalEvidenceDJ": {
         "input1": "The claimant has permission to rely upon the written expert evidence already uploaded to the Digital Portal with the particulars of claim and in addition has permission to rely upon any associated correspondence or updating report which is uploaded to the Digital Portal by 4pm on",
-        "date1": "${disposalHearingMedicalEvidenceDJdate1}"
+        "date1": "2023-01-05"
      },
      "disposalHearingQuestionsToExpertsDJToggle": [
         "SHOW"
      ],
      "disposalHearingQuestionsToExpertsDJ": {
-        "date": "${disposalHearingQuestionsToExpertsDJdate}"
+        "date": "2023-01-19"
      },
      "disposalHearingSchedulesOfLossDJToggle": [
         "SHOW"
      ],
      "disposalHearingSchedulesOfLossDJ": {
-        "input1": "If there is a claim for ongoing/future loss in the original schedule of losses then the claimant must send an up to date schedule of loss to the defendant by 4pm on the",
-        "date1": "${disposalHearingSchedulesOfLossDJdate1}",
+        "input1": "If there is a claim for ongoing or future loss in the original schedule of losses then the claimant must send an up to date schedule of loss to the defendant by 4pm on the",
+        "date1": "2023-02-16",
         "input2": "If the defendant wants to challenge this claim, they must send an up-to-date counter-schedule of loss to the claimant by 4pm on",
-        "date3": "${disposalHearingSchedulesOfLossDJdate3}",
+        "date2": "2023-03-02",
         "input3": "If the defendant wants to challenge the sums claimed in the schedule of loss they must upload to the Digital Portal an updated counter schedule of loss by 4pm on",
-        "date2": "${disposalHearingSchedulesOfLossDJdate2}"
+        "date3": "2023-03-02",
+        "inputText4": "If there is a claim for future pecuniary loss and the parties have not already set out their case on periodical payments, they must do so in the respective schedule and counter-schedule."
      },
      "disposalHearingFinalDisposalHearingDJToggle": [
         "SHOW"
      ],
      "disposalHearingFinalDisposalHearingDJ": {
-        "input": "This claim be listed for final disposal before a Judge on the first available date after.",
-        "date": "${disposalHearingFinalDisposalHearingDJdate}",
+        "input": "This claim will be listed for final disposal before a Judge on the first available date after",
+        "date": "2023-03-30",
         "time": "THIRTY_MINUTES"
      },
      "disposalHearingMethodDJ": "disposalHearingMethodInPerson",
      "disposalHearingMethodInPersonDJ": {
         "value": {
-           "code": "4ba147ab-0c1c-423b-b6de-9088f2046ae2",
+           "code": "e613102a-06ac-4e0c-ad27-b3a65bcbd428",
            "label": "Birmingham Civil and Family Justice Centre - PRIORY COURTS, 33 BULL STREET - B4 6DS"
         }
      },
@@ -84,7 +103,7 @@
         "SHOW"
      ],
      "disposalHearingBundleDJ": {
-        "input": "The claimant must lodge at court at least 7 days before the disposal",
+        "input": "At least 7 days before the disposal hearing, the claimant must upload to the Digital Portal",
         "type": "DOCUMENTS"
      },
      "disposalHearingClaimSettlingDJToggle": [
@@ -95,17 +114,35 @@
      ],
      "disposalHearingNotesDJ": {
         "input": "This order has been made without a hearing. Each party has the right to apply to have this order set aside or varied. Any such application must be uploaded to the Digital Portal together with payment of any appropriate fee, by 4pm on",
-        "date": "${disposalHearingNotesDJdate}"
+       "date": "${disposalHearingNotesDJdate}"
      },
      "disposalHearingAddNewDirectionsDJ": [],
+     "orderSDODocumentDJCollection": [
+        {
+           "value": {
+              "documentName": "${orderSDODocumentDJName}",
+              "documentType": "DEFAULT_JUDGMENT_SDO_ORDER",
+              "documentLink": {
+                 "document_url": "${orderSDODocumentDJDocumentURL}",
+                 "document_binary_url": "${orderSDODocumentDJDocumentURL}/binary",
+                 "document_filename": "${orderSDODocumentDJName}",
+                 "document_hash": "${orderSDODocumentDJHash}"
+              },
+              "documentSize": "${documentSize}",
+              "createdDatetime": "${documentDateTime}",
+              "createdBy": "Civil"
+           },
+           "id": "${documentJudgeId}"
+        }
+     ],
      "orderSDODocumentDJ": {
-        "document_url": "${orderSDODocumentDJDocumentURL}",
-        "document_binary_url": "${orderSDODocumentDJDocumentURL}/binary",
-        "document_filename": "${orderSDODocumentDJName}",
-        "document_hash": "${orderSDODocumentDJHash}"
+       "document_url": "${orderSDODocumentDJDocumentURL}",
+       "document_binary_url": "${orderSDODocumentDJDocumentURL}/binary",
+       "document_filename": "${orderSDODocumentDJName}",
+       "document_hash": "${orderSDODocumentDJHash}"
      }
   },
-  "event_token": "${eventToken}",
+ "event_token": "${eventToken}",
   "ignore_warning": false,
-  "case_reference": "${caseId}"
+ "case_reference": "${caseId}"
 }
