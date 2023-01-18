@@ -40,6 +40,7 @@ class UISimulation extends Simulation  {
   val feedIACUserData = csv("IACUserData.csv").circular
   val feedCivilUserData = csv("CivilUserData.csv").circular
   val feedCivilJudgeData = csv("CivilJudicialUserData.csv").circular
+  val feedPRLUserData = csv("PRLUserData.csv").circular
   val feedIACCaseList = csv("WA_R2Cases.csv")
   val feedCivilCaseList = csv("CivilCaseData.csv")
   val feedCivilJudicialCases = csv("CivilJudicialCaseData.csv")
@@ -51,6 +52,7 @@ class UISimulation extends Simulation  {
   val civilCompleteTargetPerHour: Double = 200 //200
   val civilJudicialCompleteTargetPerHour: Double = 150 //150
 	val judicialTargetPerHour: Double = 360 //360
+  val prlTargetPerHour: Double = 150 //150
 
 	val rampUpDurationMins = 5
 	val rampDownDurationMins = 5
@@ -121,7 +123,7 @@ class UISimulation extends Simulation  {
       .exec(xuiwa.XUILogout)
     }
 
-  val CreateIACTaskFromCCD = scenario("Creates IAC cases & tasks for Task Manager")
+  val CreateIACTaskFromCCD = scenario("Creates IAC cases & tasks in Task Manager")
     .exitBlockOnFail {
       exec(_.set("env", s"${env}"))
       .feed(feedIACUserData)
@@ -150,6 +152,26 @@ class UISimulation extends Simulation  {
         .exec(ccddatastore.civilRequestDefaultJudgement)
       }
     }
+
+    val CreatePRLTaskFromCCD = scenario("Creates a PRL C100 case & task in Task Manager")
+      .exitBlockOnFail {
+        exec(_.set("env", s"${env}"))
+        .feed(feedPRLUserData)
+        .exec(S2S.s2s("ccd_data"))
+        .exec(IdamLogin.GetIdamToken)
+        .repeat(1) {
+          exec(ccddatastore.prlCreateCase)
+          .exec(ccddatastore.prlApplicationType)
+          .exec(ccddatastore.prlHearingUrgency)
+          .exec(ccddatastore.prlApplicantDetails)
+          .exec(ccddatastore.prlChildDetails)
+          .exec(ccddatastore.prlRespondentDetails)
+          .exec(ccddatastore.prlAllegationsOfHarm)
+          .exec(ccddatastore.prlMIAM)
+          .exec(ccddatastore.prlSubmit)
+        }
+
+      }
 
   /*val CreateCivilGATaskFromCCD = scenario("Creates Civil case, case events & a General Application task for Admin User")
     // .exitBlockOnFail {
@@ -252,12 +274,13 @@ class UISimulation extends Simulation  {
   }
   
   setUp(
-    R2AssignAndCompleteTasks.inject(simulationProfile(testType, assignAndCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),             //
-    R2CancelTask.inject(simulationProfile(testType, cancelTaskTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),                                //
-    R2JudicialUserJourney.inject(simulationProfile(testType, judicialTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),                         //
-    CivilAssignAndCompleteTask.inject(simulationProfile(testType, civilJudicialCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),       //
+    // R2AssignAndCompleteTasks.inject(simulationProfile(testType, assignAndCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),             //
+    // R2CancelTask.inject(simulationProfile(testType, cancelTaskTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),                                //
+    // R2JudicialUserJourney.inject(simulationProfile(testType, judicialTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),                         //
+    // CivilAssignAndCompleteTask.inject(simulationProfile(testType, civilJudicialCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),       //
     CreateCivilDJTaskFromCCD.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),                 //
     CreateIACTaskFromCCD.inject(simulationProfile(testType, iacCreateTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),                         //
+    // CreatePRLTaskFromCCD.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),                         //
 
     // getTaskFromCamunda.inject(rampUsers(1) during (1 minute))
     )
