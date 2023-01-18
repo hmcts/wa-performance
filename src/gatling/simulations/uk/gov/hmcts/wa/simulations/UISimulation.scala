@@ -153,25 +153,25 @@ class UISimulation extends Simulation  {
       }
     }
 
-    val CreatePRLTaskFromCCD = scenario("Creates a PRL C100 case & task in Task Manager")
-      .exitBlockOnFail {
-        exec(_.set("env", s"${env}"))
-        .feed(feedPRLUserData)
-        .exec(S2S.s2s("ccd_data"))
-        .exec(IdamLogin.GetIdamToken)
-        .repeat(1) {
-          exec(ccddatastore.prlCreateCase)
-          .exec(ccddatastore.prlApplicationType)
-          .exec(ccddatastore.prlHearingUrgency)
-          .exec(ccddatastore.prlApplicantDetails)
-          .exec(ccddatastore.prlChildDetails)
-          .exec(ccddatastore.prlRespondentDetails)
-          .exec(ccddatastore.prlAllegationsOfHarm)
-          .exec(ccddatastore.prlMIAM)
-          .exec(ccddatastore.prlSubmit)
-        }
+    // val CreatePRLTaskFromCCD = scenario("Creates a PRL C100 case & task in Task Manager")
+    //   .exitBlockOnFail {
+    //     exec(_.set("env", s"${env}"))
+    //     .feed(feedPRLUserData)
+    //     .exec(S2S.s2s("ccd_data"))
+    //     .exec(IdamLogin.GetIdamToken)
+    //     .repeat(1) {
+    //       exec(ccddatastore.prlCreateCase)
+    //       .exec(ccddatastore.prlApplicationType)
+    //       .exec(ccddatastore.prlHearingUrgency)
+    //       .exec(ccddatastore.prlApplicantDetails)
+    //       .exec(ccddatastore.prlChildDetails)
+    //       .exec(ccddatastore.prlRespondentDetails)
+    //       .exec(ccddatastore.prlAllegationsOfHarm)
+    //       .exec(ccddatastore.prlMIAM)
+    //       .exec(ccddatastore.prlSubmit)
+    //     }
 
-      }
+    //   }
 
   /*val CreateCivilGATaskFromCCD = scenario("Creates Civil case, case events & a General Application task for Admin User")
     // .exitBlockOnFail {
