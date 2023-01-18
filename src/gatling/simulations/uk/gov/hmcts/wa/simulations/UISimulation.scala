@@ -40,7 +40,7 @@ class UISimulation extends Simulation  {
   val feedIACUserData = csv("IACUserData.csv").circular
   val feedCivilUserData = csv("CivilUserData.csv").circular
   val feedCivilJudgeData = csv("CivilJudicialUserData.csv").circular
-  val feedPRLUserData = csv("PRLUserData.csv").circular
+  // val feedPRLUserData = csv("PRLUserData.csv").circular
   val feedIACCaseList = csv("WA_R2Cases.csv")
   val feedCivilCaseList = csv("CivilCaseData.csv")
   val feedCivilJudicialCases = csv("CivilJudicialCaseData.csv")
@@ -52,7 +52,7 @@ class UISimulation extends Simulation  {
   val civilCompleteTargetPerHour: Double = 200 //200
   val civilJudicialCompleteTargetPerHour: Double = 150 //150
 	val judicialTargetPerHour: Double = 360 //360
-  val prlTargetPerHour: Double = 150 //150
+  // val prlTargetPerHour: Double = 150 //150
 
 	val rampUpDurationMins = 5
 	val rampDownDurationMins = 5
