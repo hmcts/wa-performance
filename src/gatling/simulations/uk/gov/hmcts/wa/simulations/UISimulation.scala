@@ -278,8 +278,8 @@ class UISimulation extends Simulation  {
     // R2CancelTask.inject(simulationProfile(testType, cancelTaskTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),                                //
     // R2JudicialUserJourney.inject(simulationProfile(testType, judicialTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),                         //
     // CivilAssignAndCompleteTask.inject(simulationProfile(testType, civilJudicialCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),       //
-    // CreateCivilDJTaskFromCCD.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),                 //
-    CreateIACTaskFromCCD.inject(simulationProfile(testType, iacCreateTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),                         //
+    CreateCivilDJTaskFromCCD.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),                 //
+    // CreateIACTaskFromCCD.inject(simulationProfile(testType, iacCreateTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),                         //
     // CreatePRLTaskFromCCD.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),                               //
 
     // getTaskFromCamunda.inject(rampUsers(1) during (1 minute))
