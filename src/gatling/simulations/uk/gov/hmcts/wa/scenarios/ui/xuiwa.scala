@@ -113,10 +113,10 @@ object xuiwa {
         .get("/api/healthCheck?path=%2Fwork%2Fmy-work%2Flist")
         .headers(XUIHeaders.xuiMainHeader)) //22
 
-      .exec(http("XUI_010_065_Login")
-        .get("/aggregated/caseworkers/:uid/jurisdictions?access=read")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("content-type", "application/json")) //24
+      // .exec(http("XUI_010_065_Login")
+      //   .get("/aggregated/caseworkers/:uid/jurisdictions?access=read")
+      //   .headers(XUIHeaders.xuiMainHeader)
+      //   .header("content-type", "application/json")) //24
 
       .exec(http("XUI_010_070_Login")
         .get("/workallocation2/caseworker")

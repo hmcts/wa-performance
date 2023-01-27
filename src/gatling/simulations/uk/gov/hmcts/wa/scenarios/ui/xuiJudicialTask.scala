@@ -111,19 +111,19 @@ object xuiJudicialTask {
         .get("/data/internal/cases/${caseId}")
         .headers(XUIHeaders.xuiMainHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json")
-        .header("accept", "application/json"))
+        .header("content-type", "application/json"))
 
       .exec(http("XUI_JudicialSDO_Page1_Profile")
         .get("/data/internal/profile")
         .headers(XUIHeaders.xuiMainHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-user-profile.v2+json;charset=UTF-8")
-        .header("accept", "application/json"))
+        .header("content-type", "application/json"))
 
       .exec(http("XUI_JudicialSDO_Page1_GetEvent")
         .get("/data/internal/cases/${caseId}/event-triggers/STANDARD_DIRECTION_ORDER_DJ?ignore-warning=false")
         .headers(XUIHeaders.xuiMainHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
-        .header("accept", "application/json")
+        .header("ontent-type", "application/json")
         .check(jsonPath("$.event_token").saveAs("eventToken")))
 
       .exec(http("XUI_JudicialSDO_Page1_ApiUserDetails")
