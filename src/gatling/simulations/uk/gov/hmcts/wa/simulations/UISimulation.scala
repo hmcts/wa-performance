@@ -96,15 +96,15 @@ class UISimulation extends Simulation  {
       }
       .exec(xuiSearchChallengedAccess.ViewCase)
       .exec(xuiwa.ViewTasksTab)
-      .exec(xuiwa.AssignRoles)
+      // .exec(xuiwa.AssignRoles)
       .exec(xuiwa.AssignTask)
       .exec(xuiwa.RequestRespondentEvidence)
       .exec(xuiwa.XUILogout)
     }
 
   val CivilAssignAndCompleteTask = scenario("Assign a Civil Task and Complete it")
-    // .exitBlockOnFail {
-      .exec(_.set("env", s"${env}"))
+    .exitBlockOnFail {
+      exec(_.set("env", s"${env}"))
       .exec(xuiwa.manageCasesHomePage)
       .feed(feedCivilJudgeData)
       .exec(xuiwa.manageCasesLogin)
@@ -121,7 +121,7 @@ class UISimulation extends Simulation  {
         .exec(xuiJudicialTask.StandardDirectionOrder)
       }
       .exec(xuiwa.XUILogout)
-    // }
+    }
 
   val CreateIACTaskFromCCD = scenario("Creates IAC cases & tasks in Task Manager")
     .exitBlockOnFail {
