@@ -1,0 +1,138 @@
+{
+  "data": {
+     "fl401StmtOfTruth": {
+        "date": "2023-02-01",
+        "fullname": "Perf Solicitor",
+        "nameOfFirm": "Perf Org",
+        "signOnBehalf": "Solicitor",
+        "signature": null,
+        "applicantConsent": [
+           "fl401Consent"
+        ]
+     },
+     "fl401ConfidentialityCheck": {
+        "confidentialityConsent": [
+           "fl401ConfidentialConsent"
+        ]
+     },
+     "submitCountyCourtSelection": {
+        "value": {
+           "code": "29656",
+           "label": "Bromley County Court and Family Court - COURT HOUSE, COLLEGE ROAD - BR1 3PX"
+        },
+        "list_items": [
+           {
+              "code": "827534",
+              "label": "Aberystwyth Justice Centre - TREFECHAN - SY23 1AS"
+           },
+           {
+              "code": "29656",
+              "label": "Bromley County Court and Family Court - COURT HOUSE, COLLEGE ROAD - BR1 3PX"
+           },
+           {
+              "code": "101959",
+              "label": "Carmarthen County Court and Tribunal Hearing Centre - HILL HOUSE, PICTON TERRACE, CARMARTHEN - SA31 3BT"
+           },
+           {
+              "code": "816875",
+              "label": "Chelmsford County and Family Court - PRIORY PLACE - CM2 0PP"
+           },
+           {
+              "code": "497679",
+              "label": "Coventry Combined Court Centre - MUCH PARK STREET, COVENTRY - CV1 2SN"
+           },
+           {
+              "code": "407494",
+              "label": "Croydon Combined Court - THE LAW COURTS, ALTYRE ROAD - CR9 5AB"
+           },
+           {
+              "code": "491107",
+              "label": "Durham County Court and Family Court - OLD ELVET - DH1 3RG"
+           },
+           {
+              "code": "491107",
+              "label": "Durham County and Tribunal Centre - OLD ELVET - DH1 3RG"
+           },
+           {
+              "code": "898213",
+              "label": "East London Family Court - WESTFERRY CIRCUS (WESTFERRY HOUSE), PART GROUND, 6TH AND 7TH FLOORS, 11 WESTFERRY CIRCUS, CANARY WHARF, LONDON, E14 4HE - E14 4HD"
+           },
+           {
+              "code": "735217",
+              "label": "Exeter Combined Court Centre - SOUTHERNHAY GARDENS, EXETER - EX1 1UH"
+           },
+           {
+              "code": "427519",
+              "label": "Gateshead Law Courts (Gateshead Magistrates and County) - WARWICK STREET - NE8 1DT"
+           },
+           {
+              "code": "198592",
+              "label": "Gloucestershire Family and Civil Court - KIMBROSE WAY, GLOUCESTER DOCKS - GL1 2DE"
+           },
+           {
+              "code": "700596",
+              "label": "Haverfordwest County and Family - PENFFYNNON, HAWTHORN RISE - SA61 2AZ"
+           },
+           {
+              "code": "197852",
+              "label": "Huddersfield County Court and Family Court - QUEENSGATE HOUSE, QUEENSGATE - HD1 2RR"
+           },
+           {
+              "code": "195520",
+              "label": "Kingston-upon-Hull Combined Court Centre - THE COMBINED COURT CENTRE - HU1 2EZ"
+           },
+           {
+              "code": "195465",
+              "label": "Lincoln County Court and Family Court - HIGH STREET - LN5 7PS"
+           },
+           {
+              "code": "390932",
+              "label": "Llanelli Law Courts - TOWN HALL SQUARE, LLANELLI - SA15 3AW"
+           },
+           {
+              "code": "487294",
+              "label": "Medway County Court and Family Court - 47-67 HIGH STREET CHATHAM KENT - ME4 4DW"
+           },
+           {
+              "code": "366796",
+              "label": "Newcastle Civil & Family Courts and Tribunals Centre - BARRAS BRIDGE, NEWCASTLE-UPON-TYNE - NE99 1NA"
+           },
+           {
+              "code": "562808",
+              "label": "North Shields County Court and Family Court - 2ND FLOOR, ROYAL QUAYS, KINGS COURT - NE29 6AR"
+           },
+           {
+              "code": "471569",
+              "label": "Peterborough Combined Court Centre - CROWN BUILDINGS, RIVERGATE - PE1 1EJ"
+           },
+           {
+              "code": "846055",
+              "label": "Port Talbot Justice Centre - HARBOURSIDE ROAD - SA13 1SB"
+           },
+           {
+              "code": "400947",
+              "label": "Romford County Court and Family Court - OAKLANDS AVENUE - RM1 4DP"
+           },
+           {
+              "code": "43104",
+              "label": "Southampton Combined Court Centre - THE COURTS OF JUSTICE, LONDON ROAD - SO15 2XQ"
+           },
+           {
+              "code": "517400",
+              "label": "Sunderland County, Family, Magistrates' and Tribunal Hearings - GILLBRIDGE AVENUE - SR1 3AP"
+           },
+           {
+              "code": "234946",
+              "label": "Swansea Civil Justice Centre - QUAY WEST, QUAY PARADE - SA1 1SP"
+           }
+        ]
+     }
+  },
+  "event": {
+     "id": "fl401StatementOfTruthAndSubmit",
+     "summary": "",
+     "description": ""
+  },
+  "event_token": "${eventToken}",
+  "ignore_warning": false
+}

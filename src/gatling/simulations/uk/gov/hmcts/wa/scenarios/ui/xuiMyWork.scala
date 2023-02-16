@@ -13,15 +13,10 @@ object xuiMyWork {
 
   val baseURL = Environment.xuiBaseURL
   val IdamURL = Environment.idamURL
-  val taskListFeeder = csv("WA_TaskList.csv").circular
   val taskCancelListFeeder = csv("WA_TasksToCancel.csv").circular
   val feedIACUserData = csv("IACUserData.csv").circular
   val feedWASeniorUserData = csv("WA_SeniorTribunalUsers.csv").circular
   val feedWATribunalUserData = csv("WA_TribunalUsers.csv").circular
-  val caseListFeeder = csv("WA_CaseList.csv").circular
-  val feedCompleteTaskListFeeder = csv("WA_TasksToComplete.csv")
-  val feedAssignTaskListFeeder = csv("WA_TasksToAssign.csv")
-  val feedStaticTasksFeeder = csv("WA_StaticTasks.csv").random
 
   val headers_0 = Map(
 		"cache-control" -> "no-cache",

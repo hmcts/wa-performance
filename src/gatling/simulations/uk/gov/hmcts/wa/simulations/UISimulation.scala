@@ -5,7 +5,7 @@ import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import io.gatling.core.scenario.Simulation
 import io.gatling.core.pause.PauseType
-import io.gatling.http.Predef.Proxy
+// import io.gatling.http.Predef.Proxy
 import io.gatling.commons.stats.assertion.Assertion
 import io.gatling.core.controller.inject.open.OpenInjectionStep
 import uk.gov.hmcts.wa.scenarios._
@@ -40,10 +40,12 @@ class UISimulation extends Simulation  {
   val feedIACUserData = csv("IACUserData.csv").circular
   val feedCivilUserData = csv("CivilUserData.csv").circular
   val feedCivilJudgeData = csv("CivilJudicialUserData.csv").circular
-  // val feedPRLUserData = csv("PRLUserData.csv").circular
-  val feedIACCaseList = csv("WA_R2Cases.csv")
+  val feedPRLUserData = csv("PRLUserData.csv").circular
+  val feedIACCaseList = csv("IACCaseData.csv")
   val feedCivilCaseList = csv("CivilCaseData.csv")
   val feedCivilJudicialCases = csv("CivilJudicialCaseData.csv")
+  val feedPRLCaseData = csv("PRLCaseData.csv")
+  val feedPRLTribunalUsers = csv("PRLTribunalUserData.csv")
 
 	/* PERFORMANCE TEST CONFIGURATION */
 	val assignAndCompleteTargetPerHour: Double = 700 //700
@@ -52,7 +54,7 @@ class UISimulation extends Simulation  {
   val civilCompleteTargetPerHour: Double = 200 //200
   val civilJudicialCompleteTargetPerHour: Double = 150 //150
 	val judicialTargetPerHour: Double = 360 //360
-  // val prlTargetPerHour: Double = 150 //150
+  val prlTargetPerHour: Double = 100 //100
 
 	val rampUpDurationMins = 5
 	val rampDownDurationMins = 5
@@ -81,7 +83,7 @@ class UISimulation extends Simulation  {
 		println(s"Debug Mode: ${debugMode}")
 	}
 
-  val R2AssignAndCompleteTasks = scenario("Assign an IAC Task and Complete it")
+  val IACAssignAndCompleteTasks = scenario("Assign an IAC Task and Complete it")
     .exitBlockOnFail {
       exec(_.set("env", s"${env}"))
       .exec(xuiwa.manageCasesHomePage)
@@ -123,6 +125,20 @@ class UISimulation extends Simulation  {
       .exec(xuiwa.XUILogout)
     }
 
+  val PRLAssignAndCompleteTasks = scenario("Assign an PRL Task and Complete it")
+    .exitBlockOnFail {
+      exec(_.set("env", s"${env}"))
+      .exec(xuiwa.manageCasesHomePage)
+      .feed(feedPRLTribunalUsers)
+      .exec(xuiwa.manageCasesLogin)
+      .feed(feedPRLCaseData)
+      .exec(xuiPrl.SearchCase)
+      .exec(xuiPrl.ViewCase)
+      .exec(xuiwa.AssignTask)
+      .exec(xuiPrl.AddCaseNumber)
+      .exec(xuiwa.XUILogout)
+    }
+
   val CreateIACTaskFromCCD = scenario("Creates IAC cases & tasks in Task Manager")
     .exitBlockOnFail {
       exec(_.set("env", s"${env}"))
@@ -134,6 +150,8 @@ class UISimulation extends Simulation  {
       .exec(ccddatastore.ccdIACRequestHomeOfficeData)
     }
 
+  //It's not currently possible to run this E2E in debug mode - pauses are required between each stage in order to allow 
+  //the Civil apps to process the case data before it's ready for the next event
   val CreateCivilDJTaskFromCCD = scenario("Creates Civil case, case events & a Default Judgement task for Judicial User")
     .exitBlockOnFail {
       exec(_.set("env", s"${env}"))
@@ -153,44 +171,27 @@ class UISimulation extends Simulation  {
       }
     }
 
-    // val CreatePRLTaskFromCCD = scenario("Creates a PRL C100 case & task in Task Manager")
-    //   .exitBlockOnFail {
-    //     exec(_.set("env", s"${env}"))
-    //     .feed(feedPRLUserData)
-    //     .exec(S2S.s2s("ccd_data"))
-    //     .exec(IdamLogin.GetIdamToken)
-    //     .repeat(1) {
-    //       exec(ccddatastore.prlCreateCase)
-    //       .exec(ccddatastore.prlApplicationType)
-    //       .exec(ccddatastore.prlHearingUrgency)
-    //       .exec(ccddatastore.prlApplicantDetails)
-    //       .exec(ccddatastore.prlChildDetails)
-    //       .exec(ccddatastore.prlRespondentDetails)
-    //       .exec(ccddatastore.prlAllegationsOfHarm)
-    //       .exec(ccddatastore.prlMIAM)
-    //       .exec(ccddatastore.prlSubmit)
-    //     }
-
-    //   }
-
-  /*val CreateCivilGATaskFromCCD = scenario("Creates Civil case, case events & a General Application task for Admin User")
-    // .exitBlockOnFail {
-      .exec(_.set("env", s"${env}"))
-      .feed(feedCivilUserData)
+  val CreatePRLTaskFromCCD = scenario("Creates a PRL FL401 case & task in Task Manager")
+    .exitBlockOnFail {
+      exec(_.set("env", s"${env}"))
+      .feed(feedPRLUserData)
       .exec(S2S.s2s("ccd_data"))
       .exec(IdamLogin.GetIdamToken)
-      .repeat(1) {
-        // exec(ccddatastore.civilCreateCaseGA)
-      
-      feed(feedCivilCaseList)
-      // .exec(ccddatastore.civilNotifyClaim)
-      // .exec(ccddatastore.civilNotifyClaimDetails)
-      .exec(ccddatastore.civilUpdateDate)
-      // .exec(ccddatastore.civilRequestDefaultJudgement)
+      .repeat(200) {
+        exec(ccddatastore.prlCreateCase)
+        .exec(ccddatastore.prlApplicationType)
+        .exec(ccddatastore.prlWithoutNotice)
+        .exec(ccddatastore.prlApplicantDetails)
+        .exec(ccddatastore.prlRespondentDetails)
+        .exec(ccddatastore.prlFamilyDetails)
+        .exec(ccddatastore.prlRelationship)
+        .exec(ccddatastore.prlBehaviour)
+        .exec(ccddatastore.prlHome)
+        .exec(ccddatastore.prlSubmit)
       }
-    // }*/
+    }
 
-  val R2CancelTask = scenario("Cancel a Task")
+  val CancelTask = scenario("Cancel a Task")
     .exitBlockOnFail {
       exec(_.set("env", s"${env}"))
       .exec(xuiwa.manageCasesHomePage)
@@ -202,7 +203,7 @@ class UISimulation extends Simulation  {
       .exec(xuiwa.XUILogout)
     }
 
-  val R2JudicialUserJourney = scenario("Judicial User Journey")
+  val JudicialUserJourney = scenario("Judicial User Journey")
     .exitBlockOnFail {
       exec(_.set("env", s"${env}"))
       .exec(xuiwa.manageCasesHomePage)
@@ -275,13 +276,14 @@ class UISimulation extends Simulation  {
   }
   
   setUp(
-    R2AssignAndCompleteTasks.inject(simulationProfile(testType, assignAndCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),             //
-    R2CancelTask.inject(simulationProfile(testType, cancelTaskTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),                                //
-    R2JudicialUserJourney.inject(simulationProfile(testType, judicialTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),                         //
-    CivilAssignAndCompleteTask.inject(simulationProfile(testType, civilJudicialCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),       //
-    CreateCivilDJTaskFromCCD.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),                 //
-    CreateIACTaskFromCCD.inject(simulationProfile(testType, iacCreateTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),                         //
-    // CreatePRLTaskFromCCD.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),                               //
+    // IACAssignAndCompleteTasks.inject(simulationProfile(testType, assignAndCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),            //
+    // PRLAssignAndCompleteTasks.inject(simulationProfile(testType, assignAndCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // CancelTask.inject(simulationProfile(testType, cancelTaskTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),                                  //
+    // JudicialUserJourney.inject(simulationProfile(testType, judicialTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),                           //
+    // CivilAssignAndCompleteTask.inject(simulationProfile(testType, civilJudicialCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),       //
+    // CreateCivilDJTaskFromCCD.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),                 //
+    // CreateIACTaskFromCCD.inject(simulationProfile(testType, iacCreateTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),                         //
+    CreatePRLTaskFromCCD.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),                               //
 
     // getTaskFromCamunda.inject(rampUsers(1) during (1 minute))
     )
