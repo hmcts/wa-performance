@@ -13,15 +13,10 @@ object xuiwa {
 
   val baseURL = Environment.xuiBaseURL
   val IdamURL = Environment.idamURL
-  val taskListFeeder = csv("WA_TaskList.csv").circular
   val taskCancelListFeeder = csv("WA_TasksToCancel.csv").circular
   val feedIACUserData = csv("IACUserData.csv").circular
   val feedWASeniorUserData = csv("WA_SeniorTribunalUsers.csv").circular
   val feedWATribunalUserData = csv("WA_TribunalUsers.csv").circular
-  val caseListFeeder = csv("WA_CaseList.csv").circular
-  val feedCompleteTaskListFeeder = csv("WA_TasksToComplete.csv")
-  val feedAssignTaskListFeeder = csv("WA_TasksToAssign.csv")
-  val feedStaticTasksFeeder = csv("WA_StaticTasks.csv").random
 
   val manageCasesHomePage =
 
@@ -219,49 +214,7 @@ object xuiwa {
 
   val assignTask =
 
-    feed(feedAssignTaskListFeeder)
-
-    .exec(http("XUI_OpenTask")
-			.get("/workallocation/task/${taskId}")
-			.headers(XUIHeaders.headers_tm0))
-
-    // .exec(http("request_11")
-		// 	.get("/workallocation/location")
-		// 	.headers(XUIHeaders.headers_tm0))
-
-    // .exec(http("request_13")
-		// 	.get("/api/monitoring-tools")
-		// 	.headers(XUIHeaders.headers_tm0))
-
-    .pause(Environment.constantthinkTime)
-
-    .exec(http("XUI_AssignTask_005")
-			.post("/workallocation/task/${taskId}/assign")
-			.headers(XUIHeaders.headers_assign33)
-			.body(StringBody("""{"userId":"${idamId}"}""")))
-
-    .exec(http("XUI_AssignTask_010")
-			.get("/api/healthCheck?path=%2Ftasks%2Ftask-manager%23manage_${taskId}")
-			.headers(XUIHeaders.headers_assign35))
-
-    .pause(Environment.constantthinkTime)
-
-    .exec(http("XUI_OpenTaskManager_005")
-			.get("/workallocation/location")
-			.headers(XUIHeaders.headers_assign35))
-
-    .exec(http("XUI_OpenTaskManager_020")
-			.post("/workallocation/task")
-			.headers(XUIHeaders.headers_tm10)
-			.body(StringBody("""{"searchRequest":{"search_parameters":[{"key":"location","operator":"IN","values":["231596","698118","198444","386417","512401","227101","562808","765324"]},{"key":"user","operator":"IN","values":[]}],"sorting_parameters":[{"sort_by":"dueDate","sort_order":"asc"}]},"view":"TaskManager"}""")))
-
-    .pause(Environment.constantthinkTime)
-
-  val assignTaskForCompletion =
-
-    feed(feedCompleteTaskListFeeder)
-
-    .exec(http("XUI_OpenTask")
+    exec(http("XUI_OpenTask")
 			.get("/workallocation/task/${taskId}")
 			.headers(XUIHeaders.headers_tm0))
 
@@ -392,7 +345,6 @@ object xuiwa {
 
   val OpenTask =
 
-    // feed(feedCompleteTaskListFeeder)
     group("XUI_OpenTask") {
       exec(http("XUI_OpenTask_005")
         .get("/auth/isAuthenticated")
@@ -519,62 +471,6 @@ object xuiwa {
         .get("/workallocation/case/task/${caseId}")
         .headers(XUIHeaders.xuiMainHeader))
     }
-
-    .pause(Environment.constantthinkTime)
-
-  val EndAppealCaseEvent =
-
-    exec(http("XUI_EndAppealSelect_005")
-			.get(baseURL + "/data/internal/cases/${caseId}/event-triggers/endAppeal?ignore-warning=false")
-			.headers(XUIHeaders.headers_starteventtrigger)
-      .check(jsonPath("$.event_token").saveAs("eventToken")))
-
-    .exec(http("XUI_EndAppealSelect_015")
-			.get(baseURL + "/data/internal/profile")
-			.headers(XUIHeaders.headers_userprofile))
-
-    .pause(Environment.constantthinkTime)
-    
-    .exec(http("XUI_EndAppealPage1_005")
-			.post(baseURL + "/data/case-types/Asylum/validate?pageId=endAppealendAppeal")
-			.headers(XUIHeaders.headers_casevalidate)
-			.body(ElFileBody("XUICaseEvent_EndAppeal1.json")))
-
-    .exec(http("XUI_EndAppealPage1_010")
-			.get(baseURL + "/api/healthCheck?path=%2Fcases%2Fcase-details%2F${caseId}%2Ftrigger%2FendAppeal%2FendAppealendAppeal2")
-			.headers(XUIHeaders.headers_apihealthcheck))
-
-    .pause(Environment.constantthinkTime)
-
-    .exec(http("XUI_EndAppealPage2_005")
-			.post(baseURL + "/data/case-types/Asylum/validate?pageId=endAppealendAppeal2")
-			.headers(XUIHeaders.headers_casevalidate)
-			.body(ElFileBody("XUICaseEvent_EndAppeal2.json")))
-
-    .exec(http("XUI_EndAppealPage2_010")
-			.get(baseURL + "/api/healthCheck?path=%2Fcases%2Fcase-details%2F${caseId}%2Ftrigger%2FendAppeal%2Fsubmit")
-			.headers(XUIHeaders.headers_apihealthcheck))
-
-    .exec(http("XUI_EndAppealPage2_015")
-			.get(baseURL + "/data/internal/profile")
-			.headers(XUIHeaders.headers_userprofile))
-
-    .pause(Environment.constantthinkTime)
-
-    .exec(http("XUI_EndAppealSubmit_005")
-			.post(baseURL + "/data/cases/${caseId}/events")
-			.headers(XUIHeaders.headers_createevent)
-			.body(ElFileBody("XUICaseEvent_EndAppeal3.json")))
-
-    .exec(http("XUI_EndAppealSubmit_010")
-			.get(baseURL + "/api/healthCheck?path=%2Fcases%2Fcase-details%2F${caseId}%2Ftrigger%2FendAppeal%2Fconfirm")
-			.headers(XUIHeaders.headers_apihealthcheck))
-
-    .pause(Environment.constantthinkTime)
-
-    .exec(http("XUI_ViewCase")
-			.get(baseURL + "/data/internal/cases/${caseId}")
-			.headers(XUIHeaders.headers_viewcase))
 
     .pause(Environment.constantthinkTime)
 

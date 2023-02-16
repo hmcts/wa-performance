@@ -1,0 +1,13 @@
+{
+  "data": {
+     "familymanCaseNumber": "12345",
+     "caseTypeOfApplication": null
+  },
+  "event": {
+     "id": "fl401AddCaseNumber",
+     "summary": "",
+     "description": ""
+  },
+  "event_token": "${eventToken}",
+  "ignore_warning": false
+}
