@@ -5,7 +5,6 @@ import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import io.gatling.core.scenario.Simulation
 import io.gatling.core.pause.PauseType
-// import io.gatling.http.Predef.Proxy
 import io.gatling.commons.stats.assertion.Assertion
 import io.gatling.core.controller.inject.open.OpenInjectionStep
 import uk.gov.hmcts.wa.scenarios._
@@ -150,7 +149,7 @@ class UISimulation extends Simulation  {
       .exec(ccddatastore.ccdIACRequestHomeOfficeData)
     }
 
-  //It's not currently possible to run this E2E in debug mode - pauses are required between each stage in order to allow 
+  //It's not possible to run this E2E in debug mode - pauses are required between each stage in order to allow 
   //the Civil apps to process the case data before it's ready for the next event
   val CreateCivilDJTaskFromCCD = scenario("Creates Civil case, case events & a Default Judgement task for Judicial User")
     .exitBlockOnFail {
@@ -177,7 +176,7 @@ class UISimulation extends Simulation  {
       .feed(feedPRLUserData)
       .exec(S2S.s2s("ccd_data"))
       .exec(IdamLogin.GetIdamToken)
-      .repeat(200) {
+      .repeat(1) {
         exec(ccddatastore.prlCreateCase)
         .exec(ccddatastore.prlApplicationType)
         .exec(ccddatastore.prlWithoutNotice)

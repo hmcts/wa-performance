@@ -11,4 +11,3 @@ out/**
 src/gatling/resources/application.conf
 bin/*
 .vscode/*
-src/gatling/resources/application.conf
