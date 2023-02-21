@@ -135,6 +135,10 @@ class UISimulation extends Simulation  {
       .exec(xuiPrl.ViewCase)
       .exec(xuiwa.AssignTask)
       .exec(xuiPrl.AddCaseNumber)
+      // .pause(30) //TO DO - add a do while to check if the next task is available, otherwise wait and then re-check
+      // .exec(xuiwa.ViewTasksTab)
+      // .exec(xuiwa.AssignTask)
+      // .exec(xuiPrl.SendToGatekeeper)
       .exec(xuiwa.XUILogout)
     }
 
@@ -277,12 +281,12 @@ class UISimulation extends Simulation  {
   setUp(
     // IACAssignAndCompleteTasks.inject(simulationProfile(testType, assignAndCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),            //
     // PRLAssignAndCompleteTasks.inject(simulationProfile(testType, assignAndCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // CivilAssignAndCompleteTask.inject(simulationProfile(testType, civilJudicialCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),       //
     // CancelTask.inject(simulationProfile(testType, cancelTaskTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),                                  //
     // JudicialUserJourney.inject(simulationProfile(testType, judicialTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),                           //
-    // CivilAssignAndCompleteTask.inject(simulationProfile(testType, civilJudicialCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),       //
-    // CreateCivilDJTaskFromCCD.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),                 //
+    CreateCivilDJTaskFromCCD.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),                 //
     // CreateIACTaskFromCCD.inject(simulationProfile(testType, iacCreateTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),                         //
-    CreatePRLTaskFromCCD.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),                               //
+    // CreatePRLTaskFromCCD.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),                               //
 
     // getTaskFromCamunda.inject(rampUsers(1) during (1 minute))
     )
