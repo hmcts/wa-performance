@@ -44,7 +44,7 @@ class UISimulation extends Simulation  {
   val feedCivilCaseList = csv("CivilCaseData.csv")
   val feedCivilJudicialCases = csv("CivilJudicialCaseData.csv")
   val feedPRLCaseData = csv("PRLCaseData.csv")
-  val feedPRLTribunalUsers = csv("PRLTribunalUserData.csv")
+  val feedPRLTribunalUsers = csv("PRLTribunalUserData.csv").circular
 
 	/* PERFORMANCE TEST CONFIGURATION */
 	val assignAndCompleteTargetPerHour: Double = 700 //700
