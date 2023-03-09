@@ -114,7 +114,7 @@ object ccddatastore {
       .header("ServiceAuthorization", "Bearer ${ccd_dataBearerToken}")
       .header("Authorization", "Bearer ${access_token}")
       .header("Content-Type","application/json")
-      .body(ElFileBody("civilBodies/CreateSpecifiedClaim.json"))
+      .body(ElFileBody("civilBodies/CreateUnspecifiedClaim.json"))
       .check(jsonPath("$.id").saveAs("caseId")))
 
     .pause(Environment.constantthinkTime)
