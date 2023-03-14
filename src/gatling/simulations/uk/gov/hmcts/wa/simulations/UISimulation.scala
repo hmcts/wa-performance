@@ -190,7 +190,7 @@ class UISimulation extends Simulation  {
         .exec(ccddatastore.prlRelationship)
         .exec(ccddatastore.prlBehaviour)
         .exec(ccddatastore.prlHome)
-        .exec(ccddatastore.prlSubmit)
+        // .exec(ccddatastore.prlSubmit)
       }
     }
 
