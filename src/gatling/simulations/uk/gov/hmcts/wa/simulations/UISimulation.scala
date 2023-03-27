@@ -124,7 +124,7 @@ class UISimulation extends Simulation  {
       .exec(xuiwa.XUILogout)
     }
 
-  val PRLAssignAndCompleteTasks = scenario("Assign an PRL Task and Complete it")
+  val PRLAssignAndCompleteTasks = scenario("Assign a PRL Task and Complete it")
     .exitBlockOnFail {
       exec(_.set("env", s"${env}"))
       .exec(xuiwa.manageCasesHomePage)
