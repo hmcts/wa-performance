@@ -130,30 +130,6 @@ object xuiJudicialTask {
         .get("/api/user/details")
         .headers(XUIHeaders.xuiMainHeader))
     }
-              
-    // .exec(http("XUI_CaseActivity_Options")
-    //   .options(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
-    //   .headers(XUIHeaders.caseActivityOptions))
-
-    // .exec(http("XUI_CaseActivity_Post")
-    //   .post(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
-    //   .headers(XUIHeaders.xuiMainHeader)
-    //   .header("accept", "application/json, text/plain, */*")
-    //   .header("sec-fetch-site", "same-site")
-    //   .header("content-type", "application/json")
-    //   .header("authorization", "Bearer ${bearerToken}")
-    //   .body(StringBody("""{"activity":"edit"}""")))
-
-    // .exec(http("XUI_CaseActivity_Get")
-    //   .get(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
-    //   .headers(XUIHeaders.xuiMainHeader)
-    //   .header("accept", "application/json, text/plain, */*")
-    //   .header("sec-fetch-site", "same-site")
-    //   .header("authorization", "Bearer ${bearerToken}"))
-      
-    // .exec(http("XUI_CaseActivity_Options")
-    //   .options(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
-    //   .headers(XUIHeaders.caseActivityOptions))
 
     .pause(Environment.constantthinkTime)
 
@@ -165,16 +141,6 @@ object xuiJudicialTask {
         .header("content-type", "application/json")
         .header("x-xsrf-token", "${xsrfToken}")
         .body(ElFileBody("xuiBodies/CivilDJPageOne.json"))
-        // .check(jsonPath("$.data.trialPersonalInjury.date1").saveAs("trialPersonalInjurydate1"))
-        // .check(jsonPath("$.data.disposalHearingWitnessOfFactDJ.date2").saveAs("disposalHearingWitnessOfFactDJdate2"))
-        // .check(jsonPath("$.data.trialHearingDisclosureOfDocumentsDJ.date2").saveAs("date2"))
-        // .check(jsonPath("$.data.disposalHearingQuestionsToExpertsDJ.date").saveAs("disposalHearingQuestionsToExpertsDJdate"))
-        // .check(jsonPath("$.data.disposalHearingSchedulesOfLossDJ.date1").saveAs("disposalHearingSchedulesOfLossDJdate1"))
-        // .check(jsonPath("$.data.disposalHearingSchedulesOfLossDJ.date3").saveAs("disposalHearingSchedulesOfLossDJdate3"))
-        // .check(jsonPath("$.data.disposalHearingSchedulesOfLossDJ.date2").saveAs("disposalHearingSchedulesOfLossDJdate2"))
-        // .check(jsonPath("$.data.disposalHearingFinalDisposalHearingDJ.date").saveAs("disposalHearingFinalDisposalHearingDJdate"))
-        // .check(jsonPath("$.data.disposalHearingNotesDJ.date").saveAs("disposalHearingNotesDJdate"))
-        
         .check(jsonPath("$.data.disposalHearingDisclosureOfDocumentsDJ.date").saveAs("disposalHearingDisclosureOfDocumentsDJDate"))
         .check(jsonPath("$.data.disposalHearingWitnessOfFactDJ.date1").saveAs("disposalHearingWitnessOfFactDJDate1"))
         .check(jsonPath("$.data.disposalHearingWitnessOfFactDJ.date2").saveAs("disposalHearingWitnessOfFactDJDate2"))
@@ -184,37 +150,12 @@ object xuiJudicialTask {
         .check(jsonPath("$.data.disposalHearingSchedulesOfLossDJ.date2").saveAs("disposalHearingSchedulesOfLossDJDate2"))
         .check(jsonPath("$.data.disposalHearingSchedulesOfLossDJ.date3").saveAs("disposalHearingSchedulesOfLossDJDate3"))
         .check(jsonPath("$.data.disposalHearingFinalDisposalHearingTimeDJ.date").saveAs("disposalHearingFinalDisposalHearingTimeDJDate"))
-
         )
     
       .exec(http("XUI_JudicialSDO_Page2_ApiUserDetails")
         .get("/api/user/details")
         .headers(XUIHeaders.xuiMainHeader))
     }
-              
-    // .exec(http("XUI_CaseActivity_Options")
-    //   .options(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
-    //   .headers(XUIHeaders.caseActivityOptions))
-
-    // .exec(http("XUI_CaseActivity_Post")
-    //   .post(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
-    //   .headers(XUIHeaders.xuiMainHeader)
-    //   .header("accept", "application/json, text/plain, */*")
-    //   .header("sec-fetch-site", "same-site")
-    //   .header("content-type", "application/json")
-    //   .header("authorization", "Bearer ${bearerToken}")
-    //   .body(StringBody("""{"activity":"edit"}""")))
-
-    // .exec(http("XUI_CaseActivity_Options")
-    //   .options(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
-    //   .headers(XUIHeaders.caseActivityOptions))
-
-    // .exec(http("XUI_CaseActivity_Get")
-    //   .get(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
-    //   .headers(XUIHeaders.xuiMainHeader)
-    //   .header("accept", "application/json, text/plain, */*")
-    //   .header("sec-fetch-site", "same-site")
-    //   .header("authorization", "Bearer ${bearerToken}"))
 
     .pause(Environment.constantthinkTime)
         
@@ -241,20 +182,6 @@ object xuiJudicialTask {
         .check(jsonPath("$.data.disposalHearingSchedulesOfLossDJ.date2").saveAs("disposalHearingSchedulesOfLossDJdate2"))
         .check(jsonPath("$.data.disposalHearingSchedulesOfLossDJ.date3").saveAs("disposalHearingSchedulesOfLossDJdate3"))
         .check(jsonPath("$.data.disposalHearingFinalDisposalHearingTimeDJ.date")saveAs("disposalHearingFinalDisposalHearingTimeDJdate"))
-
-        // .check(jsonPath("$.data.disposalHearingWitnessOfFactDJ.date1").saveAs("disposalHearingWitnessOfFactDJdate1"))
-        // .check(jsonPath("$.data.disposalHearingWitnessOfFactDJ.date2").saveAs("disposalHearingWitnessOfFactDJdate2"))
-        // // .check(jsonPath("$.data.disposalHearingWitnessOfFactDJ.date3").saveAs("disposalHearingWitnessOfFactDJdate3"))
-        // .check(jsonPath("$.data.disposalHearingMedicalEvidenceDJ.date1").saveAs("disposalHearingMedicalEvidenceDJdate1"))
-        // .check(jsonPath("$.data.disposalHearingQuestionsToExpertsDJ.date").saveAs("disposalHearingQuestionsToExpertsDJdate"))
-        // .check(jsonPath("$.data.disposalHearingSchedulesOfLossDJ.date1").saveAs("disposalHearingSchedulesOfLossDJdate1"))
-        // .check(jsonPath("$.data.disposalHearingSchedulesOfLossDJ.date3").saveAs("disposalHearingSchedulesOfLossDJdate3"))
-        // .check(jsonPath("$.data.disposalHearingSchedulesOfLossDJ.date2").saveAs("disposalHearingSchedulesOfLossDJdate2"))
-        // .check(jsonPath("$.data.disposalHearingFinalDisposalHearingDJ.date").saveAs("disposalHearingFinalDisposalHearingDJdate"))
-        // .check(jsonPath("$.data.disposalHearingNotesDJ.date").saveAs("disposalHearingNotesDJdate"))
-        // .check(jsonPath("$.data.defaultJudgmentDocuments[0].value.documentSize").saveAs("documentSize"))
-        // .check(jsonPath("$.data.defaultJudgmentDocuments[0].id").saveAs("documentJudgeId"))
-        // .check(jsonPath("$.data.defaultJudgmentDocuments[*].value.createdDatetime").saveAs("documentDateTime"))
         )
 
       .exec(http("XUI_JudicialSDO_Page3_ApiUserDetails")
@@ -273,30 +200,6 @@ object xuiJudicialTask {
         .header("x-xsrf-token", "${xsrfToken}")
         .body(ElFileBody("xuiBodies/CivilDJPageThree.json")))
     }
-
-    // .exec(http("XUI_CaseActivity_Options")
-    //   .options(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
-    //   .headers(XUIHeaders.caseActivityOptions))
-
-    // .exec(http("XUI_CaseActivity_Post")
-    //   .post(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
-    //   .headers(XUIHeaders.xuiMainHeader)
-    //   .header("accept", "application/json, text/plain, */*")
-    //   .header("sec-fetch-site", "same-site")
-    //   .header("content-type", "application/json")
-    //   .header("authorization", "Bearer ${bearerToken}")
-    //   .body(StringBody("""{"activity":"edit"}""")))
-
-    // .exec(http("XUI_CaseActivity_Options")
-    //   .options(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
-    //   .headers(XUIHeaders.caseActivityOptions))
-
-    // .exec(http("XUI_CaseActivity_Get")
-    //   .get(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
-    //   .headers(XUIHeaders.xuiMainHeader)
-    //   .header("accept", "application/json, text/plain, */*")
-    //   .header("sec-fetch-site", "same-site")
-    //   .header("authorization", "Bearer ${bearerToken}"))
 
     .pause(Environment.constantthinkTime)
 
@@ -338,29 +241,4 @@ object xuiJudicialTask {
         .get("/api/user/details")
         .headers(XUIHeaders.xuiMainHeader))
     }
-
-    // .exec(http("XUI_CaseActivity_Options")
-    //   .options(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
-    //   .headers(XUIHeaders.caseActivityOptions))
-
-    // .exec(http("XUI_CaseActivity_Post")
-    //   .post(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
-    //   .headers(XUIHeaders.xuiMainHeader)
-    //   .header("accept", "application/json, text/plain, */*")
-    //   .header("sec-fetch-site", "same-site")
-    //   .header("content-type", "application/json")
-    //   .header("authorization", "Bearer ${bearerToken}")
-    //   .body(StringBody("""{"activity":"edit"}""")))
-
-    // .exec(http("XUI_CaseActivity_Options")
-    //   .options(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
-    //   .headers(XUIHeaders.caseActivityOptions))
-
-    // .exec(http("XUI_CaseActivity_Get")
-    //   .get(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
-    //   .headers(XUIHeaders.xuiMainHeader)
-    //   .header("accept", "application/json, text/plain, */*")
-    //   .header("sec-fetch-site", "same-site")
-    //   .header("authorization", "Bearer ${bearerToken}"))
-
 }
