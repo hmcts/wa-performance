@@ -53,7 +53,7 @@ class UISimulation extends Simulation  {
   val civilCompleteTargetPerHour: Double = 200 //200
   val civilJudicialCompleteTargetPerHour: Double = 150 //150
 	val judicialTargetPerHour: Double = 360 //360
-  val prlTargetPerHour: Double = 1000 //100
+  val prlTargetPerHour: Double = 100 //100
 
 	val rampUpDurationMins = 5
 	val rampDownDurationMins = 5
@@ -259,14 +259,18 @@ class UISimulation extends Simulation  {
           Seq(global.successfulRequests.percent.gte(95),
             details("XUI_CancelTask").successfulRequests.count.gte((cancelTaskTargetPerHour * 0.9).ceil.toInt),
             details("XUI_Judicial_004_ConfirmRoleAllocation").successfulRequests.count.gte((judicialTargetPerHour * 0.9).ceil.toInt),
-            details("XUI_RequestRespondentEvidence_Submit").successfulRequests.count.gte((assignAndCompleteTargetPerHour * 0.9).ceil.toInt)
+            details("XUI_RequestRespondentEvidence_Submit").successfulRequests.count.gte((assignAndCompleteTargetPerHour * 0.9).ceil.toInt),
+            details("XUI_AddCaseNumber_Submit").successfulRequests.count.gte((assignAndCompleteTargetPerHour * 0.9).ceil.toInt),
+            details("XUI_JudicialSDO_Submit_Request").successfulRequests.count.gte((assignAndCompleteTargetPerHour * 0.9).ceil.toInt)
           )
         }
         else{
           Seq(global.successfulRequests.percent.gte(95),
             details("XUI_CancelTask").successfulRequests.count.is(1),
             details("XUI_Judicial_004_ConfirmRoleAllocation").successfulRequests.count.is(1),
-            details("XUI_RequestRespondentEvidence_Submit").successfulRequests.count.is(1)
+            details("XUI_RequestRespondentEvidence_Submit").successfulRequests.count.is(1),
+            details("XUI_AddCaseNumber_Submit").successfulRequests.count.is(1),
+            details("XUI_JudicialSDO_Submit_Request").successfulRequests.count.is(1)
           )
         }
       case "pipeline" =>
@@ -279,13 +283,13 @@ class UISimulation extends Simulation  {
   }
   
   setUp(
-    // IACAssignAndCompleteTasks.inject(simulationProfile(testType, assignAndCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    // PRLAssignAndCompleteTasks.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    // CivilAssignAndCompleteTask.inject(simulationProfile(testType, civilJudicialCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    // CancelTask.inject(simulationProfile(testType, cancelTaskTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    // JudicialUserJourney.inject(simulationProfile(testType, judicialTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    // CreateCivilDJTaskFromCCD.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    // CreateIACTaskFromCCD.inject(simulationProfile(testType, iacCreateTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    IACAssignAndCompleteTasks.inject(simulationProfile(testType, assignAndCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    PRLAssignAndCompleteTasks.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    CivilAssignAndCompleteTask.inject(simulationProfile(testType, civilJudicialCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    CancelTask.inject(simulationProfile(testType, cancelTaskTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    JudicialUserJourney.inject(simulationProfile(testType, judicialTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    CreateCivilDJTaskFromCCD.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    CreateIACTaskFromCCD.inject(simulationProfile(testType, iacCreateTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     CreatePRLTaskFromCCD.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 
     // getTaskFromCamunda.inject(rampUsers(1) during (1 minute))
