@@ -132,6 +132,17 @@ object xuiAllWork {
 
 		.pause(Environment.constantthinkTime)
 
+  val allWorkTasksHighPriority =
+
+    exec(http("XUI_001_ViewAllWork_HighPriority")
+      .post("/workallocation/task")
+      .headers(XUIHeaders.xuiMainHeader) //10
+      .header("content-type", "application/json")
+      .header("x-xsrf-token", "${xsrfToken}")
+      .body(ElFileBody("xuiBodies/AllWorkHighPriority.json")))
+
+    .pause(Environment.constantthinkTime)
+
   val allWorkViewTask = 
 
     group("XUI_002_ViewTask") {

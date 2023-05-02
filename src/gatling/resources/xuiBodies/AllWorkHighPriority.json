@@ -2,18 +2,18 @@
   "searchRequest": {
      "search_parameters": [
         {
-           "key": "jurisdiction",
-           "operator": "IN",
-           "values": [
-              "IA"
-           ]
-        },
-        {
            "key": "state",
            "operator": "IN",
            "values": [
               "assigned",
               "unassigned"
+           ]
+        },
+        {
+           "key": "jurisdiction",
+           "operator": "IN",
+           "values": [
+              "IA"
            ]
         },
         {
@@ -24,17 +24,13 @@
            ]
         }
      ],
-     "sorting_parameters": [
-        {
-           "sort_by": "dueDate",
-           "sort_order": "desc"
-        }
-     ],
+     "sorting_parameters": [],
      "search_by": "caseworker",
      "pagination_parameters": {
         "page_number": 1,
         "page_size": 25
-     }
+     },
+     "request_context": "ALL_WORK"
   },
   "view": "AllWork",
   "refined": false,
