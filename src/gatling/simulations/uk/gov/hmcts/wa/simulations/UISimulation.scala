@@ -48,7 +48,7 @@ class UISimulation extends Simulation  {
 
 	/* PERFORMANCE TEST CONFIGURATION */
 	val assignAndCompleteTargetPerHour: Double = 700 //700
-	val cancelTaskTargetPerHour: Double = 40 //40
+	val cancelTaskTargetPerHour: Double = 300 //300
 	val iacCreateTargetPerHour: Double = 1500 //1500
   val civilCompleteTargetPerHour: Double = 200 //200
   val civilJudicialCompleteTargetPerHour: Double = 150 //150
@@ -110,6 +110,7 @@ class UISimulation extends Simulation  {
       .feed(feedCivilJudgeData)
       .exec(xuiwa.manageCasesLogin)
       .exec(xuiAllWork.allWorkTasks)
+      .exec(xuiAllWork.allWorkTasksHighPriority)
       .feed(feedCivilJudicialCases)
       .exec(_.set("jurisdiction", "CIVIL"))
       .exec(xuiSearchChallengedAccess.GlobalSearch)
@@ -222,7 +223,7 @@ class UISimulation extends Simulation  {
   val getTaskFromCamunda = scenario("Camunda Get Task")
     .exec(_.set("env", s"${env}"))
     .exec(S2S.s2s("wa_task_management_api"))
-    .repeat(300) {
+    .repeat(475) {
       exec(wataskmanagement.CamundaGetCase)
     }
 
