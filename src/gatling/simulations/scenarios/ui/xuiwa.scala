@@ -382,7 +382,7 @@ object xuiwa {
 
 		.pause(Environment.constantthinkTime)
 
-    .exec(_.set("currentDate", (Common.getDate)))
+    .exec(_.set("currentDate", Common.getDate()))
     
     .group("XUI_ConfirmRoleAllocation") {
       exec(http("XUI_ConfirmRoleAllocation_005")
