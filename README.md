@@ -17,3 +17,4 @@ Performance tests for Work Allocation
 * The file WA_TasksToCancel.csv consumes 40 rows per test - ensure the first 40 have been deleted from the prior test run before running another test
 * The file IACCaseData.csv consumes 750 rows per test - as above, delete the first 750 before starting another test run
 * Ensure the CCD Gateway Client Secret is defined in application.conf
+* The Perftest branch contains performance tests to be run against Perftest, the required secrets will need to be added to the application.conf file locally

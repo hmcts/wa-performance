@@ -1,7 +1,7 @@
 #!groovy
 
 properties([
-        pipelineTriggers([cron('00 21 * * *')]),
+        pipelineTriggers([cron('00 08 * * *')]),
         parameters([
                 string(name: 'BaseURL', defaultValue: 'https://', description: 'The Base Url'),
         ])
@@ -37,7 +37,8 @@ withNightlyPipeline("java", product, component) {
     loadVaultSecrets(secrets)
     //env.BaseURL = 'https://'
 
-    // enablePerformanceTest()
+
+    //enablePerformanceTest()
 
     after('performanceTest') {
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
