@@ -1,0 +1,23 @@
+{
+  "searchRequest": {
+     "search_parameters": [
+        {
+           "key": "user",
+           "operator": "IN",
+           "values": [
+              "${idamId}"
+           ]
+        },
+        {
+           "key": "state",
+           "operator": "IN",
+           "values": [
+              "assigned"
+           ]
+        }
+     ],
+     "sorting_parameters": [],
+     "search_by": "caseworker"
+  },
+  "view": "MyTasks"
+}

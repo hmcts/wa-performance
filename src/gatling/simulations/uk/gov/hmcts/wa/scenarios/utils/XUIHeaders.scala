@@ -2,7 +2,6 @@ package uk.gov.hmcts.wa.scenarios.utils
 
 object XUIHeaders {
 
- val baseURL = Environment.baseURL
  val IdamUrl = Environment.idamURL
 
  val headers_0 = Map(
@@ -113,22 +112,6 @@ object XUIHeaders {
 		"sec-ch-ua" -> """Google Chrome";v="89", "Chromium";v="89", ";Not A Brand";v="99""",
 		"sec-ch-ua-mobile" -> "?0")
 
-  // val headers_55 = Map(
-	// 	"Accept" -> "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8",
-	// 	"Content-Type" -> "application/json",
-	// 	"DNT" -> "1",
-	// 	"Origin" -> "https://manage-case.perftest.platform.hmcts.net",
-	// 	"Pragma" -> "no-cache",
-	// 	"Request-Context" -> "appId=cid-v1:7922b140-fa5f-482d-89b4-e66e9e6d675a",
-	// 	"Request-Id" -> "|oBG4M.I8RT+",
-	// 	"Sec-Fetch-Dest" -> "empty",
-	// 	"Sec-Fetch-Mode" -> "cors",
-	// 	"Sec-Fetch-Site" -> "same-origin",
-	// 	"X-XSRF-TOKEN" -> "${xsrfToken}",
-	// 	"experimental" -> "true",
-	// 	"sec-ch-ua" -> """Google Chrome";v="89", "Chromium";v="89", ";Not A Brand";v="99""",
-	// 	"sec-ch-ua-mobile" -> "?0")
-
   val headers_createevent = Map(
 		"Accept" -> "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8",
 		"Content-Type" -> "application/json",
@@ -236,73 +219,6 @@ object XUIHeaders {
 		"sec-ch-ua" -> """Google Chrome";v="89", "Chromium";v="89", ";Not A Brand";v="99""",
 		"sec-ch-ua-mobile" -> "?0")
 
-	val openTaskHeader = Map(
-		"Accept" -> "application/json, text/plain, */*",
-		"DNT" -> "1",
-		"Pragma" -> "no-cache",
-		"Request-Context" -> "appId=cid-v1:7922b140-fa5f-482d-89b4-e66e9e6d675a",
-		"Request-Id" -> "|639Sn.6M0xB",
-		"Sec-Fetch-Dest" -> "empty",
-		"Sec-Fetch-Mode" -> "cors",
-		"Sec-Fetch-Site" -> "same-origin",
-		"sec-ch-ua" -> """Google Chrome";v="89", "Chromium";v="89", ";Not A Brand";v="99""",
-		"sec-ch-ua-mobile" -> "?0")
-		
-	//Cancel Task Headers
-	val headers_ct24 = Map(
-		"Accept" -> "application/json, text/plain, */*",
-		"Content-Type" -> "application/json",
-		"DNT" -> "1",
-		"Origin" -> "https://manage-case.perftest.platform.hmcts.net",
-		"Pragma" -> "no-cache",
-		"Request-Context" -> "appId=cid-v1:7922b140-fa5f-482d-89b4-e66e9e6d675a",
-		"Request-Id" -> "|639Sn.ZGN+H",
-		"Sec-Fetch-Dest" -> "empty",
-		"Sec-Fetch-Mode" -> "cors",
-		"Sec-Fetch-Site" -> "same-origin",
-		"X-XSRF-TOKEN" -> "${xsrfToken}",
-		"sec-ch-ua" -> """Google Chrome";v="89", "Chromium";v="89", ";Not A Brand";v="99""",
-		"sec-ch-ua-mobile" -> "?0")
-
-	val headers_ct25 = Map(
-		"Accept" -> "application/json, text/plain, */*",
-		"DNT" -> "1",
-		"Pragma" -> "no-cache",
-		"Request-Context" -> "appId=cid-v1:7922b140-fa5f-482d-89b4-e66e9e6d675a",
-		"Request-Id" -> "|639Sn.18Vnc",
-		"Sec-Fetch-Dest" -> "empty",
-		"Sec-Fetch-Mode" -> "cors",
-		"Sec-Fetch-Site" -> "same-origin",
-		"sec-ch-ua" -> """Google Chrome";v="89", "Chromium";v="89", ";Not A Brand";v="99""",
-		"sec-ch-ua-mobile" -> "?0")
-
-	val headers_ct26 = Map(
-		"Accept" -> "application/json, text/plain, */*",
-		"DNT" -> "1",
-		"Pragma" -> "no-cache",
-		"Request-Context" -> "appId=cid-v1:7922b140-fa5f-482d-89b4-e66e9e6d675a",
-		"Request-Id" -> "|639Sn.IMzAf",
-		"Sec-Fetch-Dest" -> "empty",
-		"Sec-Fetch-Mode" -> "cors",
-		"Sec-Fetch-Site" -> "same-origin",
-		"sec-ch-ua" -> """Google Chrome";v="89", "Chromium";v="89", ";Not A Brand";v="99""",
-		"sec-ch-ua-mobile" -> "?0")
-
-	val headers_ct31 = Map(
-		"Accept" -> "application/json, text/plain, */*",
-		"Content-Type" -> "application/json",
-		"DNT" -> "1",
-		"Origin" -> "https://manage-case.perftest.platform.hmcts.net",
-		"Pragma" -> "no-cache",
-		"Request-Context" -> "appId=cid-v1:7922b140-fa5f-482d-89b4-e66e9e6d675a",
-		"Request-Id" -> "|639Sn.Shj0q",
-		"Sec-Fetch-Dest" -> "empty",
-		"Sec-Fetch-Mode" -> "cors",
-		"Sec-Fetch-Site" -> "same-origin",
-		"X-XSRF-TOKEN" -> "${xsrfToken}",
-		"sec-ch-ua" -> """Google Chrome";v="89", "Chromium";v="89", ";Not A Brand";v="99""",
-		"sec-ch-ua-mobile" -> "?0")
-
 	//Complete Task header
 	val headers_complete = Map(
 		"Accept" -> "application/json, text/plain, */*",
@@ -322,4 +238,32 @@ object XUIHeaders {
     "Sec-Fetch-Mode" -> "navigate",
     "Sec-Fetch-Site" -> "same-origin",
     "Sec-Fetch-User" -> "?1")
+
+  //R2 Headers
+  val xuiMainHeader = Map(
+    // "accept" -> "*/*",
+		"cache-control" -> "no-cache",
+		"dnt" -> "1",
+		"pragma" -> "no-cache",
+    "origin" -> "https://manage-case.${env}.platform.hmcts.net",
+    "experimental" -> "true",
+		"sec-ch-ua" -> """ Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96""",
+		"sec-ch-ua-mobile" -> "?0",
+		"sec-ch-ua-platform" -> "macOS",
+		"sec-fetch-dest" -> "empty",
+		"sec-fetch-mode" -> "cors",
+		"sec-fetch-site" -> "same-origin",
+    "request-id" -> "|/qDn7.xWuGp"
+  )
+
+  val caseActivityOptions = Map(
+    "access-control-request-headers" -> "authorization,content-type",
+		"access-control-request-method" -> "GET",
+		"cache-control" -> "no-cache",
+		"origin" -> "https://manage-case.${env}.platform.hmcts.net",
+		"pragma" -> "no-cache",
+		"sec-fetch-dest" -> "empty",
+		"sec-fetch-mode" -> "cors",
+		"sec-fetch-site" -> "same-site"
+  )
 }

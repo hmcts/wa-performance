@@ -1,0 +1,19 @@
+{
+  "searchCriteria": {
+     "CCDCaseTypeIds": null,
+     "CCDJurisdictionIds": [
+        "${jurisdiction}"
+     ],
+     "caseManagementBaseLocationIds": null,
+     "caseManagementRegionIds": null,
+     "caseReferences": [
+        "${caseId}"
+     ],
+     "otherReferences": null,
+     "parties": [],
+     "stateIds": null
+  },
+  "sortCriteria": null,
+  "maxReturnRecordCount": 25,
+  "startRecordNumber": 1
+}

@@ -1,0 +1,47 @@
+{
+  "searchRequest": {
+     "search_parameters": [
+        {
+           "key": "jurisdiction",
+           "operator": "IN",
+           "values": [
+              "IA"
+           ]
+        },
+        {
+           "key": "state",
+           "operator": "IN",
+           "values": [
+              "assigned",
+              "unassigned"
+           ]
+        },
+        {
+           "key": "taskType",
+           "operator": "IN",
+           "values": [
+              "Legal Ops"
+           ]
+        },
+        {
+           "key": "location",
+           "operator": "IN",
+           "values": [
+              "765324"
+           ]
+        }
+     ],
+     "sorting_parameters": [
+        {
+           "sort_by": "dueDate",
+           "sort_order": "desc"
+        }
+     ],
+     "search_by": "caseworker",
+     "pagination_parameters": {
+        "page_number": 1,
+        "page_size": 25
+     }
+  },
+  "view": "AllWork"
+}

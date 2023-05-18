@@ -1,0 +1,20 @@
+{
+  "data": {
+     "gatekeeper": [
+        {
+           "value": {
+              "email": "perftest@perftest.com"
+           },
+           "id": null
+        }
+     ],
+     "caseTypeOfApplication": null
+  },
+  "event": {
+     "id": "sendToGateKeeper",
+     "summary": "",
+     "description": ""
+  },
+  "event_token": "${eventToken}",
+  "ignore_warning": false
+}

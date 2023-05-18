@@ -57,8 +57,7 @@ gatling {
     toolVersion '3.2.1'
     scalaVersion '2.12.8'
     simulations = [ 
-                    'uk.gov.hmcts.wa.simulations.APISimulation'
-                    // 'uk.gov.hmcts.wa.simulations.UISimulation'
+                    'uk.gov.hmcts.wa.simulations.UISimulation'
     ]
 }
 

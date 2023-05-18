@@ -1,0 +1,18 @@
+{
+  "data": {
+     "applicantVRespondentText": "john smith v steve smith",
+     "caseManagementOrderSelection": "DISPOSAL_HEARING"
+  },
+  "event": {
+     "id": "STANDARD_DIRECTION_ORDER_DJ",
+     "summary": "",
+     "description": ""
+  },
+  "event_data": {
+     "applicantVRespondentText": "john smith v steve smith",
+     "caseManagementOrderSelection": "DISPOSAL_HEARING"
+  },
+  "event_token": "${eventToken}",
+  "ignore_warning": false,
+  "case_reference": "${caseId}"
+}

@@ -7,25 +7,25 @@ object Environment {
 
   val minThinkTime = 10 //10
   val maxThinkTime = 30 //30
-  val constantthinkTime = 10 //7
+  val constantthinkTime = 7 //7
 
-  val minWaitForNextIteration = 60 //120
-  val maxWaitForNextIteration = 120 //240
+  val minWaitForNextIteration = 120 //120
+  val maxWaitForNextIteration = 240 //240
   val HttpProtocol = http
 
-  val idamURL = "https://idam-web-public.aat.platform.hmcts.net"
-  val idamAPI = "https://idam-api.aat.platform.hmcts.net"
-  val ccdEnvurl = "https://www-ccd.aat.platform.hmcts.net"
-  val ccdDataStoreUrl = "ccd-data-store-api-aat.service.core-compute-aat.internal"
-  val baseURL = "https://gateway-ccd.perftest.platform.hmcts.net"
-  val s2sUrl = "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal"
-  val xuiMCUrl = "https://manage-case.perftest.platform.hmcts.net/oauth2/callback"
-  val xuiBaseURL = "https://manage-case.perftest.platform.hmcts.net"
-  val dmStore = "http://dm-store-perftest.service.core-compute-perftest.internal"
-  val waTMURL = "http://wa-task-management-api-aat.service.core-compute-aat.internal"
-  val ccdRedirectUri = "https://ccd-data-store-api-aat.service.core-compute-aat.internal/oauth2redirect"
-  val camundaURL = "http://camunda-api-aat.service.core-compute-aat.internal"
-  val waWorkflowApiURL = "http://wa-workflow-api-aat.service.core-compute-aat.internal"
+  val idamURL = "https://idam-web-public.${env}.platform.hmcts.net"
+  val idamAPI = "https://idam-api.${env}.platform.hmcts.net"
+  val ccdEnvurl = "https://www-ccd.${env}.platform.hmcts.net"
+  val ccdDataStoreUrl = "ccd-data-store-api-${env}.service.core-compute-${env}.internal"
+  val ccdGateway = "https://gateway-ccd.${env}.platform.hmcts.net"
+  val s2sUrl = "http://rpe-service-auth-provider-${env}.service.core-compute-${env}.internal"
+  val xuiMCUrl = "https://manage-case.${env}.platform.hmcts.net/oauth2/callback"
+  val xuiBaseURL = "https://manage-case.${env}.platform.hmcts.net"
+  val dmStore = "http://dm-store-${env}.service.core-compute-${env}.internal"
+  val waTMURL = "http://wa-task-management-api-${env}.service.core-compute-${env}.internal"
+  val ccdRedirectUri = "https://ccd-data-store-api-${env}.service.core-compute-${env}.internal/oauth2redirect"
+  val camundaURL = "http://camunda-api-${env}.service.core-compute-${env}.internal"
+  val waWorkflowApiURL = "http://wa-workflow-api-${env}.service.core-compute-${env}.internal"
 
   val ClearSessionVariables =
     exec(flushHttpCache)
