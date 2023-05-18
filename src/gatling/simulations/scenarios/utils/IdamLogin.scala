@@ -1,9 +1,9 @@
-package uk.gov.hmcts.wa.scenarios
+package utils
 
 import com.typesafe.config.{Config, ConfigFactory}
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
-import uk.gov.hmcts.wa.scenarios.utils._
+import utils._
 
 object IdamLogin {
 
@@ -15,7 +15,7 @@ object IdamLogin {
   val GetIdamToken =
 
     exec(http("GetIdamToken")
-      .post(IdamAPI + "/o/token?client_id=ccd_gateway&client_secret=" + ccdGatewayClientSecret + "&grant_type=password&scope=" + ccdScope + "&username=${email}&password=${password}")
+      .post(IdamAPI + "/o/token?client_id=ccd_gateway&client_secret=" + ccdGatewayClientSecret + "&grant_type=password&scope=" + ccdScope + "&username=#{email}&password=#{password}")
       .header("Content-Type", "application/x-www-form-urlencoded")
       .header("Content-Length", "0")
       .check(status.is(200))

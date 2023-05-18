@@ -14,7 +14,7 @@
      "sendDirectionParties": "respondent",
      "sendDirectionDateDue": "2022-02-04"
   },
-  "event_token": "${eventToken}",
+  "event_token": "#{eventToken}",
   "ignore_warning": false,
-  "case_reference": "${caseId}"
+  "case_reference": "#{caseId}"
 }

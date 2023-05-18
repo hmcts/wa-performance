@@ -34,5 +34,5 @@
   },
   "view": "AllWork",
   "refined": false,
-  "currentUser": "${idamId}"
+  "currentUser": "#{idamId}"
 }

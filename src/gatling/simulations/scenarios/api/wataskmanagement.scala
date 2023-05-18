@@ -1,4 +1,4 @@
-package uk.gov.hmcts.wa.scenarios
+package scenarios
 
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -9,7 +9,7 @@ import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import io.gatling.core.session._
 import io.gatling.commons.validation._
-import uk.gov.hmcts.wa.scenarios.utils._
+import utils._
 import java.io.{BufferedWriter, FileWriter}
 
 object wataskmanagement {
@@ -55,8 +55,8 @@ val WASeniorIdamLogin =
   .exec(http("WA_OIDC01_Authenticate")
     .post(IdamAPI + "/authenticate")
     .header("Content-Type", "application/x-www-form-urlencoded")
-    .formParam("username", "${email}")
-    .formParam("password", "${password}")
+    .formParam("username", "#{email}")
+    .formParam("password", "#{password}")
     .formParam("redirectUri", ccdRedirectUri)
     .formParam("originIp", "0:0:0:0:0:0:0:1")
     .check(status is 200)
@@ -66,14 +66,14 @@ val WASeniorIdamLogin =
   .exec(http("WA_OIDC02_Authorize")
     .post(IdamAPI + "/o/authorize?response_type=code&client_id=" + ccdClientId + "&redirect_uri=" + ccdRedirectUri + "&scope=" + ccdScope).disableFollowRedirect
     .header("Content-Type", "application/x-www-form-urlencoded")
-    .header("Cookie", "Idam.Session=${authCookie}")
+    .header("Cookie", "Idam.Session=#{authCookie}")
     .header("Content-Length", "0")
     .check(status is 302)
     .check(headerRegex("Location", "code=(.*)&client_id").saveAs("code")))
     .exitHereIfFailed
 
   .exec(http("WA_OIDC03_Token")
-    .post(IdamAPI + "/o/token?grant_type=authorization_code&code=${code}&client_id=" + ccdClientId +"&redirect_uri=" + ccdRedirectUri + "&client_secret=" + ccdGatewayClientSecret)
+    .post(IdamAPI + "/o/token?grant_type=authorization_code&code=#{code}&client_id=" + ccdClientId +"&redirect_uri=" + ccdRedirectUri + "&client_secret=" + ccdGatewayClientSecret)
     .header("Content-Type", "application/x-www-form-urlencoded")
     .header("Content-Length", "0")
     .check(status is 200)
@@ -87,8 +87,8 @@ val WATribunalIdamLogin =
   .exec(http("OIDC01_Authenticate")
     .post(IdamAPI + "/authenticate")
     .header("Content-Type", "application/x-www-form-urlencoded")
-    .formParam("username", "${waemail}")
-    .formParam("password", "${wapassword}")
+    .formParam("username", "#{waemail}")
+    .formParam("password", "#{wapassword}")
     .formParam("redirectUri", ccdRedirectUri)
     .formParam("originIp", "0:0:0:0:0:0:0:1")
     .check(status is 200)
@@ -98,14 +98,14 @@ val WATribunalIdamLogin =
   .exec(http("OIDC02_Authorize")
     .post(IdamAPI + "/o/authorize?response_type=code&client_id=" + ccdClientId + "&redirect_uri=" + ccdRedirectUri + "&scope=" + ccdScope).disableFollowRedirect
     .header("Content-Type", "application/x-www-form-urlencoded")
-    .header("Cookie", "Idam.Session=${authCookie}")
+    .header("Cookie", "Idam.Session=#{authCookie}")
     .header("Content-Length", "0")
     .check(status is 302)
     .check(headerRegex("Location", "code=(.*)&client_id").saveAs("code")))
     .exitHereIfFailed
 
   .exec(http("OIDC03_Token")
-    .post(IdamAPI + "/o/token?grant_type=authorization_code&code=${code}&client_id=" + ccdClientId +"&redirect_uri=" + ccdRedirectUri + "&client_secret=" + ccdGatewayClientSecret)
+    .post(IdamAPI + "/o/token?grant_type=authorization_code&code=#{code}&client_id=" + ccdClientId +"&redirect_uri=" + ccdRedirectUri + "&client_secret=" + ccdGatewayClientSecret)
     .header("Content-Type", "application/x-www-form-urlencoded")
     .header("Content-Length", "0")
     .check(status is 200)
@@ -118,8 +118,8 @@ val GetAllTasks =
 
   exec(http("WA_GetAllTasks")
     .post(waUrl + "/task") //?first_result=1&max_results=1000")
-    .header("ServiceAuthorization", "Bearer ${wa_task_management_apiBearerToken}")
-    .header("Authorization", "Bearer ${access_token}")
+    .header("ServiceAuthorization", "Bearer #{wa_task_management_apiBearerToken}")
+    .header("Authorization", "Bearer #{access_token}")
     .header("Content-Type", "application/json")
     .body(ElFileBody("WARequests/WA_GetAllTasksNew.json"))
     // .check(jsonPath("$.tasks[0].id").saveAs("taskId"))
@@ -144,9 +144,9 @@ val GetTask =
   // feed(taskListFeeder)
 
   exec(http("WA_GetTask")
-    .get(waUrl + "/task/f23dd3bd-9a4d-11ec-80f8-c656fc890203") //${taskId}
-    .header("ServiceAuthorization", "Bearer ${wa_task_management_apiBearerToken}")
-    .header("Authorization", "Bearer ${access_token}")
+    .get(waUrl + "/task/f23dd3bd-9a4d-11ec-80f8-c656fc890203") //#{taskId}
+    .header("ServiceAuthorization", "Bearer #{wa_task_management_apiBearerToken}")
+    .header("Authorization", "Bearer #{access_token}")
     .header("Content-Type", "application/json"))
 
   .pause(Environment.constantthinkTime)
@@ -156,8 +156,8 @@ val CamundaGetCase =
   feed(taskCancelListFeeder)
 
   .exec(http("Camunda_GetTask")
-    .get(CamundaUrl + "/engine-rest/task?processVariables=caseId_eq_${caseId}") //${caseId}
-    .header("ServiceAuthorization", "Bearer ${wa_task_management_apiBearerToken}")
+    .get(CamundaUrl + "/engine-rest/task?processVariables=caseId_eq_#{caseId}") //#{caseId}
+    .header("ServiceAuthorization", "Bearer #{wa_task_management_apiBearerToken}")
     .check(jsonPath("$[0].id").saveAs("taskId")))
     // .exitHereIfFailed
 

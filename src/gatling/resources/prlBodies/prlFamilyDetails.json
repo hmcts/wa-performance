@@ -9,6 +9,6 @@
     "summary": "",
     "description": ""
   },
-  "event_token": "${eventToken}",
+  "event_token": "#{eventToken}",
   "ignore_warning": false
 }

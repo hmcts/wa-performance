@@ -1,9 +1,9 @@
-package uk.gov.hmcts.wa.scenarios
+package scenarios
 
 import com.typesafe.config.{Config, ConfigFactory}
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
-import uk.gov.hmcts.wa.scenarios.utils._
+import utils._
 
 object xuiPrl {
 
@@ -36,7 +36,7 @@ object xuiPrl {
 			.headers(XUIHeaders.xuiMainHeader)
       .header("accept", "application/json, text/plain, */*")
       .header("content-type", "application/json")
-      .header("x-xsrf-token", "${xsrfToken}")
+      .header("x-xsrf-token", "#{xsrfToken}")
 			.body(ElFileBody("xuiBodies/PRLCaseSearch.json")))
 
     .exec(http("XUI_GlobalSearch_020_IsAuthenticated")
@@ -45,7 +45,7 @@ object xuiPrl {
       .header("accept", "application/json, text/plain, */*"))
 		
 		.exec(http("XUI_GlobalSearch_020_GetCase")
-			.get("/data/internal/cases/${caseId}")
+			.get("/data/internal/cases/#{caseId}")
 			.headers(XUIHeaders.xuiMainHeader)
       .header("accept", "application/json, text/plain, */*")
       .header("content-type", "application/json"))
@@ -73,13 +73,13 @@ object xuiPrl {
 			.headers(XUIHeaders.xuiMainHeader))
 
     .exec(http("XUI_ViewCase_GetCase")
-			.get("/data/internal/cases/${caseId}")
+			.get("/data/internal/cases/#{caseId}")
 			.headers(XUIHeaders.xuiMainHeader)
       .header("content-type", "application/json")
       .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json"))
 
     .exec(http("XUI_ViewCase_GetWorkAllocationTask")
-      .get("/workallocation/case/task/${caseId}")
+      .get("/workallocation/case/task/#{caseId}")
       .headers(XUIHeaders.xuiMainHeader)
       .check(jsonPath("$[0].id").optional.saveAs("taskId")))
 
@@ -88,7 +88,7 @@ object xuiPrl {
   val AddCaseNumber = 
 
     exec(http("XUI_AddCaseNumber_GetTasks")
-			.get("/workallocation/case/tasks/${caseId}/event/fl401AddCaseNumber/caseType/PRLAPPS/jurisdiction/PRIVATELAW")
+			.get("/workallocation/case/tasks/#{caseId}/event/fl401AddCaseNumber/caseType/PRLAPPS/jurisdiction/PRIVATELAW")
 			.headers(XUIHeaders.xuiMainHeader)
       .header("accept", "application/json, text/plain, */*")
       .header("content-type", "application/json"))
@@ -102,7 +102,7 @@ object xuiPrl {
 			.headers(XUIHeaders.xuiMainHeader))
 
     .exec(http("XUI_AddCaseNumber_EventTrigger")
-			.get("/data/internal/cases/${caseId}/event-triggers/fl401AddCaseNumber?ignore-warning=false")
+			.get("/data/internal/cases/#{caseId}/event-triggers/fl401AddCaseNumber?ignore-warning=false")
 			.headers(XUIHeaders.xuiMainHeader)
       .header("content-type", "application/json")
       .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
@@ -121,11 +121,11 @@ object xuiPrl {
 			.headers(XUIHeaders.xuiMainHeader)
       .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
       .header("content-type", "application/json")
-      .header("x-xsrf-token", "${xsrfToken}")
+      .header("x-xsrf-token", "#{xsrfToken}")
 			.body(ElFileBody("xuiBodies/PRLAddCaseNumberPage1.json")))
 
     .exec(http("XUI_AddCaseNumber_Page1GetTask")
-			.get("/workallocation/task/${taskId}")
+			.get("/workallocation/task/#{taskId}")
 			.headers(XUIHeaders.xuiMainHeader)
       .header("accept", "application/json, text/plain, */*")
       .header("content-type", "application/json"))
@@ -133,18 +133,18 @@ object xuiPrl {
     .pause(Environment.constantthinkTime)
 
     .exec(http("XUI_AddCaseNumber_Submit")
-			.post("/data/cases/${caseId}/events")
+			.post("/data/cases/#{caseId}/events")
 			.headers(XUIHeaders.xuiMainHeader)
       .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
       .header("content-type", "application/json")
-      .header("x-xsrf-token", "${xsrfToken}")
+      .header("x-xsrf-token", "#{xsrfToken}")
 			.body(ElFileBody("xuiBodies/PRLAddCaseNumberSubmit.json")))
 
     .exec(http("XUI_AddCaseNumber_CompleteTask")
-			.post("/workallocation/task/${taskId}/complete")
+			.post("/workallocation/task/#{taskId}/complete")
 			.header("accept", "application/json")
       .header("content-type", "application/json")
-      .header("x-xsrf-token", "${xsrfToken}"))
+      .header("x-xsrf-token", "#{xsrfToken}"))
 
     .exec(http("XUI_AddCaseNumber_WAJurisdictionsGet")
 			.get("/api/wa-supported-jurisdiction/get")
@@ -160,14 +160,14 @@ object xuiPrl {
   val SendToGatekeeper = 
 
     exec(http("XUI_SendToGatekeeper_EventTrigger")
-			.get("/data/internal/cases/${caseId}/event-triggers/sendToGateKeeper?ignore-warning=false")
+			.get("/data/internal/cases/#{caseId}/event-triggers/sendToGateKeeper?ignore-warning=false")
 			.headers(XUIHeaders.xuiMainHeader)
       .header("content-type", "application/json")
       .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
       .check(jsonPath("$.event_token").saveAs("eventToken")))
 
     .exec(http("XUI_SendToGatekeeper_GetTask")
-			.get("/cases/case-details/${caseId}/trigger/sendToGateKeeper/sendToGateKeeper1?tid=${taskId}")
+			.get("/cases/case-details/#{caseId}/trigger/sendToGateKeeper/sendToGateKeeper1?tid=#{taskId}")
 			.headers(XUIHeaders.xuiMainHeader))
 
     .exec(http("XUI_SendToGatekeeper_ConfigurationUI")
@@ -195,7 +195,7 @@ object xuiPrl {
       .header("accept", "application/json, text/plain, */*"))
 
     .exec(http("XUI_SendToGatekeeper_GetTasks")
-			.get("/workallocation/case/tasks/${caseId}/event/sendToGateKeeper/caseType/PRLAPPS/jurisdiction/PRIVATELAW")
+			.get("/workallocation/case/tasks/#{caseId}/event/sendToGateKeeper/caseType/PRLAPPS/jurisdiction/PRIVATELAW")
 			.headers(XUIHeaders.xuiMainHeader)
       .header("accept", "application/json")
       .header("content-type", "application/json"))
@@ -207,7 +207,7 @@ object xuiPrl {
 			.headers(XUIHeaders.xuiMainHeader)
       .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
       .header("content-type", "application/json")
-      .header("x-xsrf-token", "${xsrfToken}")
+      .header("x-xsrf-token", "#{xsrfToken}")
 			.body(ElFileBody("xuiBodies/PRLSendToGatekeeper1.json")))
 
     .exec(http("XUI_SendToGatekeeper_Page1ApiUserDetails")
@@ -218,18 +218,18 @@ object xuiPrl {
     .pause(Environment.constantthinkTime)
 
     .exec(http("XUI_SendToGatekeeper_Submit")
-			.post("/data/cases/${caseId}/events")
+			.post("/data/cases/#{caseId}/events")
 			.headers(XUIHeaders.xuiMainHeader)
       .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
       .header("content-type", "application/json")
-      .header("x-xsrf-token", "${xsrfToken}")
+      .header("x-xsrf-token", "#{xsrfToken}")
       .body(ElFileBody("xuiBodies/PRLSendToGatekeeperSubmit.json")))
 
     .exec(http("XUI_SendToGatekeeper_CompleteTask")
-			.post("/workallocation/task/${taskId}/complete")
+			.post("/workallocation/task/#{taskId}/complete")
 			.header("accept", "application/json")
       .header("content-type", "application/json")
-      .header("x-xsrf-token", "${xsrfToken}"))
+      .header("x-xsrf-token", "#{xsrfToken}"))
 
     .exec(http("XUI_SendToGatekeeper_WAJurisdictionsGet")
 			.get("/api/wa-supported-jurisdiction/get")

@@ -4,8 +4,8 @@
      "matchingAppellantDetailsFound": "No",
      "homeOfficeSearchResponse": null,
      "homeOfficeApiError": null,
-     "appellantFullName": "${firstName} ${lastName}",
-     "appellantDateOfBirth": "${dobYear}-${dobMonth}-${dobDay}",
+     "appellantFullName": "#{firstName} #{lastName}",
+     "appellantDateOfBirth": "#{dobYear}-#{dobMonth}-#{dobDay}",
      "homeOfficeAppellantsList": {
         "value": {
            "code": "NoMatch",
@@ -24,6 +24,6 @@
      "summary": "",
      "description": ""
   },
-  "event_token": "${eventToken1}",
+  "event_token": "#{eventToken1}",
   "ignore_warning": false
 }

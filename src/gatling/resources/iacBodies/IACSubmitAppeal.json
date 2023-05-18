@@ -7,7 +7,7 @@
     },
   "event_data":
     {"legalRepDeclaration":["hasDeclared"]},
-  "event_token":"${eventToken}",
+  "event_token":"#{eventToken}",
   "ignore_warning":false,
-  "case_reference":"${caseId}"
+  "case_reference":"#{caseId}"
 }

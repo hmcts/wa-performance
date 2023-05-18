@@ -1,9 +1,9 @@
-package uk.gov.hmcts.wa.scenarios
+package utils
 
 import scala.concurrent.duration._
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
-import uk.gov.hmcts.wa.scenarios.utils.Environment
+import utils._
 
 object WaitforNextIteration {
 

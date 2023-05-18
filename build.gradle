@@ -1,79 +1,50 @@
 plugins {
-    id "org.owasp.dependencycheck" version "8.0.2"
-    id 'scala'
-    id 'com.github.lkishalmi.gatling' version '3.0.2'
-    // id 'java-gradle-plugin'
-    // id 'groovy'
-    id 'com.gradle.plugin-publish' version '0.15.0'
-    // id 'maven-publish'
-    id 'uk.gov.hmcts.java' version '0.12.5'
+  id 'org.owasp.dependencycheck' version '8.2.1'
+  id 'scala'
+  id 'java-library'
+  id 'io.gatling.gradle' version '3.9.3'
 }
-
-//apply plugin: 'java'
-apply plugin: 'scala'
-group 'uk.gov.hmcts.reform'
-version = '1.0'
-
-sourceCompatibility = "11"
-targetCompatibility = "11"
-
-// tasks.withType(JavaExec) {
-//     jvmArgs = ['-Xms1024m', '-Xmx2048m', '-XX:+UseConcMarkSweepGC']
-// }
-
-jar {
-    manifest {
-        attributes 'Implementation-Title': 'Work Allocation Performance Tests',
-                'Implementation-Version': version
-    }
+ 
+java {
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(17)
+  }
 }
-
-dependencyCheck {
-    // Specifies if the build should be failed if a CVSS score above a specified level is identified.
-    // range of 0-10 fails the build, anything greater and it doesn't fail the build
-    failBuildOnCVSS = System.getProperty('dependencyCheck.failBuild') == 'true' ? 0 : 11
-    suppressionFile = 'config/owasp/suppressions.xml'
+ 
+tasks.withType(JavaExec) {
+  // Configure the size of the JVM if necessary
+  jvmArgs = ['-Xms1024m', '-Xmx2048m']
+  /* Use the following args to build a report when a test was terminated
+  args = [
+      "--reports-only", "fact-20201109092032896",
+      '--results-folder', file('build/reports/gatling').absolutePath,
+      ]
+  */
 }
-
+ 
+tasks.withType(Copy).all{
+  duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+ 
 repositories {
-    jcenter()
+  mavenCentral()
 }
-
-ScalaCompileOptions.metaClass.daemonServer = true
-ScalaCompileOptions.metaClass.fork = true
-ScalaCompileOptions.metaClass.useAnt = false
-ScalaCompileOptions.metaClass.useCompileDaemon = false
-
-dependencies {
-    //compile 'org.scala-lang:scala-library:2.12.8'
-    //gatlingCompile group: 'io.rest-assured', name: 'rest-assured', version: '3.0.0'
-    gatlingCompile 'com.warrenstrange:googleauth:1.1.5'
-    //compile group: 'io.gatling', name: 'gatling-app', version: '3.2.0'
-    //compile group: 'io.gatling', name: 'gatling-recorder', version: '3.2.0'
-    //compile group: 'io.gatling.highcharts', name: 'gatling-charts-highcharts', version: '3.2.1'
-}
-
+ 
 gatling {
-    toolVersion '3.2.1'
-    scalaVersion '2.12.8'
-    simulations = [ 
-                    'uk.gov.hmcts.wa.simulations.UISimulation'
-    ]
+  gatlingVersion '3.9.3'
+  scalaVersion '2.13.10'
+  simulations = {
+    include "simulations/UISimulation.scala"
+  }
 }
-
-test {
-    testLogging {
-        showStandardStreams = true
+ 
+sourceSets {
+  gatling {
+    scala {
+      srcDir 'src/gatling/simulations'
     }
-    dependsOn("publishToMavenLocal")
-    systemProperty "com.github.lkishalmi.gatling.version", project.version
+    resources {
+      srcDir 'src/gatling/resources'
+    }
+  }
 }
-
-pluginBundle {
-    website = 'https://github.com/lkishalmi/gradle-gatling-plugin'
-    vcsUrl = 'https://github.com/lkishalmi/gradle-gatling-plugin'
-    description = 'Gatling Simulation Execution'
-    tags = ['gatling', 'load test', 'stress test', 'performance test', 'scala']
-}
-
-ext ['netty.version'] = '4.0.51.Final'
