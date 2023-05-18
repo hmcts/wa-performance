@@ -1,0 +1,69 @@
+{
+  "data": {
+    "respondentsFL401": {
+      "firstName": "Test",
+      "lastName": "Person",
+      "previousName": null,
+      "isDateOfBirthKnown": "Yes",
+      "dateOfBirth": "1981-10-10",
+      "respondentLivedWithApplicant": "Yes",
+      "isCurrentAddressKnown": "Yes",
+      "canYouProvideEmailAddress": "Yes",
+      "email": "respondent@perftest12345.com",
+      "canYouProvidePhoneNumber": "Yes",
+      "phoneNumber": "07000000000",
+      "isDateOfBirthUnknown": null,
+      "gender": null,
+      "otherGender": null,
+      "placeOfBirth": null,
+      "isAddressUnknown": null,
+      "isAddressConfidential": null,
+      "isAtAddressLessThan5Years": null,
+      "addressLivedLessThan5YearsDetails": null,
+      "isEmailAddressConfidential": null,
+      "landline": null,
+      "isPhoneNumberConfidential": null,
+      "relationshipToChildren": null,
+      "isPlaceOfBirthKnown": null,
+      "dxNumber": null,
+      "solicitorReference": null,
+      "representativeFirstName": null,
+      "representativeLastName": null,
+      "isAtAddressLessThan5YearsWithDontKnow": null,
+      "doTheyHaveLegalRepresentation": null,
+      "sendSignUpLink": null,
+      "solicitorEmail": null,
+      "solicitorTelephone": null,
+      "address": {
+        "AddressLine1": "10 Test Street",
+        "AddressLine2": "Testing",
+        "AddressLine3": "",
+        "PostTown": "Perf Town",
+        "County": "",
+        "PostCode": "PR1 1RP",
+        "Country": "United Kingdom"
+      },
+      "solicitorOrg": {
+        "OrganisationID": null,
+        "OrganisationName": null
+      },
+      "solicitorAddress": {
+        "AddressLine1": null,
+        "AddressLine2": null,
+        "AddressLine3": null,
+        "PostTown": null,
+        "County": null,
+        "PostCode": null,
+        "Country": null
+      },
+      "otherPersonRelationshipToChildren": []
+    }
+  },
+  "event": {
+    "id": "respondentsDetails",
+    "summary": "",
+    "description": ""
+  },
+  "event_token": "${eventToken}",
+  "ignore_warning": false
+}

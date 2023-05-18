@@ -1,0 +1,75 @@
+{
+  "data": {
+     "isOutOfCountryEnabled": "Yes",
+     "checklist": {
+        "checklist5": [],
+        "checklist1": [],
+        "checklist2": [
+           "isNotDetained"
+        ],
+        "checklist7": [
+           "isNotEUDecision"
+        ],
+        "checklist3": [],
+        "checklist4": [],
+        "checklist6": []
+     },
+     "appellantInUk": "Yes",
+     "homeOfficeReferenceNumber": "123123123",
+     "homeOfficeDecisionDate": "${todayDate}",
+     "decisionLetterReceivedDate": null,
+     "uploadTheNoticeOfDecisionDocs": [
+        {
+           "value": {
+              "description": "test",
+              "document": {
+                 "document_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/767f3ca0-7c28-454d-9fbb-f0cd1bb975c8",
+                 "document_binary_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/767f3ca0-7c28-454d-9fbb-f0cd1bb975c8/binary",
+                 "document_filename": "1MB.pdf"
+              }
+           },
+           "id": null
+        }
+     ],
+     "appellantTitle": "Mr",
+     "appellantGivenNames": "${firstName}",
+     "appellantFamilyName": "${lastName}",
+     "appellantDateOfBirth": "${dobYear}-${dobMonth}-${dobDay}",
+     "appellantStateless": "isStateless",
+     "appellantNationalities": [],
+     "appellantHasFixedAddress": "No",
+     "appellantAddress": null,
+     "contactPreference": "wantsEmail",
+     "email": "${firstName}@${lastName}.com",
+     "mobileNumber": null,
+     "appealType": "revocationOfProtection",
+     "appealGroundsProtection": null,
+     "appealGroundsHumanRights": null,
+     "appealGroundsDeprivation": null,
+     "appealGroundsDeprivationHumanRights": null,
+     "appealGroundsEuRefusal": null,
+     "appealGroundsRevocation": {
+        "values": [
+           "revocationRefugeeConvention"
+        ]
+     },
+     "deportationOrderOptions": "No",
+     "hasNewMatters": "No",
+     "newMatters": null,
+     "hasOtherAppeals": "No",
+     "legalRepCompany": "Mr",
+     "legalRepName": "Steve Smith",
+     "legalRepReferenceNumber": "123",
+     "isFeePaymentEnabled": "Yes",
+     "isRemissionsEnabled": "Yes",
+     "rpDcAppealHearingOption": "decisionWithoutHearing"
+  },
+  "event": {
+     "id": "startAppeal",
+     "summary": "",
+     "description": ""
+  },
+  "event_token": "${eventToken}",
+  "ignore_warning": false,
+  "draft_id": null
+}

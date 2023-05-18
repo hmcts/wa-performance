@@ -1,0 +1,40 @@
+{
+  "searchRequest": {
+     "search_parameters": [
+        {
+           "key": "jurisdiction",
+           "operator": "IN",
+           "values": [
+              "IA"
+           ]
+        },
+        {
+           "key": "state",
+           "operator": "IN",
+           "values": [
+              "assigned",
+              "unassigned"
+           ]
+        },
+        {
+           "key": "role_category",
+           "operator": "IN",
+           "values": [
+              "LEGAL_OPERATIONS"
+           ]
+        }
+     ],
+     "sorting_parameters": [
+        {
+           "sort_by": "created_date",
+           "sort_order": "asc"
+        }
+     ],
+     "search_by": "judge",
+     "pagination_parameters": {
+        "page_number": 1,
+        "page_size": 25
+     }
+  },
+  "view": "AllWork"
+}

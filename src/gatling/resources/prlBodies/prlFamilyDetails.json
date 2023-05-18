@@ -1,0 +1,14 @@
+{
+  "data": {
+    "applicantFamilyDetails": {
+      "doesApplicantHaveChildren": "No"
+    }
+  },
+  "event": {
+    "id": "fl401ApplicantFamilyDetails",
+    "summary": "",
+    "description": ""
+  },
+  "event_token": "${eventToken}",
+  "ignore_warning": false
+}

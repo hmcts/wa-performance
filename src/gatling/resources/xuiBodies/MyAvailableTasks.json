@@ -1,0 +1,47 @@
+{
+  "searchRequest": {
+     "search_parameters": [
+        {
+           "key": "available_tasks_only",
+           "operator": "BOOLEAN",
+           "value": true
+        },
+        {
+           "key": "jurisdiction",
+           "operator": "IN",
+           "values": [
+              "IA"
+           ]
+        },
+        {
+           "key": "location",
+           "operator": "IN",
+           "values": [
+              "765324"
+           ]
+        },
+        {
+           "key": "work_type",
+           "operator": "IN",
+           "values": [
+              "hearing_work",
+              "routine_work",
+              "decision_making_work",
+              "applications"
+           ]
+        }
+     ],
+     "sorting_parameters": [
+        {
+           "sort_by": "dueDate",
+           "sort_order": "desc"
+        }
+     ],
+     "search_by": "caseworker",
+     "pagination_parameters": {
+        "page_number": 1,
+        "page_size": 25
+     }
+  },
+  "view": "AvailableTasks"
+}

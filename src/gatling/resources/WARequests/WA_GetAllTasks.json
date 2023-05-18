@@ -1,0 +1,1 @@
+{"searchRequest":{"search_parameters":[{"key":"location","operator":"IN","values":["765324"]}],"sorting_parameters":[{"sort_by":"dueDate","sort_order":"asc"}],"pagination_parameters":{"page_number":1,"page_size":25}},"view":"TaskManager"}

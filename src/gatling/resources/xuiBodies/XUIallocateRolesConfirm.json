@@ -1,0 +1,19 @@
+{
+  "caseId": "${caseId}",
+  "jurisdiction": "IA",
+  "state": 4,
+  "typeOfRole": {
+     "id": "case-manager",
+     "name": "Case Manager"
+  },
+  "allocateTo": "Reserve to me",
+  "person": null,
+  "durationOfRole": "Indefinite",
+  "action": "allocate",
+  "period": {
+     "startDate": "${currentDate}T00:00:00.000Z",
+     "endDate": null
+  },
+  "lastError": null,
+  "roleCategory": "LEGAL_OPERATIONS"
+}

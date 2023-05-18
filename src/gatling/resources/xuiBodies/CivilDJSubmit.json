@@ -1,0 +1,118 @@
+{
+  "data": {
+     "applicantVRespondentText": "john smith v steve smith",
+     "caseManagementOrderSelection": "DISPOSAL_HEARING",
+     "caseManagementOrderAdditional": [],
+     "disposalHearingOrderAndHearingDetailsDJ": null,
+     "disposalHearingJudgesRecitalDJ": {
+        "input": "Vishal Sahu, Upon considering the claim form and Particulars of Claim/statements of case [and the directions questionnaires] \n\nIT IS ORDERED that:-",
+        "judgeNameTitle": "Vishal Sahu"
+     },
+     "disposalHearingDisclosureOfDocumentsDJToggle": [
+        "SHOW"
+     ],
+     "disposalHearingDisclosureOfDocumentsDJ": {
+        "input": "The parties shall serve on each other copies of the documents upon which reliance is to be placed at the disposal hearing by 4pm on",
+        "date": "${disposalHearingDisclosureOfDocumentsDJdate}"
+     },
+     "disposalHearingWitnessOfFactDJToggle": [
+        "SHOW"
+     ],
+     "disposalHearingWitnessOfFactDJ": {
+        "input1": "The claimant must upload to the Digital Portal copies of the witness statements of all witnesses of fact on whose evidence reliance is to be placed by 4pm on",
+        "date1": "${disposalHearingWitnessOfFactDJDate1}",
+        "input2": "The provisions of CPR 32.6 apply to such evidence.",
+        "input3": "Any application by the defendant in relation to CPR 32.7 must be made by 4pm on",
+        "date2": "${disposalHearingWitnessOfFactDJDate2}",
+        "input4": "and must be accompanied by proposed directions for allocation and listing for trial on quantum. This is because cross-examination will cause the hearing to exceed the 30 minute maximum time estimate for a disposal hearing."
+     },
+     "disposalHearingMedicalEvidenceDJToggle": [
+        "SHOW"
+     ],
+     "disposalHearingMedicalEvidenceDJ": {
+        "input1": "The claimant has permission to rely upon the written expert evidence already uploaded to the Digital Portal with the particulars of claim and in addition has permission to rely upon any associated correspondence or updating report which is uploaded to the Digital Portal by 4pm on",
+        "date1": "${disposalHearingMedicalEvidenceDJdate1}"
+     },
+     "disposalHearingQuestionsToExpertsDJToggle": [
+        "SHOW"
+     ],
+     "disposalHearingQuestionsToExpertsDJ": {
+        "date": "${disposalHearingQuestionsToExpertsDJdate}"
+     },
+     "disposalHearingSchedulesOfLossDJToggle": [
+        "SHOW"
+     ],
+     "disposalHearingSchedulesOfLossDJ": {
+        "input1": "If there is a claim for ongoing or future loss in the original schedule of losses then the claimant must send an up to date schedule of loss to the defendant by 4pm on the",
+        "date1": "${disposalHearingSchedulesOfLossDJdate1}",
+        "input2": "If the defendant wants to challenge this claim, they must send an up-to-date counter-schedule of loss to the claimant by 4pm on",
+        "date2": "${disposalHearingSchedulesOfLossDJdate2}",
+        "input3": "If the defendant wants to challenge the sums claimed in the schedule of loss they must upload to the Digital Portal an updated counter schedule of loss by 4pm on",
+        "date3": "${disposalHearingSchedulesOfLossDJdate3}",
+        "inputText4": "If there is a claim for future pecuniary loss and the parties have not already set out their case on periodical payments, they must do so in the respective schedule and counter-schedule."
+     },
+     "disposalHearingFinalDisposalHearingDJToggle": [
+        "SHOW"
+     ],
+     "disposalHearingFinalDisposalHearingTimeDJ": {
+        "input": "This claim will be listed for final disposal before a Judge on the first available date after",
+        "date": "${disposalHearingFinalDisposalHearingTimeDJdate}",
+        "time": "THIRTY_MINUTES"
+     },
+     "disposalHearingMethodDJ": "disposalHearingMethodInPerson",
+     "disposalHearingMethodInPersonDJ": null,
+     "disposalHearingMethodVideoConferenceHearingDJ": null,
+     "disposalHearingMethodTelephoneHearingDJ": null,
+     "disposalHearingBundleDJToggle": [
+        "SHOW"
+     ],
+     "disposalHearingBundleDJ": {
+        "input": "At least 7 days before the disposal hearing, the claimant must upload to the Digital Portal",
+        "type": "DOCUMENTS"
+     },
+     "disposalHearingClaimSettlingDJToggle": [
+        "SHOW"
+     ],
+     "disposalHearingCostsDJToggle": [
+        "SHOW"
+     ],
+     "disposalHearingHearingNotesDJ": null,
+     "disposalHearingOrderMadeWithoutHearingDJ": {
+        "input": "Each party has the right to apply to have this order set aside or varied. Any such application must be received by the Court (together with the appropriate fee) by 4pm on 30 January 2023."
+     },
+     "disposalHearingAddNewDirectionsDJ": [],
+     "disposalHearingFinalDisposalHearingDJ": null,
+     "disposalHearingNotesDJ": null,
+     "orderSDODocumentDJCollection": [
+        {
+           "value": {
+            "documentName": "${orderSDODocumentDJCollectionName}",
+            "documentType": "DEFAULT_JUDGMENT_SDO_ORDER",
+            "documentLink": {
+               "document_url": "${orderSDODocumentDJCollectionURL}",
+               "document_binary_url": "${orderSDODocumentDJCollectionURL}/binary",
+               "document_filename": "${orderSDODocumentDJCollectionName}",
+               "document_hash": "${orderSDODocumentDJCollectionHash}"
+            },
+            "documentSize": "${orderSDODocumentDJCollectionDocumentSize}",
+            "createdDatetime": "${orderSDODocumentDJCollectioncreatedDatetime}",
+            "createdBy": "Civil"
+         },
+         "id": "${orderSDODocumentDJCollectionId}"
+        }
+     ],
+     "orderSDODocumentDJ": {
+      "document_url": "${orderSDODocumentDJCollectionURL}",
+      "document_binary_url": "${orderSDODocumentDJCollectionURL}/binary",
+      "document_filename": "${orderSDODocumentDJCollectionName}",
+      "document_hash": "${orderSDODocumentDJCollectionHash}"
+     }
+  },
+  "event": {
+     "id": "STANDARD_DIRECTION_ORDER_DJ",
+     "summary": "",
+     "description": ""
+  },
+  "event_token": "${eventToken}",
+  "ignore_warning": false
+}

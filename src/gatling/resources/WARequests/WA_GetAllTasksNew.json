@@ -1,0 +1,37 @@
+{
+  "search_parameters": [
+    {
+        "key": "available_tasks_only",
+        "operator": "BOOLEAN",
+        "value": true
+    },
+    {
+        "key": "jurisdiction",
+        "operator": "IN",
+        "values": [
+          "IA"
+        ]
+    },
+    {
+        "key": "location",
+        "operator": "IN",
+        "values": [
+          "386417",
+          "366796",
+          "227101",
+          "765324",
+          "231596"
+        ]
+    },
+    {
+        "key": "work_type",
+        "operator": "IN",
+        "values": [
+          "hearing_work",
+          "routine_work",
+          "decision_making_work",
+          "applications"
+        ]
+    }
+  ]
+}

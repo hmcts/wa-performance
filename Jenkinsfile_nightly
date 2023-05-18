@@ -37,6 +37,7 @@ withNightlyPipeline("java", product, component) {
     loadVaultSecrets(secrets)
     //env.BaseURL = 'https://'
 
+
     //enablePerformanceTest()
 
     after('performanceTest') {

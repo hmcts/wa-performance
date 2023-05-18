@@ -24,15 +24,10 @@ val waWorkflowUrl = Environment.waWorkflowApiURL
 val ccdClientId = "ccd_gateway"
 val ccdScope = "openid profile authorities acr roles openid profile roles"
 val ccdGatewayClientSecret = config.getString("ccdGatewayCS")
-val taskListFeeder = csv("WA_TaskList.csv").circular
-val feedCompleteTaskListFeeder = csv("WA_TasksToComplete.csv")
 val taskCancelListFeeder = csv("WA_TasksToCancel.csv").circular
 val feedIACUserData = csv("IACUserData.csv").circular
 val feedWASeniorUserData = csv("WA_SeniorTribunalUsers.csv").circular
 val feedWATribunalUserData = csv("WA_TribunalUsers.csv").circular
-val caseListFeeder = csv("WA_CaseList.csv").circular
-val feedStaticTasksFeeder = csv("WA_StaticTasks.csv").random
-val pipelineTribunalFeeder = csv("WA_PipelineSenior.csv")
 def randomkey: String = randomUUID.toString
 
 val WAS2SLogin = 
@@ -55,13 +50,13 @@ val WATaskS2SLogin =
 
 val WASeniorIdamLogin =
   
-  feed(pipelineTribunalFeeder)
+  feed(feedWASeniorUserData)
 
   .exec(http("WA_OIDC01_Authenticate")
     .post(IdamAPI + "/authenticate")
     .header("Content-Type", "application/x-www-form-urlencoded")
-    .formParam("username", "${waemail}")
-    .formParam("password", "${wapassword}")
+    .formParam("username", "${email}")
+    .formParam("password", "${password}")
     .formParam("redirectUri", ccdRedirectUri)
     .formParam("originIp", "0:0:0:0:0:0:0:1")
     .check(status is 200)
@@ -119,29 +114,27 @@ val WATribunalIdamLogin =
 
   .pause(Environment.constantthinkTime)
 
-val CreateTask = 
+val GetAllTasks =
 
-  exec(_.setAll(
-            ("createrandomkey", randomkey),
-        ))
-
-  .exec(http("WA_CreateTask")
-    .post(waWorkflowUrl + "/workflow/message")
+  exec(http("WA_GetAllTasks")
+    .post(waUrl + "/task") //?first_result=1&max_results=1000")
+    .header("ServiceAuthorization", "Bearer ${wa_task_management_apiBearerToken}")
+    .header("Authorization", "Bearer ${access_token}")
     .header("Content-Type", "application/json")
-    .header("ServiceAuthorization", "Bearer ${bearerToken3}")
-    .body(ElFileBody("WA_CreateTask.json")))
-    // .exitHereIfFailed
+    .body(ElFileBody("WARequests/WA_GetAllTasksNew.json"))
+    // .check(jsonPath("$.tasks[0].id").saveAs("taskId"))
+    .check(bodyString.saveAs("Response"))
+    )
 
-  .pause(Environment.constantthinkTime)
-
-  // // .doIf(session => !session.contains("taskId")) {
-  // .doIf("${taskId.isUndefined()}") {
-  //   // exec {
-  //   //   session => 
-  //   //     println(session("Task was not found, now exiting..."))
-  //   // }
-  //   exitHereIfFailed
-  // }
+  .exec {
+      session =>
+        val fw = new BufferedWriter(new FileWriter("1000Tasks.json", true))
+        try {
+          fw.write(session("Response").as[String] + "\r\n")
+        }
+        finally fw.close()
+        session
+    } 
 
 
 val GetTask =
@@ -151,154 +144,33 @@ val GetTask =
   // feed(taskListFeeder)
 
   exec(http("WA_GetTask")
-    .get(waUrl + "/task/${taskId}") //${taskId}
-    .header("ServiceAuthorization", "Bearer ${bearerToken2}")
-    .header("Authorization", "Bearer ${access_token2}")
-    .header("Content-Type", "application/json"))
-
-  .pause(Environment.constantthinkTime)
-
-val GetTaskForCompletion =
-
-  //Retrieve a Task Resource identified by its unique id.
-
-  // feed(feedCompleteTaskListFeeder)
-
-  exec(http("WA_GetTask")
-    .get(waUrl + "/task/${taskId}")
-    .header("ServiceAuthorization", "Bearer ${bearerToken2}")
-    .header("Authorization", "Bearer ${access_token2}")
-    .header("Content-Type", "application/json"))
-  
-  .pause(Environment.constantthinkTime)
-
-val GetTaskForSearches =
-
-  //Retrieve a Task Resource identified by its unique id.
-
-  feed(feedStaticTasksFeeder)
-
-  .exec(http("WA_SearchGetTask")
-    .get(waUrl + "/task/${taskId}")
-    .header("ServiceAuthorization", "Bearer ${bearerToken2}")
-    .header("Authorization", "Bearer ${access_token2}")
-    .header("Content-Type", "application/json"))
-
-  .pause(Environment.constantthinkTime)
-
-val PostTaskRetrieve = 
-
-  //Retrieve a list of Task resources identified by set of search criteria.
-
-  exec(http("WA_PostTaskRetrieve")
-    .post(waUrl + "/task")
-    .header("ServiceAuthorization", "Bearer ${bearerToken2}")
-    .header("Authorization", "Bearer ${access_token2}")
-    .header("Content-Type", "application/json")
-    .body(ElFileBody("WA_searchTaskRequest.json")))
-
-  .pause(Environment.constantthinkTime)
-
-val PostTaskSearchCompletable =
-
-  //Retrieve a list of Task resources identified by set of search criteria that are eligible for automatic completion
-
-  exec(http("WA_PostTaskSearchCompletable")
-    .post(waUrl + "/task/search-for-completable")
-    .header("ServiceAuthorization", "Bearer ${bearerToken2}")
-    .header("Authorization", "Bearer ${access_token2}")
-    .header("Content-Type", "application/json")
-    .body(ElFileBody("WA_searchTaskCompletable.json")))
-
-  .pause(Environment.constantthinkTime)
-
-val PostAssignTask =
-
-  //Assign the identified Task to a specified user.
-
-  exec(http("WA_PostAssignTask")
-    .post(waUrl + "/task/${taskId}/assign")
-    .header("ServiceAuthorization", "Bearer ${bearerToken2}")
-    .header("Authorization", "Bearer ${access_token2}")
-    .header("Content-Type", "application/json")
-    .body(ElFileBody("WA_assignTaskToUser.json")))
-
-  .pause(Environment.constantthinkTime)
-
-val CancelTask =
-
-  //Cancel a Task identified by an id.
-
-  feed(taskCancelListFeeder)
-
-  .exec(http("WA_CancelTask")
-    .post(waUrl + "/task/${taskId}/cancel") //${taskId}
-    .header("ServiceAuthorization", "Bearer ${bearerToken2}")
-    .header("Authorization", "Bearer ${access_token2}")
-    .header("Content-Type", "application/json"))
-
-  .pause(Environment.constantthinkTime)
-
-val ClaimTask =
-
-  //Claim the identified Task for the currently logged in user.
-
-  feed(taskListFeeder)
-
-  .exec(http("WA_ClaimTask")
-    .post(waUrl + "/task/${taskId}/claim")
-    .header("ServiceAuthorization", "Bearer ${bearerToken2}")
-    .header("Authorization", "Bearer ${access_token2}")
-    .header("Content-Type", "application/json"))
-
-  .pause(Environment.constantthinkTime)
-
-val CompleteTask =
-
-  //Completes a Task identified by an id.
-
-  exec(http("WA_CompleteTask")
-    .post(waUrl + "/task/${taskId}/complete") //${taskId}
-    .header("ServiceAuthorization", "Bearer ${bearerToken2}")
-    .header("Authorization", "Bearer ${access_token2}")
-    .header("Content-Type", "application/json"))
-
-  .pause(Environment.constantthinkTime)
-
-val UnclaimTask =
-
-  //Unclaim the identified Task for the currently logged in user.
-
-  feed(taskListFeeder)
-
-  .exec(http("WA_UnclaimTask")
-    .post(waUrl + "/task/${taskId}/unclaim")
-    .header("ServiceAuthorization", "Bearer ${bearerToken2}")
-    .header("Authorization", "Bearer ${access_token2}")
+    .get(waUrl + "/task/f23dd3bd-9a4d-11ec-80f8-c656fc890203") //${taskId}
+    .header("ServiceAuthorization", "Bearer ${wa_task_management_apiBearerToken}")
+    .header("Authorization", "Bearer ${access_token}")
     .header("Content-Type", "application/json"))
 
   .pause(Environment.constantthinkTime)
 
 val CamundaGetCase =
 
-  // feed(caseListFeeder)
+  feed(taskCancelListFeeder)
 
-  exec(http("Camunda_GetTask")
+  .exec(http("Camunda_GetTask")
     .get(CamundaUrl + "/engine-rest/task?processVariables=caseId_eq_${caseId}") //${caseId}
-    .header("ServiceAuthorization", "Bearer ${bearerToken2}")
-    .check(regex("""id":"(.*?)","name":"Review""").saveAs("taskId")))
-    .exitHereIfFailed
+    .header("ServiceAuthorization", "Bearer ${wa_task_management_apiBearerToken}")
+    .check(jsonPath("$[0].id").saveAs("taskId")))
+    // .exitHereIfFailed
 
-    .pause(Environment.constantthinkTime)
+    // .pause(Environment.constantthinkTime)
 
-    // .exec {
-    //   session =>
-    //     val fw = new BufferedWriter(new FileWriter("TaskIDs.csv", true))
-    //     try {
-    //       fw.write(session("caseId").as[String] + ","+session("taskId").as[String] + "\r\n")
-    //     }
-    //     finally fw.close()
-    //     session
-    // }  
+    .exec {
+      session =>
+        val fw = new BufferedWriter(new FileWriter("CancelTaskIDs.csv", true))
+        try {
+          fw.write(session("caseId").as[String] + "," +session("taskId").as[String] + "\r\n")
+        }
+        finally fw.close()
+        session
+    }  
 
 }
