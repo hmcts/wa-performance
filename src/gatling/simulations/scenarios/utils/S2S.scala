@@ -1,9 +1,9 @@
-package uk.gov.hmcts.wa.scenarios
+package utils
 
 import com.typesafe.config.{Config, ConfigFactory}
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
-import uk.gov.hmcts.wa.scenarios.utils._
+import utils._
 
 object S2S {
 

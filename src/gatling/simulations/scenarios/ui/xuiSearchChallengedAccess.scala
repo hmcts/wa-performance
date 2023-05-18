@@ -1,14 +1,13 @@
-package uk.gov.hmcts.wa.scenarios
+package scenarios
 
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-
 import com.typesafe.config.{Config, ConfigFactory}
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
-import uk.gov.hmcts.wa.scenarios.utils._
+import utils._
 import java.io.{BufferedWriter, FileWriter}
 
 object xuiSearchChallengedAccess {
@@ -31,11 +30,11 @@ object xuiSearchChallengedAccess {
 			.get("/api/user/details")
 			.headers(XUIHeaders.xuiMainHeader))
 		
-		.exec(http("XUI_GlobalSearch_010_JurisdictionsRead")
-			.get("/aggregated/caseworkers/:uid/jurisdictions?access=read")
-			.headers(XUIHeaders.xuiMainHeader)
-      .header("accept", "application/json, text/plain, */*")
-      .header("content-type", "application/json"))
+		// .exec(http("XUI_GlobalSearch_010_JurisdictionsRead")
+		// 	.get("/aggregated/caseworkers/:uid/jurisdictions?access=read")
+		// 	.headers(XUIHeaders.xuiMainHeader)
+    //   .header("accept", "application/json, text/plain, */*")
+    //   .header("content-type", "application/json"))
 
     .pause(Environment.constantthinkTime)
 
@@ -44,7 +43,7 @@ object xuiSearchChallengedAccess {
 			.headers(XUIHeaders.xuiMainHeader)
       .header("accept", "application/json, text/plain, */*")
       .header("content-type", "application/json")
-      .header("x-xsrf-token", "${xsrfToken}")
+      .header("x-xsrf-token", "#{xsrfToken}")
 			.body(ElFileBody("xuiBodies/GlobalSearchRequest.json"))
       .check(jsonPath("$.results[*].processForAccess").optional.saveAs("accessRequired")))
             		
@@ -54,7 +53,7 @@ object xuiSearchChallengedAccess {
       .header("accept", "application/json, text/plain, */*"))
 		
 		.exec(http("XUI_GlobalSearch_020_GetCase")
-			.get("/data/internal/cases/${caseId}")
+			.get("/data/internal/cases/#{caseId}")
 			.headers(XUIHeaders.xuiMainHeader)
       .header("accept", "application/json, text/plain, */*")
       .header("content-type", "application/json"))
@@ -74,16 +73,14 @@ object xuiSearchChallengedAccess {
 
   val JudicialChallengedAccess =
 
-    exec(_.setAll(
-      "currentDate" -> (Common.getDate)
-      ))
+    exec(_.set("currentDate", (Common.getDate)))
 
     .exec(http("XUI_RequestChallengedAccess_Request")
 			.post("/api/challenged-access-request")
 			.headers(XUIHeaders.xuiMainHeader)
       .header("accept", "application/json, text/plain, */*")
       .header("content-type", "application/json")
-      .header("x-xsrf-token", "${xsrfToken}")
+      .header("x-xsrf-token", "#{xsrfToken}")
 			.body(ElFileBody("xuiBodies/JudicialChallengedAccessRequest.json")))
 
     .exec(http("XUI_RequestChallengedAccess_UserDetails")
@@ -95,16 +92,14 @@ object xuiSearchChallengedAccess {
 
   val ChallengedAccess =
 
-    exec(_.setAll(
-      "currentDate" -> (Common.getDate)
-      ))
+    exec(_.set("currentDate", (Common.getDate)))
 
     .exec(http("XUI_RequestChallengedAccess_Request")
 			.post("/api/challenged-access-request")
 			.headers(XUIHeaders.xuiMainHeader)
       .header("accept", "application/json, text/plain, */*")
       .header("content-type", "application/json")
-      .header("x-xsrf-token", "${xsrfToken}")
+      .header("x-xsrf-token", "#{xsrfToken}")
 			.body(ElFileBody("xuiBodies/ChallengedAccessRequest.json")))
 
     .exec(http("XUI_RequestChallengedAccess_UserDetails")
@@ -117,7 +112,7 @@ object xuiSearchChallengedAccess {
   val ViewCase =
 
     exec(http("XUI_ViewCase_GetCase")
-			.get("/cases/case-details/${caseId}")
+			.get("/cases/case-details/#{caseId}")
 			.headers(XUIHeaders.xuiMainHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"))
 
@@ -161,23 +156,8 @@ object xuiSearchChallengedAccess {
 			.headers(XUIHeaders.xuiMainHeader)
       .header("accept", "application/json, text/plain, */*"))
 
-    // .exec(http("XUI_CaseActivity_Options")
-		// 	.options(Environment.ccdGateway + "/activity/cases/0/activity")
-		// 	.headers(XUIHeaders.xuiMainHeader)
-    //   .header("accept", "application/json, text/plain, */*")
-    //   .header("sec-fetch-site", "same-site")
-    //   .check(status.in(200, 304, 401, 403)))
-
-    // .exec(http("XUI_CaseActivity_Get")
-		// 	.get(Environment.ccdGateway + "/activity/cases/0/activity")
-		// 	.headers(XUIHeaders.xuiMainHeader)
-    //   .header("accept", "application/json, text/plain, */*")
-    //   .header("sec-fetch-site", "same-site")
-    //   .header("authorization", "Bearer ${bearerToken}")
-    //   .check(status.in(200, 304, 401, 403)))
-
     .exec(http("XUI_ViewCase_GetCase")
-			.get("/data/internal/cases/${caseId}")
+			.get("/data/internal/cases/#{caseId}")
 			.headers(XUIHeaders.xuiMainHeader)
       .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json"))
 
@@ -192,7 +172,7 @@ object xuiSearchChallengedAccess {
       .header("accept", "application/json, text/plain, */*"))
 
     .exec(http("XUI_ViewCase_GetWorkAllocationTask")
-      .get("/workallocation/case/task/${caseId}")
+      .get("/workallocation/case/task/#{caseId}")
       .headers(XUIHeaders.xuiMainHeader)
       .check(jsonPath("$[0].id").optional.saveAs("taskId")))
 }

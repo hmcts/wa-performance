@@ -1,12 +1,11 @@
-package uk.gov.hmcts.wa.scenarios
+package scenarios
 
 import java.text.SimpleDateFormat
 import java.util.Date
-
 import com.typesafe.config.{Config, ConfigFactory}
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
-import uk.gov.hmcts.wa.scenarios.utils._
+import utils._
 import java.io.{BufferedWriter, FileWriter}
 
 object xuiwa {
@@ -54,13 +53,13 @@ object xuiwa {
 
     group("XUI_Login"){
       exec(http("XUI_010_005_Login")
-        .post(IdamURL + "/login?client_id=xuiwebapp&redirect_uri=" + baseURL + "/oauth2/callback&state=${state}&nonce=${nonce}&response_type=code&scope=profile%20openid%20roles%20manage-user%20create-user%20search-user&prompt=")
+        .post(IdamURL + "/login?client_id=xuiwebapp&redirect_uri=" + baseURL + "/oauth2/callback&state=#{state}&nonce=#{nonce}&response_type=code&scope=profile%20openid%20roles%20manage-user%20create-user%20search-user&prompt=")
         .headers(XUIHeaders.headers_login_submit)
-        .formParam("username", "${email}")
-        .formParam("password", "${password}")
+        .formParam("username", "#{email}")
+        .formParam("password", "#{password}")
         .formParam("save", "Sign in")
         .formParam("selfRegistrationEnabled", "false")
-        .formParam("_csrf", "${csrfToken}")
+        .formParam("_csrf", "#{csrfToken}")
         .check(status.in(200, 304, 302))).exitHereIfFailed
 
       .exec(http("XUI_010_010_Login")
@@ -108,11 +107,6 @@ object xuiwa {
         .get("/api/healthCheck?path=%2Fwork%2Fmy-work%2Flist")
         .headers(XUIHeaders.xuiMainHeader)) //22
 
-      // .exec(http("XUI_010_065_Login")
-      //   .get("/aggregated/caseworkers/:uid/jurisdictions?access=read")
-      //   .headers(XUIHeaders.xuiMainHeader)
-      //   .header("content-type", "application/json")) //24
-
       .exec(http("XUI_010_070_Login")
         .get("/workallocation2/caseworker")
         .headers(XUIHeaders.xuiMainHeader)) //26
@@ -154,14 +148,12 @@ object xuiwa {
 
     .group("XUI_Login") {
       exec(http("XUI_020_005_SignIn")
-        //.post(IdamUrl + "/login?response_type=code&client_id=xuiwebapp&redirect_uri=" + baseURL + "/oauth2/callback&scope=profile%20openid%20roles%20manage-user%20create-user")
-        // .post(IdamUrl + "/login?response_type=code&redirect_uri=" + baseURL + "%2Foauth2%2Fcallback&scope=profile%20openid%20roles%20manage-user%20create-user&state=${state}&client_id=xuiwebapp")
-        .post(IdamURL + "/login?client_id=xuiwebapp&redirect_uri=" + baseURL + "/oauth2/callback&state=${state}&nonce=${nonce}&response_type=code&scope=profile%20openid%20roles%20manage-user%20create-user&prompt=")
-        .formParam("username", "${email}")
-        .formParam("password", "${password}")
+        .post(IdamURL + "/login?client_id=xuiwebapp&redirect_uri=" + baseURL + "/oauth2/callback&state=#{state}&nonce=#{nonce}&response_type=code&scope=profile%20openid%20roles%20manage-user%20create-user&prompt=")
+        .formParam("username", "#{email}")
+        .formParam("password", "#{password}")
         .formParam("save", "Sign in")
         .formParam("selfRegistrationEnabled", "false")
-        .formParam("_csrf", "${csrfToken}")
+        .formParam("_csrf", "#{csrfToken}")
         .headers(XUIHeaders.headers_login_submit)
         .check(status.in(200, 304, 302))).exitHereIfFailed
 
@@ -176,7 +168,7 @@ object xuiwa {
         .check(status.in(200, 304)))
 
       .repeat(1, "count") {
-        exec(http("XUI_020_020_AcceptT&CAccessJurisdictions${count}")
+        exec(http("XUI_020_020_AcceptT&CAccessJurisdictions#{count}")
           .get(baseURL + "/aggregated/caseworkers/:uid/jurisdictions?access=read")
           .headers(XUIHeaders.headers_access_read)
           .check(status.in(200, 304, 302)))
@@ -197,10 +189,6 @@ object xuiwa {
 			.get("/api/healthCheck?path=%2Ftasks%2Ftask-manager")
 			.headers(XUIHeaders.headers_tm0))
 
-    // .exec(http("XUI_OpenTaskManager_015")
-		// 	.get("/api/healthCheck?path=%2Ftasks%2Ftask-manager")
-		// 	.headers(XUIHeaders.headers_tm0))
-
     .exec(http("XUI_OpenTaskManager_015")
 			.get("/workallocation/location")
 			.headers(XUIHeaders.headers_tm0))
@@ -215,26 +203,18 @@ object xuiwa {
   val assignTask =
 
     exec(http("XUI_OpenTask")
-			.get("/workallocation/task/${taskId}")
+			.get("/workallocation/task/#{taskId}")
 			.headers(XUIHeaders.headers_tm0))
-
-    // .exec(http("request_11")
-		// 	.get("/workallocation/location")
-		// 	.headers(XUIHeaders.headers_tm0))
-
-    // .exec(http("request_13")
-		// 	.get("/api/monitoring-tools")
-		// 	.headers(XUIHeaders.headers_tm0))
 
     .pause(Environment.constantthinkTime)
 
     .exec(http("XUI_AssignTask_005")
-			.post("/workallocation/task/${taskId}/assign")
+			.post("/workallocation/task/#{taskId}/assign")
 			.headers(XUIHeaders.headers_assign33)
-			.body(StringBody("""{"userId":"${idamId}"}""")))
+			.body(StringBody("""{"userId":"#{idamId}"}""")))
 
     .exec(http("XUI_AssignTask_010")
-			.get("/api/healthCheck?path=%2Ftasks%2Ftask-manager%23manage_${taskId}")
+			.get("/api/healthCheck?path=%2Ftasks%2Ftask-manager%23manage_#{taskId}")
 			.headers(XUIHeaders.headers_assign35))
 
     .pause(Environment.constantthinkTime)
@@ -253,13 +233,13 @@ object xuiwa {
   val completeTask =
 
     exec(http("XUI_OpenTask")
-			.get("/workallocation/task/${taskId}")
+			.get("/workallocation/task/#{taskId}")
 			.headers(XUIHeaders.headers_tm0))
 
     .pause(Environment.constantthinkTime)
 
     .exec(http("XUI_CompleteTask")
-			.post("/workallocation/task/${taskId}/complete")
+			.post("/workallocation/task/#{taskId}/complete")
 			.headers(XUIHeaders.headers_complete))
 
     .exec(http("XUI_OpenTaskManager_005")
@@ -281,11 +261,11 @@ object xuiwa {
         .headers(XUIHeaders.xuiMainHeader))
 
       .exec(http("XUI_OpenTask_010_GetRoles")
-        .get("/workallocation/task/${taskId}/roles")
+        .get("/workallocation/task/#{taskId}/roles")
         .headers(XUIHeaders.xuiMainHeader))
 
       .exec(http("XUI_OpenTask_015")
-        .get("/workallocation/task/${taskId}")
+        .get("/workallocation/task/#{taskId}")
         .headers(XUIHeaders.xuiMainHeader))
     }
 
@@ -293,10 +273,10 @@ object xuiwa {
 
     .group("XUI_CancelTask") {
       exec(http("XUI_CancelTask_005_Cancel")
-        .post("/workallocation/task/${taskId}/cancel")
+        .post("/workallocation/task/#{taskId}/cancel")
         .headers(XUIHeaders.xuiMainHeader)
         .header("content-type", "application/json")
-        .header("x-xsrf-token", "${xsrfToken}")
+        .header("x-xsrf-token", "#{xsrfToken}")
         .body(StringBody("{}")))
 
       .exec(http("XUI_CancelTask_015_GetJurisdictions")
@@ -311,7 +291,7 @@ object xuiwa {
         .post("/workallocation/task")
         .headers(XUIHeaders.xuiMainHeader)
         .header("content-type", "application/json")
-        .header("x-xsrf-token", "${xsrfToken}")
+        .header("x-xsrf-token", "#{xsrfToken}")
         .body(ElFileBody("xuiBodies/AllWork.json")))
     }
 
@@ -335,7 +315,7 @@ object xuiwa {
       .exec(http("XUI_OpenTaskManager_020")
         .post("/workallocation/task")
         .headers(XUIHeaders.headers_tl5)
-        .body(StringBody("""{"searchRequest":{"search_parameters":[{"key":"user","operator":"IN","values":["${idamId}"]}],"sorting_parameters":[{"sort_by":"dueDate","sort_order":"asc"}]},"view":"MyTasks"}"""))
+        .body(StringBody("""{"searchRequest":{"search_parameters":[{"key":"user","operator":"IN","values":["#{idamId}"]}],"sorting_parameters":[{"sort_by":"dueDate","sort_order":"asc"}]},"view":"MyTasks"}"""))
         .check(regex("""id":"(.*)","name""").saveAs("taskId"))
         // .check(regex("""case_id":"(.*)","case_category""").saveAs("caseId"))
         )
@@ -351,11 +331,11 @@ object xuiwa {
         .headers(XUIHeaders.headers_tl1))
 
       .exec(http("XUI_OpenTask_010")
-        .get("/api/healthCheck?path=%2Fcases%2Fcase-details%2F${caseId}")
+        .get("/api/healthCheck?path=%2Fcases%2Fcase-details%2F#{caseId}")
         .headers(XUIHeaders.headers_apihealthcheck))
 
       .exec(http("XUI_OpenTask_015")
-        .get("/data/internal/cases/${caseId}")
+        .get("/data/internal/cases/#{caseId}")
         .headers(XUIHeaders.headers_viewcase))
     }
 
@@ -370,15 +350,15 @@ object xuiwa {
         .post("/api/role-access/roles/post")
         .headers(XUIHeaders.xuiMainHeader)
         .header("content-type", "application/json")
-        .header("x-xsrf-token", "${xsrfToken}")
-        .body(StringBody("""{"caseId":"${caseId}","jurisdiction":"IA","caseType":"Asylum"}""")))
+        .header("x-xsrf-token", "#{xsrfToken}")
+        .body(StringBody("""{"caseId":"#{caseId}","jurisdiction":"IA","caseType":"Asylum"}""")))
 
       .exec(http("XUI_AssignRoles_ViewRolesTab_015")
         .post("/api/role-access/exclusions/post")
         .headers(XUIHeaders.xuiMainHeader)
         .header("content-type", "application/json")
-        .header("x-xsrf-token", "${xsrfToken}")
-        .body(StringBody("""{"caseId":"${caseId}","jurisdiction":"IA","caseType":"Asylum"}""")))
+        .header("x-xsrf-token", "#{xsrfToken}")
+        .body(StringBody("""{"caseId":"#{caseId}","jurisdiction":"IA","caseType":"Asylum"}""")))
     }
 
     .pause(Environment.constantthinkTime)
@@ -392,7 +372,7 @@ object xuiwa {
         .post("/api/role-access/allocate-role/valid-roles")
         .headers(XUIHeaders.xuiMainHeader)
         .header("content-type", "application/json")
-        .header("x-xsrf-token", "${xsrfToken}")
+        .header("x-xsrf-token", "#{xsrfToken}")
         .body(StringBody("""{"serviceIds":["IA"]}""")))
 
       .exec(http("XUI_AllocateLegalOpsRole_015")
@@ -402,16 +382,14 @@ object xuiwa {
 
 		.pause(Environment.constantthinkTime)
 
-    .exec(_.setAll(
-      "currentDate" -> (Common.getDate)
-      ))
+    .exec(_.set("currentDate", (Common.getDate)))
     
     .group("XUI_ConfirmRoleAllocation") {
       exec(http("XUI_ConfirmRoleAllocation_005")
         .post("/api/role-access/allocate-role/confirm")
         .headers(XUIHeaders.xuiMainHeader)
         .header("content-type", "application/json")
-        .header("x-xsrf-token", "${xsrfToken}")
+        .header("x-xsrf-token", "#{xsrfToken}")
         .body(ElFileBody("xuiBodies/XUIallocateRolesConfirm.json")))
 
       .exec(http("XUI_ConfirmRoleAllocation_010")
@@ -430,14 +408,14 @@ object xuiwa {
         .post("/api/role-access/exclusions/post")
         .headers(XUIHeaders.xuiMainHeader)
         .header("content-type", "application/json")
-        .header("x-xsrf-token", "${xsrfToken}")
-        .body(StringBody("""{"caseId":"${caseId}","jurisdiction":"IA","caseType":"Asylum"}""")))
+        .header("x-xsrf-token", "#{xsrfToken}")
+        .body(StringBody("""{"caseId":"#{caseId}","jurisdiction":"IA","caseType":"Asylum"}""")))
 
       .exec(http("XUI_ConfirmRoleAllocation_035")
         .post("/api/role-access/roles/post")
         .header("content-type", "application/json")
-        .header("x-xsrf-token", "${xsrfToken}")
-        .body(StringBody("""{"caseId":"${caseId}","jurisdiction":"IA","caseType":"Asylum"}""")))
+        .header("x-xsrf-token", "#{xsrfToken}")
+        .body(StringBody("""{"caseId":"#{caseId}","jurisdiction":"IA","caseType":"Asylum"}""")))
     }
 
     .pause(Environment.constantthinkTime)
@@ -446,7 +424,7 @@ object xuiwa {
 
     group("XUI_ViewTasksTab") {
       exec(http("XUI_ViewTasksTab")
-        .get("/workallocation/case/task/${caseId}")
+        .get("/workallocation/case/task/#{caseId}")
         .headers(XUIHeaders.xuiMainHeader)
         .check(jsonPath("$[0].id").saveAs("taskId")))
 
@@ -461,14 +439,14 @@ object xuiwa {
 
     group("XUI_AssignTaskToMe") {
       exec(http("XUI_AssignTaskToMe_Claim")
-        .post("/workallocation/task/${taskId}/claim")
+        .post("/workallocation/task/#{taskId}/claim")
         .headers(XUIHeaders.xuiMainHeader)
         .header("content-type", "application/json")
-        .header("x-xsrf-token", "${xsrfToken}")
+        .header("x-xsrf-token", "#{xsrfToken}")
         .body(StringBody("""{}""")))
 
       .exec(http("XUI_AssignTaskToMe_GetTask")
-        .get("/workallocation/case/task/${caseId}")
+        .get("/workallocation/case/task/#{caseId}")
         .headers(XUIHeaders.xuiMainHeader))
     }
 
@@ -484,7 +462,7 @@ object xuiwa {
 
     group("XUI_RequestRespondentEvidence_EventTrigger") {
       exec(http("XUI_RequestRespondentEvidence_010_Request")
-        .get("/case/IA/Asylum/${caseId}/trigger/requestRespondentEvidence")
+        .get("/case/IA/Asylum/#{caseId}/trigger/requestRespondentEvidence")
         .headers(XUIHeaders.xuiMainHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"))
 
@@ -517,18 +495,8 @@ object xuiwa {
         .get("/auth/isAuthenticated")
         .headers(XUIHeaders.xuiMainHeader)) //50
 
-      //NEED TO MODULARISE
-
-      // .exec(http("request_63")
-      // 	.options(uri1 + "/0/activity")
-      // 	.headers(headers_32)) //32
-
-      // .exec(http("request_64")
-      // 	.get(uri1 + "/0/activity")
-      // 	.headers(headers_14))
-
       .exec(http("XUI_RequestRespondentEvidence_010_GetCase")
-        .get("/data/internal/cases/${caseId}")
+        .get("/data/internal/cases/#{caseId}")
         .headers(XUIHeaders.xuiMainHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json")
         .header("content-type", "application/json")) //65
@@ -540,7 +508,7 @@ object xuiwa {
         .header("content-type", "application/json"))
 
       .exec(http("XUI_RequestRespondentEvidence_010_EventTrigger")
-        .get("/data/internal/cases/${caseId}/event-triggers/requestRespondentEvidence?ignore-warning=false")
+        .get("/data/internal/cases/#{caseId}/event-triggers/requestRespondentEvidence?ignore-warning=false")
         .headers(XUIHeaders.xuiMainHeader) //67
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
         .header("content-type", "application/json")
@@ -559,34 +527,25 @@ object xuiwa {
         .headers(XUIHeaders.xuiMainHeader) //78
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("content-type", "application/json")
-        .header("x-xsrf-token", "${xsrfToken}")
+        .header("x-xsrf-token", "#{xsrfToken}")
         .body(ElFileBody("xuiBodies/XUIrequestRespondentEvidence1.json")))
 
       .exec(http("XUI_RequestRespondentEvidence_020_UserDetails")
         .get("/api/user/details")
         .headers(XUIHeaders.xuiMainHeader)) //80
-
-      // .exec(http("request_85")
-      // 	.options(uri1 + "/${caseId}/activity")
-      // 	.headers(headers_10))
     }
 
     .pause(Environment.constantthinkTime)
 
     .group("XUI_RequestRespondentEvidence_Submit") {
       exec(http("XUI_RequestRespondentEvidence_030_SubmitEvent")
-        .post("/data/cases/${caseId}/events")
+        .post("/data/cases/#{caseId}/events")
         .headers(XUIHeaders.xuiMainHeader) //86
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
         .header("content-type", "application/json")
-        .header("x-xsrf-token", "${xsrfToken}")
+        .header("x-xsrf-token", "#{xsrfToken}")
         .body(ElFileBody("xuiBodies/XUIrequestRespondentEvidence2.json")))
-              
-      // .exec(http("request_87")
-      // 	.post(uri1 + "/${caseId}/activity")
-      // 	.headers(headers_14)
-      // 	.body(RawFileBody("myWorkAssignComplete1_0087_request.txt")))
-
+      
       .exec(http("XUI_RequestRespondentEvidence_030_UserDetails")
         .get("/api/user/details")
         .headers(XUIHeaders.xuiMainHeader)) //89
@@ -596,45 +555,31 @@ object xuiwa {
         .headers(XUIHeaders.xuiMainHeader) //90
         .header("accept", "application/json")
         .header("content-type", "application/json")
-        .header("x-xsrf-token", "${xsrfToken}")
+        .header("x-xsrf-token", "#{xsrfToken}")
         .body(ElFileBody("xuiBodies/XUIsearchForCompletable.json")))
 
       .exec(http("XUI_RequestRespondentEvidence_030_CompleteTask")
-        .post("/workallocation/task/${taskId}/complete")
+        .post("/workallocation/task/#{taskId}/complete")
         .headers(XUIHeaders.xuiMainHeader) //92
         .header("accept", "application/json")
         .header("content-type", "application/json")
-        .header("x-xsrf-token", "${xsrfToken}")
+        .header("x-xsrf-token", "#{xsrfToken}")
         .body(StringBody("{}")))
-
-      // .exec(http("request_93")
-      // 	.options(uri1 + "/${caseId}/activity")
-      // 	.headers(headers_10))
     }
 
     .group("XUI_RequestRespondentEvidence_ViewCase") {
       exec(http("XUI_RequestRespondentEvidence_040_ViewCase")
-        .get("/data/internal/cases/${caseId}")
+        .get("/data/internal/cases/#{caseId}")
         .headers(XUIHeaders.xuiMainHeader) //94
         .header("content-type", "application/json")
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json"))
-
-      // .exec(http("request_95")
-      // 	.options(uri1 + "/${caseId}/activity")
-      // 	.headers(headers_10))
-              
+ 
       .exec(http("XUI_RequestRespondentEvidence_040_UserDetails")
         .get("/api/user/details")
         .headers(XUIHeaders.xuiMainHeader)) //97
 
-      // .exec(http("request_98")
-      // 	.post(uri1 + "/${caseId}/activity")
-      // 	.headers(headers_14) //98
-      // 	.body(RawFileBody("myWorkAssignComplete1_0098_request.txt")))
-
       .exec(http("XUI_RequestRespondentEvidence_040_UserDetails")
         .get("/api/user/details")
         .headers(XUIHeaders.xuiMainHeader)) //121
-    }
-      
+    }   
 }

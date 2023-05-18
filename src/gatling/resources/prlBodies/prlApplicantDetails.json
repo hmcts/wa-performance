@@ -44,8 +44,8 @@
         "Country": "United Kingdom"
       },
       "solicitorOrg": {
-        "OrganisationID": "${orgref}",
-        "OrganisationName": "${orgname}"
+        "OrganisationID": "#{orgref}",
+        "OrganisationName": "#{orgname}"
       },
       "solicitorAddress": {
         "AddressLine1": "1 Perf Test Road",
@@ -64,6 +64,6 @@
     "summary": "",
     "description": ""
   },
-  "event_token": "${eventToken}",
+  "event_token": "#{eventToken}",
   "ignore_warning": false
 }

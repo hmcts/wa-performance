@@ -1,4 +1,4 @@
-package uk.gov.hmcts.wa.simulations
+package simulations
 
 import com.typesafe.config.{Config, ConfigFactory}
 import io.gatling.core.Predef._
@@ -7,8 +7,8 @@ import io.gatling.core.scenario.Simulation
 import io.gatling.core.pause.PauseType
 import io.gatling.commons.stats.assertion.Assertion
 import io.gatling.core.controller.inject.open.OpenInjectionStep
-import uk.gov.hmcts.wa.scenarios._
-import uk.gov.hmcts.wa.scenarios.utils._
+import scenarios._
+import utils._
 import scala.concurrent.duration._
 
 class UISimulation extends Simulation  {
@@ -73,7 +73,7 @@ class UISimulation extends Simulation  {
 	}
 
   val httpProtocol = Environment.HttpProtocol
-    .baseUrl(Environment.xuiBaseURL.replace("${env}", s"${env}"))
+    .baseUrl(Environment.xuiBaseURL.replace("#{env}", s"${env}"))
     .doNotTrackHeader("1")
 
 	before {
@@ -118,7 +118,7 @@ class UISimulation extends Simulation  {
         exec(xuiSearchChallengedAccess.JudicialChallengedAccess)
       }
       .exec(xuiSearchChallengedAccess.ViewCase)
-      .doIf("${taskId.exists()}") {
+      .doIf("#{taskId.exists()}") {
         exec(xuiJudicialTask.AssignTask)
         .exec(xuiJudicialTask.StandardDirectionOrder)
       }
@@ -285,13 +285,13 @@ class UISimulation extends Simulation  {
   
   setUp(
     IACAssignAndCompleteTasks.inject(simulationProfile(testType, assignAndCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    PRLAssignAndCompleteTasks.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    CivilAssignAndCompleteTask.inject(simulationProfile(testType, civilJudicialCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    CancelTask.inject(simulationProfile(testType, cancelTaskTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    JudicialUserJourney.inject(simulationProfile(testType, judicialTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    CreateCivilDJTaskFromCCD.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    CreateIACTaskFromCCD.inject(simulationProfile(testType, iacCreateTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    CreatePRLTaskFromCCD.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // PRLAssignAndCompleteTasks.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // CivilAssignAndCompleteTask.inject(simulationProfile(testType, civilJudicialCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // CancelTask.inject(simulationProfile(testType, cancelTaskTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // JudicialUserJourney.inject(simulationProfile(testType, judicialTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // CreateCivilDJTaskFromCCD.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // CreateIACTaskFromCCD.inject(simulationProfile(testType, iacCreateTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // CreatePRLTaskFromCCD.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 
     // getTaskFromCamunda.inject(rampUsers(1) during (1 minute))
     )

@@ -2,12 +2,12 @@
   "searchCriteria": {
      "CCDCaseTypeIds": null,
      "CCDJurisdictionIds": [
-        "${jurisdiction}"
+        "#{jurisdiction}"
      ],
      "caseManagementBaseLocationIds": null,
      "caseManagementRegionIds": null,
      "caseReferences": [
-        "${caseId}"
+        "#{caseId}"
      ],
      "otherReferences": null,
      "parties": [],

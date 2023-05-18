@@ -1,12 +1,11 @@
-package uk.gov.hmcts.wa.scenarios
+package scenarios
 
 import java.text.SimpleDateFormat
 import java.util.Date
-
 import com.typesafe.config.{Config, ConfigFactory}
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
-import uk.gov.hmcts.wa.scenarios.utils._
+import utils._
 import java.io.{BufferedWriter, FileWriter}
 
 object xuiMyWork {
@@ -100,7 +99,7 @@ object xuiMyWork {
     .exec(http("XUI_MyWork")
 			.post("/workallocation2/task")
 			.headers(XUIHeaders.xuiMainHeader) //2
-      .header("x-xsrf-token", "${xsrfToken}")
+      .header("x-xsrf-token", "#{xsrfToken}")
       .header("content-type", "application/json")
 			.body(ElFileBody("xuiBodies/MyWork.json")))
 
@@ -119,7 +118,7 @@ object xuiMyWork {
         .post("/workallocation/task")
         .headers(XUIHeaders.xuiMainHeader) //4
         .header("content-type", "application/json")
-        .header("x-xsrf-token", "${xsrfToken}")
+        .header("x-xsrf-token", "#{xsrfToken}")
         .body(ElFileBody("xuiBodies/MyAvailableTasks.json"))
         // .check(jsonPath("$.tasks[0].id").saveAs("taskId"))
         // .check(jsonPath("$.tasks[0].case_id").saveAs("caseId"))
@@ -132,9 +131,9 @@ object xuiMyWork {
 
     group("XUI_AssignAndView"){
       exec(http("XUI_MyAvailableTasks_ClaimTask")
-        .post("/workallocation2/task/${taskId}/claim")
+        .post("/workallocation2/task/#{taskId}/claim")
         .headers(XUIHeaders.xuiMainHeader)
-        .header("x-xsrf-token", "${xsrfToken}")
+        .header("x-xsrf-token", "#{xsrfToken}")
         .header("content-type", "application/json")
         .body(StringBody("{}")))
 
@@ -143,11 +142,11 @@ object xuiMyWork {
         .headers(XUIHeaders.xuiMainHeader))
 
       .exec(http("XUI_MyAvailableTasks_ClaimTask_Healthcheck")
-        .get("/api/healthCheck?path=%2Fcases%2Fcase-details%2F${caseId}")
+        .get("/api/healthCheck?path=%2Fcases%2Fcase-details%2F#{caseId}")
         .headers(XUIHeaders.xuiMainHeader))
 
       .exec(http("XUI_MyAvailableTasks_ClaimTask_ViewCase")
-        .get("/data/internal/cases/${caseId}")
+        .get("/data/internal/cases/#{caseId}")
         .headers(XUIHeaders.xuiMainHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json"))
     }

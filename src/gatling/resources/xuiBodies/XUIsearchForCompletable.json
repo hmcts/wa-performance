@@ -1,6 +1,6 @@
 {
   "searchRequest": {
-     "ccdId": "${caseId}",
+     "ccdId": "#{caseId}",
      "eventId": "requestRespondentEvidence",
      "jurisdiction": "IA",
      "caseTypeId": "Asylum"

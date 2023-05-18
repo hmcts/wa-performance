@@ -16,7 +16,7 @@
      },
      "appellantInUk": "Yes",
      "homeOfficeReferenceNumber": "123123123",
-     "homeOfficeDecisionDate": "${todayDate}",
+     "homeOfficeDecisionDate": "#{todayDate}",
      "decisionLetterReceivedDate": null,
      "uploadTheNoticeOfDecisionDocs": [
         {
@@ -32,15 +32,15 @@
         }
      ],
      "appellantTitle": "Mr",
-     "appellantGivenNames": "${firstName}",
-     "appellantFamilyName": "${lastName}",
-     "appellantDateOfBirth": "${dobYear}-${dobMonth}-${dobDay}",
+     "appellantGivenNames": "#{firstName}",
+     "appellantFamilyName": "#{lastName}",
+     "appellantDateOfBirth": "#{dobYear}-#{dobMonth}-#{dobDay}",
      "appellantStateless": "isStateless",
      "appellantNationalities": [],
      "appellantHasFixedAddress": "No",
      "appellantAddress": null,
      "contactPreference": "wantsEmail",
-     "email": "${firstName}@${lastName}.com",
+     "email": "#{firstName}@#{lastName}.com",
      "mobileNumber": null,
      "appealType": "revocationOfProtection",
      "appealGroundsProtection": null,
@@ -69,7 +69,7 @@
      "summary": "",
      "description": ""
   },
-  "event_token": "${eventToken}",
+  "event_token": "#{eventToken}",
   "ignore_warning": false,
   "draft_id": null
 }
