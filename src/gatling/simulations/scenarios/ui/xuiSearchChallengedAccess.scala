@@ -73,7 +73,7 @@ object xuiSearchChallengedAccess {
 
   val JudicialChallengedAccess =
 
-    exec(_.set("currentDate", (Common.getDate)))
+    exec(_.set("currentDate", Common.getDate()))
 
     .exec(http("XUI_RequestChallengedAccess_Request")
 			.post("/api/challenged-access-request")
@@ -92,7 +92,7 @@ object xuiSearchChallengedAccess {
 
   val ChallengedAccess =
 
-    exec(_.set("currentDate", (Common.getDate)))
+    exec(_.set("currentDate", Common.getDate()))
 
     .exec(http("XUI_RequestChallengedAccess_Request")
 			.post("/api/challenged-access-request")
