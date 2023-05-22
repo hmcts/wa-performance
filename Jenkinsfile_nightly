@@ -1,7 +1,7 @@
 #!groovy
 
 properties([
-        pipelineTriggers([cron('00 08 * * *')]),
+        // pipelineTriggers([cron('00 08 * * *')]),
         parameters([
                 choice(name: 'ENVIRONMENT', choices: 'perftest', description: 'Environment to run Work Allocation nightly pipeline')
         ])
@@ -30,7 +30,7 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 withNightlyPipeline("java", product, component) {
     loadVaultSecrets(secrets)
 
-    //enablePerformanceTest()
+    enablePerformanceTest()
 
     after('performanceTest') {
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
