@@ -12,7 +12,6 @@ import java.io.{BufferedWriter, FileWriter}
 object ccddatastore {
 
   val config: Config = ConfigFactory.load()
-  val ccdGatewayClientSecret = config.getString("ccdGatewayCS")
 
   val ccdCreateIACCase = 
 
