@@ -1,4 +1,4 @@
-package uk.gov.hmcts.wa.scenarios.utils
+package utils
 
 object XUIHeaders {
 
@@ -107,7 +107,7 @@ object XUIHeaders {
 		"Sec-Fetch-Dest" -> "empty",
 		"Sec-Fetch-Mode" -> "cors",
 		"Sec-Fetch-Site" -> "same-origin",
-		"X-XSRF-TOKEN" -> "${xsrfToken}",
+		"X-XSRF-TOKEN" -> "#{xsrfToken}",
 		"experimental" -> "true",
 		"sec-ch-ua" -> """Google Chrome";v="89", "Chromium";v="89", ";Not A Brand";v="99""",
 		"sec-ch-ua-mobile" -> "?0")
@@ -123,7 +123,7 @@ object XUIHeaders {
 		"Sec-Fetch-Dest" -> "empty",
 		"Sec-Fetch-Mode" -> "cors",
 		"Sec-Fetch-Site" -> "same-origin",
-		"X-XSRF-TOKEN" -> "${xsrfToken}",
+		"X-XSRF-TOKEN" -> "#{xsrfToken}",
 		"experimental" -> "true",
 		"sec-ch-ua" -> """Google Chrome";v="89", "Chromium";v="89", ";Not A Brand";v="99""",
 		"sec-ch-ua-mobile" -> "?0")
@@ -163,7 +163,7 @@ object XUIHeaders {
 		"Sec-Fetch-Dest" -> "empty",
 		"Sec-Fetch-Mode" -> "cors",
 		"Sec-Fetch-Site" -> "same-origin",
-		"X-XSRF-TOKEN" -> "${xsrfToken}",
+		"X-XSRF-TOKEN" -> "#{xsrfToken}",
 		"sec-ch-ua" -> """Google Chrome";v="89", "Chromium";v="89", ";Not A Brand";v="99""",
 		"sec-ch-ua-mobile" -> "?0")
 
@@ -189,7 +189,7 @@ object XUIHeaders {
 		"Sec-Fetch-Dest" -> "empty",
 		"Sec-Fetch-Mode" -> "cors",
 		"Sec-Fetch-Site" -> "same-origin",
-		"X-XSRF-TOKEN" -> "${xsrfToken}",
+		"X-XSRF-TOKEN" -> "#{xsrfToken}",
 		"sec-ch-ua" -> """Google Chrome";v="89", "Chromium";v="89", ";Not A Brand";v="99""",
 		"sec-ch-ua-mobile" -> "?0")
 
@@ -204,7 +204,7 @@ object XUIHeaders {
 		"Sec-Fetch-Dest" -> "empty",
 		"Sec-Fetch-Mode" -> "cors",
 		"Sec-Fetch-Site" -> "same-origin",
-		"X-XSRF-TOKEN" -> "${xsrfToken}",
+		"X-XSRF-TOKEN" -> "#{xsrfToken}",
 		"sec-ch-ua" -> """Google Chrome";v="89", "Chromium";v="89", ";Not A Brand";v="99""",
 		"sec-ch-ua-mobile" -> "?0")
 
@@ -228,7 +228,7 @@ object XUIHeaders {
 		"Sec-Fetch-Dest" -> "empty",
 		"Sec-Fetch-Mode" -> "cors",
 		"Sec-Fetch-Site" -> "same-origin",
-		"X-XSRF-TOKEN" -> "${xsrfToken}",
+		"X-XSRF-TOKEN" -> "#{xsrfToken}",
 		"sec-ch-ua" -> """Google Chrome";v="89", "Chromium";v="89", ";Not A Brand";v="99""",
 		"sec-ch-ua-mobile" -> "?0")
 
@@ -245,7 +245,7 @@ object XUIHeaders {
 		"cache-control" -> "no-cache",
 		"dnt" -> "1",
 		"pragma" -> "no-cache",
-    "origin" -> "https://manage-case.${env}.platform.hmcts.net",
+    "origin" -> "https://manage-case.#{env}.platform.hmcts.net",
     "experimental" -> "true",
 		"sec-ch-ua" -> """ Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96""",
 		"sec-ch-ua-mobile" -> "?0",
@@ -260,7 +260,7 @@ object XUIHeaders {
     "access-control-request-headers" -> "authorization,content-type",
 		"access-control-request-method" -> "GET",
 		"cache-control" -> "no-cache",
-		"origin" -> "https://manage-case.${env}.platform.hmcts.net",
+		"origin" -> "https://manage-case.#{env}.platform.hmcts.net",
 		"pragma" -> "no-cache",
 		"sec-fetch-dest" -> "empty",
 		"sec-fetch-mode" -> "cors",

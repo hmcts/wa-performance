@@ -1,4 +1,4 @@
-package uk.gov.hmcts.wa.simulations
+package simulations
 
 import com.typesafe.config.{Config, ConfigFactory}
 import io.gatling.core.Predef._
@@ -7,8 +7,8 @@ import io.gatling.core.scenario.Simulation
 import io.gatling.core.pause.PauseType
 import io.gatling.commons.stats.assertion.Assertion
 import io.gatling.core.controller.inject.open.OpenInjectionStep
-import uk.gov.hmcts.wa.scenarios._
-import uk.gov.hmcts.wa.scenarios.utils._
+import scenarios._
+import utils._
 import scala.concurrent.duration._
 
 class UISimulation extends Simulation  {
@@ -23,7 +23,6 @@ class UISimulation extends Simulation  {
 	//set the environment based on the test type
 	val environment = testType match {
 		case "perftest" => "perftest"
-		//TODO: UPDATE PIPELINE TO 'aat' ONCE DATA STRATEGY IS IMPLEMENTED. UNTIL THEN, PIPELINE WILL RUN AGAINST PERFTEST
 		case "pipeline" => "perftest"
 		case _ => "**INVALID**"
 	}
@@ -73,7 +72,7 @@ class UISimulation extends Simulation  {
 	}
 
   val httpProtocol = Environment.HttpProtocol
-    .baseUrl(Environment.xuiBaseURL.replace("${env}", s"${env}"))
+    .baseUrl(Environment.xuiBaseURL.replace("#{env}", s"${env}"))
     .doNotTrackHeader("1")
 
 	before {
@@ -118,7 +117,7 @@ class UISimulation extends Simulation  {
         exec(xuiSearchChallengedAccess.JudicialChallengedAccess)
       }
       .exec(xuiSearchChallengedAccess.ViewCase)
-      .doIf("${taskId.exists()}") {
+      .doIf("#{taskId.exists()}") {
         exec(xuiJudicialTask.AssignTask)
         .exec(xuiJudicialTask.StandardDirectionOrder)
       }
