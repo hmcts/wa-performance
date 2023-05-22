@@ -3,8 +3,8 @@
 properties([
         // pipelineTriggers([cron('00 08 * * *')]),
         parameters([
-                choice(name: 'ENVIRONMENT', choices: 'perftest', description: 'Environment to run Work Allocation nightly pipeline')
-        ])
+                choice(name: 'TEST_TYPE', choices: 'pipeline', description: 'Test type (must be \'pipeline\' for Jenkins use)')        
+                ])
 ])
 
 @Library("Infrastructure") 
