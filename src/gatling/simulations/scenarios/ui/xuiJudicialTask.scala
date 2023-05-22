@@ -13,7 +13,6 @@ import java.io.{BufferedWriter, FileWriter}
 object xuiJudicialTask {
 
   val baseURL = Environment.xuiBaseURL
-  val IdamURL = Environment.idamURL
 
   val AssignTask = 
 

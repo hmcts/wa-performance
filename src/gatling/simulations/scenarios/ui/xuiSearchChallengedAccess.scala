@@ -13,7 +13,6 @@ import java.io.{BufferedWriter, FileWriter}
 object xuiSearchChallengedAccess {
 
   val baseURL = Environment.xuiBaseURL
-  val IdamURL = Environment.idamURL
 
   val GlobalSearch =
 
