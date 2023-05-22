@@ -52,7 +52,7 @@ object xuiwa {
 
     group("XUI_Login"){
       exec(http("XUI_010_005_Login")
-        .post(IdamURL + "/login?client_id=xuiwebapp&redirect_uri=" + baseURL + "/oauth2/callback&state=#{state}&nonce=#{nonce}&response_type=code&scope=profile%20openid%20roles%20manage-user%20create-user%20search-user&prompt=")
+        .post(Environment.idamURL + "/login?client_id=xuiwebapp&redirect_uri=" + baseURL + "/oauth2/callback&state=#{state}&nonce=#{nonce}&response_type=code&scope=profile%20openid%20roles%20manage-user%20create-user%20search-user&prompt=")
         .headers(XUIHeaders.headers_login_submit)
         .formParam("username", "#{email}")
         .formParam("password", "#{password}")
@@ -147,7 +147,7 @@ object xuiwa {
 
     .group("XUI_Login") {
       exec(http("XUI_020_005_SignIn")
-        .post(IdamURL + "/login?client_id=xuiwebapp&redirect_uri=" + baseURL + "/oauth2/callback&state=#{state}&nonce=#{nonce}&response_type=code&scope=profile%20openid%20roles%20manage-user%20create-user&prompt=")
+        .post(Environment.idamURL + "/login?client_id=xuiwebapp&redirect_uri=" + baseURL + "/oauth2/callback&state=#{state}&nonce=#{nonce}&response_type=code&scope=profile%20openid%20roles%20manage-user%20create-user&prompt=")
         .formParam("username", "#{email}")
         .formParam("password", "#{password}")
         .formParam("save", "Sign in")
