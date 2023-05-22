@@ -12,12 +12,6 @@ import java.io.{BufferedWriter, FileWriter}
 object ccddatastore {
 
   val config: Config = ConfigFactory.load()
-
-  val IdamURL = Environment.idamURL
-  val IdamAPI = Environment.idamAPI
-  val CCDEnvurl = Environment.ccdEnvurl
-  val s2sUrl = Environment.s2sUrl
-  val ccdDataStoreUrl = "http://ccd-data-store-api-perftest.service.core-compute-perftest.internal"
   val ccdGatewayClientSecret = config.getString("ccdGatewayCS")
 
   val ccdCreateIACCase = 
@@ -30,14 +24,14 @@ object ccddatastore {
                     "todayDate" -> Common.getDate()))
 
     .exec(http("API_IAC_GetEventToken")
-      .get(ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/#{IACJurisdiction}/case-types/#{IACCaseType}/event-triggers/startAppeal/token")
+      .get(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/#{IACJurisdiction}/case-types/#{IACCaseType}/event-triggers/startAppeal/token")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
       .check(jsonPath("$.token").saveAs("eventToken")))
 
     .exec(http("API_IAC_CreateCase")
-      .post(ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/#{IACJurisdiction}/case-types/#{IACCaseType}/cases")
+      .post(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/#{IACJurisdiction}/case-types/#{IACCaseType}/cases")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
@@ -49,14 +43,14 @@ object ccddatastore {
   val ccdIACSubmitAppeal = 
 
     exec(http("API_IAC_GetEventToken")
-      .get(ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/#{IACJurisdiction}/case-types/#{IACCaseType}/cases/#{caseId}/event-triggers/submitAppeal/token")
+      .get(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/#{IACJurisdiction}/case-types/#{IACCaseType}/cases/#{caseId}/event-triggers/submitAppeal/token")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
       .check(jsonPath("$.token").saveAs("eventToken")))
 
     .exec(http("API_IAC_SubmitAppeal")
-      .post(ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/#{IACJurisdiction}/case-types/#{IACCaseType}/cases/#{caseId}/events")
+      .post(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/#{IACJurisdiction}/case-types/#{IACCaseType}/cases/#{caseId}/events")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
@@ -68,14 +62,14 @@ object ccddatastore {
   val ccdIACRequestHomeOfficeData =
 
     exec(http("API_IAC_GetEventToken")
-      .get(ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/#{IACJurisdiction}/case-types/#{IACCaseType}/cases/#{caseId}/event-triggers/requestHomeOfficeData/token")
+      .get(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/#{IACJurisdiction}/case-types/#{IACCaseType}/cases/#{caseId}/event-triggers/requestHomeOfficeData/token")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
       .check(jsonPath("$.token").saveAs("eventToken1")))
 
     .exec(http("API_IAC_RequestHomeOfficeData")
-      .post(ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/#{IACJurisdiction}/case-types/#{IACCaseType}/cases/#{caseId}/events")
+      .post(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/#{IACJurisdiction}/case-types/#{IACCaseType}/cases/#{caseId}/events")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
@@ -97,14 +91,14 @@ object ccddatastore {
   val civilCreateCase = 
 
     exec(http("API_Civil_GetEventToken")
-      .get(ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/CIVIL/case-types/CIVIL/event-triggers/CREATE_CLAIM/token")
+      .get(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/CIVIL/case-types/CIVIL/event-triggers/CREATE_CLAIM/token")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
       .check(jsonPath("$.token").saveAs("eventToken1")))
 
     .exec(http("API_Civil_CreateUnspecifiedClaim")
-      .post(ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/CIVIL/case-types/CIVIL/cases/")
+      .post(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/CIVIL/case-types/CIVIL/cases/")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
@@ -116,14 +110,14 @@ object ccddatastore {
   val civilCreateCaseGA = 
 
     exec(http("API_Civil_GetEventToken")
-      .get(ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/CIVIL/case-types/CIVIL/event-triggers/CREATE_CLAIM/token")
+      .get(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/CIVIL/case-types/CIVIL/event-triggers/CREATE_CLAIM/token")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
       .check(jsonPath("$.token").saveAs("eventToken1")))
 
     .exec(http("API_Civil_CreateUnspecifiedClaim")
-      .post(ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/CIVIL/case-types/CIVIL/cases/")
+      .post(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/CIVIL/case-types/CIVIL/cases/")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
@@ -145,14 +139,14 @@ object ccddatastore {
   val civilNotifyClaim = 
 
     exec(http("API_Civil_GetEventToken")
-      .get(ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/CIVIL/case-types/CIVIL/cases/#{caseId}/event-triggers/NOTIFY_DEFENDANT_OF_CLAIM/token")
+      .get(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/CIVIL/case-types/CIVIL/cases/#{caseId}/event-triggers/NOTIFY_DEFENDANT_OF_CLAIM/token")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
       .check(jsonPath("$.token").saveAs("eventToken2")))
 
     .exec(http("API_Civil_NotifyClaim")
-      .post(ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/CIVIL/case-types/CIVIL/cases/#{caseId}/events")
+      .post(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/CIVIL/case-types/CIVIL/cases/#{caseId}/events")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
@@ -163,14 +157,14 @@ object ccddatastore {
   val civilNotifyClaimDetails = 
 
     exec(http("API_Civil_GetEventToken")
-      .get(ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/CIVIL/case-types/CIVIL/cases/#{caseId}/event-triggers/NOTIFY_DEFENDANT_OF_CLAIM_DETAILS/token")
+      .get(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/CIVIL/case-types/CIVIL/cases/#{caseId}/event-triggers/NOTIFY_DEFENDANT_OF_CLAIM_DETAILS/token")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
       .check(jsonPath("$.token").saveAs("eventToken3")))
 
     .exec(http("API_Civil_NotifyClaimDetails")
-      .post(ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/CIVIL/case-types/CIVIL/cases/#{caseId}/events")
+      .post(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/CIVIL/case-types/CIVIL/cases/#{caseId}/events")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
@@ -191,14 +185,14 @@ object ccddatastore {
   val civilRequestDefaultJudgement = 
 
     exec(http("API_Civil_GetEventToken")
-      .get(ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/CIVIL/case-types/CIVIL/cases/#{caseId}/event-triggers/DEFAULT_JUDGEMENT/token")
+      .get(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/CIVIL/case-types/CIVIL/cases/#{caseId}/event-triggers/DEFAULT_JUDGEMENT/token")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
       .check(jsonPath("$.token").saveAs("eventToken4")))
 
     .exec(http("API_Civil_RequestDefaultJudgement")
-      .post(ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/CIVIL/case-types/CIVIL/cases/#{caseId}/events")
+      .post(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/CIVIL/case-types/CIVIL/cases/#{caseId}/events")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
@@ -219,14 +213,14 @@ object ccddatastore {
   val civilCreateGeneralApplication = 
 
     exec(http("API_Civil_GetEventToken")
-      .get(ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/CIVIL/case-types/CIVIL/cases/#{caseId}/event-triggers/DEFAULT_JUDGEMENT/token")
+      .get(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/CIVIL/case-types/CIVIL/cases/#{caseId}/event-triggers/DEFAULT_JUDGEMENT/token")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
       .check(jsonPath("$.token").saveAs("eventToken4")))
 
     .exec(http("API_Civil_RequestDefaultJudgement")
-      .post(ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/CIVIL/case-types/CIVIL/cases/#{caseId}/events")
+      .post(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/CIVIL/case-types/CIVIL/cases/#{caseId}/events")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
@@ -237,14 +231,14 @@ object ccddatastore {
   val prlCreateCase = 
 
     exec(http("API_PRL_GetEventToken")
-      .get(ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/event-triggers/solicitorCreate/token")
+      .get(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/event-triggers/solicitorCreate/token")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
       .check(jsonPath("$.token").saveAs("eventToken")))
 
     .exec(http("API_PRL_CreateCase")
-      .post(ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/")
+      .post(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
@@ -266,14 +260,14 @@ object ccddatastore {
   val prlApplicationType =
 
     exec(http("API_PRL_GetEventToken")
-      .get(ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/#{caseId}/event-triggers/fl401TypeOfApplication/token")
+      .get(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/#{caseId}/event-triggers/fl401TypeOfApplication/token")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
       .check(jsonPath("$.token").saveAs("eventToken")))
 
     .exec(http("API_PRL_ApplicationType")
-      .post(ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/#{caseId}/events")
+      .post(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/#{caseId}/events")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
@@ -284,14 +278,14 @@ object ccddatastore {
   val prlWithoutNotice =
 
     exec(http("API_PRL_GetEventToken")
-      .get(ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/#{caseId}/event-triggers/withoutNoticeOrderDetails/token")
+      .get(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/#{caseId}/event-triggers/withoutNoticeOrderDetails/token")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
       .check(jsonPath("$.token").saveAs("eventToken")))
 
     .exec(http("API_PRL_WithoutNotice")
-      .post(ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/#{caseId}/events")
+      .post(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/#{caseId}/events")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
@@ -302,14 +296,14 @@ object ccddatastore {
   val prlApplicantDetails =
 
     exec(http("API_PRL_GetEventToken")
-      .get(ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/#{caseId}/event-triggers/applicantsDetails/token")
+      .get(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/#{caseId}/event-triggers/applicantsDetails/token")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
       .check(jsonPath("$.token").saveAs("eventToken")))
 
     .exec(http("API_PRL_ApplicantDetails")
-      .post(ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/#{caseId}/events")
+      .post(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/#{caseId}/events")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
@@ -320,14 +314,14 @@ object ccddatastore {
   val prlRespondentDetails =
 
     exec(http("API_PRL_GetEventToken")
-      .get(ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/#{caseId}/event-triggers/respondentsDetails/token")
+      .get(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/#{caseId}/event-triggers/respondentsDetails/token")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
       .check(jsonPath("$.token").saveAs("eventToken")))
 
     .exec(http("API_PRL_RespondentDetails")
-      .post(ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/#{caseId}/events")
+      .post(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/#{caseId}/events")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
@@ -338,14 +332,14 @@ object ccddatastore {
   val prlFamilyDetails =
 
     exec(http("API_PRL_GetEventToken")
-      .get(ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/#{caseId}/event-triggers/fl401ApplicantFamilyDetails/token")
+      .get(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/#{caseId}/event-triggers/fl401ApplicantFamilyDetails/token")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
       .check(jsonPath("$.token").saveAs("eventToken")))
 
     .exec(http("API_PRL_FamilyDetails")
-      .post(ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/#{caseId}/events")
+      .post(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/#{caseId}/events")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
@@ -356,14 +350,14 @@ object ccddatastore {
   val prlRelationship =
 
     exec(http("API_PRL_GetEventToken")
-      .get(ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/#{caseId}/event-triggers/respondentRelationship/token")
+      .get(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/#{caseId}/event-triggers/respondentRelationship/token")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
       .check(jsonPath("$.token").saveAs("eventToken")))
 
     .exec(http("API_PRL_Relationship")
-      .post(ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/#{caseId}/events")
+      .post(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/#{caseId}/events")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
@@ -374,14 +368,14 @@ object ccddatastore {
   val prlBehaviour =
 
     exec(http("API_PRL_GetEventToken")
-      .get(ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/#{caseId}/event-triggers/respondentBehaviour/token")
+      .get(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/#{caseId}/event-triggers/respondentBehaviour/token")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
       .check(jsonPath("$.token").saveAs("eventToken")))
 
     .exec(http("API_PRL_Behaviour")
-      .post(ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/#{caseId}/events")
+      .post(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/#{caseId}/events")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
@@ -392,14 +386,14 @@ object ccddatastore {
   val prlHome =
 
     exec(http("API_PRL_GetEventToken")
-      .get(ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/#{caseId}/event-triggers/fl401Home/token")
+      .get(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/#{caseId}/event-triggers/fl401Home/token")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
       .check(jsonPath("$.token").saveAs("eventToken")))
 
     .exec(http("API_PRL_Home")
-      .post(ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/#{caseId}/events")
+      .post(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/#{caseId}/events")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
@@ -410,14 +404,14 @@ object ccddatastore {
   val prlSubmit =
 
     exec(http("API_PRL_GetEventToken")
-      .get(ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/#{caseId}/event-triggers/fl401StatementOfTruthAndSubmit/token")
+      .get(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/#{caseId}/event-triggers/fl401StatementOfTruthAndSubmit/token")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
       .check(jsonPath("$.token").saveAs("eventToken")))
 
     .exec(http("API_PRL_Submit")
-      .post(ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/#{caseId}/events")
+      .post(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/#{caseId}/events")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")

@@ -16,8 +16,6 @@ object wataskmanagement {
 
 val config: Config = ConfigFactory.load()
 val waUrl = Environment.waTMURL
-val s2sUrl = Environment.s2sUrl
-val IdamAPI = Environment.idamAPI
 val CamundaUrl = Environment.camundaURL
 val ccdRedirectUri = Environment.ccdRedirectUri
 val waWorkflowUrl = Environment.waWorkflowApiURL
@@ -33,7 +31,7 @@ def randomkey: String = randomUUID.toString
 val WAS2SLogin = 
 
   exec(http("WA_GetS2SToken")
-    .post(s2sUrl + "/testing-support/lease")
+    .post(Environment.s2sUrl + "/testing-support/lease")
     .header("Content-Type", "application/json")
     .body(StringBody("{\"microservice\":\"wa_task_management_api\"}")) 
     .check(bodyString.saveAs("bearerToken2")))
@@ -42,7 +40,7 @@ val WAS2SLogin =
 val WATaskS2SLogin = 
 
   exec(http("WA_GetS2SToken")
-    .post(s2sUrl + "/testing-support/lease")
+    .post(Environment.s2sUrl + "/testing-support/lease")
     .header("Content-Type", "application/json")
     .body(StringBody("{\"microservice\":\"wa_case_event_handler\"}")) 
     .check(bodyString.saveAs("bearerToken3")))
@@ -53,7 +51,7 @@ val WASeniorIdamLogin =
   feed(feedWASeniorUserData)
 
   .exec(http("WA_OIDC01_Authenticate")
-    .post(IdamAPI + "/authenticate")
+    .post(Environment.idamAPI + "/authenticate")
     .header("Content-Type", "application/x-www-form-urlencoded")
     .formParam("username", "#{email}")
     .formParam("password", "#{password}")
@@ -64,7 +62,7 @@ val WASeniorIdamLogin =
     .exitHereIfFailed
 
   .exec(http("WA_OIDC02_Authorize")
-    .post(IdamAPI + "/o/authorize?response_type=code&client_id=" + ccdClientId + "&redirect_uri=" + ccdRedirectUri + "&scope=" + ccdScope).disableFollowRedirect
+    .post(Environment.idamAPI + "/o/authorize?response_type=code&client_id=" + ccdClientId + "&redirect_uri=" + ccdRedirectUri + "&scope=" + ccdScope).disableFollowRedirect
     .header("Content-Type", "application/x-www-form-urlencoded")
     .header("Cookie", "Idam.Session=#{authCookie}")
     .header("Content-Length", "0")
@@ -73,7 +71,7 @@ val WASeniorIdamLogin =
     .exitHereIfFailed
 
   .exec(http("WA_OIDC03_Token")
-    .post(IdamAPI + "/o/token?grant_type=authorization_code&code=#{code}&client_id=" + ccdClientId +"&redirect_uri=" + ccdRedirectUri + "&client_secret=" + ccdGatewayClientSecret)
+    .post(Environment.idamAPI + "/o/token?grant_type=authorization_code&code=#{code}&client_id=" + ccdClientId +"&redirect_uri=" + ccdRedirectUri + "&client_secret=" + ccdGatewayClientSecret)
     .header("Content-Type", "application/x-www-form-urlencoded")
     .header("Content-Length", "0")
     .check(status is 200)
@@ -85,7 +83,7 @@ val WATribunalIdamLogin =
   feed(feedWATribunalUserData)
 
   .exec(http("OIDC01_Authenticate")
-    .post(IdamAPI + "/authenticate")
+    .post(Environment.idamAPI + "/authenticate")
     .header("Content-Type", "application/x-www-form-urlencoded")
     .formParam("username", "#{waemail}")
     .formParam("password", "#{wapassword}")
@@ -96,7 +94,7 @@ val WATribunalIdamLogin =
     .exitHereIfFailed
 
   .exec(http("OIDC02_Authorize")
-    .post(IdamAPI + "/o/authorize?response_type=code&client_id=" + ccdClientId + "&redirect_uri=" + ccdRedirectUri + "&scope=" + ccdScope).disableFollowRedirect
+    .post(Environment.idamAPI + "/o/authorize?response_type=code&client_id=" + ccdClientId + "&redirect_uri=" + ccdRedirectUri + "&scope=" + ccdScope).disableFollowRedirect
     .header("Content-Type", "application/x-www-form-urlencoded")
     .header("Cookie", "Idam.Session=#{authCookie}")
     .header("Content-Length", "0")
@@ -105,7 +103,7 @@ val WATribunalIdamLogin =
     .exitHereIfFailed
 
   .exec(http("OIDC03_Token")
-    .post(IdamAPI + "/o/token?grant_type=authorization_code&code=#{code}&client_id=" + ccdClientId +"&redirect_uri=" + ccdRedirectUri + "&client_secret=" + ccdGatewayClientSecret)
+    .post(Environment.idamAPI + "/o/token?grant_type=authorization_code&code=#{code}&client_id=" + ccdClientId +"&redirect_uri=" + ccdRedirectUri + "&client_secret=" + ccdGatewayClientSecret)
     .header("Content-Type", "application/x-www-form-urlencoded")
     .header("Content-Length", "0")
     .check(status is 200)

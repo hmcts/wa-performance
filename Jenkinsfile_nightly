@@ -3,7 +3,7 @@
 properties([
         pipelineTriggers([cron('00 08 * * *')]),
         parameters([
-                string(name: 'BaseURL', defaultValue: 'https://', description: 'The Base Url'),
+                choice(name: 'ENVIRONMENT', choices: 'perftest', description: 'Environment to run Work Allocation nightly pipeline')
         ])
 ])
 
@@ -13,13 +13,7 @@ def product = "wa"
 def component = "wa-performance-tests"
 
 def secrets = [
-    // 's2s-aat': [
-    //     secret('microservicekey-rd-professional-api', 'S2S_SECRET')
-    // ],
-    // 'rd-aat': [
-    //     secret('OAUTH2-CLIENT-SECRET', 'OAUTH2_CLIENT_SECRET')
-    // ],
-    'ccd-aat': [
+    'ccd-perftest': [
         secret('ccd-api-gateway-oauth2-client-secret', 'CCD_CLIENT_SECRET')
     ]
 ]
@@ -35,15 +29,10 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 
 withNightlyPipeline("java", product, component) {
     loadVaultSecrets(secrets)
-    //env.BaseURL = 'https://'
-
 
     //enablePerformanceTest()
 
     after('performanceTest') {
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
     }
-
-    //enableSlackNotifications('#jui-nightly-builds')
-
 }

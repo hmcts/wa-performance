@@ -13,7 +13,6 @@ import java.io.{BufferedWriter, FileWriter}
 object xuiAllWork {
 
   val baseURL = Environment.xuiBaseURL
-  val IdamURL = Environment.idamURL
   val taskCancelListFeeder = csv("WA_TasksToCancel.csv").circular
   val feedIACUserData = csv("IACUserData.csv").circular
   val feedWASeniorUserData = csv("WA_SeniorTribunalUsers.csv").circular
