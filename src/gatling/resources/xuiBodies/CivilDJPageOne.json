@@ -12,7 +12,7 @@
      "applicantVRespondentText": "john smith v steve smith",
      "caseManagementOrderSelection": "DISPOSAL_HEARING"
   },
-  "event_token": "${eventToken}",
+  "event_token": "#{eventToken}",
   "ignore_warning": false,
-  "case_reference": "${caseId}"
+  "case_reference": "#{caseId}"
 }

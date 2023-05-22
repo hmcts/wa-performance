@@ -1,5 +1,5 @@
 {
-  "caseId": "${caseId}",
+  "caseId": "#{caseId}",
   "jurisdiction": "IA",
   "state": 4,
   "typeOfRole": {
@@ -11,8 +11,8 @@
   "durationOfRole": "7 days",
   "action": "allocate",
   "period": {
-     "startDate": "${currentDate}T00:00:00.000Z",
-     "endDate": "${currentDatePlusSeven}T00:00:00.000Z"
+     "startDate": "#{currentDate}T00:00:00.000Z",
+     "endDate": "#{currentDatePlusSeven}T00:00:00.000Z"
   },
   "lastError": null,
   "roleCategory": "JUDICIAL"

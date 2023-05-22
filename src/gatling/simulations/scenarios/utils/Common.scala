@@ -1,4 +1,4 @@
-package uk.gov.hmcts.wa.scenarios.utils
+package utils
 
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
@@ -59,9 +59,9 @@ object Common {
   }
 
   //Saves partyId
-  def savePartyId: CheckBuilder[JsonPathCheckType, JsonNode, String] = jsonPath("$.case_fields[*].value[*].value.party.partyId").saveAs("partyId")
+  def savePartyId: CheckBuilder[JsonPathCheckType, JsonNode] = jsonPath("$.case_fields[*].value[*].value.party.partyId").saveAs("partyId")
 
   //Saves user ID
-  def saveId: CheckBuilder[JsonPathCheckType, JsonNode, String] = jsonPath("$.case_fields[*].value[0].id").saveAs("id")
+  def saveId: CheckBuilder[JsonPathCheckType, JsonNode] = jsonPath("$.case_fields[*].value[0].id").saveAs("id")
 
 }

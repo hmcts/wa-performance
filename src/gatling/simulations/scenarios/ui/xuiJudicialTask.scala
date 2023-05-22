@@ -1,20 +1,18 @@
-package uk.gov.hmcts.wa.scenarios
+package scenarios
 
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-
 import com.typesafe.config.{Config, ConfigFactory}
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
-import uk.gov.hmcts.wa.scenarios.utils._
+import utils._
 import java.io.{BufferedWriter, FileWriter}
 
 object xuiJudicialTask {
 
   val baseURL = Environment.xuiBaseURL
-  val IdamURL = Environment.idamURL
 
   val AssignTask = 
 
@@ -23,36 +21,17 @@ object xuiJudicialTask {
         .get("/api/user/details")
         .headers(XUIHeaders.xuiMainHeader))
         
-      // .exec(http("XUI_CaseActivity_Options")
-      //   .options(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
-      //   .headers(XUIHeaders.caseActivityOptions))
-              
       .exec(http("XUI_JudicialAssignTask_GetWACase")
-        .get("/workallocation/case/task/${caseId}")
+        .get("/workallocation/case/task/#{caseId}")
         .headers(XUIHeaders.xuiMainHeader)
         .header("accept", "application/json, text/plain, */*"))
 
-      // .exec(http("XUI_CaseActivity_Post")
-      //   .post(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
-      //   .headers(XUIHeaders.xuiMainHeader)
-      //   .header("accept", "application/json, text/plain, */*")
-      //   .header("content-type", "application/json")
-      //   .header("sec-fetch-site", "same-site")
-      //   .header("authorization", "Bearer ${bearerToken}")
-      //   .body(StringBody("""{"activity":"view"}""")))
-              
-      // .exec(http("XUI_CaseActivity_Options")
-      //   .options(Environment.ccdGateway + "/activity/cases/${caseId}/activity")
-      //   .headers(XUIHeaders.xuiMainHeader)
-      //   .header("access-control-request-headers", "authorization,content-type")
-      //   .header("access-control-request-method", "POST"))
-        
       .exec(http("XUI_JudicialAssignTask_ClaimTask")
-        .post("/workallocation/task/${taskId}/claim")
+        .post("/workallocation/task/#{taskId}/claim")
         .headers(XUIHeaders.xuiMainHeader)
         .header("accept", "application/json, text/plain, */*")
         .header("content-type", "application/json")
-        .header("x-xsrf-token", "${xsrfToken}")
+        .header("x-xsrf-token", "#{xsrfToken}")
         .body(StringBody("""{}""")))
               
       .exec(http("XUI_JudicialAssignTask_GetJudicialUsers")
@@ -60,8 +39,8 @@ object xuiJudicialTask {
         .headers(XUIHeaders.xuiMainHeader)
         .header("accept", "application/json, text/plain, */*")
         .header("content-type", "application/json")
-        .header("x-xsrf-token", "${xsrfToken}")
-        .body(StringBody("""{"userIds":["${idamId}"],"services":["CIVIL"]}""")))
+        .header("x-xsrf-token", "#{xsrfToken}")
+        .body(StringBody("""{"userIds":["#{idamId}"],"services":["CIVIL"]}""")))
     }
 
     .pause(Environment.constantthinkTime)
@@ -70,7 +49,7 @@ object xuiJudicialTask {
     
     group("XUI_JudicialSDO_Page1") {
       exec(http("XUI_JudicialSDO_Page1")
-        .get("/cases/case-details/${caseId}/trigger/STANDARD_DIRECTION_ORDER_DJ/STANDARD_DIRECTION_ORDER_DJCaseManagementOrder?tid=${taskId}")
+        .get("/cases/case-details/#{caseId}/trigger/STANDARD_DIRECTION_ORDER_DJ/STANDARD_DIRECTION_ORDER_DJCaseManagementOrder?tid=#{taskId}")
         .headers(XUIHeaders.xuiMainHeader))
 
       .exec(http("XUI_JudicialSDO_Page1_ConfigurationUI")
@@ -102,13 +81,13 @@ object xuiJudicialTask {
         .headers(XUIHeaders.xuiMainHeader))
             
       .exec(http("XUI_JudicialSDO_Page1_WA")
-        .get("/workallocation/case/tasks/${caseId}/event/STANDARD_DIRECTION_ORDER_DJ/caseType/CIVIL/jurisdiction/CIVIL")
+        .get("/workallocation/case/tasks/#{caseId}/event/STANDARD_DIRECTION_ORDER_DJ/caseType/CIVIL/jurisdiction/CIVIL")
         .headers(XUIHeaders.xuiMainHeader)
         .header("accept", "application/json")
         .header("content-type", "application/json"))
 
       .exec(http("XUI_JudicialSDO_Page1_GetCase")
-        .get("/data/internal/cases/${caseId}")
+        .get("/data/internal/cases/#{caseId}")
         .headers(XUIHeaders.xuiMainHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json")
         .header("content-type", "application/json"))
@@ -120,7 +99,7 @@ object xuiJudicialTask {
         .header("content-type", "application/json"))
 
       .exec(http("XUI_JudicialSDO_Page1_GetEvent")
-        .get("/data/internal/cases/${caseId}/event-triggers/STANDARD_DIRECTION_ORDER_DJ?ignore-warning=false")
+        .get("/data/internal/cases/#{caseId}/event-triggers/STANDARD_DIRECTION_ORDER_DJ?ignore-warning=false")
         .headers(XUIHeaders.xuiMainHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
         .header("ontent-type", "application/json")
@@ -139,7 +118,7 @@ object xuiJudicialTask {
         .headers(XUIHeaders.xuiMainHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("content-type", "application/json")
-        .header("x-xsrf-token", "${xsrfToken}")
+        .header("x-xsrf-token", "#{xsrfToken}")
         .body(ElFileBody("xuiBodies/CivilDJPageOne.json"))
         .check(jsonPath("$.data.disposalHearingDisclosureOfDocumentsDJ.date").saveAs("disposalHearingDisclosureOfDocumentsDJDate"))
         .check(jsonPath("$.data.disposalHearingWitnessOfFactDJ.date1").saveAs("disposalHearingWitnessOfFactDJDate1"))
@@ -165,7 +144,7 @@ object xuiJudicialTask {
         .headers(XUIHeaders.xuiMainHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("content-type", "application/json")
-        .header("x-xsrf-token", "${xsrfToken}")
+        .header("x-xsrf-token", "#{xsrfToken}")
         .body(ElFileBody("xuiBodies/CivilDJPageTwo.json"))
         .check(jsonPath("$.data.orderSDODocumentDJCollection[0].value.documentLink.document_url").saveAs("orderSDODocumentDJCollectionURL"))
         .check(jsonPath("$.data.orderSDODocumentDJCollection[0].value.documentLink.document_filename").saveAs("orderSDODocumentDJCollectionName"))
@@ -197,7 +176,7 @@ object xuiJudicialTask {
         .headers(XUIHeaders.xuiMainHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("content-type", "application/json")
-        .header("x-xsrf-token", "${xsrfToken}")
+        .header("x-xsrf-token", "#{xsrfToken}")
         .body(ElFileBody("xuiBodies/CivilDJPageThree.json")))
     }
 
@@ -205,23 +184,23 @@ object xuiJudicialTask {
 
     .group("XUI_JudicialSDO_Submit") {
       exec(http("XUI_JudicialSDO_Submit_Request")
-        .post("/data/cases/${caseId}/events")
+        .post("/data/cases/#{caseId}/events")
         .headers(XUIHeaders.xuiMainHeader)
         .header("content-type", "application/json")
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
-        .header("x-xsrf-token", "${xsrfToken}")
+        .header("x-xsrf-token", "#{xsrfToken}")
         .body(ElFileBody("xuiBodies/CivilDJSubmit.json")))
         
       .exec(http("XUI_JudicialSDO_Submit_WACompleteTask")
-        .post("/workallocation/task/${taskId}/complete")
+        .post("/workallocation/task/#{taskId}/complete")
         .headers(XUIHeaders.xuiMainHeader)
         .header("content-type", "application/json")
         .header("accept", "application/json")
-        .header("x-xsrf-token", "${xsrfToken}")
+        .header("x-xsrf-token", "#{xsrfToken}")
         .body(StringBody("""{}""")))
 
       .exec(http("XUI_JudicialSDO_Submit_GetCase")
-        .get("/data/internal/cases/${caseId}")
+        .get("/data/internal/cases/#{caseId}")
         .headers(XUIHeaders.xuiMainHeader)
         .header("content-type", "application/json")
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json"))
@@ -234,8 +213,8 @@ object xuiJudicialTask {
         .post("/workallocation/searchForCompletable")
         .header("content-type", "application/json")
         .header("accept", "application/json")
-        .header("x-xsrf-token", "${xsrfToken}")
-        .body(StringBody("""{"searchRequest":{"ccdId":"${caseId}","eventId":"STANDARD_DIRECTION_ORDER_DJ","jurisdiction":"CIVIL","caseTypeId":"CIVIL"}}""")))
+        .header("x-xsrf-token", "#{xsrfToken}")
+        .body(StringBody("""{"searchRequest":{"ccdId":"#{caseId}","eventId":"STANDARD_DIRECTION_ORDER_DJ","jurisdiction":"CIVIL","caseTypeId":"CIVIL"}}""")))
 
       .exec(http("XUI_JudicialSDO_Submit_ApiUserDetails")
         .get("/api/user/details")

@@ -10,17 +10,17 @@
      ],
      "disposalHearingDisclosureOfDocumentsDJ": {
         "input": "The parties shall serve on each other copies of the documents upon which reliance is to be placed at the disposal hearing by 4pm on",
-        "date": "${disposalHearingDisclosureOfDocumentsDJDate}"
+        "date": "#{disposalHearingDisclosureOfDocumentsDJDate}"
      },
      "disposalHearingWitnessOfFactDJToggle": [
         "SHOW"
      ],
      "disposalHearingWitnessOfFactDJ": {
         "input1": "The claimant must upload to the Digital Portal copies of the witness statements of all witnesses of fact on whose evidence reliance is to be placed by 4pm on",
-        "date1": "${disposalHearingWitnessOfFactDJDate1}",
+        "date1": "#{disposalHearingWitnessOfFactDJDate1}",
         "input2": "The provisions of CPR 32.6 apply to such evidence.",
         "input3": "Any application by the defendant in relation to CPR 32.7 must be made by 4pm on",
-        "date2": "${disposalHearingWitnessOfFactDJDate2}",
+        "date2": "#{disposalHearingWitnessOfFactDJDate2}",
         "input4": "and must be accompanied by proposed directions for allocation and listing for trial on quantum. This is because cross-examination will cause the hearing to exceed the 30 minute maximum time estimate for a disposal hearing."
      },
      "disposalHearingMedicalEvidenceDJToggle": [
@@ -28,24 +28,24 @@
      ],
      "disposalHearingMedicalEvidenceDJ": {
         "input1": "The claimant has permission to rely upon the written expert evidence already uploaded to the Digital Portal with the particulars of claim and in addition has permission to rely upon any associated correspondence or updating report which is uploaded to the Digital Portal by 4pm on",
-        "date1": "${disposalHearingMedicalEvidenceDJDate1}"
+        "date1": "#{disposalHearingMedicalEvidenceDJDate1}"
      },
      "disposalHearingQuestionsToExpertsDJToggle": [
         "SHOW"
      ],
      "disposalHearingQuestionsToExpertsDJ": {
-        "date": "${disposalHearingQuestionsToExpertsDJDate}"
+        "date": "#{disposalHearingQuestionsToExpertsDJDate}"
      },
      "disposalHearingSchedulesOfLossDJToggle": [
         "SHOW"
      ],
      "disposalHearingSchedulesOfLossDJ": {
         "input1": "If there is a claim for ongoing or future loss in the original schedule of losses then the claimant must send an up to date schedule of loss to the defendant by 4pm on the",
-        "date1": "${disposalHearingSchedulesOfLossDJDate1}",
+        "date1": "#{disposalHearingSchedulesOfLossDJDate1}",
         "input2": "If the defendant wants to challenge this claim, they must send an up-to-date counter-schedule of loss to the claimant by 4pm on",
-        "date2": "${disposalHearingSchedulesOfLossDJDate2}",
+        "date2": "#{disposalHearingSchedulesOfLossDJDate2}",
         "input3": "If the defendant wants to challenge the sums claimed in the schedule of loss they must upload to the Digital Portal an updated counter schedule of loss by 4pm on",
-        "date3": "${disposalHearingSchedulesOfLossDJDate3}",
+        "date3": "#{disposalHearingSchedulesOfLossDJDate3}",
         "inputText4": "If there is a claim for future pecuniary loss and the parties have not already set out their case on periodical payments, they must do so in the respective schedule and counter-schedule."
      },
      "disposalHearingFinalDisposalHearingDJToggle": [
@@ -53,7 +53,7 @@
      ],
      "disposalHearingFinalDisposalHearingTimeDJ": {
         "input": "This claim will be listed for final disposal before a Judge on the first available date after",
-        "date": "${disposalHearingFinalDisposalHearingTimeDJDate}",
+        "date": "#{disposalHearingFinalDisposalHearingTimeDJDate}",
         "time": "THIRTY_MINUTES"
      },
      "disposalHearingMethodDJ": "disposalHearingMethodInPerson",
@@ -96,17 +96,17 @@
      ],
      "disposalHearingDisclosureOfDocumentsDJ": {
         "input": "The parties shall serve on each other copies of the documents upon which reliance is to be placed at the disposal hearing by 4pm on",
-        "date": "${disposalHearingDisclosureOfDocumentsDJDate}"
+        "date": "#{disposalHearingDisclosureOfDocumentsDJDate}"
      },
      "disposalHearingWitnessOfFactDJToggle": [
         "SHOW"
      ],
      "disposalHearingWitnessOfFactDJ": {
         "input1": "The claimant must upload to the Digital Portal copies of the witness statements of all witnesses of fact on whose evidence reliance is to be placed by 4pm on",
-        "date1": "${disposalHearingWitnessOfFactDJDate1}",
+        "date1": "#{disposalHearingWitnessOfFactDJDate1}",
         "input2": "The provisions of CPR 32.6 apply to such evidence.",
         "input3": "Any application by the defendant in relation to CPR 32.7 must be made by 4pm on",
-        "date2": "${disposalHearingWitnessOfFactDJDate2}",
+        "date2": "#{disposalHearingWitnessOfFactDJDate2}",
         "input4": "and must be accompanied by proposed directions for allocation and listing for trial on quantum. This is because cross-examination will cause the hearing to exceed the 30 minute maximum time estimate for a disposal hearing."
      },
      "disposalHearingMedicalEvidenceDJToggle": [
@@ -114,24 +114,24 @@
      ],
      "disposalHearingMedicalEvidenceDJ": {
         "input1": "The claimant has permission to rely upon the written expert evidence already uploaded to the Digital Portal with the particulars of claim and in addition has permission to rely upon any associated correspondence or updating report which is uploaded to the Digital Portal by 4pm on",
-        "date1": "${disposalHearingMedicalEvidenceDJDate1}"
+        "date1": "#{disposalHearingMedicalEvidenceDJDate1}"
      },
      "disposalHearingQuestionsToExpertsDJToggle": [
         "SHOW"
      ],
      "disposalHearingQuestionsToExpertsDJ": {
-        "date": "${disposalHearingQuestionsToExpertsDJDate}"
+        "date": "#{disposalHearingQuestionsToExpertsDJDate}"
      },
      "disposalHearingSchedulesOfLossDJToggle": [
         "SHOW"
      ],
      "disposalHearingSchedulesOfLossDJ": {
         "input1": "If there is a claim for ongoing or future loss in the original schedule of losses then the claimant must send an up to date schedule of loss to the defendant by 4pm on the",
-        "date1": "${disposalHearingSchedulesOfLossDJDate1}",
+        "date1": "#{disposalHearingSchedulesOfLossDJDate1}",
         "input2": "If the defendant wants to challenge this claim, they must send an up-to-date counter-schedule of loss to the claimant by 4pm on",
-        "date2": "${disposalHearingSchedulesOfLossDJDate2}",
+        "date2": "#{disposalHearingSchedulesOfLossDJDate2}",
         "input3": "If the defendant wants to challenge the sums claimed in the schedule of loss they must upload to the Digital Portal an updated counter schedule of loss by 4pm on",
-        "date3": "${disposalHearingSchedulesOfLossDJDate3}",
+        "date3": "#{disposalHearingSchedulesOfLossDJDate3}",
         "inputText4": "If there is a claim for future pecuniary loss and the parties have not already set out their case on periodical payments, they must do so in the respective schedule and counter-schedule."
      },
      "disposalHearingFinalDisposalHearingDJToggle": [
@@ -139,7 +139,7 @@
      ],
      "disposalHearingFinalDisposalHearingTimeDJ": {
         "input": "This claim will be listed for final disposal before a Judge on the first available date after",
-        "date": "${disposalHearingFinalDisposalHearingTimeDJDate}",
+        "date": "#{disposalHearingFinalDisposalHearingTimeDJDate}",
         "time": "THIRTY_MINUTES"
      },
      "disposalHearingMethodDJ": "disposalHearingMethodInPerson",
@@ -164,7 +164,7 @@
      },
      "disposalHearingAddNewDirectionsDJ": []
   },
-  "event_token": "${eventToken}",
+  "event_token": "#{eventToken}",
   "ignore_warning": false,
-  "case_reference": "${caseId}"
+  "case_reference": "#{caseId}"
 }

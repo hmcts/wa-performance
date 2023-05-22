@@ -1,20 +1,25 @@
 # wa-performance
 Performance tests for Work Allocation
 
+To run locally:
+- Performance test against the perftest environment: `./gradlew gatlingRun`
+
+Flags:
+- Debug (single-user mode): `-Ddebug=on e.g. ./gradlew gatlingRun -Ddebug=on`
+- Run against AAT: `Denv=aat e.g. ./gradlew gatlingRun -Denv=aat`
+
+Before running locally, update the client secret in src/gatling/resources/application.conf then run `git update-index --assume-unchanged src/gatling/resources/application.conf` to ensure the changes aren't pushed to github.
+
+To make other configuration changes to the file, first run `git update-index --no-assume-unchanged src/gatling/resources/application.conf`, ensuring to remove the client secret before pushing to origin
+
 ## Useful info
 
-* The Master branch contains the pipeline tests run against AAT, whereby the required secrets are obtained from the vault
-  * There should be no updates/changes made to the Master branch unless required for Pipeline fixes
-* The Perftest branch contains performance tests to be run against Perftest, the required secrets will need to be added to the application.conf file locally
-
-## Perftest Details
-
-* There are 2 simulations available in the Perftest branch, located in the simulations folder
-  * The UI simulation targets Work Allocation via XUI - this is being used for R2 performance testing
+* The UI simulation targets Work Allocation via XUI - this is being used for all WA performance testing
 
 ## Pre-test criteria:
 
-* The file WA_TasksToCancel.csv consumes 40 rows per test - ensure the first 40 have been deleted from the prior test run before running another test
-* The file IACCaseData.csv consumes 750 rows per test - as above, delete the first 750 before starting another test run
+* The file WA_TasksToCancel.csv consumes 324 rows per test - ensure the first 324 have been deleted from the prior test run before running another test
+* The file IACCaseData.csv consumes 760 rows per test - as above, delete the first 760 before starting another test run
+* The file PRLCaseData.csv consumes 108 rows per test - as above, delete the first 108 before starting another test run
+* The file CivilJudicialCaseData.csv consumes 162 rows per test - as above, delete the first 162 before starting another test run
 * Ensure the CCD Gateway Client Secret is defined in application.conf
-* The Perftest branch contains performance tests to be run against Perftest, the required secrets will need to be added to the application.conf file locally
