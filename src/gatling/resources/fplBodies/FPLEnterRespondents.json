@@ -1,0 +1,84 @@
+{
+  "data": {
+     "respondents1": [
+        {
+           "value": {
+              "persistRepresentedBy": null,
+              "leadRespondentIndicator": null,
+              "legalRepresentation": "No",
+              "legalCounsellors": null,
+              "party": {
+                 "firstName": "John",
+                 "lastName": "Smith",
+                 "dateOfBirth": "1980-02-01",
+                 "gender": "Male",
+                 "genderIdentification": null,
+                 "addressKnow": "Yes",
+                 "addressNotKnowReason": null,
+                 "relationshipToChild": "Father",
+                 "contactDetailsHidden": "No",
+                 "contactDetailsHiddenReason": null,
+                 "litigationIssues": "NO",
+                 "litigationIssuesDetails": null,
+                 "partyId": "5e9d4f34-e827-4898-b3ac-36022158b6a1",
+                 "partyType": null,
+                 "placeOfBirth": null,
+                 "address": {
+                    "AddressLine1": "Flat 1",
+                    "AddressLine2": "Bramber House",
+                    "AddressLine3": "Seven Kings Way",
+                    "PostTown": "Kingston Upon Thames",
+                    "County": "",
+                    "PostCode": "KT2 5BU",
+                    "Country": "United Kingdom"
+                 },
+                 "telephoneNumber": {
+                    "telephoneNumber": "07888999000",
+                    "contactDirection": null
+                 }
+              },
+              "representedBy": [],
+              "solicitor": {
+                 "firstName": null,
+                 "lastName": null,
+                 "email": null,
+                 "organisation": {
+                    "OrganisationID": null,
+                    "OrganisationName": null
+                 },
+                 "unregisteredOrganisation": {
+                    "name": null,
+                    "address": {
+                       "AddressLine1": null,
+                       "AddressLine2": null,
+                       "AddressLine3": null,
+                       "PostTown": null,
+                       "County": null,
+                       "PostCode": null,
+                       "Country": null
+                    }
+                 },
+                 "regionalOfficeAddress": {
+                    "AddressLine1": null,
+                    "AddressLine2": null,
+                    "AddressLine3": null,
+                    "PostTown": null,
+                    "County": null,
+                    "PostCode": null,
+                    "Country": null
+                 },
+                 "colleaguesToBeNotified": []
+              }
+           },
+           "id": "4a6d7ba7-5192-4264-b2f2-a1866e497051"
+        }
+     ]
+  },
+  "event": {
+     "id": "enterRespondents",
+     "summary": "",
+     "description": ""
+  },
+  "event_token": "#{eventToken}",
+  "ignore_warning": false
+}

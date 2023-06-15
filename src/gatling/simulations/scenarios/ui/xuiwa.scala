@@ -7,6 +7,8 @@ import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import utils._
 import java.io.{BufferedWriter, FileWriter}
+import java.nio.file.{Files, Paths}
+
 
 object xuiwa {
 
@@ -581,4 +583,17 @@ object xuiwa {
         .get("/api/user/details")
         .headers(XUIHeaders.xuiMainHeader)) //121
     }   
+
+    // Define the path to the CSV file
+    val csvPath = Paths.get("src/gatling/resources/IACCaseData.csv")
+
+    // Read the CSV file into a list of rows
+    val lines = Files.readAllLines(csvPath).toArray(Array[String]())
+
+    // Remove the desired row
+    val rowToRemove = 1 // Index of the row to remove (0-based)
+    val updatedLines = lines.zipWithIndex.filterNot { case (_, index) => index == rowToRemove }.map(_._1)
+
+    // Write the updated list of rows back to the CSV file
+    Files.write(csvPath, updatedLines.mkString("\n").getBytes)
 }
