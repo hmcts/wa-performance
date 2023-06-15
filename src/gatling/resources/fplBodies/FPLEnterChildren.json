@@ -1,0 +1,72 @@
+{
+  "data": {
+     "children1": [
+        {
+           "value": {
+              "representative": {},
+              "solicitor": {},
+              "finalOrderIssued": null,
+              "finalOrderIssuedType": null,
+              "finalDecisionReason": null,
+              "finalDecisionDate": null,
+              "legalCounsellors": null,
+              "party": {
+                 "firstName": "Peter",
+                 "lastName": "Jones",
+                 "dateOfBirth": "2020-03-01",
+                 "gender": "Boy",
+                 "genderIdentification": null,
+                 "livingSituation": "Living with respondents",
+                 "livingSituationDetails": null,
+                 "addressChangeDate": "2020-03-01",
+                 "datePowersEnd": null,
+                 "careStartDate": null,
+                 "dischargeDate": null,
+                 "keyDates": "01/03/2021",
+                 "careAndContactPlan": "Perf test",
+                 "adoption": "No",
+                 "placementOrderApplication": null,
+                 "placementCourt": null,
+                 "mothersName": "Jane Smith",
+                 "fathersName": "John Smith",
+                 "fathersResponsibility": "Yes",
+                 "socialWorkerName": null,
+                 "additionalNeeds": "No",
+                 "additionalNeedsDetails": null,
+                 "detailsHidden": "No",
+                 "detailsHiddenReason": null,
+                 "litigationIssues": "NO",
+                 "litigationIssuesDetails": null,
+                 "partyId": "2c7797ce-56f8-42a0-ba7e-6f8a7f6ef924",
+                 "partyType": null,
+                 "showAddressInConfidentialTab": null,
+                 "completionDate": null,
+                 "extensionReason": null,
+                 "caseExtensionReasonList": null,
+                 "address": {
+                    "AddressLine1": "Flat 1",
+                    "AddressLine2": "Bramber House",
+                    "AddressLine3": "Seven Kings Way",
+                    "PostTown": "Kingston Upon Thames",
+                    "County": "",
+                    "PostCode": "KT2 5BU",
+                    "Country": "United Kingdom"
+                 },
+                 "socialWorkerTelephoneNumber": {
+                    "telephoneNumber": null,
+                    "contactDirection": null
+                 }
+              }
+           },
+           "id": "8704e423-bf96-420b-a1dd-e57f64cc8370"
+        }
+     ]
+  },
+  "event": {
+     "id": "enterChildren",
+     "summary": "",
+     "description": ""
+  },
+  "event_token": "#{eventToken}",
+  "ignore_warning": false
+}

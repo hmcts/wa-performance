@@ -1,0 +1,22 @@
+{
+  "data": {
+     "draftApplicationDocument": {
+        "document_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/c0c02f11-f394-46d3-8dd2-2023f2bf9c20",
+        "document_filename": "draft_c110a_application_01jun.pdf",
+        "document_binary_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/c0c02f11-f394-46d3-8dd2-2023f2bf9c20/binary"
+     },
+     "submissionConsentLabel": "I, sdsdsdsd hjhjhjhj, believe that the facts stated in this application are true.",
+     "submissionConsent": [
+        "agree"
+     ],
+     "displayAmountToPay": "Yes",
+     "amountToPay": "221500"
+  },
+  "event": {
+     "id": "submitApplication",
+     "summary": "",
+     "description": ""
+  },
+  "event_token": "#{eventToken}",
+  "ignore_warning": false
+}
