@@ -1,7 +1,7 @@
 #!groovy
 
 properties([
-        // pipelineTriggers([cron('00 08 * * *')]),
+        // pipelineTriggers([cron('H 08 * * 1-5')]),
         parameters([
                 choice(name: 'TEST_TYPE', choices: 'pipeline', description: 'Test type (must be \'pipeline\' for Jenkins use)')        
                 ])
@@ -14,7 +14,7 @@ def component = "wa-performance-tests"
 
 def secrets = [
     'ccd-perftest': [
-        secret('ccd-api-gateway-oauth2-client-secret', 'CCD_CLIENT_SECRET')
+        secret('ccd-api-gateway-oauth2-client-secret', 'CLIENT_SECRET')
     ]
 ]
 
