@@ -1,0 +1,12 @@
+{
+  "service_request_reference": "#{caseIdPaymentRef}",
+  "ccd_case_number": "#{caseId}",
+  "service_request_amount": "35.00",
+  "service_request_status": "paid",
+  "payment": {
+    "payment_amount": "35.00",
+    "payment_reference": "13213223",
+    "payment_method": "by account",
+    "case_reference": "#{caseId}"
+  }
+}
