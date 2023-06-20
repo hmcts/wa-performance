@@ -25,6 +25,7 @@ object Environment {
   val ccdRedirectUri = "https://ccd-data-store-api-#{env}.service.core-compute-#{env}.internal/oauth2redirect"
   val camundaURL = "http://camunda-api-#{env}.service.core-compute-#{env}.internal"
   val waWorkflowApiURL = "http://wa-workflow-api-#{env}.service.core-compute-#{env}.internal"
+  val refDataApiURL = "https://rd-professional-api-perftest.service.core-compute-perftest.internal"
 
   val ClearSessionVariables =
     exec(flushHttpCache)

@@ -35,6 +35,10 @@ object Common {
     (1 + rnd.nextInt(12)).toString.format(patternMonth).reverse.padTo(2, '0').reverse //pads single-digit dates with a leading zero
   }
 
+  def getYear(): String = {
+    (1 + rnd.nextInt(12)).toString.format(patternYear).reverse.padTo(2, '0').reverse //pads single-digit dates with a leading zero
+  }
+
   //Date of Birth >= 35 years
   def getDobYear(): String = {
     now.minusYears(35 + rnd.nextInt(70)).format(patternYear)

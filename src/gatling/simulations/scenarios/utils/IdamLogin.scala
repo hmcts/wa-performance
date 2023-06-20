@@ -10,6 +10,8 @@ object IdamLogin {
   val config: Config = ConfigFactory.load()
   val ccdScope = "openid profile authorities acr roles openid profile roles"
   val ccdGatewayClientSecret = config.getString("auth.clientSecret")
+  val rdClientSecret = config.getString("auth.rdClientSecret")
+  val rdScope = "openid%20profile%20roles%20openid%20roles%20profile%20create-user%20manage-user"
 
   val GetIdamToken =
 
@@ -19,4 +21,14 @@ object IdamLogin {
       .header("Content-Length", "0")
       .check(status.is(200))
       .check(jsonPath("$.access_token").saveAs("access_token")))
+
+  val GetIdamTokenRD =
+
+    exec(http("GetIdamToken")
+      // .post(Environment.idamAPI + "/o/token?client_id=rd-professional-api&client_secret=" + rdClientSecret + "&grant_type=password&scope=" + rdScope + "&username=#{email}&password=#{password}")
+      .post(Environment.idamAPI + "/o/token?grant_type=password&username=#{email}&password=#{password}&client_id=rd-professional-api&client_secret=" + rdClientSecret + "&redirect_uri=" + Environment.refDataApiURL + "/oauth2redirect&scope=openid%20profile%20roles%20openid%20roles%20profile%20create-user%20manage-user")
+      .header("Content-Type", "application/x-www-form-urlencoded")
+      .header("Content-Length", "0")
+      .check(status.is(200))
+      .check(jsonPath("$.access_token").saveAs("access_tokenRD")))
 }
