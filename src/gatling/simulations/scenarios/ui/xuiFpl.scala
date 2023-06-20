@@ -81,10 +81,11 @@ object xuiFpl {
     .exec(http("XUI_ViewCase_GetWorkAllocationTask")
       .get("/workallocation/case/task/#{caseId}")
       .headers(XUIHeaders.xuiMainHeader)
-      .check(jsonPath("$[0].id").optional.saveAs("taskId")))
+      .check(jsonPath("$[0].id").saveAs("taskId")))
 
     .pause(Environment.constantthinkTime)
 
+    ////Oustanding FPL UI journey to go here
 
 
 }

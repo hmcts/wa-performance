@@ -154,7 +154,10 @@ class UISimulation extends Simulation  {
       .feed(feedWAFPLUserData)
       .exec(xuiwa.manageCasesLogin)
       .feed(feedFPLCaseData)
+      //ADD ADDITIONAL UI STEPS HERE
     }
+
+  //API Calls >>
 
   val CreateIACTaskFromCCD = scenario("Creates IAC cases & tasks in Task Manager")
     .exitBlockOnFail {
@@ -229,6 +232,8 @@ class UISimulation extends Simulation  {
       .exec(IdamLogin.GetIdamToken)
       .exec(fpl.ccdSendMessage)
     }
+
+  //UI journeys >>
 
   val CancelTask = scenario("Cancel a Task")
     .exitBlockOnFail {
@@ -330,6 +335,7 @@ class UISimulation extends Simulation  {
     CreatePRLTaskFromCCD.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     CreateFPLTaskFromCCD.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
 
+    //Not used for testing
     // getTaskFromCamunda.inject(rampUsers(1) during (1 minute))
     )
     // .maxDuration(60 minutes)
