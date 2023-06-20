@@ -1,0 +1,26 @@
+{
+  "data": {
+     "hasAdditionalApplications": null,
+     "isJudiciary": "NO",
+     "isMessageRegardingAdditionalApplications": null,
+     "additionalApplicationsDynamicList": null,
+     "judicialMessageMetaData": {
+        "senderType": "CTSC",
+        "sender": null,
+        "recipientType": "CTSC",
+        "recipient": null,
+        "requestedBy": "Perf test",
+        "urgency": null
+     },
+     "nextHearingLabel": "",
+     "relatedDocumentsLabel": null,
+     "judicialMessageNote": "WA Perf test event"
+  },
+  "event": {
+     "id": "messageJudgeOrLegalAdviser",
+     "summary": "",
+     "description": ""
+  },
+  "event_token": "#{eventToken}",
+  "ignore_warning": false
+}
