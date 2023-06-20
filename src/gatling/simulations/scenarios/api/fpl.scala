@@ -192,4 +192,21 @@ object fpl {
         finally fw.close()
         session
     }
+
+  val ccdSendMessage = 
+
+    exec(http("API_FPL_GetEventToken")
+      .get(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PUBLICLAW/case-types/CARE_SUPERVISION_EPO/cases/#{caseId}/event-triggers/messageJudgeOrLegalAdviser/token")
+      .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
+      .header("Authorization", "Bearer #{access_token}")
+      .header("Content-Type","application/json")
+      .check(jsonPath("$.token").saveAs("eventToken")))
+
+    .exec(http("API_FPL_SendMessage")
+      .post(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/PUBLICLAW/case-types/CARE_SUPERVISION_EPO/cases/#{caseId}/events")
+      .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
+      .header("Authorization", "Bearer #{access_token}")
+      .header("Content-Type","application/json")
+      .body(ElFileBody("fplBodies/FPLSendMessage.json")))
+
 }

@@ -45,6 +45,8 @@ class UISimulation extends Simulation  {
   val feedPRLCaseData = csv("PRLCaseData.csv")
   val feedPRLTribunalUsers = csv("PRLTribunalUserData.csv").circular
   val feedFPLUserData = csv("FPLUserData.csv").circular
+  val feedWAFPLUserData = csv("WA_FPLCTSCUsers.csv").circular
+  val feedFPLCaseData = csv("FPLCaseData.csv")
 
 	/* PERFORMANCE TEST CONFIGURATION */
 	val assignAndCompleteTargetPerHour: Double = 700 //700
@@ -53,8 +55,8 @@ class UISimulation extends Simulation  {
   val civilCompleteTargetPerHour: Double = 200 //200
   val civilJudicialCompleteTargetPerHour: Double = 150 //150
 	val judicialTargetPerHour: Double = 360 //360
-  val prlTargetPerHour: Double = 100 //100
-  val fplTargetPerHour: Double = 100 //100
+  val prlTargetPerHour: Double = 130 //130
+  val fplTargetPerHour: Double = 335 //335
 
 	val rampUpDurationMins = 5
 	val rampDownDurationMins = 5
@@ -144,6 +146,16 @@ class UISimulation extends Simulation  {
       .exec(xuiwa.XUILogout)
     }
 
+  //To do - complete this flow in the UI with PerfSupervisorCW_001@justice.gov.uk
+  val FPLAssignAndCompleteTasks = scenario("Assign an FPL Task and Complete it")
+    .exitBlockOnFail {
+      exec(_.set("env", s"${env}"))
+      .exec(xuiwa.manageCasesHomePage)
+      .feed(feedWAFPLUserData)
+      .exec(xuiwa.manageCasesLogin)
+      .feed(feedFPLCaseData)
+    }
+
   val CreateIACTaskFromCCD = scenario("Creates IAC cases & tasks in Task Manager")
     .exitBlockOnFail {
       exec(_.set("env", s"${env}"))
@@ -156,7 +168,7 @@ class UISimulation extends Simulation  {
     }
 
   //It's not possible to run this E2E in debug mode - pauses are required between each stage in order to allow 
-  //the Civil apps to process the case data before it's ready for the next event
+  //the Civil service account to process the case data before it's ready for the next event - this usually takes up to a minute
   val CreateCivilDJTaskFromCCD = scenario("Creates Civil case, case events & a Default Judgement task for Judicial User")
     .exitBlockOnFail {
       exec(_.set("env", s"${env}"))
@@ -166,7 +178,8 @@ class UISimulation extends Simulation  {
       .repeat(1) {
         exec(ccddatastore.civilCreateCase)
         .pause(60)
-        // feed(feedCivilCaseList)
+        // feed(feedCivilCaseList) // use this for manually putting a case ID in when running this is debug mode, and you 
+        // have to run each case event in turn
         .exec(ccddatastore.civilNotifyClaim)
         .pause(60)
         .exec(ccddatastore.civilNotifyClaimDetails)
@@ -202,17 +215,19 @@ class UISimulation extends Simulation  {
       .feed(feedFPLUserData)
       .exec(S2S.s2s("ccd_data"))
       .exec(IdamLogin.GetIdamToken)
-      .repeat(1) {
-        exec(fpl.ccdCreateFPLCase)
-        .exec(fpl.ccdFPLOrdersNeeded)
-        .exec(fpl.ccdFPLHearingNeeded)
-        .exec(fpl.ccdFPLEnterGrounds)
-        .exec(fpl.ccdFPLEnterLocalAuthority)
-        .exec(fpl.ccdFPLEnterChildren)
-        .exec(fpl.ccdFPLEnterRespondents)
-        .exec(fpl.ccdFPLOtherProposal)
-        .exec(fpl.ccdFPLSubmitApplication)
-      }
+      .exec(fpl.ccdCreateFPLCase)
+      .exec(fpl.ccdFPLOrdersNeeded)
+      .exec(fpl.ccdFPLHearingNeeded)
+      .exec(fpl.ccdFPLEnterGrounds)
+      .exec(fpl.ccdFPLEnterLocalAuthority)
+      .exec(fpl.ccdFPLEnterChildren)
+      .exec(fpl.ccdFPLEnterRespondents)
+      .exec(fpl.ccdFPLOtherProposal)
+      .exec(fpl.ccdFPLSubmitApplication)
+      .feed(feedWAFPLUserData)
+      .exec(S2S.s2s("ccd_data"))
+      .exec(IdamLogin.GetIdamToken)
+      .exec(fpl.ccdSendMessage)
     }
 
   val CancelTask = scenario("Cancel a Task")
@@ -243,7 +258,7 @@ class UISimulation extends Simulation  {
   val getTaskFromCamunda = scenario("Camunda Get Task")
     .exec(_.set("env", s"${env}"))
     .exec(S2S.s2s("wa_task_management_api"))
-    .repeat(475) {
+    .repeat(1555) {
       exec(wataskmanagement.CamundaGetCase)
     }
 
@@ -304,14 +319,15 @@ class UISimulation extends Simulation  {
   }
   
   setUp(
-    // IACAssignAndCompleteTasks.inject(simulationProfile(testType, assignAndCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    // PRLAssignAndCompleteTasks.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    // CivilAssignAndCompleteTask.inject(simulationProfile(testType, civilJudicialCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    // CancelTask.inject(simulationProfile(testType, cancelTaskTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    // JudicialUserJourney.inject(simulationProfile(testType, judicialTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    // CreateCivilDJTaskFromCCD.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    // CreateIACTaskFromCCD.inject(simulationProfile(testType, iacCreateTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    // CreatePRLTaskFromCCD.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    IACAssignAndCompleteTasks.inject(simulationProfile(testType, assignAndCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    PRLAssignAndCompleteTasks.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    CivilAssignAndCompleteTask.inject(simulationProfile(testType, civilJudicialCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    FPLAssignAndCompleteTasks.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    CancelTask.inject(simulationProfile(testType, cancelTaskTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    JudicialUserJourney.inject(simulationProfile(testType, judicialTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    CreateCivilDJTaskFromCCD.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    CreateIACTaskFromCCD.inject(simulationProfile(testType, iacCreateTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    CreatePRLTaskFromCCD.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     CreateFPLTaskFromCCD.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
 
     // getTaskFromCamunda.inject(rampUsers(1) during (1 minute))
