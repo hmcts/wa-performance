@@ -5,7 +5,9 @@ import java.util.Date
 import com.typesafe.config.{Config, ConfigFactory}
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
+import io.gatling.javaapi.core.CheckBuilder.JsonPath
 import utils._
+
 import java.io.{BufferedWriter, FileWriter}
 
 object ccddatastore {
@@ -108,31 +110,27 @@ object ccddatastore {
 
     .pause(Environment.constantthinkTime)
 
-    // .exec{session =>
-    //     session.set("caseIdPaymentRef", session("caseId").as[String].dropRight(2))
-    // }
-
-    //TODO******
-    //Get the correct paybubble headers - login with the correct user?
-    //Grab the payment group and substitute into the AddPayment.json on line 132
-    .exec(http("PaymentAPI_GetOrder")
-      .get("http://payment-api-perftest.service.core-compute-perftest.internal/cases/#{caseId}/paymentgroups")
-      .header("Authorization", "Bearer ${accessToken}")
-      .header("ServiceAuthorization", "${s2sToken}")
-      .header("accept", "*/*")
-      .check(status is 200))
-
 
   val civilAddPayment =
 
-    exec(http("API_Civil_AddPayment")
+    exec(http("PaymentAPI_GetCasePaymentOrders")
+      .get("http://payment-api-#{env}.service.core-compute-#{env}.internal/case-payment-orders?case_ids=#{caseId}")
+      .header("Authorization", "Bearer #{access_tokenPayments}")
+      .header("ServiceAuthorization", "#{xui_webappBearerToken}")
+      .header("Content-Type","application/json")
+      .header("accept","*/*")
+      .check(jsonPath("$.content[0].orderReference").saveAs("caseIdPaymentRef")))
+
+    .pause(Environment.constantthinkTime)
+
+    .exec(http("API_Civil_AddPayment")
       .put("http://civil-service-#{env}.service.core-compute-#{env}.internal/service-request-update-claim-issued")
-      .header("Authorization", "Bearer #{access_tokenRD}")
+      .header("Authorization", "Bearer #{access_tokenPayments}")
       .header("Content-type", "application/json")
       .body(ElFileBody("civilBodies/AddPayment.json")))
 
     .pause(Environment.constantthinkTime)
-
+/*
     .exec {
       session =>
         val fw = new BufferedWriter(new FileWriter("CivilCreatedCaseIds.csv", true))
@@ -142,6 +140,7 @@ object ccddatastore {
         finally fw.close()
         session
     }
+ */
 
   val civilNotifyClaim = 
 

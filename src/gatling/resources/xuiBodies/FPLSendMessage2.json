@@ -1,0 +1,71 @@
+{
+  "data": {
+    "replyToMessageJudgeNextHearingLabel": "",
+    "isJudiciary": "NO",
+    "judicialMessageReply": {
+      "relatedDocumentFileNames": null,
+      "recipient": "FamilyPublicLaw+ctsc@gmail.com",
+      "requestedBy": "Perf test",
+      "urgency": null,
+      "messageHistory": "FamilyPublicLaw+ctsc@gmail.com - WA Perf test event",
+      "isReplying": "Yes",
+      "senderType": "CTSC",
+      "recipientType": "JUDICIARY",
+      "replyTo": "test@test12345.com",
+      "latestMessage": "WA Perf test reply",
+      "sender": null,
+      "dateSent": null,
+      "updatedTime": null,
+      "status": null,
+      "isRelatedToC2": null,
+      "applicationType": null,
+      "relatedDocuments": []
+    },
+    "latestRoleSent": "CTSC"
+  },
+  "event": {
+    "id": "replyToMessageJudgeOrLegalAdviser",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "hasJudicialMessages": "YES",
+    "judicialMessageDynamicList": {
+      "value": {
+        "code": "#{messageId}",
+        "label": "#{messageFrom}, #{messageDate}"
+      },
+      "list_items": [
+        {
+          "code": "#{messageId}",
+          "label": "#{messageFrom}, #{messageDate}"
+        }
+      ]
+    },
+    "replyToMessageJudgeNextHearingLabel": "",
+    "isJudiciary": "NO",
+    "judicialMessageReply": {
+      "relatedDocumentFileNames": null,
+      "recipient": "FamilyPublicLaw+ctsc@gmail.com",
+      "requestedBy": "Perf test",
+      "urgency": null,
+      "messageHistory": "FamilyPublicLaw+ctsc@gmail.com - WA Perf test event",
+      "isReplying": "Yes",
+      "senderType": "CTSC",
+      "recipientType": "JUDICIARY",
+      "replyTo": "test@test12345.com",
+      "latestMessage": "WA Perf test reply",
+      "sender": null,
+      "dateSent": null,
+      "updatedTime": null,
+      "status": null,
+      "isRelatedToC2": null,
+      "applicationType": null,
+      "relatedDocuments": []
+    },
+    "latestRoleSent": "CTSC"
+  },
+  "event_token": "#{eventToken}",
+  "ignore_warning": false,
+  "case_reference": "#{caseId}"
+}
