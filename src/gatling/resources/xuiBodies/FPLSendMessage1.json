@@ -1,0 +1,40 @@
+{
+  "data": {
+    "hasJudicialMessages": "YES",
+    "judicialMessageDynamicList": {
+      "value": {
+        "code": "#{messageId}",
+        "label": "#{messageFrom}, #{messageDate}"
+      },
+      "list_items": [
+        {
+          "code": "#{messageId}",
+          "label": "#{messageFrom}, #{messageDate}"
+        }
+      ]
+    }
+  },
+  "event": {
+    "id": "replyToMessageJudgeOrLegalAdviser",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "hasJudicialMessages": "YES",
+    "judicialMessageDynamicList": {
+      "value": {
+        "code": "#{messageId}",
+        "label": "#{messageFrom}, #{messageDate}"
+      },
+      "list_items": [
+        {
+          "code": "#{messageId}",
+          "label": "#{messageFrom}, #{messageDate}"
+        }
+      ]
+    }
+  },
+  "event_token": "#{eventToken}",
+  "ignore_warning": false,
+  "case_reference": "#{caseId}"
+}

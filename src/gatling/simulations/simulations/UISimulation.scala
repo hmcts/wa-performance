@@ -146,7 +146,6 @@ class UISimulation extends Simulation  {
       .exec(xuiwa.XUILogout)
     }
 
-  //To do - complete this flow in the UI with PerfSupervisorCW_001@justice.gov.uk
   val FPLAssignAndCompleteTasks = scenario("Assign an FPL Task and Complete it")
     .exitBlockOnFail {
       exec(_.set("env", s"${env}"))
@@ -154,7 +153,13 @@ class UISimulation extends Simulation  {
       .feed(feedWAFPLUserData)
       .exec(xuiwa.manageCasesLogin)
       .feed(feedFPLCaseData)
-      //ADD ADDITIONAL UI STEPS HERE
+      .exec(xuiFpl.SearchCase)
+      .exec(xuiFpl.ViewCase)
+      .doIf("#{taskId.exists()}") {
+        exec(xuiwa.AssignTask)
+        .exec(xuiFpl.ReplyToMessage)
+      }
+      .exec(xuiwa.XUILogout)
     }
 
   //API Calls >>
@@ -179,18 +184,20 @@ class UISimulation extends Simulation  {
       .exec(S2S.s2s("ccd_data"))
       .exec(IdamLogin.GetIdamToken)
       .repeat(1) {
-        exec(ccddatastore.civilCreateCase)
-        .exec(IdamLogin.GetIdamTokenRD)
+        exec(S2S.s2s("xui_webapp"))
+        .exec(IdamLogin.GetIdamTokenPayments)
+        .exec(ccddatastore.civilCreateCase)
+        .pause(60)
         .exec(ccddatastore.civilAddPayment)
         .pause(60)
         // feed(feedCivilCaseList) // use this for manually putting a case ID in when running this is debug mode, and you 
         // have to run each case event in turn
-        /*.exec(ccddatastore.civilNotifyClaim)
+        .exec(ccddatastore.civilNotifyClaim)
         .pause(60)
         .exec(ccddatastore.civilNotifyClaimDetails)
         .pause(60)
         .exec(ccddatastore.civilUpdateDate)
-        .exec(ccddatastore.civilRequestDefaultJudgement)*/
+        .exec(ccddatastore.civilRequestDefaultJudgement)
       }
     }
 
@@ -303,8 +310,9 @@ class UISimulation extends Simulation  {
             details("XUI_CancelTask").successfulRequests.count.gte((cancelTaskTargetPerHour * 0.9).ceil.toInt),
             details("XUI_Judicial_004_ConfirmRoleAllocation").successfulRequests.count.gte((judicialTargetPerHour * 0.9).ceil.toInt),
             details("XUI_RequestRespondentEvidence_Submit").successfulRequests.count.gte((assignAndCompleteTargetPerHour * 0.9).ceil.toInt),
-            details("XUI_AddCaseNumber_Submit").successfulRequests.count.gte((assignAndCompleteTargetPerHour * 0.9).ceil.toInt),
-            details("XUI_JudicialSDO_Submit_Request").successfulRequests.count.gte((assignAndCompleteTargetPerHour * 0.9).ceil.toInt)
+            details("XUI_AddCaseNumber_Submit").successfulRequests.count.gte((prlTargetPerHour * 0.9).ceil.toInt),
+            details("XUI_JudicialSDO_Submit_Request").successfulRequests.count.gte((civilJudicialCompleteTargetPerHour * 0.9).ceil.toInt),
+            details("XUI_ReplyToMessage_Submit").successfulRequests.count.gte((fplTargetPerHour * 0.9).ceil.toInt)
           )
         }
         else{
@@ -313,7 +321,8 @@ class UISimulation extends Simulation  {
             details("XUI_Judicial_004_ConfirmRoleAllocation").successfulRequests.count.is(1),
             details("XUI_RequestRespondentEvidence_Submit").successfulRequests.count.is(1),
             details("XUI_AddCaseNumber_Submit").successfulRequests.count.is(1),
-            details("XUI_JudicialSDO_Submit_Request").successfulRequests.count.is(1)
+            details("XUI_JudicialSDO_Submit_Request").successfulRequests.count.is(1),
+            details("XUI_ReplyToMessage_Submit").successfulRequests.count.is(1)
           )
         }
       case "pipeline" =>
@@ -326,20 +335,20 @@ class UISimulation extends Simulation  {
   }
   
   setUp(
-    // IACAssignAndCompleteTasks.inject(simulationProfile(testType, assignAndCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    // PRLAssignAndCompleteTasks.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    // CivilAssignAndCompleteTask.inject(simulationProfile(testType, civilJudicialCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    // FPLAssignAndCompleteTasks.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    // CancelTask.inject(simulationProfile(testType, cancelTaskTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    // JudicialUserJourney.inject(simulationProfile(testType, judicialTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    IACAssignAndCompleteTasks.inject(simulationProfile(testType, assignAndCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    PRLAssignAndCompleteTasks.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    CivilAssignAndCompleteTask.inject(simulationProfile(testType, civilJudicialCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    FPLAssignAndCompleteTasks.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    CancelTask.inject(simulationProfile(testType, cancelTaskTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    JudicialUserJourney.inject(simulationProfile(testType, judicialTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     CreateCivilDJTaskFromCCD.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    // CreateIACTaskFromCCD.inject(simulationProfile(testType, iacCreateTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    // CreatePRLTaskFromCCD.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    // CreateFPLTaskFromCCD.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
+    CreateIACTaskFromCCD.inject(simulationProfile(testType, iacCreateTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    CreatePRLTaskFromCCD.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    CreateFPLTaskFromCCD.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
 
     //Not used for testing
     // getTaskFromCamunda.inject(rampUsers(1) during (1 minute))
     )
-    // .maxDuration(60 minutes)
+    .maxDuration(60 minutes)
     .protocols(httpProtocol)
 }
