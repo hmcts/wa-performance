@@ -183,16 +183,6 @@ object fpl {
 
     .pause(Environment.constantthinkTime)
 
-    .exec {
-      session =>
-        val fw = new BufferedWriter(new FileWriter("FPLSubmittedCaseIds.csv", true))
-        try {
-          fw.write(session("caseId").as[String] + "\r\n")
-        }
-        finally fw.close()
-        session
-    }
-
   val ccdSendMessage = 
 
     exec(http("API_FPL_GetEventToken")
@@ -208,5 +198,17 @@ object fpl {
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
       .body(ElFileBody("fplBodies/FPLSendMessage.json")))
+
+    .exec {
+      session =>
+        val fw = new BufferedWriter(new FileWriter("FPLSubmittedCaseIds.csv", true))
+        try {
+          fw.write(session("caseId").as[String] + "\r\n")
+        }
+        finally fw.close()
+        session
+    }
+
+    .pause(Environment.constantthinkTime)
 
 }

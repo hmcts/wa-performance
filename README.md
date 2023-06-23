@@ -23,4 +23,4 @@ To make other configuration changes to the file, first run `git update-index --n
 * The file PRLCaseData.csv consumes 108 rows per test - as above, delete the first 108 before starting another test run
 * The file CivilJudicialCaseData.csv consumes 162 rows per test - as above, delete the first 162 before starting another test run
 * The file FPLCaseData.csv consumes 335 rows per test - as above, delete the first 335 before starting another test run
-* Ensure the CCD Gateway Client Secret is defined in application.conf
+* Ensure the Client Secrets are defined in application.conf
