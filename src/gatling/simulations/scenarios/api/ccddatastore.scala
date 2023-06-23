@@ -233,16 +233,6 @@ object ccddatastore {
       .body(ElFileBody("prlBodies/prlCreateCase.json"))
       .check(jsonPath("$.id").saveAs("caseId")))
 
-    .exec {
-      session =>
-        val fw = new BufferedWriter(new FileWriter("PRLCreatedCaseIds.csv", true))
-        try {
-          fw.write(session("caseId").as[String] + "\r\n")
-        }
-        finally fw.close()
-        session
-    }
-
     .pause(Environment.constantthinkTime)
 
   val prlApplicationType =
@@ -404,6 +394,16 @@ object ccddatastore {
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
       .body(ElFileBody("prlBodies/prlSubmit.json")))
+
+    .exec {
+      session =>
+        val fw = new BufferedWriter(new FileWriter("PRLCreatedCaseIds.csv", true))
+        try {
+          fw.write(session("caseId").as[String] + "\r\n")
+        }
+        finally fw.close()
+        session
+    }
 
     .pause(Environment.constantthinkTime)
 
