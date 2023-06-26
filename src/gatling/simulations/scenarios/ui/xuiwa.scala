@@ -583,7 +583,7 @@ object xuiwa {
         .get("/api/user/details")
         .headers(XUIHeaders.xuiMainHeader)) //121
     }   
-
+/*
     // Define the path to the CSV file
     val csvPath = Paths.get("src/gatling/resources/IACCaseData.csv")
 
@@ -596,4 +596,6 @@ object xuiwa {
 
     // Write the updated list of rows back to the CSV file
     Files.write(csvPath, updatedLines.mkString("\n").getBytes)
+
+ */
 }
