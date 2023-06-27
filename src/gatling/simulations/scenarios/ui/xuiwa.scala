@@ -278,7 +278,7 @@ object xuiwa {
         .headers(XUIHeaders.xuiMainHeader)
         .header("content-type", "application/json")
         .header("x-xsrf-token", "#{xsrfToken}")
-        .body(StringBody("{}")))
+        .body(StringBody("""{"hasNoAssigneeOnComplete":false}""")))
 
       .exec(http("XUI_CancelTask_015_GetJurisdictions")
         .get("/api/wa-supported-jurisdiction/get")
