@@ -1,0 +1,10 @@
+{
+  "data": {},
+  "event": {
+     "id": "SUBMIT_CASE_DRAFT",
+     "summary": "",
+     "description": ""
+  },
+  "event_token": "#{eventToken}",
+  "ignore_warning": false
+}
