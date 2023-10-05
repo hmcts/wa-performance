@@ -1,0 +1,77 @@
+{
+  "data": {
+     "referralToREJOrVPList": [],
+     "et1REJOrVPReferralGeneralNotes": null
+  },
+  "event": {
+     "id": "et1Vetting",
+     "summary": "",
+     "description": ""
+  },
+  "event_data": {
+     "et1VettingBeforeYouStart": "Open these documents to help you complete this form:",
+     "et1VettingClaimantDetailsMarkUp": "<hr><h3>Claimant<\/h3><pre>First name &#09&#09&#09&#09&nbsp; John<br><br>Last name &#09&#09&#09&#09&nbsp; Smith<br><br>Contact address &#09&#09 Flat 1<br>&#09&#09&#09&#09&#09&#09&#09&#09&#09 Bramber House<br>&#09&#09&#09&#09&#09&#09&#09&#09&#09 Seven Kings Way<br>&#09&#09&#09&#09&#09&#09&#09&#09&#09 Kingston Upon Thames<br>&#09&#09&#09&#09&#09&#09&#09&#09&#09 KT2 5BU<\/pre>",
+     "et1VettingRespondentDetailsMarkUp": "<h3>Respondent <\/h3><pre>Name &#09&#09&#09&#09&#09&#09&nbsp; Steve Smith<br><br>Contact address &#09&#09 Flat 11<br>&#09&#09&#09&#09&#09&#09&#09&#09&#09 Bramber House<br>&#09&#09&#09&#09&#09&#09&#09&#09&#09 Seven Kings Way<br>&#09&#09&#09&#09&#09&#09&#09&#09&#09 Kingston Upon Thames<br>&#09&#09&#09&#09&#09&#09&#09&#09&#09 KT2 5BU<\/pre><hr>",
+     "et1VettingCanServeClaimYesOrNo": "Yes",
+     "et1VettingCanServeClaimGeneralNote": null,
+     "et1VettingRespondentAcasDetails1": "<hr><h3>Respondent 1<\/h3><pre>Name &#09&#09&#09&#09&#09&#09&nbsp; Steve Smith<br><br>Contact address &#09&#09 Flat 11<br>&#09&#09&#09&#09&#09&#09&#09&#09&#09 Bramber House<br>&#09&#09&#09&#09&#09&#09&#09&#09&#09 Seven Kings Way<br>&#09&#09&#09&#09&#09&#09&#09&#09&#09 Kingston Upon Thames<br>&#09&#09&#09&#09&#09&#09&#09&#09&#09 KT2 5BU<\/pre><h3>Acas certificate<\/h3>Certificate number 111222333444 has been provided.<br><br><br>",
+     "et1VettingAcasCertIsYesOrNo1": "Yes",
+     "et1VettingRespondentAcasDetails2": null,
+     "et1VettingRespondentAcasDetails3": null,
+     "et1VettingRespondentAcasDetails4": null,
+     "et1VettingRespondentAcasDetails5": null,
+     "et1VettingRespondentAcasDetails6": null,
+     "et1VettingAcasCertGeneralNote": null,
+     "substantiveDefectsList": [],
+     "et1SubstantiveDefectsGeneralNotes": null,
+     "existingJurisdictionCodes": null,
+     "areTheseCodesCorrect": "Yes",
+     "vettingJurisdictionCodeCollection": [],
+     "et1JurisdictionCodeGeneralNotes": null,
+     "trackType": null,
+     "trackAllocation": null,
+     "isTrackAllocationCorrect": "Yes",
+     "trackAllocationGeneralNotes": null,
+     "isLocationCorrect": "Yes",
+     "et1LocationGeneralNotes": null,
+     "et1AddressDetails": "<hr><h2>Listing details<hr><h3>Claimant<\/h3><pre>Contact address &#09&#09 Flat 1<br>&#09&#09&#09&#09&#09&#09&#09&#09&#09 Bramber House<br>&#09&#09&#09&#09&#09&#09&#09&#09&#09 Seven Kings Way<br>&#09&#09&#09&#09&#09&#09&#09&#09&#09 Kingston Upon Thames<br>&#09&#09&#09&#09&#09&#09&#09&#09&#09 KT2 5BU<\/pre><hr><h3>Respondent<\/h3><pre>Contact address &#09&#09 Flat 11<br>&#09&#09&#09&#09&#09&#09&#09&#09&#09 Bramber House<br>&#09&#09&#09&#09&#09&#09&#09&#09&#09 Seven Kings Way<br>&#09&#09&#09&#09&#09&#09&#09&#09&#09 Kingston Upon Thames<br>&#09&#09&#09&#09&#09&#09&#09&#09&#09 KT2 5BU<\/pre><hr>",
+     "et1SuggestHearingVenue": "Yes",
+     "et1TribunalRegion": "London Central",
+     "et1HearingVenues": {
+        "value": {
+           "code": "London Central",
+           "label": "London Central"
+        },
+        "list_items": [
+           {
+              "code": "Field House",
+              "label": "Field House"
+           },
+           {
+              "code": "Fox Court rm 1",
+              "label": "Fox Court rm 1"
+           },
+           {
+              "code": "London Central",
+              "label": "London Central"
+           },
+           {
+              "code": "RCJ",
+              "label": "RCJ"
+           }
+        ]
+     },
+     "et1HearingVenueGeneralNotes": null,
+     "et1GovOrMajorQuestion": "No",
+     "et1ReasonableAdjustmentsQuestion": "No",
+     "et1VideoHearingQuestion": "Yes",
+     "et1FurtherQuestionsGeneralNotes": null,
+     "referralToJudgeOrLOList": [],
+     "et1JudgeReferralGeneralNotes": null,
+     "referralToREJOrVPList": [],
+     "et1REJOrVPReferralGeneralNotes": null
+  },
+  "event_token": "#{eventToken}",
+  "ignore_warning": false,
+  "case_reference": "#{caseId}"
+}

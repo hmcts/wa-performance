@@ -110,6 +110,15 @@ object ccddatastore {
 
     .pause(Environment.constantthinkTime)
 
+    /*.exec {
+      session =>
+        val fw = new BufferedWriter(new FileWriter("CivilCreatedCaseIds.csv", true))
+        try {
+          fw.write(session("caseId").as[String] + "\r\n")
+        }
+        finally fw.close()
+        session
+    }*/
 
   val civilAddPayment =
 

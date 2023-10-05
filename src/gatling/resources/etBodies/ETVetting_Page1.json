@@ -1,0 +1,16 @@
+{
+  "data": {
+     "et1VettingBeforeYouStart": "Open these documents to help you complete this form:"
+  },
+  "event": {
+     "id": "et1Vetting",
+     "summary": "",
+     "description": ""
+  },
+  "event_data": {
+     "et1VettingBeforeYouStart": "Open these documents to help you complete this form:"
+  },
+  "event_token": "#{eventToken}",
+  "ignore_warning": false,
+  "case_reference": "#{caseId}"
+}

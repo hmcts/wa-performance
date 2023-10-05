@@ -1,0 +1,23 @@
+{
+  "data": {
+     "et1VettingClaimantDetailsMarkUp": "<hr><h3>Claimant<\/h3><pre>First name &#09&#09&#09&#09&nbsp; John<br><br>Last name &#09&#09&#09&#09&nbsp; Smith<br><br>Contact address &#09&#09 Flat 1<br>&#09&#09&#09&#09&#09&#09&#09&#09&#09 Bramber House<br>&#09&#09&#09&#09&#09&#09&#09&#09&#09 Seven Kings Way<br>&#09&#09&#09&#09&#09&#09&#09&#09&#09 Kingston Upon Thames<br>&#09&#09&#09&#09&#09&#09&#09&#09&#09 KT2 5BU<\/pre>",
+     "et1VettingRespondentDetailsMarkUp": "<h3>Respondent <\/h3><pre>Name &#09&#09&#09&#09&#09&#09&nbsp; Steve Smith<br><br>Contact address &#09&#09 Flat 11<br>&#09&#09&#09&#09&#09&#09&#09&#09&#09 Bramber House<br>&#09&#09&#09&#09&#09&#09&#09&#09&#09 Seven Kings Way<br>&#09&#09&#09&#09&#09&#09&#09&#09&#09 Kingston Upon Thames<br>&#09&#09&#09&#09&#09&#09&#09&#09&#09 KT2 5BU<\/pre><hr>",
+     "et1VettingCanServeClaimYesOrNo": "Yes",
+     "et1VettingCanServeClaimGeneralNote": null
+  },
+  "event": {
+     "id": "et1Vetting",
+     "summary": "",
+     "description": ""
+  },
+  "event_data": {
+     "et1VettingBeforeYouStart": "Open these documents to help you complete this form:",
+     "et1VettingClaimantDetailsMarkUp": "<hr><h3>Claimant<\/h3><pre>First name &#09&#09&#09&#09&nbsp; John<br><br>Last name &#09&#09&#09&#09&nbsp; Smith<br><br>Contact address &#09&#09 Flat 1<br>&#09&#09&#09&#09&#09&#09&#09&#09&#09 Bramber House<br>&#09&#09&#09&#09&#09&#09&#09&#09&#09 Seven Kings Way<br>&#09&#09&#09&#09&#09&#09&#09&#09&#09 Kingston Upon Thames<br>&#09&#09&#09&#09&#09&#09&#09&#09&#09 KT2 5BU<\/pre>",
+     "et1VettingRespondentDetailsMarkUp": "<h3>Respondent <\/h3><pre>Name &#09&#09&#09&#09&#09&#09&nbsp; Steve Smith<br><br>Contact address &#09&#09 Flat 11<br>&#09&#09&#09&#09&#09&#09&#09&#09&#09 Bramber House<br>&#09&#09&#09&#09&#09&#09&#09&#09&#09 Seven Kings Way<br>&#09&#09&#09&#09&#09&#09&#09&#09&#09 Kingston Upon Thames<br>&#09&#09&#09&#09&#09&#09&#09&#09&#09 KT2 5BU<\/pre><hr>",
+     "et1VettingCanServeClaimYesOrNo": "Yes",
+     "et1VettingCanServeClaimGeneralNote": null
+  },
+  "event_token": "#{eventToken}",
+  "ignore_warning": false,
+  "case_reference": "#{caseId}"
+}
