@@ -2,11 +2,31 @@
   "data": {
      "applicantVRespondentText": "john smith v steve smith",
      "caseManagementOrderSelection": "DISPOSAL_HEARING",
+     "hearingMethodValuesDisposalHearingDJ": {
+        "value": {
+           "code": "3e14d032-1d53-4b11-a853-1dae1df863a2",
+           "label": "In Person"
+        },
+        "list_items": [
+           {
+              "code": "642054ec-17b0-4e0d-8f86-a496bc19c985",
+              "label": "Telephone"
+           },
+           {
+              "code": "3e14d032-1d53-4b11-a853-1dae1df863a2",
+              "label": "In Person"
+           },
+           {
+              "code": "a6fc81e6-a7c5-46f7-854a-a4ecae919374",
+              "label": "Video"
+           }
+        ]
+     },
      "caseManagementOrderAdditional": [],
      "disposalHearingOrderAndHearingDetailsDJ": null,
      "disposalHearingJudgesRecitalDJ": {
-        "input": "Vishal Sahu, Upon considering the claim form and Particulars of Claim/statements of case [and the directions questionnaires] \n\nIT IS ORDERED that:-",
-        "judgeNameTitle": "Vishal Sahu"
+        "input": "DistrictJudge Region2,",
+        "judgeNameTitle": "DistrictJudge Region2"
      },
      "disposalHearingDisclosureOfDocumentsDJToggle": [
         "SHOW"
@@ -57,18 +77,18 @@
      "disposalHearingFinalDisposalHearingTimeDJ": {
         "input": "This claim will be listed for final disposal before a Judge on the first available date after",
         "date": "#{disposalHearingFinalDisposalHearingTimeDJdate}",
-        "time": "THIRTY_MINUTES"
+        "time": "THIRTY_MINUTES",
+        "otherHours": null,
+        "otherMinutes": null
      },
-     "disposalHearingMethodDJ": "disposalHearingMethodInPerson",
-     "disposalHearingMethodInPersonDJ": null,
-     "disposalHearingMethodVideoConferenceHearingDJ": null,
-     "disposalHearingMethodTelephoneHearingDJ": null,
      "disposalHearingBundleDJToggle": [
         "SHOW"
      ],
      "disposalHearingBundleDJ": {
-        "input": "At least 7 days before the disposal hearing, the claimant must upload to the Digital Portal",
-        "type": "DOCUMENTS"
+        "input": "At least 7 days before the disposal hearing, the claimant must file and serve",
+        "type": [
+           "DOCUMENTS"
+        ]
      },
      "disposalHearingClaimSettlingDJToggle": [
         "SHOW"
@@ -78,7 +98,7 @@
      ],
      "disposalHearingHearingNotesDJ": null,
      "disposalHearingOrderMadeWithoutHearingDJ": {
-        "input": "Each party has the right to apply to have this order set aside or varied. Any such application must be received by the Court (together with the appropriate fee) by 4pm on 30 January 2023."
+        "input": "This order has been made without a hearing. Each party has the right to apply to have this Order set aside or varied. Any such application must be received by the Court (together with the appropriate fee) by 4pm on 11 October 2023."
      },
      "disposalHearingAddNewDirectionsDJ": [],
      "disposalHearingFinalDisposalHearingDJ": null,
@@ -86,26 +106,27 @@
      "orderSDODocumentDJCollection": [
         {
            "value": {
-            "documentName": "#{orderSDODocumentDJCollectionName}",
-            "documentType": "DEFAULT_JUDGMENT_SDO_ORDER",
-            "documentLink": {
-               "document_url": "#{orderSDODocumentDJCollectionURL}",
-               "document_binary_url": "#{orderSDODocumentDJCollectionURL}/binary",
-               "document_filename": "#{orderSDODocumentDJCollectionName}",
-               "document_hash": "#{orderSDODocumentDJCollectionHash}"
-            },
-            "documentSize": "#{orderSDODocumentDJCollectionDocumentSize}",
-            "createdDatetime": "#{orderSDODocumentDJCollectioncreatedDatetime}",
-            "createdBy": "Civil"
-         },
-         "id": "#{orderSDODocumentDJCollectionId}"
+              "documentName": "#{orderSDODocumentDJCollectionName}",
+              "documentType": "DEFAULT_JUDGMENT_SDO_ORDER",
+              "documentLink": {
+                 "document_url": "#{orderSDODocumentDJCollectionURL}",
+                 "document_binary_url": "#{orderSDODocumentDJCollectionURL}/binary",
+                 "document_filename": "#{orderSDODocumentDJCollectionName}",
+                 "document_hash": "#{orderSDODocumentDJCollectionHash}"
+              },
+              "documentSize": "#{orderSDODocumentDJCollectionDocumentSize}",
+              "createdDatetime": "#{orderSDODocumentDJCollectioncreatedDatetime}",
+              "createdBy": "Civil",
+              "ownedBy": null
+           },
+           "id": "#{orderSDODocumentDJCollectionId}"
         }
      ],
      "orderSDODocumentDJ": {
-      "document_url": "#{orderSDODocumentDJCollectionURL}",
-      "document_binary_url": "#{orderSDODocumentDJCollectionURL}/binary",
-      "document_filename": "#{orderSDODocumentDJCollectionName}",
-      "document_hash": "#{orderSDODocumentDJCollectionHash}"
+        "document_url": "#{orderSDODocumentDJCollectionURL}",
+        "document_binary_url": "#{orderSDODocumentDJCollectionURL}/binary",
+        "document_filename": "#{orderSDODocumentDJCollectionName}",
+        "document_hash": "#{orderSDODocumentDJCollectionHash}"
      }
   },
   "event": {
