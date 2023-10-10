@@ -383,6 +383,6 @@ class UISimulation extends Simulation  {
     //Not used for testing
     // getTaskFromCamunda.inject(rampUsers(1) during (1 minute))
     )
-    .maxDuration(60 minutes)
+    .maxDuration(70 minutes)
     .protocols(httpProtocol)
 }
