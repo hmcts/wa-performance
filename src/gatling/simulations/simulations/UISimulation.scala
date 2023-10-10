@@ -58,7 +58,7 @@ class UISimulation extends Simulation  {
   val civilJudicialCompleteTargetPerHour: Double = 150 //150
 	val judicialTargetPerHour: Double = 360 //360
   val prlTargetPerHour: Double = 130 //130
-  val fplTargetPerHour: Double = 335 //335
+  val fplTargetPerHour: Double = 700 //335
   val etTargetPerHour: Double = 100 
 
 	val rampUpDurationMins = 5
