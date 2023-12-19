@@ -1,0 +1,160 @@
+{
+  "data": {
+     "caseReference": "",
+     "caseCreated": "2023-12-03",
+     "region": "London",
+     "isScottishCase": "No",
+     "appeal": {
+        "receivedVia": "Online",
+        "hearingType": null,
+        "signer": null,
+        "mrnDetails": {
+           "dwpIssuingOffice": "London",
+           "mrnDate": "2023-12-01",
+           "mrnLateReason": "None",
+           "mrnMissingReason": null
+        },
+        "appellant": {
+           "isAppointee": "Yes",
+           "isAddressSameAsAppointee": "Yes",
+           "confidentialityRequired": "No",
+           "name": {
+              "title": "Mr",
+              "firstName": "#{firstname}",
+              "middleName": null,
+              "lastName": "#{lastname}"
+           },
+           "identity": {
+              "dob": "1990-09-09",
+              "nino": "AB#{NINumber}Z"
+           },
+           "address": {
+              "line1": "12 Test Street",
+              "line2": null,
+              "line3": null,
+              "town": "London",
+              "county": "London",
+              "postcode": "KT25BU",
+              "country": null,
+              "postcodeLookup": null,
+              "postcodeAddress": null
+           },
+           "contact": {
+              "phone": null,
+              "mobile": "07888999000",
+              "email": "john@test.com"
+           },
+           "appointee": {
+              "id": null,
+              "name": {
+                 "title": null,
+                 "firstName": null,
+                 "middleName": null,
+                 "lastName": null
+              },
+              "identity": {
+                 "dob": null,
+                 "nino": null
+              },
+              "address": {
+                 "line1": null,
+                 "line2": null,
+                 "line3": null,
+                 "town": null,
+                 "county": null,
+                 "postcode": null,
+                 "country": null,
+                 "postcodeLookup": null,
+                 "postcodeAddress": null
+              },
+              "contact": {
+                 "phone": null,
+                 "mobile": null,
+                 "email": null
+              }
+           },
+           "role": {
+              "name": "Paying parent",
+              "description": null
+           }
+        },
+        "benefitType": {
+           "code": null,
+           "description": null
+        },
+        "hearingSubtype": {
+           "wantsHearingTypeTelephone": "No",
+           "hearingTelephoneNumber": null,
+           "wantsHearingTypeVideo": "No",
+           "hearingVideoEmail": null,
+           "wantsHearingTypeFaceToFace": "No"
+        },
+        "hearingOptions": {
+           "wantsToAttend": "No",
+           "wantsSupport": null,
+           "languageInterpreter": "No",
+           "languages": null,
+           "scheduleHearing": null,
+           "other": null,
+           "signLanguageType": null,
+           "agreeLessNotice": null,
+           "arrangements": [],
+           "excludeDates": []
+        },
+        "appealReasons": {
+           "otherReasons": null,
+           "reasons": []
+        },
+        "supporter": {
+           "name": {
+              "title": null,
+              "firstName": null,
+              "middleName": null,
+              "lastName": null
+           },
+           "contact": {
+              "phone": null,
+              "mobile": null,
+              "email": null
+           }
+        },
+        "rep": {
+           "hasRepresentative": "No",
+           "organisation": null,
+           "id": null,
+           "name": {
+              "title": null,
+              "firstName": null,
+              "middleName": null,
+              "lastName": null
+           },
+           "address": {
+              "line1": null,
+              "line2": null,
+              "line3": null,
+              "town": null,
+              "county": null,
+              "postcode": null,
+              "country": null,
+              "postcodeLookup": null,
+              "postcodeAddress": null
+           },
+           "contact": {
+              "phone": null,
+              "mobile": null,
+              "email": null
+           }
+        }
+     },
+     "regionalProcessingCenter": null,
+     "panel": null
+  },
+  "event": {
+     "id": "validAppealCreated",
+     "summary": "",
+     "description": ""
+  },
+  "event_token": "#{eventToken}",
+  "ignore_warning": false,
+  "draft_id": null
+}
