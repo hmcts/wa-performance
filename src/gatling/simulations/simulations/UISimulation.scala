@@ -49,6 +49,8 @@ class UISimulation extends Simulation  {
   val feedFPLCaseData = csv("FPLCaseData.csv")
   val feedETUserData = csv("ETUserData.csv").circular
   val feedETCaseData = csv("ETCaseData.csv")
+  val feedSSCSUserData = csv("SSCSUserData.csv").circular
+  val feedSSCSCaseData = csv("SSCSCaseData.csv")
 
 	/* PERFORMANCE TEST CONFIGURATION */
 	val assignAndCompleteTargetPerHour: Double = 700 //700
@@ -60,6 +62,7 @@ class UISimulation extends Simulation  {
   val prlTargetPerHour: Double = 130 //130
   val fplTargetPerHour: Double = 335 //335
   val etTargetPerHour: Double = 100 
+  val sscsTargetPerHour: Double = 200 
 
 	val rampUpDurationMins = 5
 	val rampDownDurationMins = 5
@@ -165,7 +168,7 @@ class UISimulation extends Simulation  {
       .exec(xuiwa.XUILogout)
     }
 
-    val ETAssignAndCompleteTasks = scenario("Assign an ET Task and Complete it")
+  val ETAssignAndCompleteTasks = scenario("Assign an ET Task and Complete it")
     .exitBlockOnFail {
       exec(_.set("env", s"${env}"))
       .exec(xuiwa.manageCasesHomePage)
@@ -178,6 +181,22 @@ class UISimulation extends Simulation  {
         exec(xuiwa.AssignTask)
         .exec(xuiEt.etVetting)
         .exec(xuiEt.etPreAcceptance)
+      }
+      .exec(xuiwa.XUILogout)
+    }
+
+  val SSCSAssignAndCompleteTasks = scenario("Assign an SSCS Task and Complete it")
+    .exitBlockOnFail {
+      exec(_.set("env", s"${env}"))
+      .exec(xuiwa.manageCasesHomePage)
+      .feed(feedSSCSUserData)
+      .exec(xuiwa.manageCasesLogin)
+      .feed(feedSSCSCaseData)
+      .exec(xuiSscs.SearchCase)
+      .exec(xuiSscs.ViewCase)
+      .doIf("#{taskId.exists()}") {
+        exec(xuiwa.AssignTask)
+        .exec(xuiSscs.ReviewAdminAction)
       }
       .exec(xuiwa.XUILogout)
     }
@@ -271,6 +290,16 @@ class UISimulation extends Simulation  {
       .exec(et.ccdCreateETCase)
       .exec(et.ccdETSubmitDraft)
     }
+
+  val CreateSSCSTaskFromCCD = scenario("Creates an SSCS case & task in Task Manager")
+  .exitBlockOnFail {
+      exec(_.set("env", s"${env}"))
+      .feed(feedSSCSUserData)
+      .exec(S2S.s2s("ccd_data"))
+      .exec(IdamLogin.GetIdamToken)
+      .exec(sscs.ccdCreateSSCSCase)
+      .exec(sscs.ccdSendToAdmin)
+  }
 
   //UI journeys >>
 
@@ -374,11 +403,14 @@ class UISimulation extends Simulation  {
     ETAssignAndCompleteTasks.inject(simulationProfile(testType, etTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     CancelTask.inject(simulationProfile(testType, cancelTaskTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     JudicialUserJourney.inject(simulationProfile(testType, judicialTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    SSCSAssignAndCompleteTasks.inject(simulationProfile(testType, sscsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+
     CreateCivilDJTaskFromCCD.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     CreateIACTaskFromCCD.inject(simulationProfile(testType, iacCreateTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     CreatePRLTaskFromCCD.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     CreateFPLTaskFromCCD.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    CreateETTaskFromCCD.inject(simulationProfile(testType, etTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
+    CreateETTaskFromCCD.inject(simulationProfile(testType, etTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    CreateSSCSTaskFromCCD.inject(simulationProfile(testType, sscsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
 
     //Not used for testing
     // getTaskFromCamunda.inject(rampUsers(1) during (1 minute))
