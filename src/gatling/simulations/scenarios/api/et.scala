@@ -27,7 +27,7 @@ object et {
       .header("Content-Type","application/json")
       .check(jsonPath("$.token").saveAs("eventToken")))
 
-    .exec(http("API_IAC_CreateCase")
+    .exec(http("API_ET_CreateCase")
       .post(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/EMPLOYMENT/case-types/ET_EnglandWales/cases")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")

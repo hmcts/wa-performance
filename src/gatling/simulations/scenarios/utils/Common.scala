@@ -27,6 +27,10 @@ object Common {
     rnd.alphanumeric.filter(_.isLetter).take(length).mkString
   }
 
+  def randomNumber(length: Int) = {
+    rnd.alphanumeric.filter(_.isDigit).take(length).mkString
+  }
+
   def getDay(): String = {
     (1 + rnd.nextInt(28)).toString.format(patternDay).reverse.padTo(2, '0').reverse //pads single-digit dates with a leading zero
   }

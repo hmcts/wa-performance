@@ -1,0 +1,18 @@
+{
+  "data": {
+     "interlocReviewState": "awaitingAdminAction",
+     "tempNoteDetail": "Perf test WA"
+  },
+  "event": {
+     "id": "interlocSendToTcw",
+     "summary": "",
+     "description": ""
+  },
+  "event_data": {
+     "interlocReviewState": "awaitingAdminAction",
+     "tempNoteDetail": "Perf test WA"
+  },
+  "event_token": "#{eventToken}",
+  "ignore_warning": false,
+  "case_reference": "#{caseId}"
+}

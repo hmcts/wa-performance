@@ -1,0 +1,12 @@
+{
+  "data": {
+     "tempNoteDetail": "Perf test WA"
+  },
+  "event": {
+     "id": "sendToAdmin",
+     "summary": "",
+     "description": ""
+  },
+  "event_token": "#{eventToken}",
+  "ignore_warning": false
+}

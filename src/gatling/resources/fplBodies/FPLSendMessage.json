@@ -1,25 +1,23 @@
 {
   "data": {
-     "hasAdditionalApplications": null,
-     "isJudiciary": "NO",
-     "isMessageRegardingAdditionalApplications": null,
-     "additionalApplicationsDynamicList": null,
-     "judicialMessageMetaData": {
+    "hasAdditionalApplications": null,
+    "isJudiciary": "NO",
+    "judicialMessageMetaData": {
         "senderType": "CTSC",
         "sender": null,
         "recipientType": "CTSC",
         "recipient": null,
         "requestedBy": "Perf test",
         "urgency": null
-     },
-     "nextHearingLabel": "",
-     "relatedDocumentsLabel": null,
-     "judicialMessageNote": "WA Perf test event"
+    },
+    "nextHearingLabel": "",
+    "relatedDocumentsLabel": null,
+    "judicialMessageNote": "WA perf test event"
   },
   "event": {
-     "id": "messageJudgeOrLegalAdviser",
-     "summary": "",
-     "description": ""
+    "id": "messageJudgeOrLegalAdviser",
+    "summary": "",
+    "description": ""
   },
   "event_token": "#{eventToken}",
   "ignore_warning": false
