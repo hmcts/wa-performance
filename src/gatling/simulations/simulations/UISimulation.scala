@@ -78,7 +78,7 @@ class UISimulation extends Simulation  {
 	val pauseOption: PauseType = debugMode match {
 		case "off" if testType == "perftest" => constantPauses
 		case "off" if testType == "pipeline" => customPauses(pipelinePausesMillis)
-		case _ => disabledPauses
+		case _ => customPauses(pipelinePausesMillis) //disabledPauses
 	}
 
   val httpProtocol = Environment.HttpProtocol
@@ -278,6 +278,16 @@ class UISimulation extends Simulation  {
       .feed(feedWAFPLUserData)
       .exec(IdamLogin.GetIdamToken)
       .exec(S2S.s2s("ccd_data"))
+      .doIf(debugMode != "off") {
+        repeat(10) {
+          exec {
+            session =>
+              println("I'm pausing...")
+              session
+          }
+          .pause(5)
+        }
+      }
       .exec(fpl.ccdSendMessage)
     }
 
@@ -396,21 +406,21 @@ class UISimulation extends Simulation  {
   }
   
   setUp(
-    IACAssignAndCompleteTasks.inject(simulationProfile(testType, assignAndCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    PRLAssignAndCompleteTasks.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    CivilAssignAndCompleteTask.inject(simulationProfile(testType, civilJudicialCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    FPLAssignAndCompleteTasks.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    ETAssignAndCompleteTasks.inject(simulationProfile(testType, etTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    CancelTask.inject(simulationProfile(testType, cancelTaskTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    JudicialUserJourney.inject(simulationProfile(testType, judicialTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    SSCSAssignAndCompleteTasks.inject(simulationProfile(testType, sscsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // IACAssignAndCompleteTasks.inject(simulationProfile(testType, assignAndCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // PRLAssignAndCompleteTasks.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // CivilAssignAndCompleteTask.inject(simulationProfile(testType, civilJudicialCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // FPLAssignAndCompleteTasks.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // ETAssignAndCompleteTasks.inject(simulationProfile(testType, etTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // CancelTask.inject(simulationProfile(testType, cancelTaskTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // JudicialUserJourney.inject(simulationProfile(testType, judicialTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // SSCSAssignAndCompleteTasks.inject(simulationProfile(testType, sscsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 
-    CreateCivilDJTaskFromCCD.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    CreateIACTaskFromCCD.inject(simulationProfile(testType, iacCreateTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    CreatePRLTaskFromCCD.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // CreateCivilDJTaskFromCCD.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // CreateIACTaskFromCCD.inject(simulationProfile(testType, iacCreateTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // CreatePRLTaskFromCCD.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     CreateFPLTaskFromCCD.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    CreateETTaskFromCCD.inject(simulationProfile(testType, etTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    CreateSSCSTaskFromCCD.inject(simulationProfile(testType, sscsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
+    // CreateETTaskFromCCD.inject(simulationProfile(testType, etTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // CreateSSCSTaskFromCCD.inject(simulationProfile(testType, sscsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
 
     //Not used for testing
     // getTaskFromCamunda.inject(rampUsers(1) during (1 minute))
