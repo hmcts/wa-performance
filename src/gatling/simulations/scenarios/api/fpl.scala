@@ -181,7 +181,7 @@ object fpl {
       .header("Content-Type","application/json")
       .body(ElFileBody("fplBodies/FPLSubmitApplication.json")))
 
-    .pause(Environment.constantthinkTime)
+    .pause(15)
 
   val ccdSendMessage = 
 
