@@ -62,7 +62,8 @@ class UISimulation extends Simulation  {
   val prlTargetPerHour: Double = 130 //130
   val fplTargetPerHour: Double = 335 //335
   val etTargetPerHour: Double = 100 
-  val sscsTargetPerHour: Double = 200 
+  val sscsTargetPerHour: Double = 650 
+  val sscsCompleteTargetPerHour: Double = 325
 
 	val rampUpDurationMins = 5
 	val rampDownDurationMins = 5
@@ -413,7 +414,7 @@ class UISimulation extends Simulation  {
     // ETAssignAndCompleteTasks.inject(simulationProfile(testType, etTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     // CancelTask.inject(simulationProfile(testType, cancelTaskTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     // JudicialUserJourney.inject(simulationProfile(testType, judicialTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    // SSCSAssignAndCompleteTasks.inject(simulationProfile(testType, sscsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // SSCSAssignAndCompleteTasks.inject(simulationProfile(testType, sscsCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 
     // CreateCivilDJTaskFromCCD.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     CreateIACTaskFromCCD.inject(simulationProfile(testType, iacCreateTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
