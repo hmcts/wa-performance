@@ -226,18 +226,18 @@ class UISimulation extends Simulation  {
       .repeat(1) {
         exec(S2S.s2s("xui_webapp"))
         .exec(IdamLogin.GetIdamTokenPayments)
-        .exec(ccddatastore.civilCreateCase)
+        // .exec(ccddatastore.civilCreateCase)
         .pause(60)
-        // .feed(feedCivilCaseList) // use this for manually putting a case ID in when running this is debug mode, and you 
+        .feed(feedCivilCaseList) // use this for manually putting a case ID in when running this is debug mode, and you 
         // have to run each case event in turn
         .exec(ccddatastore.civilAddPayment)
-        .pause(60)
-        .exec(ccddatastore.civilNotifyClaim)
-        .pause(60)
-        .exec(ccddatastore.civilNotifyClaimDetails)
-        .pause(60)
-        .exec(ccddatastore.civilUpdateDate)
-        .exec(ccddatastore.civilRequestDefaultJudgement)
+        // .pause(60)
+        // .exec(ccddatastore.civilNotifyClaim)
+        // .pause(60)
+        // .exec(ccddatastore.civilNotifyClaimDetails)
+        // .pause(60)
+        // .exec(ccddatastore.civilUpdateDate)
+        // .exec(ccddatastore.civilRequestDefaultJudgement)
       }
     }
 
@@ -420,7 +420,7 @@ class UISimulation extends Simulation  {
     CreateIACTaskFromCCD.inject(simulationProfile(testType, iacCreateTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     // CreatePRLTaskFromCCD.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     CreateFPLTaskFromCCD.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    // CreateETTaskFromCCD.inject(simulationProfile(testType, etTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    CreateETTaskFromCCD.inject(simulationProfile(testType, etTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     CreateSSCSTaskFromCCD.inject(simulationProfile(testType, sscsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
 
     //Not used for testing
