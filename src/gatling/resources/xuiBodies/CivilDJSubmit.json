@@ -4,24 +4,30 @@
      "caseManagementOrderSelection": "DISPOSAL_HEARING",
      "hearingMethodValuesDisposalHearingDJ": {
         "value": {
-           "code": "3e14d032-1d53-4b11-a853-1dae1df863a2",
-           "label": "In Person"
+          "code": "e57c5d56-1270-4fc9-a9c2-2100e36a7b4e",
+          "label": "In Person"
         },
         "list_items": [
-           {
-              "code": "642054ec-17b0-4e0d-8f86-a496bc19c985",
+          {
+              "code": "d430b99e-a720-48a1-804a-1c4e95946ad9",
               "label": "Telephone"
-           },
-           {
-              "code": "3e14d032-1d53-4b11-a853-1dae1df863a2",
-              "label": "In Person"
-           },
-           {
-              "code": "a6fc81e6-a7c5-46f7-854a-a4ecae919374",
+          },
+          {
+              "code": "5ab1c809-5cc2-41bf-9948-f03d8738a34f",
               "label": "Video"
-           }
+          },
+          {
+              "code": "e57c5d56-1270-4fc9-a9c2-2100e36a7b4e",
+              "label": "In Person"
+          }
         ]
-     },
+    },
+    "disposalHearingMethodInPersonDJ": {
+        "value": {
+          "code": "446255",
+          "label": "Bedford County Court and Family Court - Shire Hall, St. Paul's Square, Bedford - MK40 1SQ"
+        }
+    },
      "caseManagementOrderAdditional": [],
      "disposalHearingOrderAndHearingDetailsDJ": null,
      "disposalHearingJudgesRecitalDJ": {
