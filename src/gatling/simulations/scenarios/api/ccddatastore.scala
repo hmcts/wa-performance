@@ -132,11 +132,14 @@ object ccddatastore {
 
     .pause(Environment.constantthinkTime)
 
-    .exec(http("API_Civil_AddPayment")
-      .put("http://civil-service-#{env}.service.core-compute-#{env}.internal/service-request-update-claim-issued")
-      .header("Authorization", "Bearer #{access_tokenPayments}")
-      .header("Content-type", "application/json")
-      .body(ElFileBody("civilBodies/AddPayment.json")))
+    .tryMax(2) {
+      exec(http("API_Civil_AddPayment")
+        .put("http://civil-service-#{env}.service.core-compute-#{env}.internal/service-request-update-claim-issued")
+        .header("Authorization", "Bearer #{access_tokenPayments}")
+        .header("ServiceAuthorization", "#{civil_serviceBearerToken}")
+        .header("Content-type", "application/json")
+        .body(ElFileBody("civilBodies/AddPayment.json")))
+    }
 
     .pause(Environment.constantthinkTime)
 /*
