@@ -209,13 +209,13 @@ object xuiJudicialTask {
         .get("/api/wa-supported-jurisdiction/get")
         .headers(XUIHeaders.xuiMainHeader))
 
-      .exec(http("XUI_JudicialSDO_Submit_WASearchForCompletable")
+      /*.exec(http("XUI_JudicialSDO_Submit_WASearchForCompletable")
         .post("/workallocation/searchForCompletable")
         .header("content-type", "application/json")
         .header("accept", "application/json")
         .header("x-xsrf-token", "#{xsrfToken}")
         .body(StringBody("""{"searchRequest":{"ccdId":"#{caseId}","eventId":"STANDARD_DIRECTION_ORDER_DJ","jurisdiction":"CIVIL","caseTypeId":"CIVIL"}}""")))
-
+*/
       .exec(http("XUI_JudicialSDO_Submit_ApiUserDetails")
         .get("/api/user/details")
         .headers(XUIHeaders.xuiMainHeader))

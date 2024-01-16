@@ -551,13 +551,13 @@ object xuiwa {
         .get("/api/user/details")
         .headers(XUIHeaders.xuiMainHeader)) //89
 
-      .exec(http("XUI_RequestRespondentEvidence_030_WorkAllocationSearch")
+      /*.exec(http("XUI_RequestRespondentEvidence_030_WorkAllocationSearch")
         .post("/workallocation/searchForCompletable")
         .headers(XUIHeaders.xuiMainHeader) //90
         .header("accept", "application/json")
         .header("content-type", "application/json")
         .header("x-xsrf-token", "#{xsrfToken}")
-        .body(ElFileBody("xuiBodies/XUIsearchForCompletable.json")))
+        .body(ElFileBody("xuiBodies/XUIsearchForCompletable.json")))*/
 
       .exec(http("XUI_RequestRespondentEvidence_030_CompleteTask")
         .post("/workallocation/task/#{taskId}/complete")
