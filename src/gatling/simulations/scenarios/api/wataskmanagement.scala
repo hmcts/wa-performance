@@ -134,6 +134,17 @@ val GetAllTasks =
         session
     } 
 
+val CancelTask =
+
+  //Cancel a Task identified by an id.
+
+  exec(http("WA_CancelTask")
+    .post(waUrl + "/task/#{taskId}/cancel") //${taskId}
+    .header("ServiceAuthorization", "Bearer #{wa_task_management_apiBearerToken}")
+    .header("Authorization", "Bearer #{access_token}")
+    .header("Content-Type", "application/json"))
+
+  .pause(Environment.constantthinkTime)
 
 val GetTask =
 
