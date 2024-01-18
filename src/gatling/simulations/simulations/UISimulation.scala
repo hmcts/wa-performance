@@ -34,6 +34,7 @@ class UISimulation extends Simulation  {
 	/* ******************************** */
 
   val feedTribunalUserData = csv("WA_TribunalUsers.csv").circular
+  val feedSeniorTribunalUsers = csv("WA_SeniorTribunalUsers.csv")
   val feedJudicialUserData = csv("WA_JudicialUsers.csv").circular
   val feedIACUserData = csv("IACUserData.csv").circular
   val feedCivilUserData = csv("CivilUserData.csv").circular
@@ -51,6 +52,8 @@ class UISimulation extends Simulation  {
   val feedETCaseData = csv("ETCaseData.csv")
   val feedSSCSUserData = csv("SSCSUserData.csv").circular
   val feedSSCSCaseData = csv("SSCSCaseData.csv")
+
+  val taskCancelListFeeder = csv("WA_TasksToCancel.csv")
 
 	/* PERFORMANCE TEST CONFIGURATION */
 	val assignAndCompleteTargetPerHour: Double = 700 //700
@@ -340,11 +343,23 @@ class UISimulation extends Simulation  {
       .exec(xuiwa.XUILogout)
     }
 
+  //Debugging/Data Gen journeys - NOT USED FOR PERF TESTING!
+
   val getTaskFromCamunda = scenario("Camunda Get Task")
     .exec(_.set("env", s"${env}"))
     .exec(S2S.s2s("wa_task_management_api"))
-    .repeat(3495) {
+    .repeat(1321) {
       exec(wataskmanagement.CamundaGetCase)
+    }
+
+  val cancelTaskInTM = scenario("TM - Cancel Task")
+    .exec(_.set("env", s"${env}"))
+    .feed(feedSeniorTribunalUsers)
+    .exec(S2S.s2s("wa_task_management_api"))
+    .exec(IdamLogin.GetIdamToken)
+    .repeat(16605) {
+      feed(taskCancelListFeeder)
+      .exec(wataskmanagement.CancelTask)
     }
 
 	/*===============================================================================================
@@ -408,7 +423,7 @@ class UISimulation extends Simulation  {
   }
   
   setUp(
-    IACAssignAndCompleteTasks.inject(simulationProfile(testType, assignAndCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+   /* IACAssignAndCompleteTasks.inject(simulationProfile(testType, assignAndCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     PRLAssignAndCompleteTasks.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     CivilAssignAndCompleteTask.inject(simulationProfile(testType, civilJudicialCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     FPLAssignAndCompleteTasks.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
@@ -416,9 +431,9 @@ class UISimulation extends Simulation  {
     CancelTask.inject(simulationProfile(testType, cancelTaskTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     JudicialUserJourney.inject(simulationProfile(testType, judicialTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     // SSCSAssignAndCompleteTasks.inject(simulationProfile(testType, sscsCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-
+*/
     CreateCivilDJTaskFromCCD.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    CreateIACTaskFromCCD.inject(simulationProfile(testType, iacCreateTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // CreateIACTaskFromCCD.inject(simulationProfile(testType, iacCreateTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     CreatePRLTaskFromCCD.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     CreateFPLTaskFromCCD.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     // CreateETTaskFromCCD.inject(simulationProfile(testType, etTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
@@ -426,6 +441,7 @@ class UISimulation extends Simulation  {
 
     //Not used for testing
     // getTaskFromCamunda.inject(rampUsers(1) during (1 minute))
+    // cancelTaskInTM.inject(rampUsers(1) during (1 minute))
     )
     .maxDuration(70 minutes)
     .protocols(httpProtocol)
