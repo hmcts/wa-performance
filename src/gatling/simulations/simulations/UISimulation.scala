@@ -348,7 +348,7 @@ class UISimulation extends Simulation  {
   val getTaskFromCamunda = scenario("Camunda Get Task")
     .exec(_.set("env", s"${env}"))
     .exec(S2S.s2s("wa_task_management_api"))
-    .repeat(1321) {
+    .repeat(1623) {
       exec(wataskmanagement.CamundaGetCase)
     }
 
@@ -423,6 +423,7 @@ class UISimulation extends Simulation  {
   }
   
   setUp(
+    /*
     IACAssignAndCompleteTasks.inject(simulationProfile(testType, assignAndCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     PRLAssignAndCompleteTasks.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     CivilAssignAndCompleteTask.inject(simulationProfile(testType, civilJudicialCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
@@ -431,11 +432,12 @@ class UISimulation extends Simulation  {
     CancelTask.inject(simulationProfile(testType, cancelTaskTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     JudicialUserJourney.inject(simulationProfile(testType, judicialTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     // SSCSAssignAndCompleteTasks.inject(simulationProfile(testType, sscsCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-
+*/
     CreateCivilDJTaskFromCCD.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     CreateIACTaskFromCCD.inject(simulationProfile(testType, iacCreateTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     CreatePRLTaskFromCCD.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     CreateFPLTaskFromCCD.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+
     // CreateETTaskFromCCD.inject(simulationProfile(testType, etTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     // CreateSSCSTaskFromCCD.inject(simulationProfile(testType, sscsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
 
