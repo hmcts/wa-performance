@@ -148,7 +148,7 @@ object xuiSscs {
     .pause(Environment.constantthinkTime)
 
     .group("XUI_SSCSReviewAdminAction_Page2") {
-      exec(http("request_37")
+      exec(http("XUI_SSCSReviewAdminAction_Page2")
         .post("/data/case-types/Benefit/validate?pageId=interlocSendToTcw1.0")
         .headers(XUIHeaders.xuiMainHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
