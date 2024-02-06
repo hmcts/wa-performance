@@ -70,7 +70,7 @@ class UISimulation extends Simulation  {
 
 	val rampUpDurationMins = 5
 	val rampDownDurationMins = 5
-	val testDurationMins = 60
+	val testDurationMins = 120 //60
 
 	val numberOfPipelineUsers = 5
 	val pipelinePausesMillis: Long = 3000 //3 seconds
@@ -249,6 +249,7 @@ class UISimulation extends Simulation  {
         .exec(ccddatastore.civilNotifyClaimDetails)
         .pause(60)
         .exec(ccddatastore.civilUpdateDate)
+        .pause(60)
         .exec(ccddatastore.civilRequestDefaultJudgement)
       }
     }
