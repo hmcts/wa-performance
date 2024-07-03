@@ -1,7 +1,7 @@
 #!groovy
 
 properties([
-        // pipelineTriggers([cron('H 08 * * 1-5')]),
+        pipelineTriggers([cron('H 09 * * 1-5')]),
         parameters([
                 choice(name: 'TEST_TYPE', choices: 'pipeline', description: 'Test type (must be \'pipeline\' for Jenkins use)')        
                 ])
@@ -9,6 +9,7 @@ properties([
 
 @Library("Infrastructure") 
 
+def type = "java"
 def product = "wa"
 def component = "wa-performance-tests"
 
