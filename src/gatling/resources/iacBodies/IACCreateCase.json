@@ -1,5 +1,7 @@
 {
   "data": {
+     "searchParties": [],
+     "isCaseUsingLocationRefData": null,
      "isOutOfCountryEnabled": "Yes",
      "checklist": {
         "checklist5": [],
@@ -17,7 +19,6 @@
      "appellantInUk": "Yes",
      "homeOfficeReferenceNumber": "123123123",
      "homeOfficeDecisionDate": "#{todayDate}",
-     "decisionLetterReceivedDate": null,
      "uploadTheNoticeOfDecisionDocs": [
         {
            "value": {
@@ -36,33 +37,29 @@
      "appellantFamilyName": "#{lastName}",
      "appellantDateOfBirth": "#{dobYear}-#{dobMonth}-#{dobDay}",
      "appellantStateless": "isStateless",
-     "appellantNationalities": [],
      "appellantHasFixedAddress": "No",
-     "appellantAddress": null,
      "contactPreference": "wantsEmail",
      "email": "#{firstName}@#{lastName}.com",
-     "mobileNumber": null,
      "appealType": "revocationOfProtection",
-     "appealGroundsProtection": null,
-     "appealGroundsHumanRights": null,
-     "appealGroundsDeprivation": null,
-     "appealGroundsDeprivationHumanRights": null,
-     "appealGroundsEuRefusal": null,
      "appealGroundsRevocation": {
         "values": [
-           "revocationRefugeeConvention"
+           "revocationHumanitarianProtection"
         ]
      },
      "deportationOrderOptions": "No",
      "hasNewMatters": "No",
-     "newMatters": null,
      "hasOtherAppeals": "No",
-     "legalRepCompany": "Mr",
-     "legalRepName": "Steve Smith",
+     "legalRepCompany": "Local Co",
+     "legalRepName": "Steve ",
+     "legalRepFamilyName": "Smith",
+     "legalRepMobilePhoneNumber": "07000000000",
      "legalRepReferenceNumber": "123",
      "isFeePaymentEnabled": "Yes",
      "isRemissionsEnabled": "Yes",
-     "rpDcAppealHearingOption": "decisionWithoutHearing"
+     "decisionHearingFeeOption": "decisionWithoutHearing",
+     "remissionType": "noRemission",
+     "feeWithHearing": null,
+     "feeWithoutHearing": null
   },
   "event": {
      "id": "startAppeal",

@@ -1,0 +1,20 @@
+{
+  "data": {
+     "paidAmount": "8000",
+     "paidDate": "#{todayDate}",
+     "additionalPaymentInfo": "Perf test"
+  },
+  "event": {
+     "id": "markAppealPaid",
+     "summary": "",
+     "description": ""
+  },
+  "event_data": {
+     "paidAmount": "8000",
+     "paidDate": "#{todayDate}",
+     "additionalPaymentInfo": "Perf test"
+  },
+  "event_token": "#{eventToken}",
+  "ignore_warning": false,
+  "case_reference": "#{caseId}"
+}

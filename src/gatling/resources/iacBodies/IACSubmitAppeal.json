@@ -1,13 +1,18 @@
-{"data":
-  {"legalRepDeclaration":["hasDeclared"]},
-  "event":
-    {"id":"submitAppeal",
-      "summary":"",
-      "description":""
-    },
-  "event_data":
-    {"legalRepDeclaration":["hasDeclared"]},
-  "event_token":"#{eventToken}",
-  "ignore_warning":false,
-  "case_reference":"#{caseId}"
+{
+  "data": {
+     "legalRepDeclaration": [
+        "hasDeclared"
+     ],
+     "remissionType": null,
+     "paAppealTypePaymentOption": null,
+     "appealType": "revocationOfProtection",
+     "feeAmountGbp": null
+  },
+  "event": {
+     "id": "submitAppeal",
+     "summary": "",
+     "description": ""
+  },
+  "event_token": "#{eventToken}",
+  "ignore_warning": false
 }

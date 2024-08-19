@@ -16,7 +16,8 @@ object sscs {
     exec(_.setAll(
         ("NINumber" -> Common.randomNumber(8)),
         "firstname"  -> ("Perf" + Common.randomString(5)),
-        "lastname"  -> ("Test" + Common.randomString(5))
+        "lastname"  -> ("Test" + Common.randomString(5)),
+        "todayDate" -> Common.getDate()
     ))
 
     .exec(http("API_SSCS_GetEventToken")
@@ -56,6 +57,54 @@ object sscs {
     .exec {
       session =>
         val fw = new BufferedWriter(new FileWriter("SSCSSubmittedCaseIds.csv", true))
+        try {
+          fw.write(session("caseId").as[String] + "\r\n")
+        }
+        finally fw.close()
+        session
+    }
+
+    .pause(Environment.constantthinkTime)
+
+  val ccdAddHearing = 
+
+    exec(http("API_SSCS_GetEventToken")
+      .get(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/SSCS/case-types/Benefit/cases/#{caseId}/event-triggers/addHearing/token")
+      .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
+      .header("Authorization", "Bearer #{access_token}")
+      .header("Content-Type","application/json")
+      .check(jsonPath("$.token").saveAs("eventToken")))
+
+    .exec(http("API_SSCS_AddHearing")
+      .post(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/SSCS/case-types/Benefit/cases/#{caseId}/events")
+      .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
+      .header("Authorization", "Bearer #{access_token}")
+      .header("Content-Type","application/json")
+      .body(ElFileBody("sscsBodies/SSCSAddHearingToday.json"))
+      .check(jsonPath("$.id").saveAs("caseId")))
+
+    .pause(Environment.constantthinkTime)
+
+  val ccdDirectionIssued = 
+
+    exec(http("API_SSCS_GetEventToken")
+      .get(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/SSCS/case-types/Benefit/cases/#{caseId}/event-triggers/directionIssued/token")
+      .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
+      .header("Authorization", "Bearer #{access_token}")
+      .header("Content-Type","application/json")
+      .check(jsonPath("$.token").saveAs("eventToken")))
+
+    .exec(http("API_SSCS_DirectionIssued")
+      .post(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/SSCS/case-types/Benefit/cases/#{caseId}/events")
+      .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
+      .header("Authorization", "Bearer #{access_token}")
+      .header("Content-Type","application/json")
+      .body(ElFileBody("sscsBodies/SSCSDirectionIssued.json"))
+      .check(jsonPath("$.id").saveAs("caseId")))
+
+    .exec {
+      session =>
+        val fw = new BufferedWriter(new FileWriter("SSCSCasesForCron.csv", true))
         try {
           fw.write(session("caseId").as[String] + "\r\n")
         }

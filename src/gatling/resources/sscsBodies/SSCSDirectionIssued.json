@@ -1,0 +1,50 @@
+{
+  "data": {
+     "prePostHearing": "pre",
+     "directionTypeDl": {
+        "value": {
+           "code": "appealToProceed",
+           "label": "Appeal to Proceed"
+        },
+        "list_items": [
+           {
+              "code": "appealToProceed",
+              "label": "Appeal to Proceed"
+           },
+           {
+              "code": "provideInformation",
+              "label": "Provide information"
+           }
+        ]
+     },
+     "confidentialityType": "general",
+     "sendDirectionNoticeToFTA": null,
+     "sendDirectionNoticeToRepresentative": null,
+     "sendDirectionNoticeToOtherPartyRep": null,
+     "sendDirectionNoticeToOtherPartyAppointee": null,
+     "sendDirectionNoticeToOtherParty": null,
+     "sendDirectionNoticeToJointParty": null,
+     "sendDirectionNoticeToAppellantOrAppointee": null,
+     "directionDueDate": "2024-02-13",
+     "createdInGapsFrom": null,
+     "documentSentToDwp": null,
+     "generateNotice": "Yes",
+     "bodyContent": "Direct issued",
+     "signedBy": "Perf test",
+     "signedRole": "Judge",
+     "dateAdded": null,
+     "previewDocument": {
+        "document_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/435eba7e-5bd3-4863-a421-811bb9109129",
+        "document_binary_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/435eba7e-5bd3-4863-a421-811bb9109129/binary",
+        "document_filename": "Directions Notice issued on 13-02-2024.pdf",
+        "document_hash": null
+     }
+  },
+  "event": {
+     "id": "directionIssued",
+     "summary": "",
+     "description": ""
+  },
+  "event_token": "#{eventToken}",
+  "ignore_warning": false
+}

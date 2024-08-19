@@ -84,7 +84,7 @@ object xuiFpl {
     .exec(http("XUI_ViewCase_GetWorkAllocationTask")
       .get("/workallocation/case/task/#{caseId}")
       .headers(XUIHeaders.xuiMainHeader)
-      .check(jsonPath("$..[?(@.type=='reviewMessageCTSC')].id").saveAs("taskId")))
+      .check(jsonPath("$..[?(@.type=='reviewMessageHearingCentreAdmin')].id").saveAs("taskId")))
 
     .pause(Environment.constantthinkTime)
 
