@@ -1,0 +1,14 @@
+{
+  "data": {
+     "remissionType": "noRemission",
+     "appealType": "refusalOfHumanRights",
+     "feeAmountGbp": "8000"
+  },
+  "event": {
+     "id": "generateServiceRequest",
+     "summary": "",
+     "description": ""
+  },
+  "event_token": "#{eventToken}",
+  "ignore_warning": false
+}

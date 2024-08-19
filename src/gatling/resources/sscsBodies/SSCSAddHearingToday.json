@@ -1,0 +1,55 @@
+{
+  "data": {
+     "hearings": [
+        {
+           "value": {
+              "hearingDate": "#{todayDate}",
+              "time": "18:00",
+              "postponedDate": "#{todayDate}",
+              "adjourned": "No",
+              "adjournedDate": "#{todayDate}",
+              "hearingId": "1234",
+              "eventDate": "#{todayDate}",
+              "venueId": "Test",
+              "hearingRequested": "#{todayDate}T12:00:00.000",
+              "versionNumber": "1",
+              "hearingStatus": "LISTED",
+              "start": "#{todayDate}T12:00:00.000",
+              "end": "#{todayDate}T13:00:00.000",
+              "epimsId": "Test",
+              "hearingChannel": "TEL",
+              "venue": {
+                 "name": "Bedford",
+                 "googleMapLink": "test",
+                 "address": {
+                    "line1": "12 Test Street",
+                    "line2": "Testing",
+                    "line3": "Test",
+                    "town": "Perf Town",
+                    "county": "Perf",
+                    "postcode": "KT25BU",
+                    "country": "Perf",
+                    "postcodeLookup": null,
+                    "postcodeAddress": null
+                 }
+              },
+              "panel": {
+                 "assignedTo": {
+                    "idamId": null,
+                    "personalCode": null
+                 },
+                 "panelMembers": []
+              }
+           },
+           "id": null
+        }
+     ]
+  },
+  "event": {
+     "id": "addHearing",
+     "summary": "",
+     "description": ""
+  },
+  "event_token": "#{eventToken}",
+  "ignore_warning": false
+}

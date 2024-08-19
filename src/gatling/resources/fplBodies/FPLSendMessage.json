@@ -5,8 +5,8 @@
     "judicialMessageMetaData": {
         "senderType": "CTSC",
         "sender": null,
-        "recipientType": "CTSC",
-        "recipient": null,
+        "recipientType": "LOCAL_COURT_ADMIN",
+        "recipient": "perftest@mailinator.com",
         "requestedBy": "Perf test",
         "urgency": null
     },

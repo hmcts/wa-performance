@@ -60,6 +60,40 @@ object ccddatastore {
 
     .pause(Environment.constantthinkTime)
 
+  val ccdIACCreateServiceRequest = 
+
+    exec(http("API_IAC_GetEventToken")
+      .get(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/#{IACJurisdiction}/case-types/#{IACCaseType}/cases/#{caseId}/event-triggers/generateServiceRequest/token")
+      .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
+      .header("Authorization", "Bearer #{access_token}")
+      .header("Content-Type","application/json")
+      .check(jsonPath("$.token").saveAs("eventToken")))
+
+    .exec(http("API_IAC_CreateServiceRequest")
+      .post(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/#{IACJurisdiction}/case-types/#{IACCaseType}/cases/#{caseId}/events")
+      .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
+      .header("Authorization", "Bearer #{access_token}")
+      .header("Content-Type","application/json")
+      .body(ElFileBody("iacBodies/IACCreateServiceRequest.json")))
+
+    .pause(Environment.constantthinkTime)
+
+  val ccdIACMarkAppealPaid = 
+
+    exec(http("API_IAC_GetEventToken")
+      .get(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/#{IACJurisdiction}/case-types/#{IACCaseType}/cases/#{caseId}/event-triggers/markAppealPaid/token")
+      .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
+      .header("Authorization", "Bearer #{access_token}")
+      .header("Content-Type","application/json")
+      .check(jsonPath("$.token").saveAs("eventToken")))
+
+    .exec(http("API_IAC_MarkAppealPaid")
+      .post(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/#{IACJurisdiction}/case-types/#{IACCaseType}/cases/#{caseId}/events")
+      .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
+      .header("Authorization", "Bearer #{access_token}")
+      .header("Content-Type","application/json")
+      .body(ElFileBody("iacBodies/IACMarkAppealPaid.json")))
+
   val ccdIACRequestHomeOfficeData =
 
     exec(http("API_IAC_GetEventToken")
