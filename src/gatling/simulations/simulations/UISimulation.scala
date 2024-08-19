@@ -239,7 +239,7 @@ class UISimulation extends Simulation  {
       .repeat(1) {
         exec(S2S.s2s("xui_webapp"))
         .exec(IdamLogin.GetIdamTokenPayments)
-        // .exec(ccddatastore.civilCreateCase)
+        .exec(ccddatastore.civilCreateCase)
         .pause(60)
         // .feed(feedCivilCaseList) // use this for manually putting a case ID in when running this is debug mode, and you have to run each case event in turn
         .exec(S2S.s2s("civil_service"))
