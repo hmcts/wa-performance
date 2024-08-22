@@ -52,12 +52,11 @@ class UISimulation extends Simulation  {
   val feedETCaseData = csv("ETCaseData.csv")
   val feedSSCSUserData = csv("SSCSUserData.csv").circular
   val feedSSCSCaseData = csv("SSCSCaseData.csv")
-
   val taskCancelListFeeder = csv("WA_TasksToCancel.csv")
 
 	/* PERFORMANCE TEST CONFIGURATION */
 	val assignAndCompleteTargetPerHour: Double = 700 //700
-	val cancelTaskTargetPerHour: Double = 300 //300
+	val cancelTaskTargetPerHour: Double = 500 //300
 	val iacCreateTargetPerHour: Double = 1500 //1500
   val civilCompleteTargetPerHour: Double = 200 //200
   val civilJudicialCompleteTargetPerHour: Double = 150 //150
