@@ -6,7 +6,7 @@
      "id": "hearing-judge",
      "name": "Hearing Judge"
   },
-  "allocateTo": "Reserve to me",
+  "allocateTo": "Allocate to me",
   "person": null,
   "durationOfRole": "7 days",
   "action": "allocate",
@@ -15,5 +15,57 @@
      "endDate": "#{currentDatePlusSeven}T00:00:00.000Z"
   },
   "lastError": null,
+  "roles": [
+    {
+       "roleCategory": "JUDICIAL",
+       "roleId": "hearing-judge",
+       "roleName": "Hearing Judge",
+       "roleJurisdiction": {
+          "mandatory": true,
+          "values": [
+             "ST_CIC",
+             "SSCS",
+             "IA",
+             "PRIVATELAW",
+             "EMPLOYMENT",
+             "PUBLICLAW"
+          ]
+       }
+    },
+    {
+       "roleCategory": "JUDICIAL",
+       "roleId": "lead-judge",
+       "roleName": "Lead Judge",
+       "roleJurisdiction": {
+          "mandatory": true,
+          "values": [
+             "IA",
+             "EMPLOYMENT"
+          ]
+       }
+    },
+    {
+       "roleCategory": "JUDICIAL",
+       "roleId": "ftpa-judge",
+       "roleName": "FTPA Judge",
+       "roleJurisdiction": {
+          "mandatory": true,
+          "values": [
+             "IA"
+          ]
+       }
+    },
+    {
+       "roleCategory": "JUDICIAL",
+       "roleId": "hearing-panel-judge",
+       "roleName": "Hearing Panel Judge",
+       "roleJurisdiction": {
+          "mandatory": true,
+          "values": [
+             "IA"
+          ]
+       }
+    }
+ ],
   "roleCategory": "JUDICIAL"
 }
