@@ -1,0 +1,12 @@
+{
+  "data": {},
+  "event": {
+     "id": "caseworker-case-built",
+     "summary": "",
+     "description": ""
+  },
+  "event_data": {},
+  "event_token": "#{eventToken}",
+  "ignore_warning": false,
+  "case_reference": "#{caseId}"
+}

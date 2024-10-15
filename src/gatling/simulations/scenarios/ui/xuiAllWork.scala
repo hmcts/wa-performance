@@ -283,7 +283,8 @@ object xuiAllWork {
         .headers(XUIHeaders.xuiMainHeader)
         .header("content-type", "application/json")
         .header("x-xsrf-token", "#{xsrfToken}")
-        .body(StringBody("""{"userIds":["#{idamId}"],"services":["IA"]}""")))
+        .body(StringBody("""{"userIds":["#{idamId}"],"services":["IA"]}"""))
+        .check(status is 406))
     }
 
     .pause(Environment.constantthinkTime)
@@ -311,7 +312,8 @@ object xuiAllWork {
         .headers(XUIHeaders.xuiMainHeader)
         .header("content-type", "application/json")
         .header("x-xsrf-token", "#{xsrfToken}")
-        .body(StringBody("""{"userIds":["#{idamId}"],"services":["IA"]}""")))
+        .body(StringBody("""{"userIds":["#{idamId}"],"services":["IA"]}"""))
+        .check(status is 406))
     }
 
     .pause(Environment.constantthinkTime)
@@ -355,7 +357,8 @@ object xuiAllWork {
         .headers(XUIHeaders.xuiMainHeader)
         .header("content-type", "application/json")
         .header("x-xsrf-token", "#{xsrfToken}")
-        .body(StringBody("""{"userIds":["#{idamId}"],"services":["IA"]}""")))
+        .body(StringBody("""{"userIds":["#{idamId}"],"services":["IA"]}"""))
+        .check(status is 406))
     }
 
     .pause(Environment.constantthinkTime)

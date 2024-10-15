@@ -26,6 +26,7 @@ object Environment {
   val camundaURL = "http://camunda-api-#{env}.service.core-compute-#{env}.internal"
   val waWorkflowApiURL = "http://wa-workflow-api-#{env}.service.core-compute-#{env}.internal"
   val refDataApiURL = "https://rd-professional-api-perftest.service.core-compute-perftest.internal"
+  val cuiStURL = "https://sptribs-frontend.#{env}.platform.hmcts.net"
 
   val ClearSessionVariables =
     exec(flushHttpCache)

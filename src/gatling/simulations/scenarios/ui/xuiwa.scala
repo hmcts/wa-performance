@@ -130,11 +130,11 @@ object xuiwa {
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-workbasket-input-details.v2+json;charset=UTF-8")
         .header("content-type", "application/json")) //32
 
-      .exec(http("XUI_010_095_Login")
-        .post("/workallocation/task")
-        .headers(XUIHeaders.xuiMainHeader) //33
-        .body(ElFileBody("xuiBodies/MyWork.json"))
-        .header("content-type", "application/json"))
+      // .exec(http("XUI_010_095_Login")
+      //   .post("/workallocation/task")
+      //   .headers(XUIHeaders.xuiMainHeader) //33
+      //   .body(ElFileBody("xuiBodies/MyWork.json"))
+      //   .header("content-type", "application/json"))
     }
     .exitHereIfFailed
 
