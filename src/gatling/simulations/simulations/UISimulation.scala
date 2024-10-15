@@ -57,7 +57,7 @@ class UISimulation extends Simulation  {
   val taskCancelListFeeder = csv("WA_TasksToCancel.csv")
 
 	/* PERFORMANCE TEST CONFIGURATION */
-	val assignAndCompleteTargetPerHour: Double = 700 //700
+	val iacTargetPerHour: Double = 700 //700
 	val cancelTaskTargetPerHour: Double = 500 //300
 	val iacCreateTargetPerHour: Double = 1500 //1500
   val civilCompleteTargetPerHour: Double = 200 //200
@@ -612,7 +612,7 @@ class UISimulation extends Simulation  {
           Seq(global.successfulRequests.percent.gte(95),
             details("XUI_CancelTask").successfulRequests.count.gte((cancelTaskTargetPerHour * 0.9).ceil.toInt),
             details("XUI_Judicial_004_ConfirmRoleAllocation").successfulRequests.count.gte((judicialTargetPerHour * 0.9).ceil.toInt),
-            details("XUI_RequestRespondentEvidence_Submit").successfulRequests.count.gte((assignAndCompleteTargetPerHour * 0.9).ceil.toInt),
+            details("XUI_RequestRespondentEvidence_Submit").successfulRequests.count.gte((iacTargetPerHour * 0.9).ceil.toInt),
             details("XUI_AddCaseNumber_Submit").successfulRequests.count.gte((prlTargetPerHour * 0.9).ceil.toInt),
             details("XUI_JudicialSDO_Submit_Request").successfulRequests.count.gte((civilJudicialCompleteTargetPerHour * 0.9).ceil.toInt),
             details("XUI_ReplyToMessage_Submit").successfulRequests.count.gte((fplTargetPerHour * 0.9).ceil.toInt),
@@ -659,7 +659,7 @@ class UISimulation extends Simulation  {
 
     // ***** New E2E flows without the need for dataprep - October 2024 *****
     // STEndToEndCreateAndComplete.inject(simulationProfile(testType, stTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    IACEndToEndCreateAndComplete.inject(simulationProfile(testType, iacCreateTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    IACEndToEndCreateAndComplete.inject(simulationProfile(testType, iacTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     PRLEndToEndCreateAndComplete.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     ETEndToEndCreateAndComplete.inject(simulationProfile(testType, etTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     FPLEndToEndCreateAndComplete.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
