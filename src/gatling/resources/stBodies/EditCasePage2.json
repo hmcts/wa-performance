@@ -1,0 +1,18 @@
+{
+  "data": {
+     "cicCaseCaseReceivedDate": "#{todayDate}"
+  },
+  "event": {
+     "id": "edit-case",
+     "summary": "",
+     "description": ""
+  },
+  "event_data": {
+     "cicCaseCaseCategory": "Assessment",
+     "cicCaseCaseSubcategory": "MedicalReOpening",
+     "cicCaseCaseReceivedDate": "#{todayDate}"
+  },
+  "event_token": "#{eventToken}",
+  "ignore_warning": false,
+  "case_reference": "#{caseId}"
+}

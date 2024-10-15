@@ -1,0 +1,39 @@
+{
+  "data": {
+     "cicCaseCaseCategory": "Assessment",
+     "cicCaseCaseSubcategory": "MedicalReOpening",
+     "cicCaseCaseReceivedDate": "#{todayDate}",
+     "cicCasePartiesCIC": [
+        "SubjectCIC"
+     ],
+     "cicCaseFullName": "Perf test",
+     "cicCasePhoneNumber": "07000111000",
+     "cicCaseDateOfBirth": "1980-02-01",
+     "cicCaseAddress": {
+        "AddressLine1": "Flat 1",
+        "AddressLine2": "Bramber House",
+        "AddressLine3": "Seven Kings Way",
+        "PostTown": "Kingston Upon Thames",
+        "County": "",
+        "Country": "United Kingdom",
+        "PostCode": "KT2 5BU"
+     },
+     "cicCaseContactPreferenceType": "Email",
+     "cicCaseEmail": "perftest@mailinator.com",
+     "cicCaseSubjectCIC": [
+        "SubjectCIC"
+     ],
+     "cicCaseSchemeCic": "Preference",
+     "cicCaseRegionCIC": "London",
+     "cicCaseClaimLinkedToCic": "No",
+     "cicCaseCompensationClaimLinkCIC": "No",
+     "cicCaseFormReceivedInTime": "Yes"
+  },
+  "event": {
+     "id": "edit-case",
+     "summary": "",
+     "description": ""
+  },
+  "event_token": "#{eventToken}",
+  "ignore_warning": false
+}

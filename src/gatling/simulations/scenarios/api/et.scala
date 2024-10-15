@@ -55,15 +55,15 @@ object et {
 
     .pause(Environment.constantthinkTime)
 
-    .exec {
-      session =>
-        val fw = new BufferedWriter(new FileWriter("ETSubmittedCaseIds.csv", true))
-        try {
-          fw.write(session("caseId").as[String] + "\r\n")
-        }
-        finally fw.close()
-        session
-    }
+    // .exec {
+    //   session =>
+    //     val fw = new BufferedWriter(new FileWriter("ETSubmittedCaseIds.csv", true))
+    //     try {
+    //       fw.write(session("caseId").as[String] + "\r\n")
+    //     }
+    //     finally fw.close()
+    //     session
+    // }
 
 
 }

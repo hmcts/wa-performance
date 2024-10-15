@@ -1,0 +1,18 @@
+{
+  "data": {
+     "cicCaseCaseCategory": "Assessment",
+     "cicCaseCaseSubcategory": "MedicalReOpening"
+  },
+  "event": {
+     "id": "edit-case",
+     "summary": "",
+     "description": ""
+  },
+  "event_data": {
+     "cicCaseCaseCategory": "Assessment",
+     "cicCaseCaseSubcategory": "MedicalReOpening"
+  },
+  "event_token": "#{eventToken}",
+  "ignore_warning": false,
+  "case_reference": "#{caseId}"
+}

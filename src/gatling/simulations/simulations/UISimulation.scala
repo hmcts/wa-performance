@@ -52,6 +52,8 @@ class UISimulation extends Simulation  {
   val feedETCaseData = csv("ETCaseData.csv")
   val feedSSCSUserData = csv("SSCSUserData.csv").circular
   val feedSSCSCaseData = csv("SSCSCaseData.csv")
+  val feedSTUserData = csv("STUserData.csv").circular
+  val feedSTCaseData = csv("STCaseData.csv")
   val taskCancelListFeeder = csv("WA_TasksToCancel.csv")
 
 	/* PERFORMANCE TEST CONFIGURATION */
@@ -66,6 +68,7 @@ class UISimulation extends Simulation  {
   val etTargetPerHour: Double = 100 
   val sscsTargetPerHour: Double = 650 //650 
   val sscsCompleteTargetPerHour: Double = 325
+  val stTargetPerHour: Double = 50 //50
 
 	val rampUpDurationMins = 5
 	val rampDownDurationMins = 5
@@ -81,7 +84,7 @@ class UISimulation extends Simulation  {
 	val pauseOption: PauseType = debugMode match {
 		case "off" if testType == "perftest" => constantPauses
 		case "off" if testType == "pipeline" => customPauses(pipelinePausesMillis)
-		case _ => customPauses(pipelinePausesMillis) //disabledPauses
+		case _ => constantPauses //disabledPauses
 	}
 
   val httpProtocol = Environment.HttpProtocol
@@ -100,7 +103,6 @@ class UISimulation extends Simulation  {
       .exec(xuiwa.manageCasesHomePage)
       .feed(feedTribunalUserData)
       .exec(xuiwa.manageCasesLogin)
-      // .exec(xuiAllWork.allWorkTasks)
       .feed(feedIACCaseList)
       .exec(_.set("jurisdiction", "IA"))
       .exec(xuiSearchChallengedAccess.GlobalSearch)
@@ -109,9 +111,8 @@ class UISimulation extends Simulation  {
       }
       .exec(xuiSearchChallengedAccess.ViewCase)
       .exec(xuiwa.ViewTasksTab)
-      // .exec(xuiwa.AssignRoles)
       .exec(xuiwa.AssignTask)
-      .exec(xuiwa.RequestRespondentEvidence)
+      .exec(xuiIac.RequestRespondentEvidence)
       .exec(xuiwa.XUILogout)
     }
 
@@ -212,6 +213,30 @@ class UISimulation extends Simulation  {
       .exec(xuiwa.XUILogout)
     }
 
+  val CreateSTTaskFromCUI = scenario("Create a Special Tribunals Task from CUI")
+    .exitBlockOnFail {
+      exec(_.set("env", s"${env}"))
+      .repeat(50) {
+        exec(cuiSpecialTribs.cuiHomePage)
+        .exec(cuiSpecialTribs.cuiCreateSTCase)
+      }
+    }
+
+  val STAssignAndCompleteTask = scenario("Assign an ST Task and Complete it")
+   .exitBlockOnFail {
+      exec(_.set("env", s"${env}"))
+      .exec(xuiwa.manageCasesHomePage)
+      .feed(feedSTUserData)
+      .exec(xuiwa.manageCasesLogin)
+      .feed(feedSTCaseData)
+      .exec(xuiSt.SearchCase)
+      .exec(xuiSt.ViewCase)
+      .exec(xuiwa.AssignTask)
+      .exec(xuiSt.EditCase)
+      .exec(xuiSt.BuildCase)
+  }
+
+
   //API Calls >>
 
   val CreateIACTaskFromCCD = scenario("Creates IAC cases & tasks in Task Manager")
@@ -222,8 +247,6 @@ class UISimulation extends Simulation  {
       .exec(IdamLogin.GetIdamToken)
       .exec(ccddatastore.ccdCreateIACCase)
       .exec(ccddatastore.ccdIACSubmitAppeal)
-      // .exec(ccddatastore.ccdIACCreateServiceRequest)
-      // .exec(ccddatastore.ccdIACMarkAppealPaid)
       .exec(ccddatastore.ccdIACRequestHomeOfficeData)
     }
 
@@ -339,7 +362,6 @@ class UISimulation extends Simulation  {
       .exec(xuiwa.manageCasesHomePage)
       .feed(feedTribunalUserData)
       .exec(xuiwa.manageCasesLogin)
-      // .exec(xuiMyWork.AvailableTasks)
       .exec(xuiAllWork.allWorkTasks)
       .exec(xuiwa.cancelTask)
       .exec(xuiwa.XUILogout)
@@ -376,6 +398,186 @@ class UISimulation extends Simulation  {
       feed(taskCancelListFeeder)
       .exec(wataskmanagement.CancelTask)
     }
+
+  /*===============================================================================================
+  //New - e2e flows to negate the need for data prep
+  ===============================================================================================*/
+
+  val STEndToEndCreateAndComplete = scenario("E2E flow Citizen Create & Caseworker Complete")
+    .exitBlockOnFail {
+      exec(_.set("env", s"${env}"))
+      .repeat(1) {
+        exec(cuiSpecialTribs.cuiHomePage)
+        .exec(cuiSpecialTribs.cuiCreateSTCase)
+        .exec(xuiwa.manageCasesHomePage)
+        .pause(60 seconds)
+        .feed(feedSTUserData)
+        .exec(xuiwa.manageCasesLogin)
+        .exec(xuiSt.SearchCase)
+        .exec(xuiSt.ViewCase)
+        .exec(xuiwa.AssignTask)
+        .exec(xuiSt.EditCase)
+        .exec(xuiSt.BuildCase)
+      }
+    }
+
+  val IACEndToEndCreateAndComplete = scenario("E2E flow Create IA Task & Caseworker Complete")
+    .exitBlockOnFail {
+      exec(_.set("env", s"${env}"))
+      .feed(feedIACUserData)
+      .exec(S2S.s2s("ccd_data"))
+      .exec(IdamLogin.GetIdamToken)
+      .exec(ccddatastore.ccdCreateIACCase)
+      .exec(ccddatastore.ccdIACSubmitAppeal)
+      .exec(ccddatastore.ccdIACRequestHomeOfficeData)
+      .pause(60 seconds)
+      .exec(xuiwa.manageCasesHomePage)
+      .feed(feedTribunalUserData)
+      .exec(xuiwa.manageCasesLogin)
+      .exec(xuiIac.SearchCase)
+      .exec(xuiIac.ViewCase)
+      .exec(xuiwa.AssignTask)
+      .exec(xuiIac.RequestRespondentEvidence)
+      .exec(xuiwa.XUILogout)
+    }
+
+  val PRLEndToEndCreateAndComplete = scenario("E2E flow Create PRL Task & Caseworker Complete")
+    .exitBlockOnFail {
+      exec(_.set("env", s"${env}"))
+      .feed(feedPRLUserData)
+      .exec(S2S.s2s("ccd_data"))
+      .exec(IdamLogin.GetIdamToken)
+      .exec(ccddatastore.prlCreateCase)
+      .exec(ccddatastore.prlApplicationType)
+      .exec(ccddatastore.prlWithoutNotice)
+      .exec(ccddatastore.prlApplicantDetails)
+      .exec(ccddatastore.prlRespondentDetails)
+      .exec(ccddatastore.prlFamilyDetails)
+      .exec(ccddatastore.prlRelationship)
+      .exec(ccddatastore.prlBehaviour)
+      .exec(ccddatastore.prlHome)
+      .exec(ccddatastore.prlSubmit)
+      .pause(60 seconds)
+      .exec(xuiwa.manageCasesHomePage)
+      .feed(feedPRLTribunalUsers)
+      .exec(xuiwa.manageCasesLogin)
+      .exec(xuiAllWork.allWorkTasks)
+      .exec(xuiAllWork.allWorkTasksHighPriority)
+      .exec(xuiPrl.SearchCase)
+      .exec(xuiPrl.ViewCase)
+      .exec(xuiwa.AssignTask)
+      .exec(xuiPrl.AddCaseNumber)
+      .exec(xuiPrl.SendToGatekeeper)
+      .exec(xuiwa.XUILogout)
+    }
+
+  val ETEndToEndCreateAndComplete = scenario("E2E flow Create ET Task & Caseworker Complete")
+    .exitBlockOnFail {
+      exec(_.set("env", s"${env}"))
+      .feed(feedETUserData)
+      .exec(S2S.s2s("ccd_data"))
+      .exec(IdamLogin.GetIdamToken)
+      .exec(et.ccdCreateETCase)
+      .exec(et.ccdETSubmitDraft)
+      .pause(60 seconds)
+      .exec(xuiwa.manageCasesHomePage)
+      .exec(xuiwa.manageCasesLogin)
+      .exec(xuiAllWork.allWorkTasks)
+      .exec(xuiAllWork.allWorkTasksHighPriority)
+      .exec(xuiEt.SearchCase)
+      .exec(xuiEt.ViewCase)
+      .doIf("#{taskId.exists()}") {
+        exec(xuiwa.AssignTask)
+        .exec(xuiEt.etVetting)
+        .exec(xuiEt.etPreAcceptance)
+      }
+      .exec(xuiwa.XUILogout)
+    }
+
+  val FPLEndToEndCreateAndComplete = scenario("E2E flow Create FPL Task & Caseworker Complete")
+    .exitBlockOnFail {
+      exec(_.set("env", s"${env}"))
+      .feed(feedFPLUserData)
+      .exec(S2S.s2s("ccd_data"))
+      .exec(IdamLogin.GetIdamToken)
+      .exec(fpl.ccdCreateFPLCase)
+      .exec(fpl.ccdFPLOrdersNeeded)
+      .exec(fpl.ccdFPLHearingNeeded)
+      .exec(fpl.ccdFPLEnterGrounds)
+      .exec(fpl.ccdFPLEnterLocalAuthority)
+      .exec(fpl.ccdFPLEnterChildren)
+      .exec(fpl.ccdFPLEnterRespondents)
+      .exec(fpl.ccdFPLOtherProposal)
+      .exec(fpl.ccdFPLSubmitApplication)
+      .feed(feedWAFPLUserData)
+      .exec(IdamLogin.GetIdamToken)
+      .exec(S2S.s2s("ccd_data"))
+      .doIf(debugMode != "off") {
+        repeat(10) {
+          exec {
+            session =>
+              println("I'm pausing...")
+              session
+          }
+          .pause(5)
+        }
+      }
+      .exec(fpl.ccdSendMessage)
+      .pause(60)
+      .exec(xuiwa.manageCasesHomePage)
+      .exec(xuiwa.manageCasesLogin)
+      .exec(xuiAllWork.allWorkTasks)
+      .exec(xuiAllWork.allWorkTasksHighPriority)
+      .exec(xuiFpl.SearchCase)
+      .exec(xuiFpl.ViewCase)
+      .doIf("#{taskId.exists()}") {
+        exec(xuiwa.AssignTask)
+        .exec(xuiFpl.ReplyToMessage)
+      }
+      .exec(xuiwa.XUILogout)
+    }
+
+  val CivilEndToEndCreateAndComplete = scenario("E2E flow Create Civil Task & Caseworker Complete")
+    .exitBlockOnFail {
+      exec(_.set("env", s"${env}"))
+      .feed(feedCivilUserData)
+      .exec(S2S.s2s("ccd_data"))
+      .exec(IdamLogin.GetIdamToken)
+      .exec(S2S.s2s("xui_webapp"))
+      .exec(IdamLogin.GetIdamTokenPayments)
+      .exec(ccddatastore.civilCreateCase)
+      .pause(60)
+      // .feed(feedCivilCaseList) // use this for manually putting a case ID in when running this is debug mode, and you have to run each case event in turn
+      .exec(S2S.s2s("civil_service"))
+      .exec(ccddatastore.civilAddPayment)
+      .pause(60)
+      .exec(ccddatastore.civilNotifyClaim)
+      .pause(60)
+      .exec(ccddatastore.civilNotifyClaimDetails)
+      .pause(60)
+      .exec(ccddatastore.civilUpdateDate)
+      .pause(60)
+      .exec(ccddatastore.civilRequestDefaultJudgement)
+      .pause(60)
+      .exec(xuiwa.manageCasesHomePage)
+      .feed(feedCivilJudgeData)
+      .exec(xuiwa.manageCasesLogin)
+      .exec(xuiAllWork.allWorkTasks)
+      .exec(xuiAllWork.allWorkTasksHighPriority)
+      // .feed(feedCivilJudicialCases)
+      .exec(_.set("jurisdiction", "CIVIL"))
+      .exec(xuiSearchChallengedAccess.GlobalSearch)
+      .doIf(session => session("accessRequired").as[String].equals("CHALLENGED")) {
+        exec(xuiSearchChallengedAccess.JudicialChallengedAccess)
+      }
+      .exec(xuiJudicialTask.SearchCase)
+      .exec(xuiJudicialTask.ViewCase)
+      .doIf("#{taskId.exists()}") {
+        exec(xuiJudicialTask.AssignTask)
+        .exec(xuiJudicialTask.StandardDirectionOrder)
+      }
+      .exec(xuiwa.XUILogout)
+      }
 
 	/*===============================================================================================
 	* Simulation Configuration
@@ -438,21 +640,32 @@ class UISimulation extends Simulation  {
   }
   
   setUp(
-    
-    IACAssignAndCompleteTasks.inject(simulationProfile(testType, assignAndCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    PRLAssignAndCompleteTasks.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    CivilAssignAndCompleteTask.inject(simulationProfile(testType, civilJudicialCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    FPLAssignAndCompleteTasks.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    CancelTask.inject(simulationProfile(testType, cancelTaskTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    JudicialUserJourney.inject(simulationProfile(testType, judicialTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    // SSCSAssignAndCompleteTasks.inject(simulationProfile(testType, sscsCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption), //Not onboarded so currently disabled - 19th August 2024
-    ETAssignAndCompleteTasks.inject(simulationProfile(testType, etTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // IACAssignAndCompleteTasks.inject(simulationProfile(testType, assignAndCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // PRLAssignAndCompleteTasks.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // CivilAssignAndCompleteTask.inject(simulationProfile(testType, civilJudicialCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // FPLAssignAndCompleteTasks.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // CancelTask.inject(simulationProfile(testType, cancelTaskTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // JudicialUserJourney.inject(simulationProfile(testType, judicialTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // // SSCSAssignAndCompleteTasks.inject(simulationProfile(testType, sscsCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption), //Not onboarded so currently disabled - 19th August 2024
+    // ETAssignAndCompleteTasks.inject(simulationProfile(testType, etTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // STAssignAndCompleteTask.inject(simulationProfile(testType, stTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 
-    CreateCivilDJTaskFromCCD.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    CreateIACTaskFromCCD.inject(simulationProfile(testType, iacCreateTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    CreatePRLTaskFromCCD.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    CreateFPLTaskFromCCD.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    CreateETTaskFromCCD.inject(simulationProfile(testType, etTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // CreateCivilDJTaskFromCCD.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // CreateIACTaskFromCCD.inject(simulationProfile(testType, iacCreateTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // CreatePRLTaskFromCCD.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // CreateFPLTaskFromCCD.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // CreateETTaskFromCCD.inject(simulationProfile(testType, etTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // CreateSTTaskFromCUI.inject(simulationProfile(testType, stTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+
+    // ***** New E2E flows without the need for dataprep - October 2024 *****
+    // STEndToEndCreateAndComplete.inject(simulationProfile(testType, stTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    IACEndToEndCreateAndComplete.inject(simulationProfile(testType, iacCreateTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    PRLEndToEndCreateAndComplete.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    ETEndToEndCreateAndComplete.inject(simulationProfile(testType, etTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    FPLEndToEndCreateAndComplete.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    CivilEndToEndCreateAndComplete.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    JudicialUserJourney.inject(simulationProfile(testType, judicialTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    CancelTask.inject(simulationProfile(testType, cancelTaskTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 
     // CreateSSCSTaskFromCCD.inject(simulationProfile(testType, sscsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption), //Not onboarded so currently disabled - 19th August 2024
 

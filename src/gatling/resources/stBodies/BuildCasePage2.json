@@ -1,9 +1,7 @@
 {
-  "data": {
-     "isSpecificGateKeeperNeeded": "No"
-  },
+  "data": {},
   "event": {
-     "id": "fl401SendToGateKeeper",
+     "id": "caseworker-case-built",
      "summary": "",
      "description": ""
   },

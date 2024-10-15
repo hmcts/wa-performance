@@ -1,29 +1,15 @@
 {
-  "data": {
-     "gatekeeper": [
-        {
-           "value": {
-              "email": "perftest@perftest.com"
-           },
-           "id": null
-        }
-     ]
-  },
-  "event": {
-     "id": "sendToGateKeeper",
-     "summary": "",
-     "description": ""
-  },
-  "event_data": {
-     "gatekeeper": [
-        {
-           "value": {
-              "email": "perftest@perftest.com"
-           },
-           "id": null
-        }
-     ]
-  },
+    "data": {
+      "isSpecificGateKeeperNeeded": "No"
+    },
+    "event": {
+      "id": "fl401SendToGateKeeper",
+      "summary": "",
+      "description": ""
+    },
+    "event_data": {
+      "isSpecificGateKeeperNeeded": "No"
+    },
   "event_token": "#{eventToken}",
   "ignore_warning": false,
   "case_reference": "#{caseId}"

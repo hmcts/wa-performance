@@ -11,13 +11,8 @@ object xuiEt {
 
   val SearchCase = 
 
-    exec(http("XUI_GlobalSearch_010_IsAuthenticated")
-			.get("/auth/isAuthenticated")
-			.headers(XUIHeaders.xuiMainHeader))
-
-    .exec(http("XUI_GlobalSearch_010_ApiUserDetails")
-			.get("/api/user/details")
-			.headers(XUIHeaders.xuiMainHeader))
+    exec(Common.isAuthenticated)
+    .exec(Common.apiUserDetails)
 
     .exec(http("XUI_GlobalSearch_010_Services")
 			.get("/api/globalSearch/services")
@@ -39,10 +34,7 @@ object xuiEt {
       .header("x-xsrf-token", "#{xsrfToken}")
 			.body(ElFileBody("xuiBodies/FPLCaseSearch.json")))
 
-    .exec(http("XUI_GlobalSearch_020_IsAuthenticated")
-			.get("/auth/isAuthenticated")
-			.headers(XUIHeaders.xuiMainHeader)
-      .header("accept", "application/json, text/plain, */*"))
+    .exec(Common.isAuthenticated)
 		
 		.exec(http("XUI_GlobalSearch_020_GetCase")
 			.get("/data/internal/cases/#{caseId}")
@@ -50,27 +42,15 @@ object xuiEt {
       .header("accept", "application/json, text/plain, */*")
       .header("content-type", "application/json"))
 
-    .exec(http("XUI_GlobalSearch_020_ApiUserDetails")
-			.get("/api/user/details")
-			.headers(XUIHeaders.xuiMainHeader)
-      .header("accept", "application/json, text/plain, */*"))
+    .exec(Common.apiUserDetails)
 
     .pause(Environment.constantthinkTime)
 
   val ViewCase = 
 
-    exec(http("XUI_ViewCase_IsAuthenticated")
-			.get("/auth/isAuthenticated")
-			.headers(XUIHeaders.xuiMainHeader))
-
-    .exec(http("XUI_ViewCase_WAJurisdictionsGet")
-			.get("/api/wa-supported-jurisdiction/get")
-			.headers(XUIHeaders.xuiMainHeader)
-      .header("accept", "application/json, text/plain, */*"))
-
-    .exec(http("XUI_ViewCase_ApiUserDetails")
-			.get("/api/user/details")
-			.headers(XUIHeaders.xuiMainHeader))
+    exec(Common.isAuthenticated)
+    .exec(Common.waSupportedJurisdictions)
+    .exec(Common.apiUserDetails)
 
     .exec(http("XUI_ViewCase_GetCase")
 			.get("/data/internal/cases/#{caseId}")
@@ -78,10 +58,41 @@ object xuiEt {
       .header("content-type", "application/json")
       .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json"))
 
-    .exec(http("XUI_ViewCase_GetWorkAllocationTask")
+    .exec(http("XUI_ET_SelectCaseTask")
       .get("/workallocation/case/task/#{caseId}")
       .headers(XUIHeaders.xuiMainHeader)
-      .check(jsonPath("$[0].id").saveAs("taskId")))
+      .header("Accept", "application/json, text/plain, */*")
+      .header("x-xsrf-token", "#{xsrfToken}")
+      .check(jsonPath("$[0].id").optional.saveAs("taskId"))
+      .check(jsonPath("$[0].type").optional.saveAs("taskType")))
+
+    //Save taskType from response
+    .exec(session => {
+      // Initialise task type in session if it's not already present, ensure the variable exists before entering Loop
+      session("taskType").asOption[String] match {
+        case Some(taskType) => session
+        case None => session.set("taskType", "")
+      }
+    })
+
+    // Loop until the task type matches "Et1Vetting"
+    .asLongAs(session => session("taskType").as[String] != "Et1Vetting") {
+      exec(http("XUI_ST_SelectCaseTaskRepeat")
+        .get("/workallocation/case/task/#{caseId}")
+        .headers(XUIHeaders.xuiMainHeader)
+        .header("Accept", "application/json, text/plain, */*")
+        .header("x-xsrf-token", "#{xsrfToken}")
+        .check(jsonPath("$[0].id").optional.saveAs("taskId"))
+        .check(jsonPath("$[0].type").optional.saveAs("taskType")))
+
+      .pause(5, 10) // Wait between retries
+
+    //   // Log task Type
+    //   .exec (session => {
+    //     println(s"Current Task Type: ${session("taskType").as[String]}")
+    //     session
+    // })
+    }
 
     .pause(Environment.constantthinkTime)
 
@@ -92,39 +103,13 @@ object xuiEt {
         .get("/cases/case-details/#{caseId}/trigger/et1Vetting/et1Vetting1?tid=#{taskId}")
         .headers(XUIHeaders.xuiMainHeader))
 
-      .exec(http("XUI_ET_Vetting_ConfigurationUI")
-        .get("/external/configuration-ui/")
-        .headers(XUIHeaders.xuiMainHeader))
-
-      .exec(http("XUI_ET_Vetting_T&C")
-        .get("/api/configuration?configurationKey=termsAndConditionsEnabled")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("accept", "application/json, text/plain, */*"))
-
-      .exec(http("XUI_ET_Vetting_ConfigJson")
-        .get("/assets/config/config.json")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("accept", "application/json, text/plain, */*"))
-
-      .exec(http("XUI_ET_Vetting_RefreshRoleAssignments")
-        .get("/api/user/details?refreshRoleAssignments=undefined")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("accept", "application/json, text/plain, */*"))
-
-      .exec(http("XUI_ET_Vetting_ConfigUI")
-        .get("/external/config/ui")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("accept", "application/json, text/plain, */*"))
-
-      .exec(http("XUI_ET_Vetting_MonitoringTools")
-        .get("/api/monitoring-tools")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("accept", "application/json, text/plain, */*"))
-
-      .exec(http("XUI_ET_Vetting_IsAuthenticated")
-        .get("/auth/isAuthenticated")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("accept", "application/json, text/plain, */*"))
+      .exec(Common.configurationui)
+      .exec(Common.TsAndCs)
+      .exec(Common.configJson)
+      .exec(Common.userDetails)
+      .exec(Common.configUI)
+      .exec(Common.monitoringTools)
+      .exec(Common.isAuthenticated)
 
       .exec(http("XUI_ET_Vetting_GetCase")
         .get("/data/internal/cases/#{caseId}")
@@ -139,16 +124,8 @@ object xuiEt {
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
         .check(jsonPath("$.event_token").saveAs("eventToken")))
 
-      .exec(http("XUI_ET_Vetting_RefreshRoleAssignments")
-        .get("/api/user/details?refreshRoleAssignments=undefined")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("accept", "application/json, text/plain, */*"))
-
-      .exec(http("XUI_ET_Vetting_Profile")
-        .get("/data/internal/profile")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("content-type", "application/json")
-        .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-user-profile.v2+json;charset=UTF-8"))
+      .exec(Common.userDetails)
+      .exec(Common.profile)
     }
 
     .pause(Environment.constantthinkTime)
@@ -162,10 +139,7 @@ object xuiEt {
         .header("x-xsrf-token", "#{xsrfToken}")
         .body(ElFileBody("etBodies/ETVetting_Page1.json")))
 
-      .exec(http("XUI_ET_Vetting_RefreshRoleAssignments")
-        .get("/api/user/details?refreshRoleAssignments=undefined")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("accept", "application/json, text/plain, */*"))
+      .exec(Common.userDetails)
     }
 
     .pause(Environment.constantthinkTime)
@@ -179,10 +153,7 @@ object xuiEt {
         .header("x-xsrf-token", "#{xsrfToken}")
         .body(ElFileBody("etBodies/ETVetting_Page2.json")))
 
-      .exec(http("XUI_ET_Vetting_RefreshRoleAssignments")
-        .get("/api/user/details?refreshRoleAssignments=undefined")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("accept", "application/json, text/plain, */*"))
+      .exec(Common.userDetails)
     }
 
     .pause(Environment.constantthinkTime)
@@ -196,10 +167,7 @@ object xuiEt {
         .header("x-xsrf-token", "#{xsrfToken}")
         .body(ElFileBody("etBodies/ETVetting_Page3.json")))
 
-      .exec(http("XUI_ET_Vetting_RefreshRoleAssignments")
-        .get("/api/user/details?refreshRoleAssignments=undefined")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("accept", "application/json, text/plain, */*"))
+      .exec(Common.userDetails)
     }
 
     .pause(Environment.constantthinkTime)
@@ -213,10 +181,7 @@ object xuiEt {
         .header("x-xsrf-token", "#{xsrfToken}")
         .body(ElFileBody("etBodies/ETVetting_Page4.json")))
 
-      .exec(http("XUI_ET_Vetting_RefreshRoleAssignments")
-        .get("/api/user/details?refreshRoleAssignments=undefined")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("accept", "application/json, text/plain, */*"))
+      .exec(Common.userDetails)
     }
 
     .pause(Environment.constantthinkTime)
@@ -230,10 +195,7 @@ object xuiEt {
         .header("x-xsrf-token", "#{xsrfToken}")
         .body(ElFileBody("etBodies/ETVetting_Page5.json")))
 
-      .exec(http("XUI_ET_Vetting_RefreshRoleAssignments")
-        .get("/api/user/details?refreshRoleAssignments=undefined")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("accept", "application/json, text/plain, */*"))
+      .exec(Common.userDetails)
     }
 
     .pause(Environment.constantthinkTime)
@@ -247,10 +209,7 @@ object xuiEt {
         .header("x-xsrf-token", "#{xsrfToken}")
         .body(ElFileBody("etBodies/ETVetting_Page6.json")))
 
-      .exec(http("XUI_ET_Vetting_RefreshRoleAssignments")
-        .get("/api/user/details?refreshRoleAssignments=undefined")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("accept", "application/json, text/plain, */*"))
+      .exec(Common.userDetails)
     }
 
     .pause(Environment.constantthinkTime)
@@ -264,10 +223,7 @@ object xuiEt {
         .header("x-xsrf-token", "#{xsrfToken}")
         .body(ElFileBody("etBodies/ETVetting_Page7.json")))
 
-      .exec(http("XUI_ET_Vetting_RefreshRoleAssignments")
-        .get("/api/user/details?refreshRoleAssignments=undefined")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("accept", "application/json, text/plain, */*"))
+      .exec(Common.userDetails)
     }
 
     .pause(Environment.constantthinkTime)
@@ -281,10 +237,7 @@ object xuiEt {
         .header("x-xsrf-token", "#{xsrfToken}")
         .body(ElFileBody("etBodies/ETVetting_Page8.json")))
 
-      .exec(http("XUI_ET_Vetting_RefreshRoleAssignments")
-        .get("/api/user/details?refreshRoleAssignments=undefined")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("accept", "application/json, text/plain, */*"))
+      .exec(Common.userDetails)
     }
 
     .pause(Environment.constantthinkTime)
@@ -298,10 +251,7 @@ object xuiEt {
         .header("x-xsrf-token", "#{xsrfToken}")
         .body(ElFileBody("etBodies/ETVetting_Page9.json")))
 
-      .exec(http("XUI_ET_Vetting_RefreshRoleAssignments")
-        .get("/api/user/details?refreshRoleAssignments=undefined")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("accept", "application/json, text/plain, */*"))
+      .exec(Common.userDetails)
     }
 
     .pause(Environment.constantthinkTime)
@@ -315,10 +265,7 @@ object xuiEt {
         .header("x-xsrf-token", "#{xsrfToken}")
         .body(ElFileBody("etBodies/ETVetting_Page10.json")))
 
-      .exec(http("XUI_ET_Vetting_RefreshRoleAssignments")
-        .get("/api/user/details?refreshRoleAssignments=undefined")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("accept", "application/json, text/plain, */*"))
+      .exec(Common.userDetails)
     }
 
     .pause(Environment.constantthinkTime)
@@ -332,10 +279,7 @@ object xuiEt {
         .header("x-xsrf-token", "#{xsrfToken}")
         .body(ElFileBody("etBodies/ETVetting_Page11.json")))
 
-      .exec(http("XUI_ET_Vetting_RefreshRoleAssignments")
-        .get("/api/user/details?refreshRoleAssignments=undefined")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("accept", "application/json, text/plain, */*"))
+      .exec(Common.userDetails)
     }
 
     .pause(Environment.constantthinkTime)
@@ -349,10 +293,7 @@ object xuiEt {
         .header("x-xsrf-token", "#{xsrfToken}")
         .body(ElFileBody("etBodies/ETVetting_Page12.json")))
 
-      .exec(http("XUI_ET_Vetting_RefreshRoleAssignments")
-        .get("/api/user/details?refreshRoleAssignments=undefined")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("accept", "application/json, text/plain, */*"))
+      .exec(Common.userDetails)
     }
 
     .pause(Environment.constantthinkTime)
@@ -366,10 +307,7 @@ object xuiEt {
         .header("x-xsrf-token", "#{xsrfToken}")
         .body(ElFileBody("etBodies/ETVetting_Page13.json")))
 
-      .exec(http("XUI_ET_Vetting_RefreshRoleAssignments")
-        .get("/api/user/details?refreshRoleAssignments=undefined")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("accept", "application/json, text/plain, */*"))
+      .exec(Common.userDetails)
     }
 
     .pause(Environment.constantthinkTime)
@@ -389,10 +327,7 @@ object xuiEt {
         .header("content-type", "application/json")
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json"))
 
-      .exec(http("XUI_ET_Vetting_RefreshRoleAssignments")
-        .get("/api/user/details?refreshRoleAssignments=undefined")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("accept", "application/json, text/plain, */*"))
+      .exec(Common.userDetails)
     }
 
     .pause(Environment.constantthinkTime)
@@ -404,33 +339,12 @@ object xuiEt {
         .get("/cases/case-details/#{caseId}/trigger/preAcceptanceCase/preAcceptanceCase1")
         .headers(XUIHeaders.xuiMainHeader))
 
-      .exec(http("XUI_ET_PreAcceptance_ConfigurationUI")
-        .get("/external/configuration-ui/")
-        .headers(XUIHeaders.xuiMainHeader))
-
-      .exec(http("XUI_ET_PreAcceptance_T&C")
-        .get("/api/configuration?configurationKey=termsAndConditionsEnabled")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("accept", "application/json, text/plain, */*"))
-
-      .exec(http("XUI_ET_PreAcceptance_ConfigJson")
-        .get("/assets/config/config.json")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("accept", "application/json, text/plain, */*"))
-
-      .exec(http("XUI_ET_PreAcceptance_RefreshRoleAssignments")
-        .get("/api/user/details?refreshRoleAssignments=undefined")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("accept", "application/json, text/plain, */*"))
-
-      .exec(http("XUI_ET_PreAcceptance_ConfigUI")
-        .get("/external/config/ui")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("accept", "application/json, text/plain, */*"))
-
-      .exec(http("XUI_ET_PreAcceptance_IsAuthenticated")
-        .get("/auth/isAuthenticated")
-        .headers(XUIHeaders.xuiMainHeader))
+      .exec(Common.configurationui)
+      .exec(Common.TsAndCs)
+      .exec(Common.configJson)
+      .exec(Common.userDetails)
+      .exec(Common.configUI)
+      .exec(Common.isAuthenticated)
 
       .exec(http("XUI_ET_PreAcceptance_GetTasks")
         .get("/workallocation/case/tasks/#{caseId}/event/preAcceptanceCase/caseType/ET_EnglandWales/jurisdiction/EMPLOYMENT")
@@ -454,16 +368,8 @@ object xuiEt {
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
         .check(jsonPath("$.event_token").saveAs("eventToken2")))
 
-      .exec(http("XUI_ET_PreAcceptancePage1_RefreshRoleAssignments")
-        .get("/api/user/details?refreshRoleAssignments=undefined")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("accept", "application/json, text/plain, */*"))
-
-      .exec(http("XUI_ET_PreAcceptancePage1_Profile")
-        .get("/data/internal/profile")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("content-type", "application/json")
-        .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-user-profile.v2+json;charset=UTF-8"))
+      .exec(Common.userDetails)
+      .exec(Common.profile)
     }
 
     .pause(Environment.constantthinkTime)
@@ -507,14 +413,7 @@ object xuiEt {
         .header("content-type", "application/json")
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json"))
 
-      .exec(http("XUI_ET_SubmitAcceptance_GetJurisdictions")
-        .get("/api/wa-supported-jurisdiction/get")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("accept", "application/json, text/plain, */*"))
-
-      .exec(http("XUI_ET_SubmitAcceptance_RefreshRoleAssignments")
-        .get("/api/user/details?refreshRoleAssignments=undefined")
-        .headers(XUIHeaders.xuiMainHeader)
-        .header("accept", "application/json, text/plain, */*"))
+      .exec(Common.waSupportedJurisdictions)
+      .exec(Common.userDetails)
     }
 }
