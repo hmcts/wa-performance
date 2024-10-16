@@ -79,7 +79,7 @@ object xuiEt {
 
     // Loop until the task type matches "Et1Vetting"
     .asLongAs(session => session("taskType").as[String] != "Et1Vetting") {
-      exec(http("XUI_ST_SelectCaseTaskRepeat")
+      exec(http("XUI_ET_SelectCaseTaskRepeat")
         .get("/workallocation/case/task/#{caseId}")
         .headers(XUIHeaders.xuiMainHeader)
         .header("Accept", "application/json, text/plain, */*")

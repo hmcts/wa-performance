@@ -79,7 +79,7 @@ object xuiFpl {
 
     // Loop until the task type matches "reviewMessageHearingCentreAdmin"
     .asLongAs(session => session("taskType").as[String] != "reviewMessageHearingCentreAdmin") {
-      exec(http("XUI_ST_SelectCaseTaskRepeat")
+      exec(http("XUI_FPL_SelectCaseTaskRepeat")
         .get("/workallocation/case/task/#{caseId}")
         .headers(XUIHeaders.xuiMainHeader)
         .header("Accept", "application/json, text/plain, */*")
