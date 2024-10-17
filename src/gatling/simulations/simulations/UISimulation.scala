@@ -658,7 +658,7 @@ class UISimulation extends Simulation  {
     // CreateSTTaskFromCUI.inject(simulationProfile(testType, stTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 
     // ***** New E2E flows without the need for dataprep - October 2024 *****
-    // STEndToEndCreateAndComplete.inject(simulationProfile(testType, stTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    STEndToEndCreateAndComplete.inject(simulationProfile(testType, stTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     IACEndToEndCreateAndComplete.inject(simulationProfile(testType, iacTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     PRLEndToEndCreateAndComplete.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     ETEndToEndCreateAndComplete.inject(simulationProfile(testType, etTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
