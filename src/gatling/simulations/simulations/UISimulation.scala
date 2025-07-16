@@ -429,10 +429,7 @@ class UISimulation extends Simulation  {
         .pause(60 seconds)
         .feed(feedTribunalUserData)
         .exec(xuiIac.Login)
-//        .exec(xuiIac.SearchCase)
-//        .exec(xuiIac.ViewCase)
-//        .exec(xuiwa.AssignTask)
-//        .exec(xuiIac.RequestRespondentEvidence)
+        .exec(xuiIac.CompleteIACTask)
         .exec(xuiIac.Logout)
     }
 
