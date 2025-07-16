@@ -1,8 +1,9 @@
-package scenarios.iac
+package scenarios
 
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import utils.{Common, Environment}
+import xui._
 
 object xuiIac {
 
@@ -11,6 +12,7 @@ object xuiIac {
   val Login =
 
     exec(XuiHelper.Homepage)
+    .exec(_.set("caseType", "Asylum"))
     .exec(XuiHelper.Login("#{email}", "#{password}"))
 
   val Logout =
