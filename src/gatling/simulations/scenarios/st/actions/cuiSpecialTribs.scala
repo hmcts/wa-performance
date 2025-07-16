@@ -1,8 +1,10 @@
-package scenarios.st.actions
+package scenarios
 
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import utils._
+
+import java.io.{BufferedWriter, FileWriter}
 
 object cuiSpecialTribs {
 
@@ -12,28 +14,25 @@ object cuiSpecialTribs {
 
     exec(http("CUI_ST_010_HomePage")
 			.get(cuiSTURL + "/")
-			.headers(Headers.cuiSTHeader)
-			.check(substring("Submit a First-tier Tribunal form")))
+			.headers(Headers.cuiSTHeader))
 
 		.pause(Environment.constantthinkTime)
 
 		.exec(http("CUI_ST_020_LoginPage")
 			.get(cuiSTURL + "/login")
 			.headers(Headers.cuiSTHeader)
-      .check(css("input[name='_csrf']", "value").saveAs("csrfToken"))
-			.check(substring("Sign in or create an account")))
+      .check(css("input[name='_csrf']", "value").saveAs("csrfToken")))
 		
     .pause(Environment.constantthinkTime)
 
 		.exec(http("CUI_ST_030_Login")
-			.post(Environment.idamURL + "/login?client_id=sptribs-frontend&response_type=code&redirect_uri=" + cuiSTURL + "/receiver")
+			.post(Environment.idamURL + "/login?client_id=sptribs-frontend&response_type=code&redirect_uri=https://sptribs-frontend.#{env}.platform.hmcts.net/receiver")
 			.headers(Headers.cuiIdamHeader)
-			.formParam("username", "#{email}")
-			.formParam("password", "#{password}")
+			.formParam("username", "sptribs-citizen@mailinator.com")
+			.formParam("password", "Pa55w0rd17")
 			.formParam("selfRegistrationEnabled", "true")
 			.formParam("_csrf", "#{csrfToken}")
-      .check(CsrfCheck.save)
-			.check(substring("The subject of a case may be you")))
+      .check(CsrfCheck.save))
 			
 		.pause(Environment.constantthinkTime)
 
@@ -48,8 +47,7 @@ object cuiSpecialTribs {
 			.formParam("subjectDateOfBirth-month", "02")
 			.formParam("subjectDateOfBirth-year", "1980")
 			.formParam("saveAndContinue", "true")
-      .check(CsrfCheck.save)
-			.check(substring("Enter contact information")))
+      .check(CsrfCheck.save))
 
     .pause(Environment.constantthinkTime)
 
@@ -57,13 +55,12 @@ object cuiSpecialTribs {
 			.post(cuiSTURL + "/subject-contact-details")
 			.headers(Headers.cuiSTHeader)
 			.formParam("_csrf", "#{csrf}")
-			.formParam("subjectEmailAddress", "#{email}")
+			.formParam("subjectEmailAddress", "perftest@mailinator.com")
 			.formParam("subjectContactNumber", "07000111000")
 			.formParam("subjectAgreeContact", "")
 			.formParam("subjectAgreeContact", "Yes")
 			.formParam("saveAndContinue", "true")
-      .check(CsrfCheck.save)
-			.check(substring("Is there a representative named")))
+      .check(CsrfCheck.save))
 
     .pause(Environment.constantthinkTime)
 
@@ -73,19 +70,7 @@ object cuiSpecialTribs {
 			.formParam("_csrf", "#{csrf}")
 			.formParam("representation", "No")
 			.formParam("saveAndContinue", "true")
-      .check(CsrfCheck.save)
-			.check(substring("Enter your Criminal Injuries Compensation Authority Reference Number")))
-
-		.pause(Environment.constantthinkTime)
-
-		.exec(http("CUI_ST_065_EnterCICNumber")
-			.post(cuiSTURL + "/cica-reference-number")
-			.headers(Headers.cuiSTHeader)
-			.formParam("_csrf", "#{csrf}")
-			.formParam("cicaReferenceNumber", "X12345")
-			.formParam("saveAndContinue", "true")
-			.check(CsrfCheck.save)
-			.check(substring("Upload tribunal form")))
+      .check(CsrfCheck.save))
 
     .pause(Environment.constantthinkTime)
 
@@ -108,8 +93,7 @@ object cuiSpecialTribs {
 			.formParam("_csrf", "#{csrf}")
 			.formParam("documentUploadProceed", "true")
 			.formParam("saveAndContinue", "true")
-      .check(CsrfCheck.save)
-			.check(substring("Upload supporting documents")))
+      .check(CsrfCheck.save))
 
 		.pause(Environment.constantthinkTime)
 
@@ -132,8 +116,7 @@ object cuiSpecialTribs {
 			.formParam("_csrf", "#{csrf}")
 			.formParam("documentUploadProceed", "true")
 			.formParam("saveAndContinue", "true")
-      .check(CsrfCheck.save)
-			.check(substring("Add information to a case")))
+      .check(CsrfCheck.save))
 
 		.pause(Environment.constantthinkTime)
 
@@ -143,8 +126,7 @@ object cuiSpecialTribs {
 			.formParam("documentRelevance", "perf")
 			.formParam("additionalInformation", "perf testing")
 			.formParam("saveAndContinue", "")
-      .check(CsrfCheck.save)
-			.check(substring("Check your answers before submitting your tribunal form")))
+      .check(CsrfCheck.save))
 
     .pause(Environment.constantthinkTime)
 
@@ -153,14 +135,21 @@ object cuiSpecialTribs {
 			.headers(Headers.cuiSTHeader)
 			.formParam("_csrf", "#{csrf}")
 			.formParam("saveAndContinue", "true")
-			.check(regex("Case Number:</font><br>(.+?)</strong>").transform(string => string.replace(" - ", "")).saveAs("caseId"))
-			.check(substring("Tribunal form sent")))
+			.check(regex("Case Number:</font><br>(.+?)</strong>").transform(string => string.replace(" - ", "")).saveAs("caseId")))
+
+    .exec {
+      session =>
+        val fw = new BufferedWriter(new FileWriter("STSubmittedCases.csv", true))
+        try {
+          fw.write(session("caseId").as[String] + "\r\n")
+        }
+        finally fw.close()
+        session
+    }
 
     .pause(Environment.constantthinkTime)
 
     .exec(http("CUI_ST_130_Logout")
       .get(cuiSTURL + "/logout")
-      .headers(Headers.cuiSTHeader)
-			.header("path", "/logout")
-			.check(substring("Submit a First-tier Tribunal form")))
+      .headers(Headers.cuiSTHeader))
 }

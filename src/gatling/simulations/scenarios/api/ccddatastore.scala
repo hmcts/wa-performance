@@ -1,8 +1,5 @@
 package scenarios
 
-import java.text.SimpleDateFormat
-import java.util.Date
-
 import com.typesafe.config.{Config, ConfigFactory}
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
@@ -20,7 +17,8 @@ object ccddatastore {
                     "dobDay" -> Common.getDay(),
                     "dobMonth" -> Common.getMonth(),
                     "dobYear" -> Common.getDobYear(),
-                    "todayDate" -> Common.getDate()))
+                    "todayDate" -> Common.getDate(),
+                    "todayYear" -> Common.getYear()))
 
     .exec(http("API_IAC_GetEventToken")
       .get(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/#{IACJurisdiction}/case-types/#{IACCaseType}/event-triggers/startAppeal/token")
@@ -58,6 +56,40 @@ object ccddatastore {
 
     .pause(Environment.constantthinkTime)
 
+  val ccdIACCreateServiceRequest = 
+
+    exec(http("API_IAC_GetEventToken")
+      .get(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/#{IACJurisdiction}/case-types/#{IACCaseType}/cases/#{caseId}/event-triggers/generateServiceRequest/token")
+      .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
+      .header("Authorization", "Bearer #{access_token}")
+      .header("Content-Type","application/json")
+      .check(jsonPath("$.token").saveAs("eventToken")))
+
+    .exec(http("API_IAC_CreateServiceRequest")
+      .post(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/#{IACJurisdiction}/case-types/#{IACCaseType}/cases/#{caseId}/events")
+      .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
+      .header("Authorization", "Bearer #{access_token}")
+      .header("Content-Type","application/json")
+      .body(ElFileBody("iacBodies/IACCreateServiceRequest.json")))
+
+    .pause(Environment.constantthinkTime)
+
+  val ccdIACMarkAppealPaid = 
+
+    exec(http("API_IAC_GetEventToken")
+      .get(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/#{IACJurisdiction}/case-types/#{IACCaseType}/cases/#{caseId}/event-triggers/markAppealPaid/token")
+      .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
+      .header("Authorization", "Bearer #{access_token}")
+      .header("Content-Type","application/json")
+      .check(jsonPath("$.token").saveAs("eventToken")))
+
+    .exec(http("API_IAC_MarkAppealPaid")
+      .post(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/#{IACJurisdiction}/case-types/#{IACCaseType}/cases/#{caseId}/events")
+      .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
+      .header("Authorization", "Bearer #{access_token}")
+      .header("Content-Type","application/json")
+      .body(ElFileBody("iacBodies/IACMarkAppealPaid.json")))
+
   val ccdIACRequestHomeOfficeData =
 
     exec(http("API_IAC_GetEventToken")
@@ -75,21 +107,23 @@ object ccddatastore {
       .body(ElFileBody("iacBodies/IACRequestHomeOfficeData.json"))
       .check(jsonPath("$.id").saveAs("caseId")))
 
-    .exec {
-      session =>
-        val fw = new BufferedWriter(new FileWriter("IACSubmittedCaseIds.csv", true))
-        try {
-          fw.write(session("caseId").as[String] + "\r\n")
-        }
-        finally fw.close()
-        session
-    }
+//     .exec {
+//       session =>
+//         val fw = new BufferedWriter(new FileWriter("IACSubmittedCaseIds.csv", true))
+//         try {
+//           fw.write(session("caseId").as[String] + "\r\n")
+//         }
+//         finally fw.close()
+//         session
+//     }
 
     .pause(Environment.constantthinkTime)
 
   val civilCreateCase = 
 
-    exec(http("API_Civil_GetEventToken")
+    exec(_.setAll(  "todayYear" -> Common.getYear()))
+
+    .exec(http("API_Civil_GetEventToken")
       .get(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/CIVIL/case-types/CIVIL/event-triggers/CREATE_CLAIM/token")
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
@@ -106,34 +140,49 @@ object ccddatastore {
 
     .pause(Environment.constantthinkTime)
 
-  val civilCreateCaseGA = 
+    /*.exec {
+      session =>
+        val fw = new BufferedWriter(new FileWriter("CivilCreatedCaseIds.csv", true))
+        try {
+          fw.write(session("caseId").as[String] + "\r\n")
+        }
+        finally fw.close()
+        session
+    }*/
 
-    exec(http("API_Civil_GetEventToken")
-      .get(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/CIVIL/case-types/CIVIL/event-triggers/CREATE_CLAIM/token")
-      .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
-      .header("Authorization", "Bearer #{access_token}")
+  val civilAddPayment =
+
+    exec(http("PaymentAPI_GetCasePaymentOrders")
+      .get("http://payment-api-#{env}.service.core-compute-#{env}.internal/case-payment-orders?case_ids=#{caseId}")
+      .header("Authorization", "Bearer #{access_tokenPayments}")
+      .header("ServiceAuthorization", "#{xui_webappBearerToken}")
       .header("Content-Type","application/json")
-      .check(jsonPath("$.token").saveAs("eventToken1")))
+      .header("accept","*/*")
+      .check(jsonPath("$.content[0].orderReference").saveAs("caseIdPaymentRef")))
 
-    .exec(http("API_Civil_CreateUnspecifiedClaim")
-      .post(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/CIVIL/case-types/CIVIL/cases/")
-      .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
-      .header("Authorization", "Bearer #{access_token}")
-      .header("Content-Type","application/json")
-      .body(ElFileBody("civilBodies/CreateSpecifiedClaimGA.json"))
-      .check(jsonPath("$.id").saveAs("caseId")))
+    .pause(Environment.constantthinkTime)
 
+    .tryMax(2) {
+      exec(http("API_Civil_AddPayment")
+        .put("http://civil-service-#{env}.service.core-compute-#{env}.internal/service-request-update-claim-issued")
+        .header("Authorization", "Bearer #{access_tokenPayments}")
+        .header("ServiceAuthorization", "#{civil_serviceBearerToken}")
+        .header("Content-type", "application/json")
+        .body(ElFileBody("civilBodies/AddPayment.json")))
+    }
+
+    .pause(Environment.constantthinkTime)
+/*
     .exec {
       session =>
-        val fw = new BufferedWriter(new FileWriter("CivilCreatedCaseIdsGA.csv", true))
+        val fw = new BufferedWriter(new FileWriter("CivilCreatedCaseIds.csv", true))
         try {
           fw.write(session("caseId").as[String] + "\r\n")
         }
         finally fw.close()
         session
     }
-
-    .pause(Environment.constantthinkTime)
+ */
 
   val civilNotifyClaim = 
 
@@ -174,7 +223,7 @@ object ccddatastore {
   val civilUpdateDate = 
 
     exec(http("API_Civil_UpdateDate")
-      .put("http://civil-service-perftest.service.core-compute-perftest.internal/testing-support/case/#{caseId}")
+      .put("http://civil-service-#{env}.service.core-compute-#{env}.internal/testing-support/case/#{caseId}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-type", "application/json")
       .body(ElFileBody("civilBodies/UpdateClaimDate.json")))
@@ -197,33 +246,15 @@ object ccddatastore {
       .header("Content-Type","application/json")
       .body(ElFileBody("civilBodies/RequestDefaultJudgement.json")))
 
-    .exec {
-      session =>
-        val fw = new BufferedWriter(new FileWriter("CivilCreatedCaseIds.csv", true))
-        try {
-          fw.write(session("caseId").as[String] + "\r\n")
-        }
-        finally fw.close()
-        session
-    }
-
-    .pause(Environment.constantthinkTime)
-
-  val civilCreateGeneralApplication = 
-
-    exec(http("API_Civil_GetEventToken")
-      .get(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/CIVIL/case-types/CIVIL/cases/#{caseId}/event-triggers/DEFAULT_JUDGEMENT/token")
-      .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
-      .header("Authorization", "Bearer #{access_token}")
-      .header("Content-Type","application/json")
-      .check(jsonPath("$.token").saveAs("eventToken4")))
-
-    .exec(http("API_Civil_RequestDefaultJudgement")
-      .post(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/CIVIL/case-types/CIVIL/cases/#{caseId}/events")
-      .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
-      .header("Authorization", "Bearer #{access_token}")
-      .header("Content-Type","application/json")
-      .body(ElFileBody("civilBodies/RequestDefaultJudgement.json")))
+    // .exec {
+    //   session =>
+    //     val fw = new BufferedWriter(new FileWriter("CivilCreatedCaseIds.csv", true))
+    //     try {
+    //       fw.write(session("caseId").as[String] + "\r\n")
+    //     }
+    //     finally fw.close()
+    //     session
+    // }
 
     .pause(Environment.constantthinkTime)
 
@@ -243,16 +274,6 @@ object ccddatastore {
       .header("Content-Type","application/json")
       .body(ElFileBody("prlBodies/prlCreateCase.json"))
       .check(jsonPath("$.id").saveAs("caseId")))
-
-    .exec {
-      session =>
-        val fw = new BufferedWriter(new FileWriter("PRLCreatedCaseIds.csv", true))
-        try {
-          fw.write(session("caseId").as[String] + "\r\n")
-        }
-        finally fw.close()
-        session
-    }
 
     .pause(Environment.constantthinkTime)
 
@@ -415,6 +436,16 @@ object ccddatastore {
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
       .body(ElFileBody("prlBodies/prlSubmit.json")))
+
+     .exec {
+       session =>
+         val fw = new BufferedWriter(new FileWriter("PRLCreatedCaseIds.csv", true))
+         try {
+           fw.write(session("caseId").as[String] + "\r\n")
+         }
+         finally fw.close()
+         session
+     }
 
     .pause(Environment.constantthinkTime)
 

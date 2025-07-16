@@ -1,0 +1,25 @@
+{
+  "request_context": "ALL_WORK",
+  "search_parameters": [
+    {
+      "key": "jurisdiction",
+      "operator": "IN",
+      "values": [
+        "CIVIL"
+      ]
+    },
+    {
+      "key": "location",
+      "operator": "IN",
+      "values": [
+        "20262"
+      ]
+    }
+  ],
+  "sorting_parameters": [
+    {
+      "sort_by": "due_date",
+      "sort_order": "asc"
+    }
+  ]
+}
