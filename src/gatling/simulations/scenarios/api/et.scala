@@ -1,12 +1,8 @@
 package scenarios
 
-import java.text.SimpleDateFormat
-import java.util.Date
-import com.typesafe.config.{Config, ConfigFactory}
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import utils._
-import java.io.{BufferedWriter, FileWriter}
 
 object et {
 
@@ -55,15 +51,15 @@ object et {
 
     .pause(Environment.constantthinkTime)
 
-    // .exec {
-    //   session =>
-    //     val fw = new BufferedWriter(new FileWriter("ETSubmittedCaseIds.csv", true))
-    //     try {
-    //       fw.write(session("caseId").as[String] + "\r\n")
-    //     }
-    //     finally fw.close()
-    //     session
-    // }
+//     .exec {
+//       session =>
+//         val fw = new BufferedWriter(new FileWriter("ETSubmittedCaseIds.csv", true))
+//         try {
+//           fw.write(session("caseId").as[String] + "\r\n")
+//         }
+//         finally fw.close()
+//         session
+//     }
 
 
 }

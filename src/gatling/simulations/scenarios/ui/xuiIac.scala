@@ -1,6 +1,5 @@
 package scenarios
 
-import com.typesafe.config.{Config, ConfigFactory}
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import utils._
@@ -17,11 +16,11 @@ object xuiIac {
 
       .exec(http("XUI_GlobalSearch_010_Services")
         .get("/api/globalSearch/services")
-        .headers(XUIHeaders.xuiMainHeader))
+        .headers(Headers.xuiMainHeader))
 
       .exec(http("XUI_GlobalSearch_010_JurisdictionsRead")
         .get("/aggregated/caseworkers/:uid/jurisdictions?access=read")
-        .headers(XUIHeaders.xuiMainHeader)
+        .headers(Headers.xuiMainHeader)
         .header("accept", "application/json, text/plain, */*")
         .header("content-type", "application/json"))
 
@@ -29,7 +28,7 @@ object xuiIac {
 
       .exec(http("XUI_GlobalSearch_020_Request")
         .post("/api/globalsearch/results")
-        .headers(XUIHeaders.xuiMainHeader)
+        .headers(Headers.xuiMainHeader)
         .header("accept", "application/json, text/plain, */*")
         .header("content-type", "application/json")
         .header("x-xsrf-token", "#{xsrfToken}")
@@ -39,7 +38,7 @@ object xuiIac {
       
       .exec(http("XUI_GlobalSearch_020_GetCase")
         .get("/data/internal/cases/#{caseId}")
-        .headers(XUIHeaders.xuiMainHeader)
+        .headers(Headers.xuiMainHeader)
         .header("accept", "application/json, text/plain, */*")
         .header("content-type", "application/json"))
 
@@ -56,7 +55,7 @@ object xuiIac {
 
     .exec(http("XUI_ViewCase_GetCase")
 			.get("/data/internal/cases/#{caseId}")
-			.headers(XUIHeaders.xuiMainHeader)
+			.headers(Headers.xuiMainHeader)
       .header("content-type", "application/json")
       .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json"))
 
@@ -64,7 +63,7 @@ object xuiIac {
 
     .exec(http("XUI_IAC_SelectCaseTask")
       .get("/workallocation/case/task/#{caseId}")
-      .headers(XUIHeaders.xuiMainHeader)
+      .headers(Headers.xuiMainHeader)
       .header("Accept", "application/json, text/plain, */*")
       .header("x-xsrf-token", "#{xsrfToken}")
       .check(jsonPath("$[0].id").optional.saveAs("taskId"))
@@ -83,7 +82,7 @@ object xuiIac {
     .asLongAs(session => session("taskType").as[String] != "reviewTheAppeal") {
       exec(http("XUI_IAC_SelectCaseTaskRepeat")
         .get("/workallocation/case/task/#{caseId}")
-        .headers(XUIHeaders.xuiMainHeader)
+        .headers(Headers.xuiMainHeader)
         .header("Accept", "application/json, text/plain, */*")
         .header("x-xsrf-token", "#{xsrfToken}")
         .check(jsonPath("$[0].id").optional.saveAs("taskId"))
@@ -107,11 +106,11 @@ object xuiIac {
     .group("XUI_IAC_RequestRespondentEvidence_EventTrigger") {
       exec(http("XUI_IAC_RequestRespondentEvidence_010_GetCaseTasks")
         .get("/case/IA/Asylum/#{caseId}/trigger/requestRespondentEvidence?tid=#{taskId}")
-        .headers(XUIHeaders.xuiMainHeader))
+        .headers(Headers.xuiMainHeader))
 
       .exec(http("XUI_IAC_RequestRespondentEvidence_010_EventTrigger")
         .get("/case/IA/Asylum/#{caseId}/trigger/requestRespondentEvidence")
-        .headers(XUIHeaders.xuiMainHeader)
+        .headers(Headers.xuiMainHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"))
 
       .exec(Common.configurationui)
@@ -124,7 +123,7 @@ object xuiIac {
 
       .exec(http("XUI_IAC_RequestRespondentEvidence_010_GetCase")
         .get("/data/internal/cases/#{caseId}")
-        .headers(XUIHeaders.xuiMainHeader)
+        .headers(Headers.xuiMainHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json")
         .header("content-type", "application/json")) 
 
@@ -132,7 +131,7 @@ object xuiIac {
 
       .exec(http("XUI_IAC_RequestRespondentEvidence_010_EventTrigger")
         .get("/data/internal/cases/#{caseId}/event-triggers/requestRespondentEvidence?ignore-warning=false")
-        .headers(XUIHeaders.xuiMainHeader) 
+        .headers(Headers.xuiMainHeader) 
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
         .header("content-type", "application/json")
         .check(jsonPath("$.event_token").saveAs("eventToken")))
@@ -145,7 +144,7 @@ object xuiIac {
     .group("XUI_IAC_RequestRespondentEvidence_Validate") {
       exec(http("XUI_IAC_RequestRespondentEvidence_020_Validate")
         .post("/data/case-types/Asylum/validate?pageId=requestRespondentEvidencerequestRespondentEvidence")
-        .headers(XUIHeaders.xuiMainHeader) 
+        .headers(Headers.xuiMainHeader) 
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("content-type", "application/json")
         .header("x-xsrf-token", "#{xsrfToken}")
@@ -159,7 +158,7 @@ object xuiIac {
     .group("XUI_IAC_RequestRespondentEvidence_Submit") {
       exec(http("XUI_IAC_RequestRespondentEvidence_030_SubmitEvent")
         .post("/data/cases/#{caseId}/events")
-        .headers(XUIHeaders.xuiMainHeader) 
+        .headers(Headers.xuiMainHeader) 
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
         .header("content-type", "application/json")
         .header("x-xsrf-token", "#{xsrfToken}")
@@ -169,14 +168,14 @@ object xuiIac {
 
       .exec(http("XUI_IAC_RequestRespondentEvidence_030_CompleteTask")
         .post("/workallocation/task/#{taskId}/complete")
-        .headers(XUIHeaders.xuiMainHeader) 
+        .headers(Headers.xuiMainHeader) 
         .header("content-type", "application/json")
         .header("x-xsrf-token", "#{xsrfToken}")
         .body(StringBody("{}")))
    
       .exec(http("XUI_IAC_RequestRespondentEvidence_030_ViewCase")
         .get("/data/internal/cases/#{caseId}")
-        .headers(XUIHeaders.xuiMainHeader) 
+        .headers(Headers.xuiMainHeader) 
         .header("content-type", "application/json")
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json"))
  

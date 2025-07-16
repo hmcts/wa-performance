@@ -1,16 +1,14 @@
 package scenarios
 
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.UUID.randomUUID
-
 import com.typesafe.config.{Config, ConfigFactory}
-import io.gatling.core.Predef._
-import io.gatling.http.Predef._
-import io.gatling.core.session._
 import io.gatling.commons.validation._
+import io.gatling.core.Predef._
+import io.gatling.core.session._
+import io.gatling.http.Predef._
 import utils._
+
 import java.io.{BufferedWriter, FileWriter}
+import java.util.UUID.randomUUID
 
 object wataskmanagement {
 
@@ -159,6 +157,17 @@ val GetTask =
     .header("Content-Type", "application/json"))
 
   .pause(Environment.constantthinkTime)
+
+val SearchTask =
+
+  //Retrieve a list of Task resources identified by set of search criteria
+
+  exec(http("WA_SearchTask_First25")
+    .post(waUrl + "/task?first_result=0&max_results=25")
+    .header("ServiceAuthorization", "Bearer ${wa_task_management_apiBearerToken}")
+    .header("Authorization", "Bearer ${access_token}")
+    .header("Content-Type", "application/json")
+    .body(ElFileBody("WARequests/WA_Search1.json")))
 
 val CamundaGetCase =
 

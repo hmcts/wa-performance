@@ -1,13 +1,9 @@
 package scenarios
 
-import java.text.SimpleDateFormat
-import java.util.Date
 import com.typesafe.config.{Config, ConfigFactory}
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
-import io.gatling.javaapi.core.CheckBuilder.JsonPath
 import utils._
-
 import java.io.{BufferedWriter, FileWriter}
 
 object ccddatastore {
@@ -111,15 +107,15 @@ object ccddatastore {
       .body(ElFileBody("iacBodies/IACRequestHomeOfficeData.json"))
       .check(jsonPath("$.id").saveAs("caseId")))
 
-    // .exec {
-    //   session =>
-    //     val fw = new BufferedWriter(new FileWriter("IACSubmittedCaseIds.csv", true))
-    //     try {
-    //       fw.write(session("caseId").as[String] + "\r\n")
-    //     }
-    //     finally fw.close()
-    //     session
-    // }
+//     .exec {
+//       session =>
+//         val fw = new BufferedWriter(new FileWriter("IACSubmittedCaseIds.csv", true))
+//         try {
+//           fw.write(session("caseId").as[String] + "\r\n")
+//         }
+//         finally fw.close()
+//         session
+//     }
 
     .pause(Environment.constantthinkTime)
 
@@ -441,15 +437,15 @@ object ccddatastore {
       .header("Content-Type","application/json")
       .body(ElFileBody("prlBodies/prlSubmit.json")))
 
-    // .exec {
-    //   session =>
-    //     val fw = new BufferedWriter(new FileWriter("PRLCreatedCaseIds.csv", true))
-    //     try {
-    //       fw.write(session("caseId").as[String] + "\r\n")
-    //     }
-    //     finally fw.close()
-    //     session
-    // }
+     .exec {
+       session =>
+         val fw = new BufferedWriter(new FileWriter("PRLCreatedCaseIds.csv", true))
+         try {
+           fw.write(session("caseId").as[String] + "\r\n")
+         }
+         finally fw.close()
+         session
+     }
 
     .pause(Environment.constantthinkTime)
 
