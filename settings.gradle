@@ -1,0 +1,5 @@
+rootProject.name = 'wa-performance' //e.g. 'probate-performance'
+
+include ':common-performance'
+
+project(':common-performance').projectDir = file('common/common-performance')

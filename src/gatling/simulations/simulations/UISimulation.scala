@@ -9,6 +9,7 @@ import io.gatling.core.pause.PauseType
 import io.gatling.core.scenario.Simulation
 import io.gatling.http.Predef._
 import scenarios._
+import ccd._
 
 import scala.concurrent.duration._
 
@@ -425,20 +426,21 @@ class UISimulation extends Simulation  {
     .exitBlockOnFail {
       exec(_.set("env", s"${env}"))
         .feed(feedIACUserData)
-        .exec(S2S.s2s("ccd_data"))
-        .exec(IdamLogin.GetIdamToken)
-        .exec(ccddatastore.ccdCreateIACCase)
-        .exec(ccddatastore.ccdIACSubmitAppeal)
-        .exec(ccddatastore.ccdIACRequestHomeOfficeData)
-        .pause(60 seconds)
-        .exec(Homepage.XUIHomePage)
-        .feed(feedTribunalUserData)
-        .exec(Login.XUILogin)
-        .exec(xuiIac.SearchCase)
-        .exec(xuiIac.ViewCase)
-        .exec(xuiwa.AssignTask)
-        .exec(xuiIac.RequestRespondentEvidence)
-        .exec(xuiwa.XUILogout)
+//        .exec(S2S.s2s("ccd_data"))
+//        .exec(IdamLogin.GetIdamToken)
+//        .exec(ccddatastore.ccdCreateIACCase)
+        .exec(CcdHelper.createCase("${email}", "#{password}", "IA_Asylum", "startAppeal", "iacBodies/IACCreateCase.json"))
+//        .exec(ccddatastore.ccdIACSubmitAppeal)
+//        .exec(ccddatastore.ccdIACRequestHomeOfficeData)
+//        .pause(60 seconds)
+//        .exec(Homepage.XUIHomePage)
+//        .feed(feedTribunalUserData)
+//        .exec(Login.XUILogin)
+//        .exec(xuiIac.SearchCase)
+//        .exec(xuiIac.ViewCase)
+//        .exec(xuiwa.AssignTask)
+//        .exec(xuiIac.RequestRespondentEvidence)
+//        .exec(xuiwa.XUILogout)
     }
 
   val PRLEndToEndCreateAndComplete = scenario("E2E flow Create PRL Task & Caseworker Complete")
@@ -659,14 +661,14 @@ class UISimulation extends Simulation  {
 
 
       // ***** New E2E flows without the need for dataprep - October 2024 *****
-        STEndToEndCreateAndComplete.inject(simulationProfile(testType, stTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//        STEndToEndCreateAndComplete.inject(simulationProfile(testType, stTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
         IACEndToEndCreateAndComplete.inject(simulationProfile(testType, iacTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-        PRLEndToEndCreateAndComplete.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-        ETEndToEndCreateAndComplete.inject(simulationProfile(testType, etTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-        FPLEndToEndCreateAndComplete.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-        CivilEndToEndCreateAndComplete.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-        JudicialUserJourney.inject(simulationProfile(testType, judicialTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-        CancelTask.inject(simulationProfile(testType, cancelTaskTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//        PRLEndToEndCreateAndComplete.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//        ETEndToEndCreateAndComplete.inject(simulationProfile(testType, etTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//        FPLEndToEndCreateAndComplete.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//        CivilEndToEndCreateAndComplete.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//        JudicialUserJourney.inject(simulationProfile(testType, judicialTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//        CancelTask.inject(simulationProfile(testType, cancelTaskTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 
       // CreateSSCSTaskFromCCD.inject(simulationProfile(testType, sscsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption), //Not onboarded so currently disabled - 19th August 2024
 
