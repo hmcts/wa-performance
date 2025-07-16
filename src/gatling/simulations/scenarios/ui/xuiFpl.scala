@@ -17,11 +17,11 @@ object xuiFpl {
 
       .exec(http("XUI_GlobalSearch_010_Services")
         .get("/api/globalSearch/services")
-        .headers(XUIHeaders.xuiMainHeader))
+        .headers(Headers.xuiMainHeader))
 
       .exec(http("XUI_GlobalSearch_010_JurisdictionsRead")
         .get("/aggregated/caseworkers/:uid/jurisdictions?access=read")
-        .headers(XUIHeaders.xuiMainHeader)
+        .headers(Headers.xuiMainHeader)
         .header("accept", "application/json, text/plain, */*")
         .header("content-type", "application/json"))
 
@@ -29,7 +29,7 @@ object xuiFpl {
 
       .exec(http("XUI_GlobalSearch_020_Request")
         .post("/api/globalsearch/results")
-        .headers(XUIHeaders.xuiMainHeader)
+        .headers(Headers.xuiMainHeader)
         .header("accept", "application/json, text/plain, */*")
         .header("content-type", "application/json")
         .header("x-xsrf-token", "#{xsrfToken}")
@@ -39,7 +39,7 @@ object xuiFpl {
       
       .exec(http("XUI_GlobalSearch_020_GetCase")
         .get("/data/internal/cases/#{caseId}")
-        .headers(XUIHeaders.xuiMainHeader)
+        .headers(Headers.xuiMainHeader)
         .header("accept", "application/json, text/plain, */*")
         .header("content-type", "application/json"))
 
@@ -56,7 +56,7 @@ object xuiFpl {
 
     .exec(http("XUI_ViewCase_GetCase")
 			.get("/data/internal/cases/#{caseId}")
-			.headers(XUIHeaders.xuiMainHeader)
+			.headers(Headers.xuiMainHeader)
       .header("content-type", "application/json")
       .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json")
 			.check(jsonPath("$.tabs[?(@.id=='JudicialMessagesTab')].fields[?(@.id=='judicialMessages')].value[0].id").saveAs("messageId"))
@@ -65,7 +65,7 @@ object xuiFpl {
 
     .exec(http("XUI_ViewCase_GetWorkAllocationTask")
       .get("/workallocation/case/task/#{caseId}")
-      .headers(XUIHeaders.xuiMainHeader)
+      .headers(Headers.xuiMainHeader)
       .check(jsonPath("$..[?(@.type=='reviewMessageHearingCentreAdmin')].id").optional.saveAs("taskId"))) //reviewResponseAllocatedJudge
 
     //Save taskType from response
@@ -81,7 +81,7 @@ object xuiFpl {
     .asLongAs(session => session("taskType").as[String] != "reviewMessageHearingCentreAdmin") {
       exec(http("XUI_FPL_SelectCaseTaskRepeat")
         .get("/workallocation/case/task/#{caseId}")
-        .headers(XUIHeaders.xuiMainHeader)
+        .headers(Headers.xuiMainHeader)
         .header("Accept", "application/json, text/plain, */*")
         .header("x-xsrf-token", "#{xsrfToken}")
         .check(jsonPath("$[0].id").optional.saveAs("taskId"))
@@ -103,7 +103,7 @@ object xuiFpl {
     group("XUI_FPL_ReplyToMessage_Start") {
       exec(http("XUI_FPL_ReplyToMessage_GetTasks")
         .get("/case/PUBLICLAW/CARE_SUPERVISION_EPO/#{caseId}/trigger/replyToMessageJudgeOrLegalAdviser?tid=#{taskId}")
-        .headers(XUIHeaders.xuiMainHeader)
+        .headers(Headers.xuiMainHeader)
         .check(substring("HMCTS Manage cases")))
 
       .exec(Common.configurationui)
@@ -115,7 +115,7 @@ object xuiFpl {
 
       .exec(http("XUI_FPL_ReplyToMessage_GetCase")
         .get("/data/internal/cases/#{caseId}")
-        .headers(XUIHeaders.xuiMainHeader)
+        .headers(Headers.xuiMainHeader)
         .header("content-type", "application/json")
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json"))
 
@@ -123,20 +123,20 @@ object xuiFpl {
 
       .exec(http("XUI_FPL_ReplyToMessage_EventTrigger")
         .get("/data/internal/cases/#{caseId}/event-triggers/replyToMessageJudgeOrLegalAdviser?ignore-warning=false")
-        .headers(XUIHeaders.xuiMainHeader)
+        .headers(Headers.xuiMainHeader)
         .header("content-type", "application/json")
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
         .check(jsonPath("$.event_token").saveAs("eventToken")))
 
       .exec(http("XUI_FPL_ReplyToMessage_GetTasks")
         .get("/workallocation/case/tasks/#{caseId}/event/replyToMessageJudgeOrLegalAdviser/caseType/CARE_SUPERVISION_EPO/jurisdiction/PUBLICLAW")
-        .headers(XUIHeaders.xuiMainHeader)
+        .headers(Headers.xuiMainHeader)
         .header("accept", "application/json")
         .header("content-type", "application/json"))
 
       .exec(http("XUI_FPL_ReplyToMessage_GetTasks")
         .get("/workallocation/case/tasks/#{caseId}/event/replyToMessageJudgeOrLegalAdviser/caseType/CARE_SUPERVISION_EPO/jurisdiction/PUBLICLAW")
-        .headers(XUIHeaders.xuiMainHeader)
+        .headers(Headers.xuiMainHeader)
         .header("accept", "application/json")
         .header("content-type", "application/json"))
     }
@@ -146,7 +146,7 @@ object xuiFpl {
     .group("XUI_FPL_ReplyToMessage_Page1") {
       exec(http("XUI_FPL_ReplyToMessage_Page1")
         .post("/data/case-types/CARE_SUPERVISION_EPO/validate?pageId=replyToMessageJudgeOrLegalAdviserSelectMessage")
-        .headers(XUIHeaders.xuiMainHeader)
+        .headers(Headers.xuiMainHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("content-type", "application/json")
         .header("x-xsrf-token", "#{xsrfToken}")
@@ -160,7 +160,7 @@ object xuiFpl {
     .group("XUI_FPL_ReplyToMessage_Page2") {
       exec(http("XUI_FPL_ReplyToMessage_Page2")
         .post("/data/case-types/CARE_SUPERVISION_EPO/validate?pageId=replyToMessageJudgeOrLegalAdviserReplyToMessage")
-        .headers(XUIHeaders.xuiMainHeader)
+        .headers(Headers.xuiMainHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("content-type", "application/json")
         .header("x-xsrf-token", "#{xsrfToken}")
@@ -174,7 +174,7 @@ object xuiFpl {
     .group("XUI_FPL_ReplyToMessage_Submit") {
       exec(http("XUI_FPL_ReplyToMessage_Submit")
         .post("/data/cases/#{caseId}/events")
-        .headers(XUIHeaders.xuiMainHeader)
+        .headers(Headers.xuiMainHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
         .header("content-type", "application/json")
         .header("x-xsrf-token", "#{xsrfToken}")
@@ -188,7 +188,7 @@ object xuiFpl {
 
       .exec(http("XUI_FPL_ReplyToMessage_GetCase")
         .get("/data/internal/cases/#{caseId}")
-        .headers(XUIHeaders.xuiMainHeader)
+        .headers(Headers.xuiMainHeader)
         .header("content-type", "application/json")
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json"))
 
