@@ -35,7 +35,7 @@ withNightlyPipeline("java", product, component) {
         sh """ git submodule update --init --recursive"""
     }
 
-    enablePerformanceTest(timeout=20, perfGatlingAlerts=true, perfRerunOnFail=true)
+    enablePerformanceTest()
 
     after('performanceTest') {
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
