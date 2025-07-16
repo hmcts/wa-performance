@@ -97,7 +97,7 @@ object ccddatastore {
       .header("ServiceAuthorization", "Bearer #{ccd_dataBearerToken}")
       .header("Authorization", "Bearer #{access_token}")
       .header("Content-Type","application/json")
-      .check(jsonPath("$.token").saveAs("eventToken1")))
+      .check(jsonPath("$.token").saveAs("eventToken")))
 
     .exec(http("API_IAC_RequestHomeOfficeData")
       .post(Environment.ccdDataStoreUrl + "/caseworkers/#{idamId}/jurisdictions/#{IACJurisdiction}/case-types/#{IACCaseType}/cases/#{caseId}/events")
