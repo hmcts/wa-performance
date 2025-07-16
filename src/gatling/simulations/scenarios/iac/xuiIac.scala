@@ -4,28 +4,24 @@ import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import utils.{Common, Environment}
 import xui._
+import xuiIac._
 
 object xuiIac {
 
   val baseURL = Environment.xuiBaseURL
-
-  val Login =
-
-    exec(XuiHelper.Homepage)
-    .exec(_.set("caseType", "Asylum"))
-    .exec(XuiHelper.Login("#{email}", "#{password}"))
-
-  val Logout =
-
-    exec(XuiHelper.Logout)
+  val feedTribunalUserData = csv("WA_TribunalUsers.csv").circular
 
   val CompleteIACTask = {
 
-    exec(SearchCase)
-    .exec(ViewCase)
+    exec(_.set("caseType", "Asylum"))
+    .feed(feedTribunalUserData)
+    .exec(XuiHelper.Homepage)
+    .exec(XuiHelper.Login("#{email}", "#{password}"))
+    .exec(xuiIac.SearchCase)
+    .exec(xuiIac.ViewCase)
     .exec(xuiwa.AssignTask)
-    .exec(RequestRespondentEvidence)
-
+    .exec(xuiIac.RequestRespondentEvidence)
+    .exec(XuiHelper.Logout)
   }
 
   val SearchCase = 
