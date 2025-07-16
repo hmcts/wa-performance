@@ -9,6 +9,7 @@ import io.gatling.core.pause.PauseType
 import io.gatling.core.scenario.Simulation
 import io.gatling.http.Predef._
 import scenarios._
+import xui._
 
 import scala.concurrent.duration._
 
@@ -425,16 +426,15 @@ class UISimulation extends Simulation  {
     .exitBlockOnFail {
       exec(_.set("env", s"${env}"))
         .feed(feedIACUserData)
-        .exec(ia.ccdCreateIACCase)
+        .exec(ia.ccdCreateIACTask)
         .pause(60 seconds)
-//        .exec(Homepage.XUIHomePage)
-//        .feed(feedTribunalUserData)
-//        .exec(Login.XUILogin)
+        .feed(feedTribunalUserData)
+        .exec(xuiIac.Login)
 //        .exec(xuiIac.SearchCase)
 //        .exec(xuiIac.ViewCase)
 //        .exec(xuiwa.AssignTask)
 //        .exec(xuiIac.RequestRespondentEvidence)
-//        .exec(xuiwa.XUILogout)
+        .exec(xuiIac.Logout)
     }
 
   val PRLEndToEndCreateAndComplete = scenario("E2E flow Create PRL Task & Caseworker Complete")
