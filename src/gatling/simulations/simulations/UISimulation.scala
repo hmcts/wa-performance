@@ -9,7 +9,6 @@ import io.gatling.core.pause.PauseType
 import io.gatling.core.scenario.Simulation
 import io.gatling.http.Predef._
 import scenarios._
-import xui._
 
 import scala.concurrent.duration._
 
