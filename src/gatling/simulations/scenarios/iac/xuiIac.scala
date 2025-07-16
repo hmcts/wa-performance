@@ -19,6 +19,15 @@ object xuiIac {
 
     exec(XuiHelper.Logout)
 
+  val CompleteIACTask = {
+
+    exec(SearchCase)
+    .exec(ViewCase)
+    .exec(xuiwa.AssignTask)
+    .exec(RequestRespondentEvidence)
+
+  }
+
   val SearchCase = 
 
     group("XUI_GlobalSearch_Request") {
