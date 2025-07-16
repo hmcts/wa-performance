@@ -429,7 +429,15 @@ class UISimulation extends Simulation  {
 //        .exec(S2S.s2s("ccd_data"))
 //        .exec(IdamLogin.GetIdamToken)
 //        .exec(ccddatastore.ccdCreateIACCase)
-        .exec(CcdHelper.createCase("${email}", "#{password}", CcdCaseTypes.IA_Asylum, "startAppeal", "iacBodies/IACCreateCase.json"))
+        .exec(_.setAll(  "firstName"  -> ("Perf" + Common.randomString(5)),
+          "lastName"  -> ("Test" + Common.randomString(5)),
+          "dobDay" -> Common.getDay(),
+          "dobMonth" -> Common.getMonth(),
+          "dobYear" -> Common.getDobYear(),
+          "todayDate" -> Common.getDate(),
+          "todayYear" -> Common.getYear()))
+        .exec(CcdHelper.createCase("#{email}", "#{password}", CcdCaseTypes.IA_Asylum, "startAppeal", "iacBodies/IACCreateCase.json"))
+        .exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.IA_Asylum, "#{caseId}", "submitAppeal", "iacBodies/IACSubmitAppeal.json"))
 //        .exec(ccddatastore.ccdIACSubmitAppeal)
 //        .exec(ccddatastore.ccdIACRequestHomeOfficeData)
 //        .pause(60 seconds)
