@@ -427,10 +427,7 @@ class UISimulation extends Simulation  {
         .feed(feedIACUserData)
         .exec(ia.ccdCreateIACTask)
         .pause(60 seconds)
-        .feed(feedTribunalUserData)
-        .exec(xuiIac.Login)
         .exec(xuiIac.CompleteIACTask)
-        .exec(xuiIac.Logout)
     }
 
   val PRLEndToEndCreateAndComplete = scenario("E2E flow Create PRL Task & Caseworker Complete")
