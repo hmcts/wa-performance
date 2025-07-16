@@ -9,7 +9,6 @@ import io.gatling.core.pause.PauseType
 import io.gatling.core.scenario.Simulation
 import io.gatling.http.Predef._
 import scenarios._
-import ccd._
 
 import scala.concurrent.duration._
 
@@ -426,21 +425,8 @@ class UISimulation extends Simulation  {
     .exitBlockOnFail {
       exec(_.set("env", s"${env}"))
         .feed(feedIACUserData)
-//        .exec(S2S.s2s("ccd_data"))
-//        .exec(IdamLogin.GetIdamToken)
-//        .exec(ccddatastore.ccdCreateIACCase)
-        .exec(_.setAll(  "firstName"  -> ("Perf" + Common.randomString(5)),
-          "lastName"  -> ("Test" + Common.randomString(5)),
-          "dobDay" -> Common.getDay(),
-          "dobMonth" -> Common.getMonth(),
-          "dobYear" -> Common.getDobYear(),
-          "todayDate" -> Common.getDate(),
-          "todayYear" -> Common.getYear()))
-        .exec(CcdHelper.createCase("#{email}", "#{password}", CcdCaseTypes.IA_Asylum, "startAppeal", "iacBodies/IACCreateCase.json"))
-        .exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.IA_Asylum, "#{caseId}", "submitAppeal", "iacBodies/IACSubmitAppeal.json"))
-//        .exec(ccddatastore.ccdIACSubmitAppeal)
-//        .exec(ccddatastore.ccdIACRequestHomeOfficeData)
-//        .pause(60 seconds)
+        .exec(ia.ccdCreateIACCase)
+        .pause(60 seconds)
 //        .exec(Homepage.XUIHomePage)
 //        .feed(feedTribunalUserData)
 //        .exec(Login.XUILogin)
