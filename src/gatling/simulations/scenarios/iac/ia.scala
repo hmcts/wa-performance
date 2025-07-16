@@ -1,10 +1,8 @@
-package scenarios
+package scenarios.iac
 
 import com.typesafe.config.{Config, ConfigFactory}
 import io.gatling.core.Predef._
-import io.gatling.http.Predef._
 import utils._
-import ccd._
 
 object ia {
 
