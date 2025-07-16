@@ -10,7 +10,7 @@ object ia {
 
   val config: Config = ConfigFactory.load()
 
-  val ccdCreateIACCase =
+  val ccdCreateIACTask =
 
     exec(_.setAll(  "firstName"  -> ("Perf" + Common.randomString(5)),
       "lastName"  -> ("Test" + Common.randomString(5)),
@@ -22,7 +22,7 @@ object ia {
 
     .exec(CcdHelper.createCase("#{email}", "#{password}", CcdCaseTypes.IA_Asylum, "startAppeal", "iacBodies/IACCreateCase.json"))
     .exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.IA_Asylum, "#{caseId}", "submitAppeal", "iacBodies/IACSubmitAppeal.json"))
-    .exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.IA_Asylum, "#{caseId}", "submitAppeal", "iacBodies/IACRequestHomeOfficeData.json"))
+    .exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.IA_Asylum, "#{caseId}", "requestHomeOfficeData", "iacBodies/IACRequestHomeOfficeData.json"))
 
 
 }
