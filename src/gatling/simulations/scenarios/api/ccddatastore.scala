@@ -5,10 +5,13 @@ import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import utils._
 import java.io.{BufferedWriter, FileWriter}
+import utilities.AzureKeyVault
 
 object ccddatastore {
 
   val config: Config = ConfigFactory.load()
+
+  val clientSecret = AzureKeyVault.loadClientSecret("ccpay-perftest", "PAYBUBBLECLIENT_SECRET")
 
   val ccdCreateIACCase = 
 
