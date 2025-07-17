@@ -13,13 +13,13 @@ object CompleteTask {
   val execute = {
 
     feed(feedTribunalUserData)
-      .exec(XuiHelper.Homepage)
-      .exec(XuiHelper.Login("#{email}", "#{password}"))
-      .exec(SearchCase.execute)
-      .exec(ViewCase.execute)
-      .exec(AssignTask.execute)
-      .exec(RequestRespondentEvidence.execute)
-      .exec(XuiHelper.Logout)
+    .exec(XuiHelper.Homepage)
+    .exec(XuiHelper.Login("#{user}", "#{password}"))
+//    .exec(SearchCase.execute)
+    .exec(ViewCase.execute)
+    .exec(AssignTask.execute)
+    .exec(RequestRespondentEvidence.execute)
+    .exec(XuiHelper.Logout)
   }
 
 }
