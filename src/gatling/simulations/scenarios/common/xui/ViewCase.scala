@@ -7,15 +7,11 @@ import xui._
 
 object ViewCase {
 
-  val baseUrl = "https://manage-case.#{env}.platform.hmcts.net"
-
   val execute =
 
     exec(Common.isAuthenticated)
     .exec(Common.waSupportedJurisdictions)
     .exec(Common.apiUserDetails)
-
-    .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(baseUrl.replace("https://", "")).withSecure(true).saveAs("XSRFToken")))
 
     .exec(http("XUI_ViewCase_GetCase")
       .get("/data/internal/cases/#{caseId}")

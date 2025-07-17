@@ -1,7 +1,7 @@
 package scenarios.common.xui
 
 import io.gatling.core.Predef._
-import io.gatling.http.Predef.http
+import io.gatling.http.Predef._
 import utils.{Common, Environment}
 import xui._
 
