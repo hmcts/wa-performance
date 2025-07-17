@@ -80,7 +80,7 @@ class UISimulation extends Simulation  {
   val stTargetPerHour: Double = 50 //50
 
   //This determines the percentage split of Complete or Cancel Task journeys
-  val cancelPercentage = 10 //Percentage of Cancel Tasks
+  val completePercentage = 100 //Percentage of Cancel Tasks //10
 
   val rampUpDurationMins = 5
 	val rampDownDurationMins = 5
@@ -161,12 +161,14 @@ class UISimulation extends Simulation  {
   def buildScenario(caseType: CcdCaseType, createTask: ChainBuilder, completeTask: ChainBuilder): ScenarioBuilder = {
     scenario(s"${caseType.name} - ${if (createOnly == "off") "Create & Complete Tasks" else "Create Tasks Only"}")
       .exitBlockOnFail {
-        exec(_.set("env", env).set("caseType", caseType.caseTypeId))
-          .exec(createTask)
+        exec(_.set("env", env)
+            .set("caseType", caseType.caseTypeId)
+            .set("caseId", "1752764412828237"))
+//          .exec(createTask)
           .doIf(createOnly == "off") {
-            pause(60.seconds)
-            .feed(randomFeeder)
-            .doIfOrElse(session => session("cancel-percentage").as[Int] < cancelPercentage) {
+//            pause(60.seconds)
+            feed(randomFeeder)
+            .doIfOrElse(session => session("cancel-percentage").as[Int] < completePercentage) {
               exec(completeTask)
             }
             {
@@ -203,7 +205,7 @@ class UISimulation extends Simulation  {
       .exec(RequestRespondentEvidence.execute)
     }*/
 
-  val PRLEndToEndCreateAndComplete = scenario("E2E flow Create PRL Task & Caseworker Complete")
+  /*val PRLEndToEndCreateAndComplete = scenario("E2E flow Create PRL Task & Caseworker Complete")
     .exitBlockOnFail {
       exec(_.set("env", s"${env}"))
         .feed(feedPRLUserData)
@@ -232,7 +234,7 @@ class UISimulation extends Simulation  {
         .exec(xuiPrl.SendToGatekeeper)
         .exec(xuiwa.XUILogout)
     }
-
+*/
   val ETEndToEndCreateAndComplete = scenario("E2E flow Create ET Task & Caseworker Complete")
     .exitBlockOnFail {
       exec(_.set("env", s"${env}"))

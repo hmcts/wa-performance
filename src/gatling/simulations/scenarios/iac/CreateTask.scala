@@ -1,11 +1,11 @@
 package scenarios.iac
 
-import com.typesafe.config.{Config, ConfigFactory}
-import io.gatling.core.Predef._
-import utils._
 import ccd._
-import scala.util.Random
+import io.gatling.core.Predef._
 import utilities.DateUtils
+import utils._
+
+import scala.util.Random
 
 object CreateTask {
 
