@@ -36,6 +36,7 @@ object RequestRespondentEvidence {
         .get("/data/internal/cases/#{caseId}")
         .headers(Headers.commonHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json")
+        .header("experimental", "true")
         .header("content-type", "application/json"))
 
       .exec(Common.profile)
@@ -88,6 +89,7 @@ object RequestRespondentEvidence {
         .get("/data/internal/cases/#{caseId}")
         .headers(Headers.commonHeader)
         .header("content-type", "application/json")
+        .header("experimental", "true")
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json"))
 
       .exec(Common.apiUserDetails)

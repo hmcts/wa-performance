@@ -30,6 +30,4 @@ object CreateTask {
     .exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.PRIVATELAW_PRLAPPS, "#{caseId}", "respondentBehaviour", "prlBodies/prlBehaviour.json"))
     .exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.PRIVATELAW_PRLAPPS, "#{caseId}", "fl401Home", "prlBodies/prlHome.json"))
     .exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.PRIVATELAW_PRLAPPS, "#{caseId}", "fl401StatementOfTruthAndSubmit", "prlBodies/prlSubmit.json"))
-
-
 }

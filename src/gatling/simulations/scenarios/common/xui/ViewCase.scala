@@ -18,12 +18,13 @@ object ViewCase {
       .headers(Headers.commonHeader)
       .header("x-xsrf-token", "#{XSRFToken}")
       .header("content-type", "application/json")
+      .header("experimental", "true")
       .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json")
     )
 
     .pause(Environment.constantthinkTime)
 
-    .exec(http("XUI_IAC_SelectCaseTask")
+    .exec(http("XUI_SelectCaseTask")
       .get("/workallocation/case/task/#{caseId}")
       .headers(Headers.commonHeader)
       .header("Accept", "application/json, text/plain, */*")
@@ -40,9 +41,9 @@ object ViewCase {
       }
     })
 
-    // Loop until the task type matches "reviewTheAppeal"
-    .asLongAs(session => session("taskType").as[String] != "reviewTheAppeal") {
-      exec(http("XUI_IAC_SelectCaseTaskRepeat")
+    // Loop until the task type matches task set within the scenario
+    .asLongAs(session => session("taskType").as[String] != s"${session("taskName").as[String]}") {
+      exec(http("XUI_SelectCaseTaskRepeat")
         .get("/workallocation/case/task/#{caseId}")
         .headers(Headers.commonHeader)
         .header("Accept", "application/json, text/plain, */*")

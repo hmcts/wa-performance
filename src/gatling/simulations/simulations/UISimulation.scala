@@ -80,7 +80,7 @@ class UISimulation extends Simulation  {
   val stTargetPerHour: Double = 50 //50
 
   //This determines the percentage split of Complete or Cancel Task journeys
-  val completePercentage = 100 //Percentage of Cancel Tasks //10
+//  val completePercentage = 0 //Percentage of Complete Tasks //90
 
   val rampUpDurationMins = 5
 	val rampDownDurationMins = 5
@@ -102,6 +102,7 @@ class UISimulation extends Simulation  {
   val httpProtocol = Environment.HttpProtocol
     .baseUrl(Environment.xuiBaseURL.replace("#{env}", s"${env}"))
     .doNotTrackHeader("1")
+    .header("experimental", "true")
 
 	before {
 		println(s"Test Type: ${testType}")
@@ -161,24 +162,17 @@ class UISimulation extends Simulation  {
   def buildScenario(caseType: CcdCaseType, createTask: ChainBuilder, completeTask: ChainBuilder): ScenarioBuilder = {
     scenario(s"${caseType.name} - ${if (createOnly == "off") "Create & Complete Tasks" else "Create Tasks Only"}")
       .exitBlockOnFail {
-        exec(_.set("env", env)
-            .set("caseType", caseType.caseTypeId)
-            .set("caseId", "1752764412828237"))
-//          .exec(createTask)
-          .doIf(createOnly == "off") {
-//            pause(60.seconds)
-            feed(randomFeeder)
-            .doIfOrElse(session => session("cancel-percentage").as[Int] < completePercentage) {
-              exec(completeTask)
-            }
-            {
-              exec(CancelTask)
-            }
-          }
+        exec(_.set("env", env).set("caseType", caseType.caseTypeId))
+        .exec(createTask)
+        .doIf(createOnly == "off") {
+          pause(60.seconds)
+          .exec(completeTask)
+        }
       }
   }
 
   val IACScenario = buildScenario(CcdCaseTypes.IA_Asylum, iac.CreateTask.execute, iac.CompleteTask.execute)
+//  val PRLScenario = buildScenario(CcdCaseTypes.PRIVATELAW_PRLAPPS, prl.CreateTask.execute, prl.CompleteTask.execute)
 
   val STEndToEndCreateAndComplete = scenario("E2E flow ST Citizen Create & Caseworker Complete")
     .exitBlockOnFail {
