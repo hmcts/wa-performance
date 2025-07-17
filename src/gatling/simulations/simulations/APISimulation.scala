@@ -70,7 +70,7 @@ class APISimulation extends Simulation {
       exec(_.set("env", s"${env}"))
       .feed(feedSearchUsers)
       .exec(S2S.s2s("wa_task_management_api"))
-      .exec(IdamLogin.GetIdamToken)
+//      .exec(IdamLogin.GetIdamToken)
       .repeat(1) {
         exec(wataskmanagement.SearchTask)
       }
