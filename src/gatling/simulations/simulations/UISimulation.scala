@@ -1,7 +1,6 @@
 package simulations
 
-import utils._
-import com.typesafe.config.{Config, ConfigFactory}
+import ccd.{CcdCaseType, CcdCaseTypes}
 import io.gatling.commons.stats.assertion.Assertion
 import io.gatling.core.Predef._
 import io.gatling.core.controller.inject.open.OpenInjectionStep
@@ -9,12 +8,12 @@ import io.gatling.core.pause.PauseType
 import io.gatling.core.scenario.Simulation
 import io.gatling.core.structure.{ChainBuilder, ScenarioBuilder}
 import io.gatling.http.Predef._
+import utils._
 import scenarios._
-import scenarios.iac.actions.RequestRespondentEvidence
-import ccd.{CcdCaseType, CcdCaseTypes}
-import scala.util.Random
-import scala.concurrent.duration._
 import utilities.AzureKeyVault
+
+import scala.concurrent.duration._
+import scala.util.Random
 
 class UISimulation extends Simulation  {
 
@@ -137,7 +136,7 @@ class UISimulation extends Simulation  {
     }
 
   //Debugging/Data Gen journeys - NOT USED FOR PERF TESTING!
-
+/*
   val getTaskFromCamunda = scenario("Camunda Get Task")
     .exec(_.set("env", s"${env}"))
     .exec(S2S.s2s("wa_task_management_api"))
@@ -154,7 +153,7 @@ class UISimulation extends Simulation  {
       feed(taskCancelListFeeder)
       .exec(wataskmanagement.CancelTask)
     }
-
+*/
   /*===============================================================================================
   //New - e2e flows to negate the need for data prep
   ===============================================================================================*/
@@ -184,7 +183,7 @@ class UISimulation extends Simulation  {
       exec(_.set("env", s"${env}"))
       .exec(cuiSpecialTribs.cuiHomePage)
       .exec(cuiSpecialTribs.cuiCreateSTCase)
-      .pause(60 seconds)
+      .pause(60.seconds)
       .feed(feedSTUserData)
       .exec(Homepage.XUIHomePage)
       .exec(Login.XUILogin)
@@ -220,7 +219,7 @@ class UISimulation extends Simulation  {
         .exec(ccddatastore.prlBehaviour)
         .exec(ccddatastore.prlHome)
         .exec(ccddatastore.prlSubmit)
-        .pause(60 seconds)
+        .pause(60.seconds)
         .exec(Homepage.XUIHomePage)
         .feed(feedPRLTribunalUsers)
         .exec(Login.XUILogin)
@@ -242,7 +241,7 @@ class UISimulation extends Simulation  {
 //        .exec(IdamLogin.GetIdamToken)
         .exec(et.ccdCreateETCase)
         .exec(et.ccdETSubmitDraft)
-        .pause(60 seconds)
+        .pause(60.seconds)
         .exec(Homepage.XUIHomePage)
         .exec(Login.XUILogin)
         .exec(xuiAllWork.allWorkTasks)
@@ -352,16 +351,16 @@ class UISimulation extends Simulation  {
         case "perftest" =>
           if (debugMode == "off") {
             Seq(
-              rampUsersPerSec(0.00) to (userPerSecRate) during (rampUpDurationMins minutes),
-              constantUsersPerSec(userPerSecRate) during (testDurationMins minutes),
-              rampUsersPerSec(userPerSecRate) to (0.00) during (rampDownDurationMins minutes)
+              rampUsersPerSec(0.00) to (userPerSecRate) during (rampUpDurationMins.minutes),
+              constantUsersPerSec(userPerSecRate) during (testDurationMins.minutes),
+              rampUsersPerSec(userPerSecRate) to (0.00) during (rampDownDurationMins.minutes)
             )
           }
           else {
             Seq(atOnceUsers(1))
           }
         case "pipeline" =>
-          Seq(rampUsers(numberOfPipelineUsers.toInt) during (2 minutes))
+          Seq(rampUsers(numberOfPipelineUsers.toInt) during (2.minutes))
         case _ =>
           Seq(nothingFor(0))
       }
@@ -418,6 +417,6 @@ class UISimulation extends Simulation  {
       // getTaskFromCamunda.inject(rampUsers(1) during (1 minute))
       // cancelTaskInTM.inject(rampUsers(1) during (1 minute))
     )
-      .maxDuration(75 minutes)
+      .maxDuration(75.minutes)
       .protocols(httpProtocol)
   }
