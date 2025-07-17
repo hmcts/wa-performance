@@ -16,10 +16,11 @@ object AssignTask {
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(StringBody("""{}""")))
 
-      .exec(http("XUI_AssignTaskToMe_GetTask")
-        .get("/workallocation/case/task/#{caseId}")
-        .headers(Headers.xuiMainHeader))
+        .exec(http("XUI_AssignTaskToMe_GetTask")
+          .get("/workallocation/case/task/#{caseId}")
+          .headers(Headers.xuiMainHeader))
     }
 
-    .pause(Environment.constantthinkTime)
+      .pause(Environment.constantthinkTime)
+
 }

@@ -1,5 +1,5 @@
 package scenarios.common.wa
 
-object CancelTask {
+object ViewTasksTab {
 
 }
