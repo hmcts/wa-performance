@@ -33,13 +33,13 @@
         }
      ],
      "appellantTitle": "Mr",
-     "appellantGivenNames": "#{firstName}",
-     "appellantFamilyName": "#{lastName}",
-     "appellantDateOfBirth": "#{dobYear}-#{dobMonth}-#{dobDay}",
+     "appellantGivenNames": "Perf#{randomString}",
+     "appellantFamilyName": "Test#{randomString}",
+     "appellantDateOfBirth": "#{dob}",
      "appellantStateless": "isStateless",
      "appellantHasFixedAddress": "No",
      "contactPreference": "wantsEmail",
-     "email": "#{firstName}@#{lastName}.com",
+     "email": "Perf#{randomString}@Test#{randomString}.com",
      "appealType": "revocationOfProtection",
      "appealGroundsRevocation": {
         "values": [
