@@ -37,9 +37,10 @@ object SearchCase {
 
       .exec(http("XUI_GlobalSearch_020_GetCase")
         .get("/data/internal/cases/#{caseId}")
-        .headers(Headers.commonHeader)
-//        .header("accept", "application/json, text/plain, */*")
-        .header("content-type", "application/json"))
+        .headers(Headers.commonHeader).header("x-xsrf-token", "#{XSRFToken}")
+        .header("content-type", "application/json")
+        .header("experimental", "true")
+        .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json"))
 
       .exec(Common.apiUserDetails)
     }
