@@ -171,7 +171,7 @@ class UISimulation extends Simulation  {
       }
   }
 
-  val IACScenario = buildScenario(CcdCaseTypes.IA_Asylum, iac.CreateTask.execute, iac.CompleteTask.execute)
+  val IACScenario = buildScenario(CcdCaseTypes.IA_Asylum, iac.CreateTask.execute, iac.TaskActions.execute)
 //  val PRLScenario = buildScenario(CcdCaseTypes.PRIVATELAW_PRLAPPS, prl.CreateTask.execute, prl.CompleteTask.execute)
 
   val STEndToEndCreateAndComplete = scenario("E2E flow ST Citizen Create & Caseworker Complete")

@@ -8,7 +8,7 @@ import xui.XuiHelper
 
 import scala.util.Random
 
-object CompleteTask {
+object TaskActions {
 
   val completePercentage = 90 //Percentage of Complete Tasks //90
   val randomFeeder = Iterator.continually(Map("cancel-percentage" -> Random.nextInt(100)))
@@ -19,7 +19,7 @@ object CompleteTask {
     feed(feedTribunalUserData)
     .exec(XuiHelper.Homepage)
     .exec(XuiHelper.Login("#{user}", "#{password}"))
-//    .exec(SearchCase.execute)
+    .exec(SearchCase.execute)
     .exec(_.set("taskName", "reviewTheAppeal"))
     .exec(ViewCase.execute)
     .feed(randomFeeder)
