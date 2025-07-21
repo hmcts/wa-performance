@@ -1,37 +1,39 @@
-package scenarios.iac
+package scenarios.prl
 
 import io.gatling.core.Predef._
 import scenarios.common.wa._
 import scenarios.common.xui._
-import scenarios.iac.actions._
+import scenarios.prl.actions._
 import xui.XuiHelper
 
 import scala.util.Random
 
-object TaskActions {
+object ActionTask {
 
   val completePercentage = 90 //Percentage of Complete Tasks //90
   val randomFeeder = Iterator.continually(Map("complete-percentage" -> Random.nextInt(100)))
-  val feedTribunalUserData = csv("WA_TribunalUsers.csv").circular
+  val feedPRLTribunalUsers = csv("PRLTribunalUserData.csv").circular
   val debugMode = System.getProperty("debug", "off")
 
   val execute = {
 
-    feed(feedTribunalUserData)
+    feed(feedPRLTribunalUsers)
     .exec(XuiHelper.Homepage)
     .exec(XuiHelper.Login("#{user}", "#{password}"))
     .exec(SearchCase.execute)
-    .exec(_.set("taskName", "reviewTheAppeal"))
+    .exec(_.set("taskName", "checkApplicationFL401"))
     .exec(ViewCase.execute)
     .feed(randomFeeder)
     .doIfOrElse(session => if (debugMode == "off") session("cancel-percentage").as[Int] < completePercentage else true) {
       exec(AssignTask.execute)
-      .exec(RequestRespondentEvidence.execute)
+      .exec(AddCaseNumber.execute)
+      .exec(_.set("taskName", "sendToGateKeeperFL401"))
+      .exec(ViewCase.execute)
+      .exec(SendToGatekeeper.execute)
     }
     {
       exec(CancelTask.execute)
     }
     .exec(XuiHelper.Logout)
   }
-
 }
