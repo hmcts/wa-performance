@@ -30,32 +30,18 @@
         "emergencyProtectionOrderDirectionDetails": null,
         "educationSupervisionOrderDirectionsAppliedFor": null,
         "educationSupervisionOrderPriorConsultationType": [],
-        "educationSupervisionOrderPriorConsultationOtherLA": null,
-        "orderType---LABEL": [
-           "Supervision order"
-        ],
-        "emergencyProtectionOrders---LABEL": [],
-        "emergencyProtectionOrderDirections---LABEL": [],
-        "educationSupervisionOrderPriorConsultationType---LABEL": [],
-        "particularsOfChildren---LABEL": []
+        "educationSupervisionOrderPriorConsultationOtherLA": null
      },
-     "EPO_REASONING_SHOW": [],
-     "groundsForEPO": null,
      "grounds": {
+        "hasThresholdDocument": "NO",
         "thresholdDetails": "Perf test",
         "thresholdReason": [
            "beyondControl"
         ]
      },
-     "groundsForChildAssessmentOrder": null,
-     "groundsForSecureAccommodationOrder": null,
      "refuseContactWithChildOrderType": null,
-     "contactWithChildInCareOrderType": null,
      "secureAccommodationOrderType": "NO",
-     "groundsForChildRecoveryOrder": null,
-     "groundsForContactWithChild": null,
-     "groundsForRefuseContactWithChild": null,
-     "groundsForEducationSupervisionOrder": null
+     "contactWithChildInCareOrderType": null
   },
   "event": {
      "id": "enterGrounds",

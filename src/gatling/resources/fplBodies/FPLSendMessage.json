@@ -1,18 +1,45 @@
 {
   "data": {
+    "isSendingEmailsInCourt": "NO",
     "hasAdditionalApplications": null,
-    "isJudiciary": "NO",
-    "judicialMessageMetaData": {
-        "senderType": "CTSC",
-        "sender": null,
-        "recipientType": "LOCAL_COURT_ADMIN",
-        "recipient": "perftest@mailinator.com",
-        "requestedBy": "Perf test",
-        "urgency": null
-    },
-    "nextHearingLabel": "",
+    "isMessageRegardingDocuments": "NONE",
     "relatedDocumentsLabel": null,
-    "judicialMessageNote": "WA perf test event"
+    "nextHearingLabel": null,
+    "judicialMessageMetaData": {
+      "senderType": null,
+      "sender": null,
+      "recipientType": null,
+      "recipientDynamicList": {
+        "value": {
+          "code": "LOCAL_COURT_ADMIN",
+          "label": "Local Court Admin - Family Court sitting at Central Family Court"
+        },
+        "list_items": [
+          {
+            "code": "LOCAL_COURT_ADMIN",
+            "label": "Local Court Admin - Family Court sitting at Central Family Court"
+          },
+          {
+            "code": "OTHER",
+            "label": "Other Judge/Legal Adviser"
+          }
+        ]
+      },
+      "recipient": null,
+      "requestedBy": "Perf test",
+      "urgency": null
+    },
+    "isJudiciary": null,
+    "judicialMessageNote": "Perf test message",
+    "court": {
+      "code": "115",
+      "name": "Family Court sitting at Central Family Court",
+      "email": null,
+      "region": "London",
+      "epimmsId": "356855",
+      "regionId": "1",
+      "dateTransferred": null
+    }
   },
   "event": {
     "id": "messageJudgeOrLegalAdviser",

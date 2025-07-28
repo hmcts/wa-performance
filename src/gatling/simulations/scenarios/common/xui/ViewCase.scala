@@ -29,8 +29,20 @@ object ViewCase {
       .headers(Headers.commonHeader)
       .header("Accept", "application/json, text/plain, */*")
       .header("x-xsrf-token", "#{XSRFToken}")
-      .check(jsonPath("$[0].id").optional.saveAs("taskId"))
-      .check(jsonPath("$[0].type").optional.saveAs("taskType")))
+
+//      .check(jsonPath("$[0].id").optional.saveAs("taskId"))
+//      .check(jsonPath("$[0].type").optional.saveAs("taskType"))
+      .check(jsonPath("$..[?(@.type=='#{taskName}')].id").optional.saveAs("taskId"))
+
+      .check(jsonPath(session => "$..[?(@.type=='"+session("taskName").as[String]+"')].id").optional.saveAs("taskId"))
+
+
+
+      .check(jsonPath(session => session("taskName").validate[String].map(taskName => s"""$..[?(@.type=="${taskName}")].id""")).optional.saveAs("taskId"))
+      .check(jsonPath( session => "$..[?(@.type=="+ session("taskName").as[String] + ")].id").saveAs("taskId"))
+      .check(jsonPath(session => session("taskName").validate[String].map(taskName => s"""$..[?(@.type=="${taskName}")].type""")).optional.saveAs("taskType"))
+//      .check(jsonPath(session => "$..[?(@.type=='"+session("taskName").as[String]+"')].type").optional.saveAs("taskType"))
+    )
 
     //Save taskType from response
     .exec(session => {
@@ -48,16 +60,22 @@ object ViewCase {
         .headers(Headers.commonHeader)
         .header("Accept", "application/json, text/plain, */*")
         .header("x-xsrf-token", "#{XSRFToken}")
-        .check(jsonPath("$[0].id").optional.saveAs("taskId"))
-        .check(jsonPath("$[0].type").optional.saveAs("taskType")))
+//        .check(jsonPath(s"$..[?(@.type=='${session("taskName")}')].id").optional.saveAs("taskId"))
+//        .check(jsonPath("$..[?(@.type=='#{taskName}')].type").optional.saveAs("taskType"))
+//        .check(jsonPath(s"$..[?(@.type=='${session("taskName")}')].type").optional.saveAs("taskType"))
+//        .check(jsonPath(session => "$..[?(@.type=='"+session("taskName").as[String]+"')].id").optional.saveAs("taskId"))
+//        .check(jsonPath(session => "$..[?(@.type=='"+session("taskName").as[String]+"')].type").optional.saveAs("taskType"))
+        .check(jsonPath(session => session("taskName").validate[String].map(taskName => s"""$..[?(@.type=="${taskName}")].id""")).optional.saveAs("taskId"))
+        .check(jsonPath(session => session("taskName").validate[String].map(taskName => s"""$..[?(@.type=="${taskName}")].type""")).optional.saveAs("taskType"))
+      )
 
         .pause(5, 10) // Wait between retries
 
-      //   // Log task Type
-      //   .exec (session => {
-      //     println(s"Current Task Type: ${session("taskType").as[String]}")
-      //     session
-      // })
+         // Log task Type
+         .exec (session => {
+           println(s"Current Task Type: ${session("taskType").as[String]}")
+           session
+       })
     }
 
     .pause(Environment.constantthinkTime)
