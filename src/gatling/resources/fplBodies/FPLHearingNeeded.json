@@ -1,19 +1,21 @@
 {
   "data": {
      "hearing": {
-        "timeFrame": "Within 18 days",
-        "reason": null,
-        "reason2Days": null,
-        "reason7Days": null,
-        "reason12Days": null,
-        "type": "Standard case management hearing",
-        "type_GiveReason": "Perf test",
-        "withoutNotice": "No",
-        "withoutNoticeReason": null,
-        "reducedNotice": "No",
-        "reducedNoticeReason": null,
-        "respondentsAware": "No",
-        "respondentsAwareReason": null
+       "hearingUrgencyType": "STANDARD",
+       "hearingUrgencyDetails": null,
+       "withoutNotice": "No",
+       "withoutNoticeReason": null,
+       "respondentsAware": "Yes",
+       "respondentsAwareReason": null,
+       "timeFrame": "Within 18 days",
+       "reason": null,
+       "reason2Days": null,
+       "reason7Days": null,
+       "reason12Days": null,
+       "type": "Standard case management hearing",
+       "type_GiveReason": "Perf test",
+       "reducedNotice": "No",
+       "reducedNoticeReason": null
      }
   },
   "event": {
