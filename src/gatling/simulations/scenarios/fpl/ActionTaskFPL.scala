@@ -12,7 +12,7 @@ object ActionTaskFPL {
 
   val completePercentage = 90 //Percentage of Complete Tasks //90
   val randomFeeder = Iterator.continually(Map("complete-percentage" -> Random.nextInt(100)))
-  val feedFPLUserData = csv("FPLUserData.csv").circular
+  val feedFPLUserData = csv("WA_FPLCTSCUsers.csv").circular
   val debugMode = System.getProperty("debug", "off")
 
   val execute = {

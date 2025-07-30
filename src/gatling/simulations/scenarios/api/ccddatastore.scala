@@ -3,14 +3,13 @@ package scenarios
 import com.typesafe.config.{Config, ConfigFactory}
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
-import utilities.AzureKeyVault
 import utils._
 
 object ccddatastore {
 
   val config: Config = ConfigFactory.load()
 
-  val clientSecret = AzureKeyVault.loadClientSecret("ccpay-perftest", "paybubble-idam-client-secret")
+//  val clientSecret = AzureKeyVault.loadClientSecret("ccpay-perftest", "paybubble-idam-client-secret")
 
   val ccdCreateIACCase = 
 
