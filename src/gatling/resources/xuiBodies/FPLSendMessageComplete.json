@@ -1,6 +1,7 @@
 {
   "data": {
     "hasJudicialMessages": "YES",
+    "isSendingEmailsInCourt": "NO",
     "judicialMessageDynamicList": {
       "value": {
         "code": "#{messageId}",
@@ -13,29 +14,58 @@
         }
       ]
     },
+    "court": {
+      "code": "115",
+      "name": "Family Court sitting at Central Family Court",
+      "email": null,
+      "region": "London",
+      "epimmsId": "356855",
+      "regionId": "1",
+      "dateTransferred": null
+    },
     "replyToMessageJudgeNextHearingLabel": "",
     "isJudiciary": "NO",
     "judicialMessageReply": {
       "relatedDocumentFileNames": null,
-      "recipient": "FamilyPublicLaw+ctsc@gmail.com",
+      "relatedDocuments": null,
+      "recipient": null,
+      "recipientLabel": "CTSC",
       "requestedBy": "Perf test",
       "urgency": null,
       "messageHistory": "FamilyPublicLaw+ctsc@gmail.com - WA Perf test event",
       "isReplying": "Yes",
       "senderType": "CTSC",
-      "replyFrom": "test@test.com",
-      "recipientType": "JUDICIARY",
-      "replyTo": "test@test12345.com",
+      "replyFrom": "FamilyPublicLaw+ctsc@gmail.com",
+      "recipientType": null,
+      "recipientDynamicList": {
+        "value": {
+          "code": "LOCAL_COURT_ADMIN",
+          "label": "Local Court Admin - Family Court sitting at Central Family Court"
+        },
+        "list_items": [
+          {
+            "code": "LOCAL_COURT_ADMIN",
+            "label": "Local Court Admin - Family Court sitting at Central Family Court"
+          },
+          {
+            "code": "OTHER",
+            "label": "Other Judge/Legal Adviser"
+          }
+        ]
+      },
+      "replyTo": "FamilyPublicLaw+ctsc@gmail.com",
+      "closureNote": null,
       "latestMessage": "WA Perf test reply",
       "sender": null,
+      "fromLabel": null,
+      "toLabel": null,
       "dateSent": null,
       "updatedTime": null,
       "status": null,
       "isRelatedToC2": null,
-      "applicationType": null,
-      "relatedDocuments": []
+      "applicationType": null
     },
-    "latestRoleSent": "CTSC"
+    "latestRoleSent": null
   },
   "event": {
     "id": "replyToMessageJudgeOrLegalAdviser",

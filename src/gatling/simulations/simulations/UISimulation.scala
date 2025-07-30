@@ -163,11 +163,11 @@ class UISimulation extends Simulation  {
     scenario(s"${caseType.name} - ${if (createOnly == "off") "Create & Complete Tasks" else "Create Tasks Only"}")
       .exitBlockOnFail {
         exec(_.set("env", env).set("caseType", caseType.caseTypeId))
-//        .exec(createTask)
-        .exec(_.set("caseId", "1753702010717476"))
+        .exec(createTask)
+//        .exec(_.set("caseId", "1753805466174082"))
         .doIf(createOnly == "off") {
-//          pause(60.seconds)
-          exec(completeTask)
+          pause(60.seconds)
+          .exec(completeTask)
         }
       }
   }
@@ -176,6 +176,7 @@ class UISimulation extends Simulation  {
   val PRLScenario = buildScenario(CcdCaseTypes.PRIVATELAW_PRLAPPS, prl.CreateTask.execute, prl.ActionTask.execute)
   val ETScenario = buildScenario(CcdCaseTypes.EMPLOYMENT_EnglandWales, et.CreateTask.execute, et.ActionTaskET.execute)
   val FPLScenario = buildScenario(CcdCaseTypes.PUBLICLAW_CARE_SUPERVISION_EPO, fpl.CreateTask.execute, fpl.ActionTaskFPL.execute)
+  val CivilScenario = buildScenario(CcdCaseTypes.CIVIL_CIVIL, civil.CreateTask.execute, civil.ActionTaskCivil.execute)
 
   val STEndToEndCreateAndComplete = scenario("E2E flow ST Citizen Create & Caseworker Complete")
     .exitBlockOnFail {
@@ -193,14 +194,6 @@ class UISimulation extends Simulation  {
       .exec(xuiSt.BuildCase)
       .exec(Logout.XUILogout)
     }
-
-  /*val IACEndToEndCreateAndComplete = scenario("E2E flow Create IA Task & Caseworker Complete")
-    .exitBlockOnFail {
-      exec(_.set("env", s"${env}"))
-      .exec(CreateTask.ccdCreateIACTask)
-      .pause(60 seconds)
-      .exec(RequestRespondentEvidence.execute)
-    }*/
 
   /*val PRLEndToEndCreateAndComplete = scenario("E2E flow Create PRL Task & Caseworker Complete")
     .exitBlockOnFail {
@@ -255,49 +248,6 @@ class UISimulation extends Simulation  {
         .exec(xuiwa.XUILogout)
     }
 
-  val FPLEndToEndCreateAndComplete = scenario("E2E flow Create FPL Task & Caseworker Complete")
-    .exitBlockOnFail {
-      exec(_.set("env", s"${env}"))
-        .feed(feedFPLUserData)
-        .exec(S2S.s2s("ccd_data"))
-//        .exec(IdamLogin.GetIdamToken)
-        .exec(publiclaw.ccdCreateFPLCase)
-        .exec(publiclaw.ccdFPLOrdersNeeded)
-        .exec(publiclaw.ccdFPLHearingNeeded)
-        .exec(publiclaw.ccdFPLEnterGrounds)
-        .exec(publiclaw.ccdFPLEnterLocalAuthority)
-        .exec(publiclaw.ccdFPLEnterChildren)
-        .exec(publiclaw.ccdFPLEnterRespondents)
-        .exec(publiclaw.ccdFPLOtherProposal)
-        .exec(publiclaw.ccdFPLSubmitApplication)
-        .feed(feedWAFPLUserData)
-//        .exec(IdamLogin.GetIdamToken)
-        .exec(S2S.s2s("ccd_data"))
-        .doIf(debugMode != "off") {
-          repeat(10) {
-            exec {
-              session =>
-                println("I'm pausing...")
-                session
-            }
-              .pause(5)
-          }
-        }
-        .exec(publiclaw.ccdSendMessage)
-        .pause(60)
-        .exec(Homepage.XUIHomePage)
-        .exec(Login.XUILogin)
-        .exec(xuiAllWork.allWorkTasks)
-        .exec(xuiAllWork.allWorkTasksHighPriority)
-        .exec(xuiFpl.SearchCase)
-        .exec(xuiFpl.ViewCase)
-        .doIf("#{taskId.exists()}") {
-          exec(xuiwa.AssignTask)
-            .exec(xuiFpl.ReplyToMessage)
-        }
-        .exec(xuiwa.XUILogout)
-    }*/
-
   val CivilEndToEndCreateAndComplete = scenario("E2E flow Create Civil Task & Caseworker Complete")
     .exitBlockOnFail {
       exec(_.set("env", s"${env}"))
@@ -339,7 +289,7 @@ class UISimulation extends Simulation  {
         }
         .exec(xuiwa.XUILogout)
     }
-
+*/
     /*===============================================================================================
     * Simulation Configuration
     ===============================================================================================*/
@@ -404,9 +354,9 @@ class UISimulation extends Simulation  {
 //        STEndToEndCreateAndComplete.inject(simulationProfile(testType, stTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 //        IACScenario.inject(simulationProfile(testType, iacTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 //      PRLScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-//        ETScenario.inject(simulationProfile(testType, etTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-        FPLScenario.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-//        CivilEndToEndCreateAndComplete.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+        ETScenario.inject(simulationProfile(testType, etTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//        FPLScenario.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//        CivilScenario.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 //        JudicialUserJourney.inject(simulationProfile(testType, judicialTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 //        CancelTask.inject(simulationProfile(testType, cancelTaskTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 

@@ -1,6 +1,7 @@
 {
   "data": {
     "hasJudicialMessages": "YES",
+    "isSendingEmailsInCourt": "NO",
     "judicialMessageDynamicList": {
       "value": {
         "code": "#{messageId}",
@@ -21,6 +22,7 @@
   },
   "event_data": {
     "hasJudicialMessages": "YES",
+    "isSendingEmailsInCourt": "NO",
     "judicialMessageDynamicList": {
       "value": {
         "code": "#{messageId}",
@@ -32,6 +34,15 @@
           "label": "#{messageFrom}, #{messageDate}"
         }
       ]
+    },
+    "court": {
+      "code": "115",
+      "name": "Family Court sitting at Central Family Court",
+      "email": null,
+      "region": "London",
+      "epimmsId": "356855",
+      "regionId": "1",
+      "dateTransferred": null
     }
   },
   "event_token": "#{eventToken}",

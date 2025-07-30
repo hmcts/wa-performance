@@ -26,8 +26,8 @@ object CreateTask {
       "todayYear" -> Common.getYear()))
 
     feed(feedETUserData)
-    .exec(CcdHelper.createCase("#{email}", "#{password}", CcdCaseTypes.EMPLOYMENT_EnglandWales, "INITIATE_CASE_DRAFT", "etBodies/ETCreateCase.json"))
-    .exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.EMPLOYMENT_EnglandWales, "#{caseId}", "SUBMIT_CASE_DRAFT", "etBodies/ETSubmitDraft.json"))
+    .exec(CcdHelper.createCase("#{email}", "#{password}", CcdCaseTypes.EMPLOYMENT_EnglandWales, "et1ReppedCreateCase", "etBodies/ETCreateCase.json"))
+    .exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.EMPLOYMENT_EnglandWales, "#{caseId}", "submitEt1Draft", "etBodies/ETSubmitDraft.json"))
   }
 
 

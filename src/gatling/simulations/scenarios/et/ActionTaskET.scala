@@ -28,7 +28,6 @@ object ActionTaskET {
       exec(AssignTask.execute)
       .exec(Vetting.execute)
       .exec(PreAcceptance.execute)
-      .exec(Vetting.execute)
     }
     {
       exec(CancelTask.execute)
