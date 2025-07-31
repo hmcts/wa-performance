@@ -31,11 +31,7 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 withNightlyPipeline("java", product, component) {
     loadVaultSecrets(secrets)
 
-    afterAlways('checkout') {
-        sh """ git submodule update --init --recursive"""
-    }
-
-    enablePerformanceTest()
+    enablePerformanceTest(timeout=40, perfGatlingAlerts=true, perfRerunOnFail=true)
 
     after('performanceTest') {
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
