@@ -24,7 +24,7 @@ object ActionTaskIAC {
     .exec(_.set("taskName", "reviewTheAppeal"))
     .exec(ViewCase.execute)
     .feed(randomFeeder)
-    .doIfOrElse(session => if (debugMode == "off") session("cancel-percentage").as[Int] < completePercentage else true) {
+    .doIfOrElse(session => if (debugMode == "off") session("complete-percentage").as[Int] < completePercentage else true) {
       exec(AssignTask.execute)
       .exec(RequestRespondentEvidence.execute)
     }
