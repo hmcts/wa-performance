@@ -135,16 +135,6 @@ object cuiSpecialTribs {
 			.formParam("saveAndContinue", "true")
 			.check(regex("Case Number:</font><br>(.+?)</strong>").transform(string => string.replace(" - ", "")).saveAs("caseId")))
 
-    /*.exec {
-      session =>
-        val fw = new BufferedWriter(new FileWriter("STSubmittedCases.csv", true))
-        try {
-          fw.write(session("caseId").as[String] + "\r\n")
-        }
-        finally fw.close()
-        session
-    }*/
-
     .pause(Environment.constantthinkTime)
 
     .exec(http("CUI_ST_130_Logout")
