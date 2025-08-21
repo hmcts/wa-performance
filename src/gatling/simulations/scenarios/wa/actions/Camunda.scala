@@ -2,46 +2,47 @@ package scenarios.wa.actions
 
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
-import utilities.DateUtils
-import utils.Environment
 
 object Camunda {
+
+  val rpeAPIURL = "http://rpe-service-auth-provider-#{env}.service.core-compute-#{env}.internal"
+  val camundaURL = "http://camunda-api-perftest.service.core-compute-perftest.internal"
 
   val authenticate = {
 
     exec(http("CCD_AuthLease")
-      .post(Environment.rpeUrl + "/testing-support/lease")
+      .post(rpeAPIURL + "/testing-support/lease")
       .body(StringBody("""{"microservice":"IdamWebApi"}""")).asJson
-      .check(regex("(.+)").saveAs("IdamWebApiBearerToken")))
+      .check(regex("(.+)").saveAs("IdamWebApiBearerToken"))
+    )
 
     .exec(http("CCD_AuthLease")
-      .post(Environment.rpeUrl + "/testing-support/lease")
+      .post(rpeAPIURL + "/testing-support/lease")
       .body(StringBody("""{"microservice":"wa_task_management_api"}""")).asJson
-      .check(regex("(.+)").saveAs("wa_task_management_apiBearerToken")))
+      .check(regex("(.+)").saveAs("wa_task_management_apiBearerToken"))
+    )
   }
 
   val PostCaseTaskAttributes =
 
     exec(authenticate)
 
-    .exec(_.set("yesterdayDate", DateUtils.getDatePast("yyyy-MM-dd", days = 1)))
-
     .exec(http("PostCamundaTaskAttributes")
-      .post(Environment.camundaURL + "/engine-rest/message")
+      .post(camundaURL + "/engine-rest/message")
       .header("ServiceAuthorization", "#{IdamWebApiBearerToken}")
       .header("Content-type", "application/json")
-      .body(ElFileBody("waBodies/PostCaseTaskAttributes.json")))
+      .body(ElFileBody("waBodies/PostCaseTaskAttributes.json"))
+    )
 
-    .pause(Environment.constantthinkTime)
+    .pause(7)
 
     .exec(http("GetCaseTaskDetails")
-      .get(Environment.camundaURL + "/engine-rest/task?processVariables=caseId_eq_#{caseId}")
+      .get(camundaURL + "/engine-rest/task?processVariables=caseId_eq_#{caseId}")
       .header("ServiceAuthorization", "Bearer #{IdamWebApiBearerToken}")
       .header("Accept", "application/json")
-      .check(jsonPath("$[-1].created").saveAs("taskCreated"))
-      .check(jsonPath("$[-1].due").saveAs("taskDue"))
-      .check(jsonPath("$[-1].id").saveAs("id")))
-
-    .pause(Environment.constantthinkTime)
+      .check(jsonPath("$[0].created").saveAs("taskCreated"))
+      .check(jsonPath("$[0].due").saveAs("taskDue"))
+      .check(jsonPath("$[0].id").saveAs("id"))
+    )
 
 }

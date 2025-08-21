@@ -1,4 +1,4 @@
-package scenarios
+package scenarios.st.actions
 
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._

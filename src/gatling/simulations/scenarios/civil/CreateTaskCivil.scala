@@ -18,11 +18,12 @@ object CreateTaskCivil {
     rnd.alphanumeric.filter(_.isLetter).take(length).mkString
   }
 
-  val execute =
+  val execute = {
 
     exec(_.setAll("todayYear" -> DateUtils.getDateNow("yyyy")))
 
     .feed(feedCivilUserData)
+    .exec(_.set("caseId", "1753881019021740"))
     .exec(_.set("jurisdiction", "CIVIL"))
     .exec(CcdHelper.createCase("#{email}", "#{password}", CcdCaseTypes.CIVIL_CIVIL, "CREATE_CLAIM", "civilBodies/CreateUnspecifiedClaim.json"))
     .pause(60)
@@ -35,5 +36,6 @@ object CreateTaskCivil {
     .exec(UpdateDate.execute)
     .pause(60)
     .exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.CIVIL_CIVIL, "#{caseId}", "DEFAULT_JUDGEMENT", "civilBodies/RequestDefaultJudgement.json"))
+  }
 
 }

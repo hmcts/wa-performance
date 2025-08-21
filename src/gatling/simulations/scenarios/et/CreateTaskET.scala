@@ -16,7 +16,7 @@ object CreateTaskET {
     rnd.alphanumeric.filter(_.isLetter).take(length).mkString
   }
 
-  val execute =
+  val execute = {
 
     feed(feedETUserData)
     .exec(CcdHelper.createCase("#{email}", "#{password}", CcdCaseTypes.EMPLOYMENT_EnglandWales, "et1ReppedCreateCase", "etBodies/ET1CreateCase.json"))
@@ -24,4 +24,5 @@ object CreateTaskET {
     .exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.EMPLOYMENT_EnglandWales, "#{caseId}", "et1SectionTwo", "etBodies/ET1EmploymentDetails.json"))
     .exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.EMPLOYMENT_EnglandWales, "#{caseId}", "et1SectionThree", "etBodies/ET1ClaimDetails.json"))
     .exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.EMPLOYMENT_EnglandWales, "#{caseId}", "submitEt1Draft", "etBodies/ET1SubmitClaim.json"))
+  }
 }
