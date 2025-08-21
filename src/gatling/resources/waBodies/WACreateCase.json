@@ -1,0 +1,22 @@
+{
+  "event": {
+    "id": "CREATE",
+    "summary": "summary",
+    "description": "description"
+  },
+  "data": {
+    "TextField": "Some text field",
+    "caseAccessCategory": "categoryA,categoryC",
+    "appellantGivenNames": "Bob",
+    "appellantFamilyName": "Smith",
+    "appealType": "protection",
+    "nextHearingId": "next-hearing-id",
+    "nextHearingDate": "2022-12-07T14:00:00+01:00",
+    "urgent": "Yes"
+  },
+  "supplementary_data_request": null,
+  "security_classification": null,
+  "event_token": "#{eventToken}",
+  "ignore_warning": false,
+  "case_reference": null
+}

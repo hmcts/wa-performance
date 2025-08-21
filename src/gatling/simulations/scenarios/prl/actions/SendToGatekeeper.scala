@@ -13,7 +13,7 @@ object SendToGatekeeper {
       .get("/workallocation/case/task/#{caseId}")
       .headers(Headers.commonHeader)
       .header("Accept", "application/json, text/plain, */*")
-      .header("x-xsrf-token", "#{xsrfToken}")
+      .header("x-xsrf-token", "#{XSRFToken}")
       .check(jsonPath("$..[?(@.type=='sendToGateKeeperFL401')].type").optional.saveAs("taskType"))
       .check(jsonPath("$..[?(@.type=='sendToGateKeeperFL401')].id").optional.saveAs("taskId")))
 
@@ -30,7 +30,7 @@ object SendToGatekeeper {
           .get("/workallocation/case/task/#{caseId}")
           .headers(Headers.commonHeader)
           .header("Accept", "application/json, text/plain, */*")
-          .header("x-xsrf-token", "#{xsrfToken}")
+          .header("x-xsrf-token", "#{XSRFToken}")
           .check(jsonPath("$..[?(@.type=='sendToGateKeeperFL401')].type").optional.saveAs("taskType"))
           .check(jsonPath("$..[?(@.type=='sendToGateKeeperFL401')].id").optional.saveAs("taskId")))
 
@@ -87,7 +87,7 @@ object SendToGatekeeper {
           .headers(Headers.commonHeader)
           .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
           .header("content-type", "application/json")
-          .header("x-xsrf-token", "#{xsrfToken}")
+          .header("x-xsrf-token", "#{XSRFToken}")
           .body(ElFileBody("xuiBodies/PRLSendToGatekeeper1.json")))
 
           .exec(Common.apiUserDetails)
@@ -101,14 +101,14 @@ object SendToGatekeeper {
           .headers(Headers.commonHeader)
           .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
           .header("content-type", "application/json")
-          .header("x-xsrf-token", "#{xsrfToken}")
+          .header("x-xsrf-token", "#{XSRFToken}")
           .body(ElFileBody("xuiBodies/PRLSendToGatekeeperSubmit.json")))
 
           .exec(http("XUI_PRL_SendToGatekeeper_CompleteTask")
             .post("/workallocation/task/#{taskId}/complete")
             .header("accept", "application/json")
             .header("content-type", "application/json")
-            .header("x-xsrf-token", "#{xsrfToken}"))
+            .header("x-xsrf-token", "#{XSRFToken}"))
 
           .exec(Common.waJurisdictions)
           .exec(Common.apiUserDetails)

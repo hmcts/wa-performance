@@ -41,7 +41,7 @@ object PreAcceptance {
         .headers(Headers.commonHeader)
         .header("content-type", "application/json")
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
-        .check(jsonPath("$.event_token").saveAs("eventToken2")))
+        .check(jsonPath("$.event_token").saveAs("eventToken")))
 
       .exec(Common.userDetails)
       .exec(Common.profile)
@@ -55,7 +55,7 @@ object PreAcceptance {
         .headers(Headers.commonHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("content-type", "application/json")
-        .header("x-xsrf-token", "#{xsrfToken}")
+        .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("etBodies/ETPreAcceptance_Page1.json")))
 
       .exec(http("XUI_ET_PreAcceptancePage2_GetTask")
@@ -71,7 +71,7 @@ object PreAcceptance {
         .post("/workallocation/task/#{taskId}/complete")
         .headers(Headers.commonHeader)
         .header("content-type", "application/json")
-        .header("x-xsrf-token", "#{xsrfToken}")
+        .header("x-xsrf-token", "#{XSRFToken}")
         .body(StringBody("{}")))
 
       .exec(http("XUI_ET_SubmitAcceptance_Submit")
@@ -79,7 +79,7 @@ object PreAcceptance {
         .headers(Headers.commonHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
         .header("content-type", "application/json")
-        .header("x-xsrf-token", "#{xsrfToken}")
+        .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("etBodies/ETPreAcceptance_Submit.json")))
 
       .exec(http("XUI_ET_SubmitAcceptance_GetCase")

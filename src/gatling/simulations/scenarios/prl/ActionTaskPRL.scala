@@ -8,7 +8,7 @@ import xui.XuiHelper
 
 import scala.util.Random
 
-object ActionTask {
+object ActionTaskPRL {
 
   val completePercentage = 90 //Percentage of Complete Tasks //90
   val randomFeeder = Iterator.continually(Map("complete-percentage" -> Random.nextInt(100)))
@@ -27,6 +27,7 @@ object ActionTask {
     .doIfOrElse(session => if (debugMode == "off") session("cancel-percentage").as[Int] < completePercentage else true) {
       exec(AssignTask.execute)
       .exec(AddCaseNumber.execute)
+      .exec(_.remove("taskId"))
       .exec(_.set("taskName", "sendToGateKeeperFL401"))
       .exec(ViewCase.execute)
       .exec(SendToGatekeeper.execute)

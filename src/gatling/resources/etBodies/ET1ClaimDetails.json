@@ -1,0 +1,25 @@
+{
+  "data": {
+    "et1SectionThreeClaimDetails": "WA perf test details",
+    "et1SectionThreeTypeOfClaim": [
+      "discrimination"
+    ],
+    "discriminationTypesOfClaim": [
+      "Age"
+    ],
+    "claimSuccessful": [
+      "compensation"
+    ],
+    "compensationDetails": "Perf testing",
+    "linkedCasesYesNo": [
+      "No"
+    ]
+  },
+  "event": {
+    "id": "et1SectionThree",
+    "summary": "",
+    "description": ""
+  },
+  "event_token": "#{eventToken}",
+  "ignore_warning": false
+}

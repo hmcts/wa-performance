@@ -2,11 +2,10 @@ package scenarios.prl
 
 import ccd._
 import io.gatling.core.Predef._
-import utils._
 
 import scala.util.Random
 
-object CreateTask {
+object CreateTaskPRL {
 
   val feedPRLUserData = csv("PRLUserData.csv").circular
 

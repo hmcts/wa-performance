@@ -1,0 +1,22 @@
+{
+  "data": {
+    "et1ReppedTriageAddress": {
+      "AddressLine1": "Flat 1",
+      "AddressLine2": "Bramber House",
+      "AddressLine3": "Seven Kings Way",
+      "PostTown": "Kingston Upon Thames",
+      "County": "",
+      "Country": "United Kingdom",
+      "PostCode": "KT2 5BU"
+    },
+    "et1ReppedTriageYesNo": "Yes"
+  },
+  "event": {
+    "id": "et1ReppedCreateCase",
+    "summary": "",
+    "description": ""
+  },
+  "event_token": "#{eventToken}",
+  "ignore_warning": false,
+  "draft_id": null
+}

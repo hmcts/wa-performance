@@ -4,7 +4,6 @@ import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import utilities.AzureKeyVault
 import utils.Environment
-import java.io.{BufferedWriter, FileWriter}
 
 object payments {
 
@@ -69,16 +68,6 @@ object payments {
         .header("Content-type", "application/json")
         .body(ElFileBody("civilBodies/AddPayment.json")))
       }
-
-    .exec {
-      session =>
-        val fw = new BufferedWriter(new FileWriter("CivilCreatedCaseIds.csv", true))
-        try {
-          fw.write(session("caseId").as[String] + "\r\n")
-        }
-        finally fw.close()
-        session
-    }
-
+      
     .pause(Environment.constantthinkTime)
 }

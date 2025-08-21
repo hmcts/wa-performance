@@ -37,7 +37,7 @@ object AddCaseNumber {
         .headers(Headers.commonHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("content-type", "application/json")
-        .header("x-xsrf-token", "#{xsrfToken}")
+        .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("xuiBodies/PRLAddCaseNumberPage1.json")))
 
       .exec(http("XUI_PRL_AddCaseNumber_Page1GetTask")
@@ -55,14 +55,14 @@ object AddCaseNumber {
         .headers(Headers.commonHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
         .header("content-type", "application/json")
-        .header("x-xsrf-token", "#{xsrfToken}")
+        .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("xuiBodies/PRLAddCaseNumberSubmit.json")))
 
       .exec(http("XUI_PRL_AddCaseNumber_CompleteTask")
         .post("/workallocation/task/#{taskId}/complete")
         .header("accept", "application/json")
         .header("content-type", "application/json")
-        .header("x-xsrf-token", "#{xsrfToken}"))
+        .header("x-xsrf-token", "#{XSRFToken}"))
 
       .exec(Common.waJurisdictions)
       .exec(Common.apiUserDetails)
