@@ -35,6 +35,11 @@ object ViewCase {
         .check(jsonPath("$[?(@.type=='#{taskName}')].type").optional.saveAs("taskType"))
       )
 
+      .exec { session =>
+        val current = session("counter").as[Int]
+        session.set("counter", current + 1)
+      }
+
       .pause(10)
 
     }
