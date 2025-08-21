@@ -13,7 +13,6 @@ import scenarios._
 import utilities.AzureKeyVault
 
 import scala.concurrent.duration._
-import scala.util.Random
 
 class UISimulation extends Simulation  {
 
@@ -62,9 +61,7 @@ class UISimulation extends Simulation  {
   val feedSTUserData = csv("STUserData.csv").circular
   val feedSTCaseData = csv("STCaseData.csv")
   val taskCancelListFeeder = csv("WA_TasksToCancel.csv")
-
-  val randomFeeder = Iterator.continually(Map("cancel-percentage" -> Random.nextInt(100)))
-
+  
   /* PERFORMANCE TEST CONFIGURATION */
 	val iacTargetPerHour: Double = 700 //700
 	val cancelTaskTargetPerHour: Double = 500 //300
