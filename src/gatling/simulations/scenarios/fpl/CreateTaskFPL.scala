@@ -6,7 +6,7 @@ import utils._
 
 import scala.util.Random
 
-object CreateTask {
+object CreateTaskFPL {
 
   val feedFPLUserData = csv("FPLUserData.csv").circular
   val feedWAFPLUserData = csv("WA_FPLCTSCUsers.csv").circular

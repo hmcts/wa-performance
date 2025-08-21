@@ -47,7 +47,7 @@ object Vetting {
         .headers(Headers.commonHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("content-type", "application/json")
-        .header("x-xsrf-token", "#{xsrfToken}")
+        .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("etBodies/ETVetting_Page1.json")))
 
       .exec(Common.userDetails)
@@ -61,7 +61,7 @@ object Vetting {
         .headers(Headers.commonHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("content-type", "application/json")
-        .header("x-xsrf-token", "#{xsrfToken}")
+        .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("etBodies/ETVetting_Page2.json")))
 
       .exec(Common.userDetails)
@@ -75,7 +75,7 @@ object Vetting {
         .headers(Headers.commonHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("content-type", "application/json")
-        .header("x-xsrf-token", "#{xsrfToken}")
+        .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("etBodies/ETVetting_Page3.json")))
 
       .exec(Common.userDetails)
@@ -89,7 +89,7 @@ object Vetting {
         .headers(Headers.commonHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("content-type", "application/json")
-        .header("x-xsrf-token", "#{xsrfToken}")
+        .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("etBodies/ETVetting_Page4.json")))
 
       .exec(Common.userDetails)
@@ -103,7 +103,7 @@ object Vetting {
         .headers(Headers.commonHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("content-type", "application/json")
-        .header("x-xsrf-token", "#{xsrfToken}")
+        .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("etBodies/ETVetting_Page5.json")))
 
       .exec(Common.userDetails)
@@ -117,7 +117,7 @@ object Vetting {
         .headers(Headers.commonHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("content-type", "application/json")
-        .header("x-xsrf-token", "#{xsrfToken}")
+        .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("etBodies/ETVetting_Page6.json")))
 
       .exec(Common.userDetails)
@@ -131,7 +131,7 @@ object Vetting {
         .headers(Headers.commonHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("content-type", "application/json")
-        .header("x-xsrf-token", "#{xsrfToken}")
+        .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("etBodies/ETVetting_Page7.json")))
 
       .exec(Common.userDetails)
@@ -145,7 +145,7 @@ object Vetting {
         .headers(Headers.commonHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("content-type", "application/json")
-        .header("x-xsrf-token", "#{xsrfToken}")
+        .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("etBodies/ETVetting_Page8.json")))
 
       .exec(Common.userDetails)
@@ -159,7 +159,7 @@ object Vetting {
         .headers(Headers.commonHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("content-type", "application/json")
-        .header("x-xsrf-token", "#{xsrfToken}")
+        .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("etBodies/ETVetting_Page9.json")))
 
       .exec(Common.userDetails)
@@ -173,7 +173,7 @@ object Vetting {
         .headers(Headers.commonHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("content-type", "application/json")
-        .header("x-xsrf-token", "#{xsrfToken}")
+        .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("etBodies/ETVetting_Page10.json")))
 
       .exec(Common.userDetails)
@@ -187,7 +187,7 @@ object Vetting {
         .headers(Headers.commonHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("content-type", "application/json")
-        .header("x-xsrf-token", "#{xsrfToken}")
+        .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("etBodies/ETVetting_Page11.json")))
 
       .exec(Common.userDetails)
@@ -201,7 +201,7 @@ object Vetting {
         .headers(Headers.commonHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("content-type", "application/json")
-        .header("x-xsrf-token", "#{xsrfToken}")
+        .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("etBodies/ETVetting_Page12.json")))
 
       .exec(Common.userDetails)
@@ -215,7 +215,7 @@ object Vetting {
         .headers(Headers.commonHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("content-type", "application/json")
-        .header("x-xsrf-token", "#{xsrfToken}")
+        .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("etBodies/ETVetting_Page13.json")))
 
       .exec(Common.userDetails)
@@ -229,7 +229,7 @@ object Vetting {
         .headers(Headers.commonHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
         .header("content-type", "application/json")
-        .header("x-xsrf-token", "#{xsrfToken}")
+        .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("etBodies/ETVetting_Submit.json")))
 
       .exec(http("XUI_ET_Vetting_GetCase")

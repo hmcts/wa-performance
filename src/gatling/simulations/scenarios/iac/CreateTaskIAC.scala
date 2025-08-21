@@ -3,11 +3,10 @@ package scenarios.iac
 import ccd._
 import io.gatling.core.Predef._
 import utilities.DateUtils
-import utils._
 
 import scala.util.Random
 
-object CreateTask {
+object CreateTaskIAC {
 
   val feedIACUserData = csv("IACUserData.csv").circular
 

@@ -1,15 +1,12 @@
 package scenarios
 
-import java.text.SimpleDateFormat
-import java.util.Date
-import com.typesafe.config.{Config, ConfigFactory}
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import utils._
-import java.io.{BufferedWriter, FileWriter}
-import scala.util.Random
 
-object sscs {
+import java.io.{BufferedWriter, FileWriter}
+
+object sscsBenefit {
 
   val ccdCreateSSCSCase = 
 
