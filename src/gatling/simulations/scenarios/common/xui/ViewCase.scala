@@ -24,6 +24,8 @@ object ViewCase {
 
     .pause(Environment.constantthinkTime)
 
+    .exec(_.set("counter", 0))
+
     .doWhile(session => !session.contains("taskId") && session("counter").as[Int] < 20, "counter") {
 
       exec(http("XUI_SelectCaseTask")
