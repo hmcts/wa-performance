@@ -48,7 +48,7 @@ object ViewCase {
 
     .doIf(session => !session.contains("taskId") && session("counter").as[Int] == 20){
       exec(session => {
-        println("Could not retrieve task after 5 attempts")
+        println("Could not retrieve task after 20 attempts")
         session
       })
     }
