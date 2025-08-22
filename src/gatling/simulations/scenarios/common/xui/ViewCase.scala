@@ -24,9 +24,14 @@ object ViewCase {
 
     .pause(Environment.constantthinkTime)
 
-    .exec(_.set("counter", 0))
+//    .exec(_.set("counter", 0))
 
-    .doWhile(session => !session.contains("taskId") && session("counter").as[Int] < 20, "counter") {
+      //TO DO - fix this so it isn't showing the loop log every time
+      // "[ERROR] i.g.c.a.InnerLoop - Loop doWhile-649-inner called exitLoop on Session Session" &
+      // ",OK,List(TryMaxBlock(49b2e6cf-38d0-43f0-812d-a2e444980f2b,tryMax-590-inner,OK)),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda/0x000000010073eba0@7297fece,io.netty.channel.SingleThreadIoEventLoop@48bfb884)
+      // but stack List(TryMaxBlock(49b2e6cf-38d0-43f0-812d-a2e444980f2b,tryMax-590-inner,OK)) head isn't a Loop Block, please report."
+    .doWhile(session => !session.contains("taskId") //&& session("counter").as[Int] < 20, "counter"
+      ) {
 
       exec(http("XUI_SelectCaseTask")
         .get("/workallocation/case/task/#{caseId}")
@@ -37,21 +42,21 @@ object ViewCase {
         .check(jsonPath("$[?(@.type=='#{taskName}')].type").optional.saveAs("taskType"))
       )
 
-      .exec { session =>
-        val current = session("counter").as[Int]
-        session.set("counter", current + 1)
-      }
+//      .exec { session =>
+//        val current = session("counter").as[Int]
+//        session.set("counter", current + 1)
+//      }
 
       .pause(10)
 
     }
 
-    .doIf(session => !session.contains("taskId") && session("counter").as[Int] == 20){
-      exec(session => {
-        println("Could not retrieve task after 20 attempts")
-        session
-      })
-    }
+//    .doIf(session => !session.contains("taskId") && session("counter").as[Int] == 20){
+//      exec(session => {
+//        println("Could not retrieve task after 20 attempts")
+//        session
+//      })
+//    }
 //
 //    //Save taskType from response
 //    .exec(session => {
