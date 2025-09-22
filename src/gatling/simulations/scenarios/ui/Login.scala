@@ -21,7 +21,7 @@ object Login {
     group("XUI_020_Login") {
       exec(http("XUI_020_005_Login")
         .post(IdamUrl + "/login?client_id=xuiwebapp&redirect_uri=" + BaseURL + "/oauth2/callback&state=#{state}&nonce=#{nonce}&response_type=code&scope=profile%20openid%20roles%20manage-user%20create-user%20search-user&prompt=")
-        .formParam("username", "#{user}")
+        .formParam("username", "#{email}")
         .formParam("password", "#{password}")
         .formParam("azureLoginEnabled", "true")
         .formParam("mojLoginEnabled", "true")
