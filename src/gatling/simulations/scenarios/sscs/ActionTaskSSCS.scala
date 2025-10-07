@@ -15,13 +15,13 @@ object ActionTaskSSCS {
   val randomFeeder = Iterator.continually(Map("complete-percentage" -> Random.nextInt(100)))
   val debugMode = System.getProperty("debug", "off")
 
-  val execute = {
+  val execute =
 
     feed(feedSSCSUserData)
     .exec(XuiHelper.Homepage)
     .exec(XuiHelper.Login("#{email}", "#{password}"))
     .exec(SearchCase.execute)
-    .exec(_.set("taskName", "**TBC**"))
+    .exec(_.set("taskName", "**TBC**")) // SSCS currently not onboarded, so not able to retrieve the task name returned yet (September 2025)
     .exec(ViewCase.execute)
     .feed(randomFeeder)
     .doIfOrElse(session => if (debugMode == "off") session("cancel-percentage").as[Int] < completePercentage else true) {
@@ -32,5 +32,4 @@ object ActionTaskSSCS {
       exec(CancelTask.execute)
     }
     .exec(XuiHelper.Logout)
-  }
 }

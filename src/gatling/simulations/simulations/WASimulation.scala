@@ -12,6 +12,7 @@ import utils._
 import scenarios._
 
 import scala.concurrent.duration._
+import scala.util.Random
 
 class WASimulation extends Simulation  {
 
@@ -34,6 +35,34 @@ class WASimulation extends Simulation  {
   val env = System.getProperty("env", environment) //manually override the environment aat|perftest e.g. ./gradle gatlingRun -Denv=aat
 	/* ******************************** */
 
+<<<<<<<< HEAD:src/gatling/simulations/simulations/UISimulation.scala
+  val feedTribunalUserData = csv("WA_TribunalUsers.csv").circular
+  val feedSeniorTribunalUsers = csv("WA_SeniorTribunalUsers.csv")
+  val feedJudicialUserData = csv("WA_JudicialUsers.csv").circular
+  val feedIACUserData = csv("IACUserData.csv").circular
+  val feedCivilUserData = csv("CivilUserData.csv").circular
+  val feedCivilJudgeData = csv("CivilJudicialUserData.csv").circular
+  val feedPRLUserData = csv("PRLUserData.csv").circular
+  val feedIACCaseList = csv("IACCaseData.csv")
+  val feedCivilCaseList = csv("CivilCaseData.csv")
+  val feedCivilJudicialCases = csv("CivilJudicialCaseData.csv")
+  val feedPRLCaseData = csv("PRLCaseData.csv")
+  val feedPRLTribunalUsers = csv("PRLTribunalUserData.csv").circular
+  val feedFPLUserData = csv("FPLUserData.csv").circular
+  val feedWAFPLUserData = csv("WA_FPLCTSCUsers.csv").circular
+  val feedFPLCaseData = csv("FPLCaseData.csv")
+  val feedETUserData = csv("ETUserData.csv").circular
+  val feedETCaseData = csv("ETCaseData.csv")
+  val feedSSCSUserData = csv("SSCSUserData.csv").circular
+  val feedSSCSCaseData = csv("SSCSCaseData.csv")
+  val feedSTUserData = csv("STUserData.csv").circular
+  val feedSTCaseData = csv("STCaseData.csv")
+  val taskCancelListFeeder = csv("WA_TasksToCancel.csv")
+
+  val randomFeeder = Iterator.continually(Map("cancel-percentage" -> Random.nextInt(100)))
+
+========
+>>>>>>>> 2fb3763 (remove unnecessary files, set test for WA journey only):src/gatling/simulations/simulations/WASimulation.scala
   /* PERFORMANCE TEST CONFIGURATION */
 	val iacTargetPerHour: Double = 700 //700
   val civilCompleteTargetPerHour: Double = 200 //200
@@ -46,7 +75,7 @@ class WASimulation extends Simulation  {
 
   val rampUpDurationMins = 5
 	val rampDownDurationMins = 5
-	val testDurationMins = 60 //60
+	val testDurationMins = 120 //60
 
 	val numberOfPipelineUsers = 5
 	val pipelinePausesMillis: Long = 3000 //3 seconds
@@ -174,12 +203,12 @@ class WASimulation extends Simulation  {
   }
 
   setUp(
-    STScenario.inject(simulationProfile(testType, stTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    IACScenario.inject(simulationProfile(testType, iacTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    ETScenario.inject(simulationProfile(testType, etTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    FPLScenario.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    CivilScenario.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    PRLScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//    STScenario.inject(simulationProfile(testType, stTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//    IACScenario.inject(simulationProfile(testType, iacTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//    ETScenario.inject(simulationProfile(testType, etTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//    FPLScenario.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//    CivilScenario.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//    PRLScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     WAScenario.inject(simulationProfile(testType, waTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 //    SSCSScenario.inject(simulationProfile(testType, sscsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption), //Not onboarded so currently disabled - 4th August 2025
 
@@ -187,6 +216,6 @@ class WASimulation extends Simulation  {
     // getTaskFromCamunda.inject(rampUsers(1) during (1 minute))
     // cancelTaskInTM.inject(rampUsers(1) during (1 minute))
   )
-    .maxDuration(70.minutes)
+    .maxDuration(75.minutes)
     .protocols(httpProtocol)
 }

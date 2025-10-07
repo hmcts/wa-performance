@@ -2,7 +2,7 @@ plugins {
   id 'org.owasp.dependencycheck' version '12.1.3'
   id 'scala'
   id 'java-library'
-  id 'io.gatling.gradle' version '3.14.3'
+  id 'io.gatling.gradle' version '3.14.4'
 }
  
 java {
@@ -48,8 +48,7 @@ tasks.register("runSimulation", JavaExec) {
 
   // Add simulation class and results directory
   args += [
-          "-s", "simulations.UISimulation", // Main simulation used for WA testing
-//          "-s", "simulations.APISimulation", //Only used for specific API testing scenarios
+          "-s", "simulations.WASimulation", // Main simulation used for WA testing
           "-rf", layout.buildDirectory.get().asFile.toString() + "/reports/gatling"
   ]
 
@@ -72,7 +71,7 @@ tasks.named("gatlingRun") {
 }
  
 gatling {
-  gatlingVersion '3.14.3'
+  gatlingVersion '3.14.4'
   scalaVersion '2.13.11'
 }
  

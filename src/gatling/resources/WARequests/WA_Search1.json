@@ -5,21 +5,14 @@
       "key": "jurisdiction",
       "operator": "IN",
       "values": [
-        "CIVIL"
-      ]
-    },
-    {
-      "key": "location",
-      "operator": "IN",
-      "values": [
-        "20262"
+        "WA"
       ]
     }
   ],
   "sorting_parameters": [
     {
       "sort_by": "due_date",
-      "sort_order": "asc"
+      "sort_order": "#{order}"
     }
   ]
 }

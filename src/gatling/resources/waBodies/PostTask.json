@@ -1,12 +1,12 @@
 {
   "task_attributes": {
-    "taskType": "processApplication",
+    "taskType": "#{taskType}",
     "hasWarnings": false,
     "created": "#{taskCreated}",
     "caseId": "#{caseId}",
     "dueDate": "#{taskDue}",
     "securityClassification": "PUBLIC",
-    "name": "Process Application",
+    "name": "#{taskName}",
     "warningList": {
       "values": [
 

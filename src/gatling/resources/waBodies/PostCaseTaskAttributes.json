@@ -26,7 +26,7 @@
       "type": "String"
     },
     "dueDate": {
-      "value": "2025-08-14T16:41:53.158+0100",
+      "value": "#{dueDate}",
       "type": "String"
     },
     "description": {
@@ -46,7 +46,7 @@
       "type": "String"
     },
     "taskType": {
-      "value": "processApplication",
+      "value": "#{taskType}",
       "type": "String"
     },
     "taskState": {
@@ -62,7 +62,7 @@
       "type": "String"
     },
     "name": {
-      "value": "Process Application",
+      "value": "#{taskName}",
       "type": "String"
     },
     "workingDaysAllowed": {
@@ -78,7 +78,7 @@
       "type": "String"
     },
     "delayUntil": {
-      "value": "2025-08-08T13:00:00.000+0100",
+      "value": "#{yesterdayDate}T13:00:00.000+0100",
       "type": "String"
     },
     "senior-tribunal-caseworker": {
@@ -86,7 +86,7 @@
       "type": "String"
     },
     "taskId": {
-      "value": "processApplication",
+      "value": "#{taskType}",
       "type": "String"
     },
     "taskCategory": {
