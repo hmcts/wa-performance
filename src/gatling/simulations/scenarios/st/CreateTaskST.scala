@@ -1,16 +1,15 @@
 package scenarios.st
 
 import io.gatling.core.Predef._
-import scenarios.cuiSpecialTribs
+import actions.cuiSpecialTribs
 import utils._
 
 object CreateTaskST {
 
-  val cuiSTURL = Environment.cuiStURL
+  val execute =
 
-  val execute = {
-
-      exec(cuiSpecialTribs.cuiHomePage)
+      exec(IdamHelper.createCitizenUser)
+      .exec(cuiSpecialTribs.cuiHomePage)
       .exec(cuiSpecialTribs.cuiCreateSTCase)
-    }
+      .exec(IdamHelper.deleteUser)
 }

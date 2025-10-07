@@ -7,7 +7,7 @@ import xui.Headers
 
 object ReplyToMessage {
 
-  val execute = {
+  val execute =
 
     exec(http("XUI_ViewCase_GetCase")
       .get("/data/internal/cases/#{caseId}")
@@ -23,39 +23,33 @@ object ReplyToMessage {
         .headers(Headers.commonHeader)
         .check(substring("HMCTS Manage cases")))
 
-    .exec(Common.configurationui)
-    .exec(Common.configJson)
-    .exec(Common.TsAndCs)
-    .exec(Common.configUI)
-    .exec(Common.apiUserDetails)
-    .exec(Common.isAuthenticated)
+      .exec(Common.configurationui)
+      .exec(Common.configJson)
+      .exec(Common.TsAndCs)
+      .exec(Common.configUI)
+      .exec(Common.apiUserDetails)
+      .exec(Common.isAuthenticated)
 
-    .exec(http("XUI_FPL_ReplyToMessage_GetCase")
-      .get("/data/internal/cases/#{caseId}")
-      .headers(Headers.commonHeader)
-      .header("content-type", "application/json")
-      .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json"))
+      .exec(http("XUI_FPL_ReplyToMessage_GetCase")
+        .get("/data/internal/cases/#{caseId}")
+        .headers(Headers.commonHeader)
+        .header("content-type", "application/json")
+        .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json"))
 
-    .exec(Common.profile)
+      .exec(Common.profile)
 
-    .exec(http("XUI_FPL_ReplyToMessage_EventTrigger")
-      .get("/data/internal/cases/#{caseId}/event-triggers/replyToMessageJudgeOrLegalAdviser?ignore-warning=false")
-      .headers(Headers.commonHeader)
-      .header("content-type", "application/json")
-      .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
-      .check(jsonPath("$.event_token").saveAs("eventToken")))
+      .exec(http("XUI_FPL_ReplyToMessage_EventTrigger")
+        .get("/data/internal/cases/#{caseId}/event-triggers/replyToMessageJudgeOrLegalAdviser?ignore-warning=false")
+        .headers(Headers.commonHeader)
+        .header("content-type", "application/json")
+        .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
+        .check(jsonPath("$.event_token").saveAs("eventToken")))
 
-    .exec(http("XUI_FPL_ReplyToMessage_GetTasks")
-      .get("/workallocation/case/tasks/#{caseId}/event/replyToMessageJudgeOrLegalAdviser/caseType/CARE_SUPERVISION_EPO/jurisdiction/PUBLICLAW")
-      .headers(Headers.commonHeader)
-      .header("accept", "application/json")
-      .header("content-type", "application/json"))
-
-    .exec(http("XUI_FPL_ReplyToMessage_GetTasks")
-      .get("/workallocation/case/tasks/#{caseId}/event/replyToMessageJudgeOrLegalAdviser/caseType/CARE_SUPERVISION_EPO/jurisdiction/PUBLICLAW")
-      .headers(Headers.commonHeader)
-      .header("accept", "application/json")
-      .header("content-type", "application/json"))
+      .exec(http("XUI_FPL_ReplyToMessage_GetTasks")
+        .get("/workallocation/case/tasks/#{caseId}/event/replyToMessageJudgeOrLegalAdviser/caseType/CARE_SUPERVISION_EPO/jurisdiction/PUBLICLAW")
+        .headers(Headers.commonHeader)
+        .header("accept", "application/json")
+        .header("content-type", "application/json"))
     }
 
     .pause(Environment.constantthinkTime)
@@ -112,5 +106,4 @@ object ReplyToMessage {
       .exec(Common.waJurisdictions)
       .exec(Common.apiUserDetails)
     }
-  }
 }

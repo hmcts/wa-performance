@@ -2,38 +2,92 @@ package scenarios.wa.actions
 
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
+import utils.Environment
 
 object TaskManagement {
 
-
-  val rpeAPIURL = "http://rpe-service-auth-provider-#{env}.service.core-compute-#{env}.internal"
-  val taskManagementURL = "http://wa-task-management-api-#{env}.service.core-compute-#{env}.internal"
-
-  val authenticate = {
+  val authenticate =
 
     exec(http("CCD_AuthLease")
-      .post(rpeAPIURL + "/testing-support/lease")
+      .post(Environment.rpeUrl + "/testing-support/lease")
       .body(StringBody("""{"microservice":"wa_task_management_api"}""")).asJson
-      .check(regex("(.+)").saveAs("wa_task_management_apiBearerToken"))
-    )
-  }
+      .check(regex("(.+)").saveAs("wa_task_management_apiBearerToken")))
 
   val PostTask =
 
-    exec(authenticate)
+    doIf("#{id.exists()}") {
+      exec(authenticate)
 
-    .exec(http("PostTask")
-      .post(taskManagementURL + "/task/#{id}/initiation")
+      .exec(http("PostTask_#{taskType}")
+        .post(Environment.waTMURL + "/task/#{id}/initiation")
+        .header("ServiceAuthorization", "Bearer #{wa_task_management_apiBearerToken}")
+        .header("Accept", "application/json")
+        .header("Content-type", "application/json")
+        .body(ElFileBody("waBodies/PostTask.json"))
+        .check(jsonPath("$.task_id").saveAs("taskId")))
+
+      .pause(Environment.constantthinkTime)
+    }
+
+  val GetTask = {
+
+    exec(http("WA_GetTask")
+      .get(Environment.waTMURL + "/task/#{taskId}")
       .header("ServiceAuthorization", "Bearer #{wa_task_management_apiBearerToken}")
-      .header("Accept", "application/json")
-      .header("Content-type", "application/json")
-      .body(ElFileBody("waBodies/PostTask.json"))
-//      .check(bodyString.saveAs("BODY"))
-    )
+      .header("Authorization", "Bearer #{bearerToken}")
+      .header("Content-Type", "application/json"))
 
-//    .exec(session => {
-//      val response = session("BODY").as[String]
-//      println(s"Response body: \n$response")
-//      session
-//    })
+    .pause(Environment.constantthinkTime)
+  }
+
+  val SearchTask = {
+
+    //Retrieve a list of Task resources identified by set of search criteria
+
+    repeat(10, "counter") {
+
+      exec(_.set("order", "asc"))
+
+      .exec(http("WA_SearchTask_Page_#{counter}_Ascending")
+        .post(Environment.waTMURL + "/task?first_result=#{counter}&max_results=25")
+        .header("ServiceAuthorization", "Bearer #{wa_task_management_apiBearerToken}")
+        .header("Authorization", "Bearer #{bearerToken}")
+        .header("Content-Type", "application/json")
+        .body(ElFileBody("WARequests/WA_Search1.json")))
+
+      .pause(Environment.constantthinkTime)
+
+      .exec(_.set("order", "desc"))
+
+      .exec(http("WA_SearchTask_Page_#{counter}_Descending")
+        .post(Environment.waTMURL + "/task?first_result=#{counter}&max_results=25")
+        .header("ServiceAuthorization", "Bearer #{wa_task_management_apiBearerToken}")
+        .header("Authorization", "Bearer #{bearerToken}")
+        .header("Content-Type", "application/json")
+        .body(ElFileBody("WARequests/WA_Search1.json")))
+
+      .pause(Environment.constantthinkTime)
+
+      .doIf("#{taskId.exists()}") {
+        exec(http("WA_GetTask")
+          .get(Environment.waTMURL + "/task/#{taskId}")
+          .header("ServiceAuthorization", "Bearer #{wa_task_management_apiBearerToken}")
+          .header("Authorization", "Bearer #{bearerToken}")
+          .header("Content-Type", "application/json"))
+
+        .pause(Environment.constantthinkTime)
+      }
+    }
+  }
+
+
+  /*,
+    {
+      "key": "location",
+      "operator": "IN",
+      "values": [
+        "765324"
+      ]
+    }
+    */
 }

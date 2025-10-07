@@ -7,7 +7,7 @@ import xui.Headers
 
 object ReviewAdminAction {
   
-  val execute = {
+  val execute =
     
     group("XUI_SSCSReviewAdminAction_Page1") {
       exec(http("XUI_SSCSReviewAdminAction_GetTasks")
@@ -67,68 +67,67 @@ object ReviewAdminAction {
         .check(jsonPath("$.event_token").saveAs("eventToken")))
     }
 
-      .pause(Environment.constantthinkTime)
+    .pause(Environment.constantthinkTime)
 
-      .group("XUI_SSCSReviewAdminAction_Page2") {
-        exec(http("XUI_SSCSReviewAdminAction_Page2")
-          .post("/data/case-types/Benefit/validate?pageId=interlocSendToTcw1.0")
-          .headers(Headers.commonHeader)
-          .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
-          .header("content-type", "application/json")
-          .header("x-xsrf-token", "#{XSRFToken}")
-          .body(ElFileBody("sscsBodies/SSCSSendToAdmin_Page2.json")))
+    .group("XUI_SSCSReviewAdminAction_Page2") {
+      exec(http("XUI_SSCSReviewAdminAction_Page2")
+        .post("/data/case-types/Benefit/validate?pageId=interlocSendToTcw1.0")
+        .headers(Headers.commonHeader)
+        .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
+        .header("content-type", "application/json")
+        .header("x-xsrf-token", "#{XSRFToken}")
+        .body(ElFileBody("sscsBodies/SSCSSendToAdmin_Page2.json")))
 
-        .exec(http("XUI_SSCSReviewAdminAction_RefreshRoleAssignments")
-          .get("/api/user/details?refreshRoleAssignments=undefined")
-          .headers(Headers.commonHeader)
-          .header("accept", "application/json, text/plain, */*"))
-      }
+      .exec(http("XUI_SSCSReviewAdminAction_RefreshRoleAssignments")
+        .get("/api/user/details?refreshRoleAssignments=undefined")
+        .headers(Headers.commonHeader)
+        .header("accept", "application/json, text/plain, */*"))
+    }
 
-      .pause(Environment.constantthinkTime)
+    .pause(Environment.constantthinkTime)
 
-      .group("XUI_SSCSReviewAdminAction_Submit") {
-        exec(http("XUI_SSCSReviewAdminAction_GetTask")
-          .get("/workallocation/task/#{taskId}")
-          .headers(Headers.commonHeader)
-          .header("content-type", "application/json"))
+    .group("XUI_SSCSReviewAdminAction_Submit") {
+      exec(http("XUI_SSCSReviewAdminAction_GetTask")
+        .get("/workallocation/task/#{taskId}")
+        .headers(Headers.commonHeader)
+        .header("content-type", "application/json"))
 
-        .exec(http("XUI_SSCSReviewAdminAction_CompleteTask")
-          .post("/workallocation/task/#{taskId}/complete")
-          .headers(Headers.commonHeader)
-          .header("content-type", "application/json")
-          .header("x-xsrf-token", "#{XSRFToken}")
-          .body(StringBody("{}")))
+      .exec(http("XUI_SSCSReviewAdminAction_CompleteTask")
+        .post("/workallocation/task/#{taskId}/complete")
+        .headers(Headers.commonHeader)
+        .header("content-type", "application/json")
+        .header("x-xsrf-token", "#{XSRFToken}")
+        .body(StringBody("{}")))
 
-        .exec(http("XUI_SSCSReviewAdminAction_Submit")
-          .post("/data/cases/#{caseId}/events")
-          .headers(Headers.commonHeader)
-          .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
-          .header("content-type", "application/json")
-          .header("x-xsrf-token", "#{XSRFToken}")
-          .body(ElFileBody("sscsBodies/SSCSSendToAdmin_Submit.json")))
+      .exec(http("XUI_SSCSReviewAdminAction_Submit")
+        .post("/data/cases/#{caseId}/events")
+        .headers(Headers.commonHeader)
+        .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
+        .header("content-type", "application/json")
+        .header("x-xsrf-token", "#{XSRFToken}")
+        .body(ElFileBody("sscsBodies/SSCSSendToAdmin_Submit.json")))
 
-        .exec(http("XUI_SSCSReviewAdminAction_GetCase")
-          .get("/data/internal/cases/#{caseId}")
-          .headers(Headers.commonHeader)
-          .header("content-type", "application/json")
-          .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json"))
+      .exec(http("XUI_SSCSReviewAdminAction_GetCase")
+        .get("/data/internal/cases/#{caseId}")
+        .headers(Headers.commonHeader)
+        .header("content-type", "application/json")
+        .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json"))
 
-        .exec(http("XUI_SSCSReviewAdminAction_GetJurisdictions")
-          .get("/api/wa-supported-jurisdiction/get")
-          .headers(Headers.commonHeader)
-          .header("accept", "application/json, text/plain, */*"))
+      .exec(http("XUI_SSCSReviewAdminAction_GetJurisdictions")
+        .get("/api/wa-supported-jurisdiction/get")
+        .headers(Headers.commonHeader)
+        .header("accept", "application/json, text/plain, */*"))
 
-        .exec(http("XUI_SSCSReviewAdminAction_ManageRoleAssignment")
-          .post("/api/role-access/roles/manageLabellingRoleAssignment/#{caseId}")
-          .headers(Headers.commonHeader)
-          .header("content-type", "application/json")
-          .header("x-xsrf-token", "#{XSRFToken}")
-          .body(StringBody("{}")))
+      .exec(http("XUI_SSCSReviewAdminAction_ManageRoleAssignment")
+        .post("/api/role-access/roles/manageLabellingRoleAssignment/#{caseId}")
+        .headers(Headers.commonHeader)
+        .header("content-type", "application/json")
+        .header("x-xsrf-token", "#{XSRFToken}")
+        .body(StringBody("{}")))
 
-        .exec(http("XUI_SSCSReviewAdminAction_RefreshRoleAssignments")
-          .get("/api/user/details?refreshRoleAssignments=undefined")
-          .headers(Headers.commonHeader)
-          .header("accept", "application/json, text/plain, */*"))
-      }
-  }
+      .exec(http("XUI_SSCSReviewAdminAction_RefreshRoleAssignments")
+        .get("/api/user/details?refreshRoleAssignments=undefined")
+        .headers(Headers.commonHeader)
+        .header("accept", "application/json, text/plain, */*"))
+    }
 }

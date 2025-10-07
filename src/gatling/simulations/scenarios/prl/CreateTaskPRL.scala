@@ -18,7 +18,6 @@ object CreateTaskPRL {
   val execute =
 
     feed(feedPRLUserData)
-
     .exec(CcdHelper.createCase("#{email}", "#{password}", CcdCaseTypes.PRIVATELAW_PRLAPPS, "solicitorCreate", "prlBodies/prlCreateCase.json"))
     .exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.PRIVATELAW_PRLAPPS, "#{caseId}", "fl401TypeOfApplication", "prlBodies/prlApplicationType.json"))
     .exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.PRIVATELAW_PRLAPPS, "#{caseId}", "withoutNoticeOrderDetails", "prlBodies/prlWithoutNotice.json"))

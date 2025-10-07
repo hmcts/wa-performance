@@ -17,14 +17,13 @@ object CreateTaskFPL {
     rnd.alphanumeric.filter(_.isLetter).take(length).mkString
   }
 
-  val execute = {
+  val execute =
 
     feed(feedFPLUserData)
     .exec(CcdHelper.createCase("#{email}", "#{password}", CcdCaseTypes.PUBLICLAW_CARE_SUPERVISION_EPO, "openCase", "fplBodies/FPLCreateCase.json"))
     .exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.PUBLICLAW_CARE_SUPERVISION_EPO, "#{caseId}", "ordersNeeded", "fplBodies/FPLOrdersNeeded.json"))
     .exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.PUBLICLAW_CARE_SUPERVISION_EPO, "#{caseId}", "hearingNeeded", "fplBodies/FPLHearingNeeded.json"))
     .exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.PUBLICLAW_CARE_SUPERVISION_EPO, "#{caseId}", "enterGrounds", "fplBodies/FPLEnterGrounds.json"))
-//    .exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.PUBLICLAW_CARE_SUPERVISION_EPO, "#{caseId}", "enterLocalAuthority", "fplBodies/FPLEnterLocalAuthority.json"))
     .exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.PUBLICLAW_CARE_SUPERVISION_EPO, "#{caseId}", "enterChildren", "fplBodies/FPLEnterChildren.json"))
     .exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.PUBLICLAW_CARE_SUPERVISION_EPO, "#{caseId}", "enterRespondents", "fplBodies/FPLEnterRespondents.json"))
     .exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.PUBLICLAW_CARE_SUPERVISION_EPO, "#{caseId}", "otherProposal", "fplBodies/FPLOtherProposal.json"))
@@ -32,8 +31,5 @@ object CreateTaskFPL {
     .pause(30)
     .feed(feedWAFPLUserData)
     .exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.PUBLICLAW_CARE_SUPERVISION_EPO, "#{caseId}", "messageJudgeOrLegalAdviser", "fplBodies/FPLSendMessage.json"))
-
-
-  }
 
 }

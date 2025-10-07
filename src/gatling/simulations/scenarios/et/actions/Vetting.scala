@@ -7,7 +7,7 @@ import xui.Headers
 
 object Vetting {
   
-  val execute = {
+  val execute =
 
     group("XUI_ET_Vetting_Page1") {
       exec(http("XUI_ET_Vetting_GetTasks")
@@ -37,7 +37,7 @@ object Vetting {
 
       .exec(Common.userDetails)
       .exec(Common.profile)
-  }
+    }
 
     .pause(Environment.constantthinkTime)
 
@@ -243,5 +243,4 @@ object Vetting {
 
     .pause(Environment.constantthinkTime)
 
-  }
 }

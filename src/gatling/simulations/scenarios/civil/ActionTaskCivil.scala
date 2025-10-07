@@ -15,14 +15,14 @@ object ActionTaskCivil {
     val feedCivilJudgeData = csv("CivilJudicialUserData.csv").circular
     val debugMode = System.getProperty("debug", "off")
 
-    val execute = {
+    val execute =
 
       feed(feedCivilJudgeData)
       .exec(XuiHelper.Homepage)
       .exec(XuiHelper.Login("#{email}", "#{password}"))
       .exec(AllWork.allWorkTasks)
       .exec(AllWork.allWorkTasksHighPriority)
-      .exec(ChallengedAccess.GlobalSearch)
+      .exec(SearchCase.execute)
       .doIf(session => session("accessRequired").as[String].equals("CHALLENGED")) {
         exec(ChallengedAccess.JudicialChallengedAccess)
       }
@@ -37,7 +37,6 @@ object ActionTaskCivil {
       {
         exec(CancelTask.execute)
       }
-        .exec(XuiHelper.Logout)
-  }
+      .exec(XuiHelper.Logout)
 
 }

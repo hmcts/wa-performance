@@ -10,15 +10,10 @@ import io.gatling.core.structure.{ChainBuilder, ScenarioBuilder}
 import io.gatling.http.Predef._
 import utils._
 import scenarios._
-import utilities.AzureKeyVault
 
 import scala.concurrent.duration._
 
-class UISimulation extends Simulation  {
-
-//  val config: Config = ConfigFactory.load()
-
-  val clientSecret = AzureKeyVault.loadClientSecret("ccd-perftest", "ccd-api-gateway-oauth2-client-secret")
+class WASimulation extends Simulation  {
 
   /* TEST TYPE DEFINITION */
 	/* pipeline = nightly pipeline against the AAT environment (see the Jenkins_nightly file) */
@@ -39,47 +34,19 @@ class UISimulation extends Simulation  {
   val env = System.getProperty("env", environment) //manually override the environment aat|perftest e.g. ./gradle gatlingRun -Denv=aat
 	/* ******************************** */
 
-  val feedTribunalUserData = csv("WA_TribunalUsers.csv").circular
-  val feedSeniorTribunalUsers = csv("WA_SeniorTribunalUsers.csv")
-  val feedJudicialUserData = csv("WA_JudicialUsers.csv").circular
-  val feedIACUserData = csv("IACUserData.csv").circular
-  val feedCivilUserData = csv("CivilUserData.csv").circular
-  val feedCivilJudgeData = csv("CivilJudicialUserData.csv").circular
-  val feedPRLUserData = csv("PRLUserData.csv").circular
-  val feedIACCaseList = csv("IACCaseData.csv")
-  val feedCivilCaseList = csv("CivilCaseData.csv")
-  val feedCivilJudicialCases = csv("CivilJudicialCaseData.csv")
-  val feedPRLCaseData = csv("PRLCaseData.csv")
-  val feedPRLTribunalUsers = csv("PRLTribunalUserData.csv").circular
-  val feedFPLUserData = csv("FPLUserData.csv").circular
-  val feedWAFPLUserData = csv("WA_FPLCTSCUsers.csv").circular
-  val feedFPLCaseData = csv("FPLCaseData.csv")
-  val feedETUserData = csv("ETUserData.csv").circular
-  val feedETCaseData = csv("ETCaseData.csv")
-  val feedSSCSUserData = csv("SSCSUserData.csv").circular
-  val feedSSCSCaseData = csv("SSCSCaseData.csv")
-  val feedSTUserData = csv("STUserData.csv").circular
-  val feedSTCaseData = csv("STCaseData.csv")
-  val taskCancelListFeeder = csv("WA_TasksToCancel.csv")
-
   /* PERFORMANCE TEST CONFIGURATION */
 	val iacTargetPerHour: Double = 700 //700
-	val cancelTaskTargetPerHour: Double = 500 //300
-	val iacCreateTargetPerHour: Double = 1500 //1500
   val civilCompleteTargetPerHour: Double = 200 //200
-  val civilJudicialCompleteTargetPerHour: Double = 150 //150
-	val judicialTargetPerHour: Double = 360 //360
   val prlTargetPerHour: Double = 130 //130
   val fplTargetPerHour: Double = 335 //335
   val etTargetPerHour: Double = 100 
   val sscsTargetPerHour: Double = 650 //650 
-  val sscsCompleteTargetPerHour: Double = 325
   val stTargetPerHour: Double = 50 //50
-  val waTargetPerHour: Double = 10
+  val waTargetPerHour: Double = 300
 
   val rampUpDurationMins = 5
 	val rampDownDurationMins = 5
-	val testDurationMins = 60 //60
+	val testDurationMins = 120 //60
 
 	val numberOfPipelineUsers = 5
 	val pipelinePausesMillis: Long = 3000 //3 seconds
@@ -115,11 +82,11 @@ class UISimulation extends Simulation  {
         exec(_.set("env", env).set("caseType", caseType.caseTypeId))
         .exec(createTask)
         .doIf(createOnly == "off") {
-          pause(60.seconds)
-          .exec(completeTask)
+//          pause(60.seconds)
+          exec(completeTask)
         }
       }
-  }
+    }
 
   val IACScenario = buildScenario(CcdCaseTypes.IA_Asylum, iac.CreateTaskIAC.execute, iac.ActionTaskIAC.execute)
   val PRLScenario = buildScenario(CcdCaseTypes.PRIVATELAW_PRLAPPS, prl.CreateTaskPRL.execute, prl.ActionTaskPRL.execute)
@@ -181,19 +148,15 @@ class UISimulation extends Simulation  {
       case "perftest" =>
         if (debugMode == "off") {
           Seq(global.successfulRequests.percent.gte(95),
-            details("XUI_CancelTask").successfulRequests.count.gte((cancelTaskTargetPerHour * 0.9).ceil.toInt),
-            details("XUI_Judicial_004_ConfirmRoleAllocation").successfulRequests.count.gte((judicialTargetPerHour * 0.9).ceil.toInt),
             details("XUI_RequestRespondentEvidence_Submit").successfulRequests.count.gte((iacTargetPerHour * 0.9).ceil.toInt),
             details("XUI_AddCaseNumber_Submit").successfulRequests.count.gte((prlTargetPerHour * 0.9).ceil.toInt),
-            details("XUI_JudicialSDO_Submit_Request").successfulRequests.count.gte((civilJudicialCompleteTargetPerHour * 0.9).ceil.toInt),
+            details("XUI_JudicialSDO_Submit_Request").successfulRequests.count.gte((civilCompleteTargetPerHour * 0.9).ceil.toInt),
             details("XUI_ReplyToMessage_Submit").successfulRequests.count.gte((fplTargetPerHour * 0.9).ceil.toInt),
             details("XUI_SubmitAcceptance").successfulRequests.count.gte((etTargetPerHour * 0.9).ceil.toInt)
           )
         }
         else{
           Seq(global.successfulRequests.percent.gte(95),
-            details("XUI_CancelTask").successfulRequests.count.is(1),
-            details("XUI_Judicial_004_ConfirmRoleAllocation").successfulRequests.count.is(1),
             details("XUI_RequestRespondentEvidence_Submit").successfulRequests.count.is(1),
             details("XUI_AddCaseNumber_Submit").successfulRequests.count.is(1),
             details("XUI_JudicialSDO_Submit_Request").successfulRequests.count.is(1),
@@ -211,13 +174,13 @@ class UISimulation extends Simulation  {
   }
 
   setUp(
-    STScenario.inject(simulationProfile(testType, stTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    IACScenario.inject(simulationProfile(testType, iacTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    ETScenario.inject(simulationProfile(testType, etTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    FPLScenario.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    CivilScenario.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    PRLScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-//    WAScenario.inject(simulationProfile(testType, waTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//    STScenario.inject(simulationProfile(testType, stTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//    IACScenario.inject(simulationProfile(testType, iacTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//    ETScenario.inject(simulationProfile(testType, etTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//    FPLScenario.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//    CivilScenario.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//    PRLScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    WAScenario.inject(simulationProfile(testType, waTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 //    SSCSScenario.inject(simulationProfile(testType, sscsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption), //Not onboarded so currently disabled - 4th August 2025
 
     //Not used for testing

@@ -7,7 +7,7 @@ import xui.Headers
 
 object PreAcceptance {
   
-  val execute = {
+  val execute =
 
     group("XUI_ET_PreAcceptance") {
       exec(http("XUI_ET_PreAcceptance_EventTrigger")
@@ -31,7 +31,7 @@ object PreAcceptance {
         .headers(Headers.commonHeader)
         .header("content-type", "application/json")
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json"))
-  }
+    }
 
     .pause(Environment.constantthinkTime)
 
@@ -91,5 +91,4 @@ object PreAcceptance {
       .exec(Common.waSupportedJurisdictions)
       .exec(Common.userDetails)
     }
-  }
 }

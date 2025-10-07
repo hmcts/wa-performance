@@ -15,7 +15,7 @@ object ActionTaskET {
   val feedETUserData = csv("ETUserData.csv").circular
   val debugMode = System.getProperty("debug", "off")
 
-  val execute = {
+  val execute =
 
     feed(feedETUserData)
     .exec(XuiHelper.Homepage)
@@ -32,6 +32,5 @@ object ActionTaskET {
     {
       exec(CancelTask.execute)
     }
-      .exec(XuiHelper.Logout)
-  }
+    .exec(XuiHelper.Logout)
 }

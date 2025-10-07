@@ -23,29 +23,29 @@ object CancelTask {
         .headers(Headers.commonHeader))
     }
 
-      .pause(Environment.constantthinkTime)
+    .pause(Environment.constantthinkTime)
 
-      .group("XUI_CancelTask") {
-        exec(http("XUI_CancelTask_005_Cancel")
-          .post("/workallocation/task/#{taskId}/cancel")
-          .headers(Headers.commonHeader)
-          .header("content-type", "application/json")
-          .header("x-xsrf-token", "#{XSRFToken}")
-          .body(StringBody("""{"hasNoAssigneeOnComplete":false}""")))
+    .group("XUI_CancelTask") {
+      exec(http("XUI_CancelTask_005_Cancel")
+        .post("/workallocation/task/#{taskId}/cancel")
+        .headers(Headers.commonHeader)
+        .header("content-type", "application/json")
+        .header("x-xsrf-token", "#{XSRFToken}")
+        .body(StringBody("""{"hasNoAssigneeOnComplete":false}""")))
 
-        .exec(http("XUI_CancelTask_015_GetJurisdictions")
-          .get("/api/wa-supported-jurisdiction/get")
-          .headers(Headers.commonHeader))
+      .exec(http("XUI_CancelTask_015_GetJurisdictions")
+        .get("/api/wa-supported-jurisdiction/get")
+        .headers(Headers.commonHeader))
 
-        .exec(http("XUI_CancelTask_020_GetUserDetails")
-          .get("/api/user/details")
-          .headers(Headers.commonHeader))
+      .exec(http("XUI_CancelTask_020_GetUserDetails")
+        .get("/api/user/details")
+        .headers(Headers.commonHeader))
 
-        .exec(http("XUI_CancelTask_025_AllWork")
-          .post("/workallocation/task")
-          .headers(Headers.commonHeader)
-          .header("content-type", "application/json")
-          .header("x-xsrf-token", "#{XSRFToken}")
-          .body(ElFileBody("xuiBodies/AllWork.json")))
-      }
+      .exec(http("XUI_CancelTask_025_AllWork")
+        .post("/workallocation/task")
+        .headers(Headers.commonHeader)
+        .header("content-type", "application/json")
+        .header("x-xsrf-token", "#{XSRFToken}")
+        .body(ElFileBody("xuiBodies/AllWork.json")))
+    }
 }

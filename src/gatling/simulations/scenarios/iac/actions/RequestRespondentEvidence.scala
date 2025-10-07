@@ -8,7 +8,7 @@ import xui.Headers
 
 object RequestRespondentEvidence {
 
-  val execute = {
+  val execute =
 
     doIf("#{todayDate.isUndefined()}") {
       exec(_.set("todayDate", DateUtils.getDateNow("yyyy-MM-dd")))
@@ -62,7 +62,7 @@ object RequestRespondentEvidence {
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("xuiBodies/XUIrequestRespondentEvidence1.json")))
 
-        .exec(Common.apiUserDetails)
+      .exec(Common.apiUserDetails)
     }
 
     .pause(Environment.constantthinkTime)
@@ -94,5 +94,4 @@ object RequestRespondentEvidence {
 
       .exec(Common.apiUserDetails)
     }
-  }
 } 

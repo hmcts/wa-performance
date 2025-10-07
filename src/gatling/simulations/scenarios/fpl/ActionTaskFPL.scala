@@ -15,7 +15,7 @@ object ActionTaskFPL {
   val feedFPLUserData = csv("WA_FPLCTSCUsers.csv").circular
   val debugMode = System.getProperty("debug", "off")
 
-  val execute = {
+  val execute =
 
     feed(feedFPLUserData)
     .exec(XuiHelper.Homepage)
@@ -31,6 +31,5 @@ object ActionTaskFPL {
     {
       exec(CancelTask.execute)
     }
-      .exec(XuiHelper.Logout)
-  }
+    .exec(XuiHelper.Logout)
 }

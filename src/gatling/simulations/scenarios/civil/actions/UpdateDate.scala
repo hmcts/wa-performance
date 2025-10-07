@@ -6,15 +6,14 @@ import utils.Environment
 
 object UpdateDate {
 
-  val execute = {
+  val execute =
 
     exec(http("API_Civil_UpdateDate")
-      .put("http://civil-service-#{env}.service.core-compute-#{env}.internal/testing-support/case/#{caseId}")
+      .put(Environment.civilUrl + "/testing-support/case/#{caseId}")
       .header("Authorization", "Bearer #{bearerToken}")
       .header("Content-type", "application/json")
       .body(ElFileBody("civilBodies/UpdateClaimDate.json")))
 
     .pause(Environment.constantthinkTime)
-  }
 
 }

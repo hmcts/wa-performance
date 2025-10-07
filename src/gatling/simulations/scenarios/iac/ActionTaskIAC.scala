@@ -15,7 +15,7 @@ object ActionTaskIAC {
   val feedTribunalUserData = csv("WA_TribunalUsers.csv").circular
   val debugMode = System.getProperty("debug", "off")
 
-  val execute = {
+  val execute =
 
     feed(feedTribunalUserData)
     .exec(XuiHelper.Homepage)
@@ -32,6 +32,5 @@ object ActionTaskIAC {
       exec(CancelTask.execute)
     }
     .exec(XuiHelper.Logout)
-  }
 
 }
