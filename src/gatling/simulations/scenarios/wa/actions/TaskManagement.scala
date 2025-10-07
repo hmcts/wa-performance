@@ -48,7 +48,7 @@ object TaskManagement {
 
       exec(_.set("order", "asc"))
 
-      .exec(http("WA_SearchTask_Page_#{counter}_Ascending")
+      .exec(http("WA_SearchTask_Page_Ascending")
         .post(Environment.waTMURL + "/task?first_result=#{counter}&max_results=25")
         .header("ServiceAuthorization", "Bearer #{wa_task_management_apiBearerToken}")
         .header("Authorization", "Bearer #{bearerToken}")
@@ -59,7 +59,7 @@ object TaskManagement {
 
       .exec(_.set("order", "desc"))
 
-      .exec(http("WA_SearchTask_Page_#{counter}_Descending")
+      .exec(http("WA_SearchTask_Page_Descending")
         .post(Environment.waTMURL + "/task?first_result=#{counter}&max_results=25")
         .header("ServiceAuthorization", "Bearer #{wa_task_management_apiBearerToken}")
         .header("Authorization", "Bearer #{bearerToken}")
