@@ -46,7 +46,7 @@ class WASimulation extends Simulation  {
 
   val rampUpDurationMins = 5
 	val rampDownDurationMins = 5
-	val testDurationMins = 120 //60
+	val testDurationMins = 60 //60
 
 	val numberOfPipelineUsers = 5
 	val pipelinePausesMillis: Long = 3000 //3 seconds
@@ -187,6 +187,6 @@ class WASimulation extends Simulation  {
     // getTaskFromCamunda.inject(rampUsers(1) during (1 minute))
     // cancelTaskInTM.inject(rampUsers(1) during (1 minute))
   )
-    .maxDuration(75.minutes)
+    .maxDuration(70.minutes)
     .protocols(httpProtocol)
 }
