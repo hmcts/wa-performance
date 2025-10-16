@@ -48,23 +48,41 @@ object TaskManagement {
 
       exec(_.set("order", "asc"))
 
-      .exec(http("WA_SearchTask_Page_Ascending")
+      .exec(http("WA_SearchTask_AllWork_Page_Ascending")
         .post(Environment.waTMURL + "/task?first_result=#{counter}&max_results=25")
         .header("ServiceAuthorization", "Bearer #{wa_task_management_apiBearerToken}")
         .header("Authorization", "Bearer #{bearerToken}")
         .header("Content-Type", "application/json")
-        .body(ElFileBody("WARequests/WA_Search1.json")))
+        .body(ElFileBody("WARequests/WA_SearchAllWork.json")))
+
+      .pause(Environment.constantthinkTime)
+
+      .exec(http("WA_SearchTask_AvailableTasks_Page_Ascending")
+        .post(Environment.waTMURL + "/task?first_result=#{counter}&max_results=25")
+        .header("ServiceAuthorization", "Bearer #{wa_task_management_apiBearerToken}")
+        .header("Authorization", "Bearer #{bearerToken}")
+        .header("Content-Type", "application/json")
+        .body(ElFileBody("WARequests/WA_SearchAvailableTasks.json")))
 
       .pause(Environment.constantthinkTime)
 
       .exec(_.set("order", "desc"))
 
-      .exec(http("WA_SearchTask_Page_Descending")
+      .exec(http("WA_SearchTask_AllWork_Page_Descending")
         .post(Environment.waTMURL + "/task?first_result=#{counter}&max_results=25")
         .header("ServiceAuthorization", "Bearer #{wa_task_management_apiBearerToken}")
         .header("Authorization", "Bearer #{bearerToken}")
         .header("Content-Type", "application/json")
-        .body(ElFileBody("WARequests/WA_Search1.json")))
+        .body(ElFileBody("WARequests/WA_SearchAllWork.json")))
+
+      .pause(Environment.constantthinkTime)
+
+      .exec(http("WA_SearchTask_AvailableTasks_Page_Descending")
+        .post(Environment.waTMURL + "/task?first_result=#{counter}&max_results=25")
+        .header("ServiceAuthorization", "Bearer #{wa_task_management_apiBearerToken}")
+        .header("Authorization", "Bearer #{bearerToken}")
+        .header("Content-Type", "application/json")
+        .body(ElFileBody("WARequests/WA_SearchAvailableTasks.json")))
 
       .pause(Environment.constantthinkTime)
 

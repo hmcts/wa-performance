@@ -1,0 +1,18 @@
+{
+  "request_context": "AVAILABLE_TASKS",
+  "search_parameters": [
+    {
+      "key": "jurisdiction",
+      "operator": "IN",
+      "values": [
+        "WA"
+      ]
+    }
+  ],
+  "sorting_parameters": [
+    {
+      "sort_by": "due_date",
+      "sort_order": "#{order}"
+    }
+  ]
+}

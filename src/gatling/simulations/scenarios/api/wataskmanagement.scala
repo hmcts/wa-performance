@@ -55,7 +55,7 @@ object wataskmanagement {
       .header("ServiceAuthorization", "Bearer ${wa_task_management_apiBearerToken}")
       .header("Authorization", "Bearer ${access_token}")
       .header("Content-Type", "application/json")
-      .body(ElFileBody("WARequests/WA_Search1.json")))
+      .body(ElFileBody("WARequests/WA_SearchAllWork.json")))
 
   val CamundaGetCase =
 
