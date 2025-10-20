@@ -12,7 +12,7 @@ object ActionTaskIAC {
 
   val completePercentage = 90 //Percentage of Complete Tasks //90
   val randomFeeder = Iterator.continually(Map("complete-percentage" -> Random.nextInt(100)))
-  val feedTribunalUserData = csv("WA_TribunalUsers.csv").circular
+  val feedTribunalUserData = csv("IAStaffUserData.csv").circular
   val debugMode = System.getProperty("debug", "off")
 
   val execute =
