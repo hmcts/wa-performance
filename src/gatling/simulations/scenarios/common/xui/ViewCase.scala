@@ -24,8 +24,8 @@ object ViewCase {
     .pause(Environment.constantthinkTime)
 
     .doWhile(session => !session.contains("taskId") && session("counter").as[Int] < 20, "counter") {
-      group("XUI_SelectCaseTask") {
-        exec(http("XUI_SelectCaseTask_#{counter}")
+      group("XUI_SelectCaseTask_#{taskName}") {
+        exec(http("XUI_SelectCaseTask_#{taskName}_#{counter}")
           .get("/workallocation/case/task/#{caseId}")
           .headers(Headers.commonHeader)
           .header("Accept", "application/json, text/plain, */*")
