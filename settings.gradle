@@ -1,4 +1,4 @@
-rootProject.name = 'wa-performance' //e.g. 'probate-performance'
+rootProject.name = 'wa-performance'
 
 include ':common-performance'
 
