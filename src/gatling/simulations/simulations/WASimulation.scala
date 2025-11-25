@@ -36,26 +36,16 @@ class WASimulation extends Simulation  {
 	/* ******************************** */
 
   val feedTribunalUserData = csv("WA_TribunalUsers.csv").circular
-  val feedSeniorTribunalUsers = csv("WA_SeniorTribunalUsers.csv")
-  val feedJudicialUserData = csv("WA_JudicialUsers.csv").circular
   val feedIACUserData = csv("IACUserData.csv").circular
   val feedCivilUserData = csv("CivilUserData.csv").circular
   val feedCivilJudgeData = csv("CivilJudicialUserData.csv").circular
   val feedPRLUserData = csv("PRLUserData.csv").circular
-  val feedIACCaseList = csv("IACCaseData.csv")
-  val feedCivilCaseList = csv("CivilCaseData.csv")
-  val feedCivilJudicialCases = csv("CivilJudicialCaseData.csv")
-  val feedPRLCaseData = csv("PRLCaseData.csv")
   val feedPRLTribunalUsers = csv("PRLTribunalUserData.csv").circular
   val feedFPLUserData = csv("FPLUserData.csv").circular
   val feedWAFPLUserData = csv("WA_FPLCTSCUsers.csv").circular
-  val feedFPLCaseData = csv("FPLCaseData.csv")
   val feedETUserData = csv("ETUserData.csv").circular
-  val feedETCaseData = csv("ETCaseData.csv")
   val feedSSCSUserData = csv("SSCSUserData.csv").circular
-  val feedSSCSCaseData = csv("SSCSCaseData.csv")
   val feedSTUserData = csv("STUserData.csv").circular
-  val feedSTCaseData = csv("STCaseData.csv")
   val taskCancelListFeeder = csv("WA_TasksToCancel.csv")
 
   val randomFeeder = Iterator.continually(Map("cancel-percentage" -> Random.nextInt(100)))
