@@ -94,7 +94,7 @@ class WASimulation extends Simulation  {
   val FPLScenario = buildScenario(CcdCaseTypes.PUBLICLAW_CARE_SUPERVISION_EPO, fpl.CreateTaskFPL.execute, fpl.ActionTaskFPL.execute)
   val CivilScenario = buildScenario(CcdCaseTypes.CIVIL_CIVIL, civil.CreateTaskCivil.execute, civil.ActionTaskCivil.execute)
   val STScenario = buildScenario(CcdCaseTypes.ST_CIC_CriminalInjuriesCompensation, st.CreateTaskST.execute, st.ActionTaskST.execute)
-//  val SSCSScenario = buildScenario(CcdCaseTypes.SSCS_Benefit, sscs.CreateTaskSSCS.execute, sscs.ActionTaskSSCS.execute)
+  val SSCSScenario = buildScenario(CcdCaseTypes.SSCS_Benefit, sscs.CreateTaskSSCS.execute, sscs.ActionTaskSSCS.execute)
   val WAScenario = buildScenario(CcdCaseTypes.WA_WaCaseType, wa.CreateTaskWA.execute, wa.ActionTaskWA.execute)
 
   //Debugging/Data Gen journeys - NOT USED FOR PERF TESTING!
