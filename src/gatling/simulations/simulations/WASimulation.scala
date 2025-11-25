@@ -61,8 +61,6 @@ class WASimulation extends Simulation  {
 
   val randomFeeder = Iterator.continually(Map("cancel-percentage" -> Random.nextInt(100)))
 
-========
->>>>>>>> 2fb3763 (remove unnecessary files, set test for WA journey only):src/gatling/simulations/simulations/WASimulation.scala
   /* PERFORMANCE TEST CONFIGURATION */
 	val iacTargetPerHour: Double = 700 //700
   val civilCompleteTargetPerHour: Double = 200 //200
