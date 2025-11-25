@@ -35,7 +35,6 @@ class WASimulation extends Simulation  {
   val env = System.getProperty("env", environment) //manually override the environment aat|perftest e.g. ./gradle gatlingRun -Denv=aat
 	/* ******************************** */
 
-<<<<<<<< HEAD:src/gatling/simulations/simulations/UISimulation.scala
   val feedTribunalUserData = csv("WA_TribunalUsers.csv").circular
   val feedSeniorTribunalUsers = csv("WA_SeniorTribunalUsers.csv")
   val feedJudicialUserData = csv("WA_JudicialUsers.csv").circular
