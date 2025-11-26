@@ -1,0 +1,50 @@
+{
+  "data": {
+    "claimantFirstName": "Steve",
+    "claimantLastName": "Smith",
+    "claimantDateOfBirth": "1990-09-20",
+    "claimantSex": [
+      "Male"
+    ],
+    "claimantPreferredTitle": "Mr",
+    "claimantContactAddress": {
+      "AddressLine1": "Flat 1",
+      "AddressLine2": "Bramber House",
+      "AddressLine3": "Seven Kings Way",
+      "PostTown": "Kingston Upon Thames",
+      "County": "",
+      "PostCode": "KT2 5BU",
+      "Country": "United Kingdom"
+    },
+    "representativeAttendHearing": [
+      "Phone"
+    ],
+    "hearingContactLanguage": [
+      "English"
+    ],
+    "claimantAttendHearing": [
+      "Phone"
+    ],
+    "claimantHearingContactLanguage": [
+      "English"
+    ],
+    "claimantSupportQuestion": [
+      "No"
+    ],
+    "representativeContactPreference": [
+      "Email"
+    ],
+    "contactLanguageQuestion": [
+      "English"
+    ],
+    "representativePhoneNumber": "07123123123",
+    "representativeReferenceNumber": "123123"
+  },
+  "event": {
+    "id": "et1SectionOne",
+    "summary": "",
+    "description": ""
+  },
+  "event_token": "#{eventToken}",
+  "ignore_warning": false
+}

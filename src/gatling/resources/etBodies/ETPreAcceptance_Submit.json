@@ -2,7 +2,7 @@
   "data": {
      "preAcceptCase": {
         "caseAccepted": "Yes",
-        "dateAccepted": "2023-09-27",
+        "dateAccepted": "2025-07-30",
         "dateRejected": null,
         "rejectReason": []
      }
@@ -12,6 +12,6 @@
      "summary": "",
      "description": ""
   },
-  "event_token": "#{eventToken2}",
+  "event_token": "#{eventToken}",
   "ignore_warning": false
 }
