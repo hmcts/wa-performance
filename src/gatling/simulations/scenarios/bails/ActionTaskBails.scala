@@ -22,5 +22,14 @@ object ActionTaskBails {
     .exec(XuiHelper.Login("#{user}", "#{password}"))
     .exec(SearchCase.execute)
     .exec(_.set("taskName", "processBailApplication"))
+    .exec(ViewCase.execute)
+    .feed(randomFeeder)
+    .doIfOrElse(session => if (debugMode == "off") session("complete-percentage").as[Int] < completePercentage else true) {
+      exec(AssignTask.execute)
+      .exec(ConfirmDetentionLocation.execute)
+    }
+    {
+      exec(CancelTask.execute)
+    }
     .exec(XuiHelper.Logout)
 }

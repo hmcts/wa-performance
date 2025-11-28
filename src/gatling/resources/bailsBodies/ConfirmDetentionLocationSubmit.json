@@ -1,0 +1,12 @@
+{
+  "data": {
+    "isDetentionLocationCorrect": "Yes"
+  },
+  "event": {
+    "id": "confirmDetentionLocation",
+    "summary": "",
+    "description": ""
+  },
+  "event_token": "#{eventToken}",
+  "ignore_warning": false
+}
