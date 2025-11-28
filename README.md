@@ -14,13 +14,15 @@ To make other configuration changes to the file, first run `git update-index --n
 
 ## Useful info
 
-* The UI simulation targets Work Allocation via XUI - this is being used for all WA performance testing
+* The WA simulation targets Work Allocation via XUI - this is being used for all WA performance testing
 
-## Pre-test criteria:
+## 🔗 Submodules
 
-* The file WA_TasksToCancel.csv consumes 324 rows per test - ensure the first 324 have been deleted from the prior test run before running another test
-* The file IACCaseData.csv consumes 760 rows per test - as above, delete the first 760 before starting another test run
-* The file PRLCaseData.csv consumes 108 rows per test - as above, delete the first 108 before starting another test run
-* The file CivilJudicialCaseData.csv consumes 162 rows per test - as above, delete the first 162 before starting another test run
-* The file FPLCaseData.csv consumes 335 rows per test - as above, delete the first 335 before starting another test run
-* Ensure the Client Secrets are defined in application.conf
+The WA-Performance repo now utilises calls from the [common-performance](https://github.com/hmcts/common-performance) repo, using the XUIHelper file.
+
+Please ensure that you run `git submodule update --init --recursive` to populate the common folder with the required folders & files for the first time. Then run `./gradlew clean build` to ensure any changes are picked up. (For further information, please refer to the [Setup Instructions](https://github.com/hmcts/common-performance/tree/master?tab=readme-ov-file#%EF%B8%8F-setup-instructions))
+
+
+#### Also ensure that you run `git submodule update --recursive --remote`, followed by `./gradlew build` to check that you have the latest code from the common repo, before running or doing any updates to this repo.
+
+#### Note - These steps will also be required when you clone or run on the VMs!

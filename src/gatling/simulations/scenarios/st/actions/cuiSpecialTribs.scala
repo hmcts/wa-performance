@@ -4,8 +4,6 @@ import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import utils._
 
-import java.io.{BufferedWriter, FileWriter}
-
 object cuiSpecialTribs {
 
   val cuiSTURL = Environment.cuiStURL
@@ -157,16 +155,6 @@ object cuiSpecialTribs {
 			.formParam("saveAndContinue", "true")
 			.check(regex("Case Number:</font><br>(.+?)</strong>").transform(string => string.replace(" - ", "")).saveAs("caseId"))
 			.check(substring("Tribunal form sent")))
-
-    .exec {
-      session =>
-        val fw = new BufferedWriter(new FileWriter("STSubmittedCases.csv", true))
-        try {
-          fw.write(session("caseId").as[String] + "\r\n")
-        }
-        finally fw.close()
-        session
-    }
 
     .pause(Environment.constantthinkTime)
 
