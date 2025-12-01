@@ -1,0 +1,11 @@
+{
+  "email": "citizen_#{randomString}@mailinator.com",
+  "forename": "Citizen",
+  "surname": "ST",
+  "password": "#{password}",
+  "roles": [
+    {
+      "code": "citizen"
+    }
+  ]
+}

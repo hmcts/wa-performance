@@ -1,0 +1,97 @@
+{
+  "messageName": "createTaskMessage",
+  "processVariables": {
+    "caseTypeId": {
+      "value": "WaCaseType",
+      "type": "String"
+    },
+    "tribunal-caseworker": {
+      "value": "Read,Refer,Own,Manage,Cancel",
+      "type": "String"
+    },
+    "locationName": {
+      "value": "Taylor House",
+      "type": "String"
+    },
+    "staffLocation": {
+      "value": "Taylor House",
+      "type": "String"
+    },
+    "jurisdiction": {
+      "value": "WA",
+      "type": "String"
+    },
+    "securityClassification": {
+      "value": "PUBLIC",
+      "type": "String"
+    },
+    "dueDate": {
+      "value": "#{dueDate}",
+      "type": "String"
+    },
+    "description": {
+      "value": "aDescription",
+      "type": "String"
+    },
+    "warningList": {
+      "value": "WarningValues(values=[])",
+      "type": "String"
+    },
+    "task-supervisor": {
+      "value": "Read,Refer,Manage,Cancel",
+      "type": "String"
+    },
+    "caseManagementCategory": {
+      "value": "Protection",
+      "type": "String"
+    },
+    "taskType": {
+      "value": "#{taskType}",
+      "type": "String"
+    },
+    "taskState": {
+      "value": "unconfigured",
+      "type": "String"
+    },
+    "hasWarnings": {
+      "value": false,
+      "type": "boolean"
+    },
+    "caseId": {
+      "value": "#{caseId}",
+      "type": "String"
+    },
+    "name": {
+      "value": "#{taskName}",
+      "type": "String"
+    },
+    "workingDaysAllowed": {
+      "value": "2",
+      "type": "String"
+    },
+    "location": {
+      "value": "765324",
+      "type": "String"
+    },
+    "region": {
+      "value": "1",
+      "type": "String"
+    },
+    "delayUntil": {
+      "value": "#{yesterdayDate}T13:00:00.000+0100",
+      "type": "String"
+    },
+    "senior-tribunal-caseworker": {
+      "value": "Read,Refer,Own,Manage,Cancel",
+      "type": "String"
+    },
+    "taskId": {
+      "value": "#{taskType}",
+      "type": "String"
+    },
+    "taskCategory": {
+      "value": "Case Progression",
+      "type": "String"
+    }
+  }
+}

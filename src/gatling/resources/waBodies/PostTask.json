@@ -1,0 +1,18 @@
+{
+  "task_attributes": {
+    "taskType": "#{taskType}",
+    "hasWarnings": false,
+    "created": "#{taskCreated}",
+    "caseId": "#{caseId}",
+    "dueDate": "#{taskDue}",
+    "securityClassification": "PUBLIC",
+    "name": "#{taskName}",
+    "warningList": {
+      "values": [
+
+      ]
+    },
+    "__processCategory__Protection": true
+  },
+  "operation": "INITIATION"
+}

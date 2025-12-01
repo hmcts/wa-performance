@@ -1,0 +1,56 @@
+{
+  "data": {
+    "didClaimantWorkForOrg": [
+      "Yes"
+    ],
+    "claimantStillWorking": [
+      "No longer working"
+    ],
+    "claimantJobTitle": "Consultant",
+    "claimantStartDate": "2020-02-01",
+    "claimantEndDate": "2024-12-12",
+    "claimantNoLongerWorkingQuestion": [
+      "Worked",
+      "Paid"
+    ],
+    "claimantNoLongerWorking": [],
+    "claimantAverageWeeklyWorkHours": "40",
+    "claimantPayBeforeTax": "2000000",
+    "claimantPayAfterTax": null,
+    "claimantPayType": [
+      "Annual"
+    ],
+    "claimantPensionContribution": [
+      "Not Sure"
+    ],
+    "claimantEmployeeBenefits": [
+      "No"
+    ],
+    "claimantNewJob": [
+      "No"
+    ],
+    "respondentType": "Individual",
+    "respondentFirstName": "John",
+    "respondentLastName": "Smith",
+    "respondentAddress": {
+      "AddressLine1": "Flat 10",
+      "AddressLine2": "Bramber House",
+      "AddressLine3": "Seven Kings Way",
+      "PostTown": "Kingston Upon Thames",
+      "County": "",
+      "PostCode": "KT2 5BU",
+      "Country": "United Kingdom"
+    },
+    "didClaimantWorkAtSameAddress": "Yes",
+    "respondentAcasYesNo": "Yes",
+    "respondentAcasNumber": "R807115/23/89",
+    "addAdditionalRespondent": "No"
+  },
+  "event": {
+    "id": "et1SectionTwo",
+    "summary": "",
+    "description": ""
+  },
+  "event_token": "#{eventToken}",
+  "ignore_warning": false
+}
