@@ -114,8 +114,3 @@ configurations {
     gatlingImplementation.extendsFrom implementation
     gatlingRuntimeOnly.extendsFrom runtimeOnly
 }
-
-/* Generate stats per transaction for use in Jenkins*/
-ext {
-    transactionNamesToGraph = [""]
-}
