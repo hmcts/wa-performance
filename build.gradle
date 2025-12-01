@@ -1,8 +1,8 @@
 plugins {
-  id 'org.owasp.dependencycheck' version '12.1.3'
+  id 'org.owasp.dependencycheck' version '12.1.9'
   id 'scala'
   id 'java-library'
-  id 'io.gatling.gradle' version '3.14.4'
+  id 'io.gatling.gradle' version '3.14.9'
 }
  
 java {
@@ -71,7 +71,7 @@ tasks.named("gatlingRun") {
 }
  
 gatling {
-  gatlingVersion '3.14.4'
+  gatlingVersion '3.14.9'
   scalaVersion '2.13.11'
 }
  
@@ -104,7 +104,31 @@ tasks.register('generateStats', JavaExec) {
   classpath = sourceSets.gatling.runtimeClasspath + project(":common-performance").sourceSets.main.runtimeClasspath
 }
 
+// Override gatlingRun task
+tasks.named("gatlingRun") {
+    dependsOn("runSimulation")
+    enabled = false
+}
+
+configurations {
+    gatlingImplementation.extendsFrom implementation
+    gatlingRuntimeOnly.extendsFrom runtimeOnly
+}
+
+/* Generate stats per transaction for use in Jenkins*/
+ext {
+    transactionNamesToGraph = [""]
+}
+
+tasks.register('generateStats', JavaExec) {
+    dependsOn tasks.named('gatlingRun')
+    dependsOn tasks.named('compileGatlingScala')
+    mainClass.set('stats.GenerateStatsByTxn')
+    args = transactionNamesToGraph
+    classpath = sourceSets.gatling.runtimeClasspath + project(":common-performance").sourceSets.main.runtimeClasspath
+}
+
 // Ensure it runs after Gatling
 tasks.named('gatlingRun') {
-  finalizedBy tasks.named('generateStats')
+    finalizedBy tasks.named('generateStats')
 }
