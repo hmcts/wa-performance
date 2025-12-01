@@ -109,8 +109,3 @@ tasks.named("gatlingRun") {
     dependsOn("runSimulation")
     enabled = false
 }
-
-configurations {
-    gatlingImplementation.extendsFrom implementation
-    gatlingRuntimeOnly.extendsFrom runtimeOnly
-}
