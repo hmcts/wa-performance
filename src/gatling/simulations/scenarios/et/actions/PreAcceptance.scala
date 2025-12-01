@@ -2,6 +2,7 @@ package scenarios.et.actions
 
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
+import utilities.DateUtils
 import utils.{Common, Environment}
 import xui.Headers
 
@@ -9,7 +10,9 @@ object PreAcceptance {
   
   val execute =
 
-    group("XUI_ET_PreAcceptance") {
+    exec(_.set("todayDate", DateUtils.getDateNow("yyyy-MM-dd")))
+
+    .group("XUI_ET_PreAcceptance") {
       exec(http("XUI_ET_PreAcceptance_EventTrigger")
         .get("/cases/case-details/#{caseId}/trigger/preAcceptanceCase/preAcceptanceCase1")
         .headers(Headers.commonHeader))

@@ -2,7 +2,7 @@
   "data": {
      "preAcceptCase": {
         "caseAccepted": "Yes",
-        "dateAccepted": "2025-07-30",
+        "dateAccepted": "#{todayDate}",
         "dateRejected": null,
         "rejectReason": []
      }
