@@ -16,6 +16,9 @@ def component = "wa-performance-tests"
 def secrets = [
     'ccd-perftest': [
         secret('ccd-api-gateway-oauth2-client-secret', 'CLIENT_SECRET')
+    ],
+    'ccpay-perftest': [
+        secret('paybubble-idam-client-secret', 'CLIENT_SECRET')
     ]
 ]
 
