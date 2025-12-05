@@ -62,4 +62,6 @@ object payments {
     }
       
     .pause(Environment.constantthinkTime)
+
+    .exec(session => session.removeAll())
 }
