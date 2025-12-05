@@ -17,8 +17,7 @@ object payments {
     exec(http("CCD_AuthLease")
       .post(Environment.rpeUrl + "/testing-support/lease")
       .body(StringBody(s"""{"microservice":"$microservice"}""")).asJson
-      .check(regex("(.+)").saveAs("xui_webappAuthToken"))
-    )
+      .check(regex("(.+)").saveAs("xui_webappAuthToken")))
 
     .exec(http("CCD_GetBearerToken")
       .post(Environment.idamAPI + "/o/token")
@@ -29,15 +28,16 @@ object payments {
       .formParam("client_secret", clientSecret)
       .formParam("scope", "openid profile roles search-user")
       .header("Content-Type", "application/x-www-form-urlencoded")
-      .check(jsonPath("$.access_token").saveAs("access_tokenPayments"))
-    )
+      .check(jsonPath("$.access_token").saveAs("access_tokenPayments")))
+
+    .pause(Environment.constantthinkTime)
 
     .exec(http("PaymentAPI_GetCasePaymentOrders")
       .get(Environment.paymentsUrl + "/case-payment-orders?case_ids=#{caseId}")
       .header("Authorization", "Bearer #{access_tokenPayments}")
       .header("ServiceAuthorization", "#{xui_webappAuthToken}")
       .header("Content-Type","application/json")
-      .header("accept","*/*")
+//      .header("accept","*/*")
       .check(jsonPath("$.content[0].orderReference").saveAs("caseIdPaymentRef")))
 
     .pause(Environment.constantthinkTime)
@@ -45,8 +45,7 @@ object payments {
     .exec(http("CCD_AuthLease")
       .post(Environment.rpeUrl + "/testing-support/lease")
       .body(StringBody(s"""{"microservice":"$civilmicroservice"}""")).asJson
-      .check(regex("(.+)").saveAs("civil_serviceAuthToken"))
-    )
+      .check(regex("(.+)").saveAs("civil_serviceAuthToken")))
 
     .tryMax(2) {
       exec(http("API_Civil_AddPayment")
