@@ -64,7 +64,7 @@ class WASimulation extends Simulation  {
 	val rampDownDurationMins = 5
 	val testDurationMins = 120 //60
 
-	val numberOfPipelineUsers = 5
+	val numberOfPipelineUsers = 1 //5
 	val pipelinePausesMillis: Long = 3000 //3 seconds
 
 	//Determine the pause pattern to use:
