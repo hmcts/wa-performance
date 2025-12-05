@@ -19,6 +19,11 @@ object payments {
       .body(StringBody(s"""{"microservice":"$microservice"}""")).asJson
       .check(regex("(.+)").saveAs("xui_webappAuthToken")))
 
+      .exec(session => {
+        println(s"Last 5 chars: ${clientSecret.takeRight(5)}")
+        session
+      })
+
     .exec(http("CCD_GetBearerToken")
       .post(Environment.idamAPI + "/o/token")
       .formParam("grant_type", "password")
