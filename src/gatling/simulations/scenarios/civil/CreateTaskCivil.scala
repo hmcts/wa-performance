@@ -32,7 +32,9 @@ object CreateTaskCivil {
       exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.CIVIL_CIVIL, "#{caseId}", "NOTIFY_DEFENDANT_OF_CLAIM", "civilBodies/NotifyClaim.json"))
     }
     .pause(60)
-    .exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.CIVIL_CIVIL, "#{caseId}", "NOTIFY_DEFENDANT_OF_CLAIM_DETAILS", "civilBodies/NotifyClaimDetails.json"))
+    .tryMax(2) {
+      exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.CIVIL_CIVIL, "#{caseId}", "NOTIFY_DEFENDANT_OF_CLAIM_DETAILS", "civilBodies/NotifyClaimDetails.json"))
+    }
     .pause(60)
     .exec(UpdateDate.execute)
     .pause(60)
