@@ -73,7 +73,7 @@ class WASimulation extends Simulation  {
 	//Debug mode = disable all pauses
 	val pauseOption: PauseType = debugMode match {
 		case "off" if testType == "perftest" => constantPauses
-		case "off" if testType == "pipeline" => customPauses(pipelinePausesMillis)
+		case "off" if testType == "pipeline" => constantPauses // customPauses(pipelinePausesMillis)
 		case _ => constantPauses //disabledPauses
 	}
 
