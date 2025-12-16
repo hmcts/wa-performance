@@ -1,0 +1,16 @@
+{
+  "data": {
+    "applicationSubmittedBy": "Legal Representative",
+    "declarationOnSubmit": [
+      "declarationOnSubmit"
+    ],
+    "isLegalRep": "Yes"
+  },
+  "event": {
+    "id": "submitApplication",
+    "summary": "",
+    "description": ""
+  },
+  "event_token": "#{eventToken}",
+  "ignore_warning": false
+}
