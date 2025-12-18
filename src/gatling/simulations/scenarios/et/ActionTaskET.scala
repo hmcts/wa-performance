@@ -11,7 +11,7 @@ import scala.util.Random
 object ActionTaskET {
 
   val completePercentage = 90 //Percentage of Complete Tasks //90
-  val randomFeeder = Iterator.continually(Map("complete-percentage" -> Random.nextInt(100)))
+  val randomFeeder = Iterator.continually(Map("cancel-percentage" -> Random.nextInt(100)))
   val feedETUserData = csv("ETUserData.csv").circular
   val debugMode = System.getProperty("debug", "off")
 
@@ -24,7 +24,7 @@ object ActionTaskET {
     .exec(_.set("taskName", "Et1Vetting"))
     .exec(ViewCase.execute)
     .feed(randomFeeder)
-    .doIfOrElse(session => if (debugMode == "off") session("complete-percentage").as[Int] < completePercentage else true) {
+    .doIfOrElse(session => if (debugMode == "off") session("cancel-percentage").as[Int] < completePercentage else true) {
       exec(AssignTask.execute)
       .exec(Vetting.execute)
       .exec(PreAcceptance.execute)
