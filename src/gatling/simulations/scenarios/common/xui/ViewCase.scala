@@ -39,13 +39,22 @@ object ViewCase {
       .pause(30)
     }
 
-    .doIf(session => !session.contains("taskId") && session("counter").as[Int] >= 20){
-      exec(session => {
-        println("Could not retrieve task after 20 attempts")
+//    .doIf(session => !session.contains("taskId") && session("counter").as[Int] >= 20){
+//      exec(session => {
+//        println("Could not retrieve task after 20 attempts")
+//        session
+//      })
+//      .exitHere
+//    }
+
+      .exec(session => {
+        if (session("counter").as[Int] >= 20) {
+          println("Could not retrieve task after 20 attempts")
+        }
         session
       })
-      .exitHere
-    }
+
+      .exitHereIf(session => session("counter").as[Int] >= 20)
 
     .pause(Environment.constantthinkTime)
 
