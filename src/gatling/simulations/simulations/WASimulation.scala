@@ -220,8 +220,8 @@ class WASimulation extends Simulation  {
       IACScenario.inject(stressTestProfile(iacTargetPerHour)).pauses(pauseOption),
       ETScenario.inject(stressTestProfile(etTargetPerHour)).pauses(pauseOption),
       FPLScenario.inject(stressTestProfile(fplTargetPerHour)).pauses(pauseOption),
-      CivilScenario.inject(stressTestProfile(civilCompleteTargetPerHour)).pauses(pauseOption),
-      PRLScenario.inject(stressTestProfile(prlTargetPerHour)).pauses(pauseOption),
+//      CivilScenario.inject(stressTestProfile(civilCompleteTargetPerHour)).pauses(pauseOption),
+//      PRLScenario.inject(stressTestProfile(prlTargetPerHour)).pauses(pauseOption),
 
     //    WAScenario.inject(simulationProfile(testType, waTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption), // Only used for specific WA/TM ticket testing
     //    SSCSScenario.inject(simulationProfile(testType, sscsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption), //Not onboarded so currently disabled - 4th August 2025
