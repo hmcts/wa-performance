@@ -157,6 +157,17 @@ class WASimulation extends Simulation  {
     }
   }
 
+  def stressTestProfile(userPerHourRate: Double, maxMultiplier: Int = 20): Seq[OpenInjectionStep] = {
+    val userPerSecRate = userPerHourRate / 3600
+
+    (1 to maxMultiplier).flatMap { multiplier =>
+      Seq(
+        rampUsersPerSec((multiplier - 1) * userPerSecRate) to (multiplier * userPerSecRate) during (rampUpDurationMins.minutes),
+        constantUsersPerSec(multiplier * userPerSecRate) during (5.minutes) //20
+      )
+    }
+  }
+
   //defines the test assertions, based on the test type
   def assertions(simulationType: String): Seq[Assertion] = {
     simulationType match {
@@ -188,20 +199,37 @@ class WASimulation extends Simulation  {
     }
   }
 
-  setUp(
-    STScenario.inject(simulationProfile(testType, stTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    IACScenario.inject(simulationProfile(testType, iacTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    ETScenario.inject(simulationProfile(testType, etTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    FPLScenario.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    CivilScenario.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    PRLScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//  setUp(
+//    STScenario.inject(simulationProfile(testType, stTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//    IACScenario.inject(simulationProfile(testType, iacTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//    ETScenario.inject(simulationProfile(testType, etTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//    FPLScenario.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//    CivilScenario.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//    PRLScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+
 //    WAScenario.inject(simulationProfile(testType, waTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption), // Only used for specific WA/TM ticket testing
 //    SSCSScenario.inject(simulationProfile(testType, sscsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption), //Not onboarded so currently disabled - 4th August 2025
 
     //Not used for testing
     // getTaskFromCamunda.inject(rampUsers(1) during (1 minute))
     // cancelTaskInTM.inject(rampUsers(1) during (1 minute))
+//  )
+
+  setUp(
+//      STScenario.inject(stressTestProfile(stTargetPerHour)).pauses(pauseOption),
+      IACScenario.inject(stressTestProfile(iacTargetPerHour)).pauses(pauseOption),
+      ETScenario.inject(stressTestProfile(etTargetPerHour)).pauses(pauseOption),
+      FPLScenario.inject(stressTestProfile(fplTargetPerHour)).pauses(pauseOption),
+      CivilScenario.inject(stressTestProfile(civilCompleteTargetPerHour)).pauses(pauseOption),
+      PRLScenario.inject(stressTestProfile(prlTargetPerHour)).pauses(pauseOption),
+
+    //    WAScenario.inject(simulationProfile(testType, waTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption), // Only used for specific WA/TM ticket testing
+    //    SSCSScenario.inject(simulationProfile(testType, sscsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption), //Not onboarded so currently disabled - 4th August 2025
+
+    //Not used for testing
+    // getTaskFromCamunda.inject(rampUsers(1) during (1 minute))
+    // cancelTaskInTM.inject(rampUsers(1) during (1 minute))
   )
-    .maxDuration(75.minutes)
+    .maxDuration(60.minutes)
     .protocols(httpProtocol)
 }
