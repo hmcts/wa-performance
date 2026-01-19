@@ -1,0 +1,17 @@
+{
+  "data": {
+    "uploadSignedDecisionNoticeDocument": {
+      "document_url": "#{DocumentURL}",
+      "document_binary_url": "#{DocumentURL}/binary",
+      "document_filename": "CaseSummary.pdf",
+      "document_hash": "#{DocumentHash}"
+    }
+  },
+  "event": {
+    "id": "uploadSignedDecisionNotice",
+    "summary": "",
+    "description": ""
+  },
+  "event_token": "#{eventToken}",
+  "ignore_warning": false
+}

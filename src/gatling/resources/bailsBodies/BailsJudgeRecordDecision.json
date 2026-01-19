@@ -30,6 +30,6 @@
     "summary": "",
     "description": ""
   },
-  "event_token": "#{event_token}",
+  "event_token": "#{eventToken}",
   "ignore_warning": false
 }
