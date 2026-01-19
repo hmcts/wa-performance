@@ -26,6 +26,11 @@ object ViewCase {
     .exec(session => session.set("counter", 0))
 
     .doWhile(session => !session.contains("taskId") && session("counter").as[Int] < 20, "counter") {
+      exec(session => {
+        println(s"Iteration ${session("counter").as[Int]}, taskId present: ${session.contains("taskId")}")
+        session
+      })
+
       group("XUI_SelectCaseTask") {
         exec(http("XUI_SelectCaseTask_#{counter}")
           .get("/workallocation/case/task/#{caseId}")
@@ -34,27 +39,20 @@ object ViewCase {
           .header("x-xsrf-token", "#{XSRFToken}")
           .check(jsonPath("$[?(@.type=='#{taskName}')].id").optional.saveAs("taskId"))
           .check(jsonPath("$[?(@.type=='#{taskName}')].type").optional.saveAs("taskType")))
-      }
+    }
 
       .pause(30)
     }
 
-//    .doIf(session => !session.contains("taskId") && session("counter").as[Int] >= 20){
-//      exec(session => {
-//        println("Could not retrieve task after 20 attempts")
-//        session
-//      })
-//      .exitHere
-//    }
+    .doIf(session => !session.contains("taskId")) {
+      exec { session =>
+          println("Could not retrieve task after 20 attempts, exiting user...")
+          session.markAsFailed
+      }
+      .exitHereIfFailed
+    }
 
-      .exec(session => {
-        if (session("counter").as[Int] >= 20) {
-          println("Could not retrieve task after 20 attempts")
-        }
-        session
-      })
-
-      .exitHereIf(session => session("counter").as[Int] >= 20)
+//    .exitHereIf(session => !session.contains("taskId"))
 
     .pause(Environment.constantthinkTime)
 
