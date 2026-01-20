@@ -33,7 +33,7 @@ object CreateTaskBails {
       .feed(feedIACAdminData)
       .exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.IA_Bail, "#{caseId}", "confirmDetentionLocation", "bailsBodies/ConfirmDetentionLocationSubmit.json"))
       .exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.IA_Bail, "#{caseId}", "caseListing", "bailsBodies/BailsListCase.json"))
-      .feed(CaseWorkerUserFeeder)
+      .feed(feedIACHoData)
       .exec(CcdHelper.uploadDocumentToCdam("#{email}", "#{password}", CcdCaseTypes.IA_Bail, "120KB.pdf", additionalChecks = Seq(
           jsonPath("$.documents[0]._links.self.href").saveAs("DocumentURL"))))
       .exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.IA_Bail, "#{caseId}", "uploadBailSummary", "bailsBodies/BailsUploadSummary.json"))

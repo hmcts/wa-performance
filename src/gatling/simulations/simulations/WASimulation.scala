@@ -59,7 +59,7 @@ class WASimulation extends Simulation  {
   val sscsTargetPerHour: Double = 650 //650 
   val stTargetPerHour: Double = 50 //50
   val waTargetPerHour: Double = 300
-  val bailsTargetPerHour: Double = 98 //98
+  val bailsTargetPerHour: Double = 3250 //98
 
   val rampUpDurationMins = 5
 	val rampDownDurationMins = 5
@@ -192,13 +192,13 @@ class WASimulation extends Simulation  {
   }
 
   setUp(
-    STScenario.inject(simulationProfile(testType, stTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    IACScenario.inject(simulationProfile(testType, iacTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    ETScenario.inject(simulationProfile(testType, etTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    FPLScenario.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    CivilScenario.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    PRLScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    WAScenario.inject(simulationProfile(testType, waTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//    STScenario.inject(simulationProfile(testType, stTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//    IACScenario.inject(simulationProfile(testType, iacTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//    ETScenario.inject(simulationProfile(testType, etTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//    FPLScenario.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//    CivilScenario.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//    PRLScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//    WAScenario.inject(simulationProfile(testType, waTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     BailsScenario.inject(simulationProfile(testType, bailsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 //    SSCSScenario.inject(simulationProfile(testType, sscsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption), //Not onboarded so currently disabled - 4th August 2025
 
@@ -206,6 +206,6 @@ class WASimulation extends Simulation  {
     // getTaskFromCamunda.inject(rampUsers(1) during (1 minute))
     // cancelTaskInTM.inject(rampUsers(1) during (1 minute))
   )
-    .maxDuration(75.minutes)
+//    .maxDuration(130.minutes) //75
     .protocols(httpProtocol)
 }

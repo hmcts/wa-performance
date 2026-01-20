@@ -4,7 +4,7 @@
       "document_url": "#{DocumentURL}",
       "document_binary_url": "#{DocumentURL}/binary",
       "document_filename": "CaseSummary.pdf",
-      "document_hash": "#{DocumentHash}"
+      "document_hash": "#{hashToken}"
     }
   },
   "event": {
