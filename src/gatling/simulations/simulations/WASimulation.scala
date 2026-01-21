@@ -52,10 +52,10 @@ class WASimulation extends Simulation  {
 
   /* PERFORMANCE TEST CONFIGURATION */
 	val iacTargetPerHour: Double = 700 //700
-  val civilCompleteTargetPerHour: Double = 200 //200
-  val prlTargetPerHour: Double = 130 //130
-  val fplTargetPerHour: Double = 335 //335
-  val etTargetPerHour: Double = 100 
+  val civilCompleteTargetPerHour: Double = 700 //200
+  val prlTargetPerHour: Double = 700 //130
+  val fplTargetPerHour: Double = 700 //335
+  val etTargetPerHour: Double = 700
   val sscsTargetPerHour: Double = 650 //650 
   val stTargetPerHour: Double = 50 //50
   val waTargetPerHour: Double = 300
