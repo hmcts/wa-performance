@@ -23,7 +23,7 @@ object ViewCase {
 
     .pause(Environment.constantthinkTime)
 
-    .doWhile(session => !session.contains("taskId") && session("counter").as[Int] < 20, "counter") {
+    .doWhile(session => !session.contains("taskId") && session("counter").as[Int] < 30, "counter") {
       group("XUI_SelectCaseTask") {
         exec(http("XUI_SelectCaseTask_#{counter}")
           .get("/workallocation/case/task/#{caseId}")
@@ -34,12 +34,12 @@ object ViewCase {
           .check(jsonPath("$[?(@.type=='#{taskName}')].type").optional.saveAs("taskType")))
       }
 
-      .pause(30)
+      .pause(60)
     }
 
-    .doIf(session => !session.contains("taskId") && session("counter").as[Int] >= 20){
+    .doIf(session => !session.contains("taskId") && session("counter").as[Int] >= 30){
       exec(session => {
-        println("Could not retrieve task after 20 attempts")
+        println("Could not retrieve task after 30 attempts")
         session
       })
       .exitHere
