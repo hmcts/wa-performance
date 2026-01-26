@@ -12,7 +12,6 @@ import utils._
 import scenarios._
 
 import scala.concurrent.duration._
-import scala.util.Random
 
 class WASimulation extends Simulation  {
 
@@ -47,7 +46,7 @@ class WASimulation extends Simulation  {
   val feedSSCSUserData = csv("SSCSUserData.csv").circular
   val feedSTUserData = csv("STUserData.csv").circular
   val taskCancelListFeeder = csv("WA_TasksToCancel.csv")
-  
+
   /* PERFORMANCE TEST CONFIGURATION */
 	val iacTargetPerHour: Double = 800 //700
   val civilCompleteTargetPerHour: Double = 300 //200
@@ -61,7 +60,7 @@ class WASimulation extends Simulation  {
 
   val rampUpDurationMins = 5
 	val rampDownDurationMins = 5
-	val testDurationMins = 120 //60
+	val testDurationMins = 60 //60
 
 	val numberOfPipelineUsers = 5
 	val pipelinePausesMillis: Long = 3000 //3 seconds
@@ -204,6 +203,6 @@ class WASimulation extends Simulation  {
     // getTaskFromCamunda.inject(rampUsers(1) during (1 minute))
     // cancelTaskInTM.inject(rampUsers(1) during (1 minute))
   )
-//    .maxDuration(130.minutes) //75
+    .maxDuration(75.minutes) //75
     .protocols(httpProtocol)
 }
