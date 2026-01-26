@@ -51,15 +51,15 @@ class WASimulation extends Simulation  {
   val randomFeeder = Iterator.continually(Map("cancel-percentage" -> Random.nextInt(100)))
 
   /* PERFORMANCE TEST CONFIGURATION */
-	val iacTargetPerHour: Double = 700 //700
-  val civilCompleteTargetPerHour: Double = 200 //200
-  val prlTargetPerHour: Double = 130 //130
-  val fplTargetPerHour: Double = 335 //335
-  val etTargetPerHour: Double = 100 
+	val iacTargetPerHour: Double = 800 //700
+  val civilCompleteTargetPerHour: Double = 300 //200
+  val prlTargetPerHour: Double = 200 //130
+  val fplTargetPerHour: Double = 350 //335
+  val etTargetPerHour: Double = 150
   val sscsTargetPerHour: Double = 650 //650 
-  val stTargetPerHour: Double = 50 //50
+  val stTargetPerHour: Double = 60 //50
   val waTargetPerHour: Double = 300
-  val bailsTargetPerHour: Double = 3250 //98
+  val bailsTargetPerHour: Double = 120 //120
 
   val rampUpDurationMins = 5
 	val rampDownDurationMins = 5
@@ -192,14 +192,14 @@ class WASimulation extends Simulation  {
   }
 
   setUp(
-//    STScenario.inject(simulationProfile(testType, stTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-//    IACScenario.inject(simulationProfile(testType, iacTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-//    ETScenario.inject(simulationProfile(testType, etTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-//    FPLScenario.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-//    CivilScenario.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-//    PRLScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-//    WAScenario.inject(simulationProfile(testType, waTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    BailsScenario.inject(simulationProfile(testType, bailsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    STScenario.inject(simulationProfile(testType, stTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    IACScenario.inject(simulationProfile(testType, iacTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    ETScenario.inject(simulationProfile(testType, etTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    FPLScenario.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    CivilScenario.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    PRLScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    WAScenario.inject(simulationProfile(testType, waTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//    BailsScenario.inject(simulationProfile(testType, bailsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 //    SSCSScenario.inject(simulationProfile(testType, sscsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption), //Not onboarded so currently disabled - 4th August 2025
 
     //Not used for testing
