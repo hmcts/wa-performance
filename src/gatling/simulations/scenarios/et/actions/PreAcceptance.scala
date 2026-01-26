@@ -2,6 +2,7 @@ package scenarios.et.actions
 
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
+import utilities.DateUtils
 import utils.{Common, Environment}
 import xui.Headers
 
@@ -34,6 +35,8 @@ object PreAcceptance {
     }
 
     .pause(Environment.constantthinkTime)
+
+    .exec(_.set("tomorrowDate", DateUtils.getDateFuture("yyyy-MM-dd", days = 1)))
 
     .group("XUI_ET_PreAcceptancePage1") {
       exec(http("XUI_ET_PreAcceptancePage1")
