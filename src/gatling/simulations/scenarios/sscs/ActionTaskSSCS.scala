@@ -24,7 +24,7 @@ object ActionTaskSSCS {
     .exec(_.set("taskName", "**TBC**")) // SSCS currently not onboarded, so not able to retrieve the task name returned yet (September 2025)
     .exec(ViewCase.execute)
     .feed(randomFeeder)
-    .doIfOrElse(session => if (debugMode == "off") session("cancel-percentage").as[Int] < completePercentage else true) {
+    .doIfOrElse(session => if (debugMode == "off") session("complete-percentage").as[Int] < completePercentage else true) {
       exec(AssignTask.execute)
       .exec(ReviewAdminAction.execute)
     }

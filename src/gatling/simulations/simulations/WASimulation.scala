@@ -47,9 +47,7 @@ class WASimulation extends Simulation  {
   val feedSSCSUserData = csv("SSCSUserData.csv").circular
   val feedSTUserData = csv("STUserData.csv").circular
   val taskCancelListFeeder = csv("WA_TasksToCancel.csv")
-
-  val randomFeeder = Iterator.continually(Map("cancel-percentage" -> Random.nextInt(100)))
-
+  
   /* PERFORMANCE TEST CONFIGURATION */
 	val iacTargetPerHour: Double = 800 //700
   val civilCompleteTargetPerHour: Double = 300 //200
