@@ -203,6 +203,6 @@ class WASimulation extends Simulation  {
     // getTaskFromCamunda.inject(rampUsers(1) during (1 minute))
     // cancelTaskInTM.inject(rampUsers(1) during (1 minute))
   )
-    .maxDuration(75.minutes) //75
+    .maxDuration(70.minutes)
     .protocols(httpProtocol)
 }
