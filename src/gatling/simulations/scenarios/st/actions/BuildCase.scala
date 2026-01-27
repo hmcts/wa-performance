@@ -37,9 +37,9 @@ object BuildCase {
         .exec(Common.profile)
     }
 
-  .pause(Environment.constantthinkTime)
+    .pause(Environment.constantthinkTime)
 
-    group("XUI_ST_BuildCase_Validate") {
+    .group("XUI_ST_BuildCase_Validate") {
       exec(http("XUI_ST_BuildCase_Validate")
         .post("/data/case-types/CriminalInjuriesCompensation/validate?pageId=caseworker-case-builtcaseBuilt")
         .headers(Headers.commonHeader)
