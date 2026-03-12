@@ -59,6 +59,7 @@ class WASimulation extends Simulation  {
   val sscsTargetPerHour: Double = 650 //650 
   val stTargetPerHour: Double = 50 //50
   val waTargetPerHour: Double = 300
+  val bailsTargetPerHour: Double = 120 //120
 
   val rampUpDurationMins = 5
 	val rampDownDurationMins = 5
@@ -110,6 +111,7 @@ class WASimulation extends Simulation  {
   val CivilScenario = buildScenario(CcdCaseTypes.CIVIL_CIVIL, civil.CreateTaskCivil.execute, civil.ActionTaskCivil.execute)
   val STScenario = buildScenario(CcdCaseTypes.ST_CIC_CriminalInjuriesCompensation, st.CreateTaskST.execute, st.ActionTaskST.execute)
   val SSCSScenario = buildScenario(CcdCaseTypes.SSCS_Benefit, sscs.CreateTaskSSCS.execute, sscs.ActionTaskSSCS.execute)
+  val BailsScenario = buildScenario(CcdCaseTypes.IA_Bail, bails.CreateTaskBails.execute, bails.ActionTaskBails.execute)
   val WAScenario = buildScenario(CcdCaseTypes.WA_WaCaseType, wa.CreateTaskWA.execute, wa.ActionTaskWA.execute)
 
   //Debugging/Data Gen journeys - NOT USED FOR PERF TESTING!
@@ -195,6 +197,7 @@ class WASimulation extends Simulation  {
     FPLScenario.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     CivilScenario.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     PRLScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    BailsScenario.inject(simulationProfile(testType, bailsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 //    WAScenario.inject(simulationProfile(testType, waTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption), // Only used for specific WA/TM ticket testing
 //    SSCSScenario.inject(simulationProfile(testType, sscsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption), //Not onboarded so currently disabled - 4th August 2025
 
