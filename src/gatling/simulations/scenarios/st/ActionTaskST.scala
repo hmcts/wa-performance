@@ -24,7 +24,7 @@ object ActionTaskST {
       .exec(_.set("taskName", "registerNewCase"))
       .exec(ViewCase.execute)
       .feed(randomFeeder)
-      .doIfOrElse(session => if (debugMode == "off") session("complete-percentage").as[Int] < completePercentage else true) {
+      .doIfOrElse(session => if (debugMode == "off") session("cancel-percentage").as[Int] < completePercentage else true) {
         exec(AssignTask.execute)
         .exec(EditCase.execute)
         .pause(30)
