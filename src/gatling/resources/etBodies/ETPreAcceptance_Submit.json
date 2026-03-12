@@ -2,7 +2,7 @@
   "data": {
      "preAcceptCase": {
         "caseAccepted": "Yes",
-        "dateAccepted": "#{tomorrowDate}",
+        "dateAccepted": "#{todayDate}",
         "dateRejected": null,
         "rejectReason": []
      }

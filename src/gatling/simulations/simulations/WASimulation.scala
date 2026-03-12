@@ -12,6 +12,7 @@ import utils._
 import scenarios._
 
 import scala.concurrent.duration._
+import scala.util.Random
 
 class WASimulation extends Simulation  {
 
@@ -47,22 +48,23 @@ class WASimulation extends Simulation  {
   val feedSTUserData = csv("STUserData.csv").circular
   val taskCancelListFeeder = csv("WA_TasksToCancel.csv")
 
+  val randomFeeder = Iterator.continually(Map("cancel-percentage" -> Random.nextInt(100)))
+
   /* PERFORMANCE TEST CONFIGURATION */
-	val iacTargetPerHour: Double = 800 //700
-  val civilCompleteTargetPerHour: Double = 300 //200
-  val prlTargetPerHour: Double = 200 //130
-  val fplTargetPerHour: Double = 350 //335
-  val etTargetPerHour: Double = 150
+	val iacTargetPerHour: Double = 700 //700
+  val civilCompleteTargetPerHour: Double = 200 //200
+  val prlTargetPerHour: Double = 130 //130
+  val fplTargetPerHour: Double = 335 //335
+  val etTargetPerHour: Double = 100 
   val sscsTargetPerHour: Double = 650 //650 
-  val stTargetPerHour: Double = 60 //50
+  val stTargetPerHour: Double = 50 //50
   val waTargetPerHour: Double = 300
-  val bailsTargetPerHour: Double = 120 //120
 
   val rampUpDurationMins = 5
 	val rampDownDurationMins = 5
 	val testDurationMins = 60 //60
 
-	val numberOfPipelineUsers = 5
+	val numberOfPipelineUsers = 1 //5
 	val pipelinePausesMillis: Long = 3000 //3 seconds
 
 	//Determine the pause pattern to use:
@@ -71,7 +73,7 @@ class WASimulation extends Simulation  {
 	//Debug mode = disable all pauses
 	val pauseOption: PauseType = debugMode match {
 		case "off" if testType == "perftest" => constantPauses
-		case "off" if testType == "pipeline" => customPauses(pipelinePausesMillis)
+		case "off" if testType == "pipeline" => constantPauses // customPauses(pipelinePausesMillis)
 		case _ => constantPauses //disabledPauses
 	}
 
@@ -96,7 +98,6 @@ class WASimulation extends Simulation  {
         exec(_.set("env", env).set("caseType", caseType.caseTypeId))
         .exec(createTask)
         .doIf(createOnly == "off") {
-//          pause(60.seconds)
           exec(completeTask)
         }
       }
@@ -110,7 +111,6 @@ class WASimulation extends Simulation  {
   val STScenario = buildScenario(CcdCaseTypes.ST_CIC_CriminalInjuriesCompensation, st.CreateTaskST.execute, st.ActionTaskST.execute)
   val SSCSScenario = buildScenario(CcdCaseTypes.SSCS_Benefit, sscs.CreateTaskSSCS.execute, sscs.ActionTaskSSCS.execute)
   val WAScenario = buildScenario(CcdCaseTypes.WA_WaCaseType, wa.CreateTaskWA.execute, wa.ActionTaskWA.execute)
-  val BailsScenario = buildScenario(CcdCaseTypes.IA_Bail, bails.CreateTaskBails.execute, bails.ActionTaskBails.execute)
 
   //Debugging/Data Gen journeys - NOT USED FOR PERF TESTING!
   /*
@@ -195,14 +195,13 @@ class WASimulation extends Simulation  {
     FPLScenario.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     CivilScenario.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     PRLScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    BailsScenario.inject(simulationProfile(testType, bailsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-//        WAScenario.inject(simulationProfile(testType, waTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    //    SSCSScenario.inject(simulationProfile(testType, sscsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption), //Not onboarded so currently disabled - 4th August 2025
+//    WAScenario.inject(simulationProfile(testType, waTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption), // Only used for specific WA/TM ticket testing
+//    SSCSScenario.inject(simulationProfile(testType, sscsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption), //Not onboarded so currently disabled - 4th August 2025
 
     //Not used for testing
     // getTaskFromCamunda.inject(rampUsers(1) during (1 minute))
     // cancelTaskInTM.inject(rampUsers(1) during (1 minute))
   )
-    .maxDuration(70.minutes)
+    .maxDuration(75.minutes)
     .protocols(httpProtocol)
 }

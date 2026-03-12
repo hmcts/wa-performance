@@ -10,7 +10,9 @@ object PreAcceptance {
   
   val execute =
 
-    group("XUI_ET_PreAcceptance") {
+    exec(_.set("todayDate", DateUtils.getDateNow("yyyy-MM-dd")))
+
+    .group("XUI_ET_PreAcceptance") {
       exec(http("XUI_ET_PreAcceptance_EventTrigger")
         .get("/cases/case-details/#{caseId}/trigger/preAcceptanceCase/preAcceptanceCase1")
         .headers(Headers.commonHeader))
