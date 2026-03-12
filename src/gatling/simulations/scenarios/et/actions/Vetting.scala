@@ -112,7 +112,7 @@ object Vetting {
     .pause(Environment.constantthinkTime)
 
     .group("XUI_ET_Vetting_Page7"){
-      exec(http("request_185")
+      exec(http("XUI_ET_Vetting_Page7")
         .post("/data/case-types/ET_EnglandWales/validate?pageId=et1Vetting6")
         .headers(Headers.commonHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")

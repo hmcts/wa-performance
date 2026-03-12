@@ -38,6 +38,8 @@ object PreAcceptance {
 
     .pause(Environment.constantthinkTime)
 
+    .exec(_.set("tomorrowDate", DateUtils.getDateFuture("yyyy-MM-dd", days = 1)))
+
     .group("XUI_ET_PreAcceptancePage1") {
       exec(http("XUI_ET_PreAcceptancePage1")
         .get("/data/internal/cases/#{caseId}/event-triggers/preAcceptanceCase?ignore-warning=false")

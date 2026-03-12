@@ -41,7 +41,7 @@ object ViewCase {
           .check(jsonPath("$[?(@.type=='#{taskName}')].type").optional.saveAs("taskType")))
     }
 
-      .pause(30)
+      .pause(60)
     }
 
     .doIf(session => !session.contains("taskId")) {

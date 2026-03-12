@@ -78,18 +78,33 @@ object cuiSpecialTribs {
 
 		.pause(Environment.constantthinkTime)
 
-		.exec(http("CUI_ST_065_EnterCICNumber")
+		.exec(http("CUI_ST_070_EnterCICNumber")
 			.post(cuiSTURL + "/cica-reference-number")
 			.headers(Headers.cuiSTHeader)
 			.formParam("_csrf", "#{csrf}")
 			.formParam("cicaReferenceNumber", "X12345")
 			.formParam("saveAndContinue", "true")
 			.check(CsrfCheck.save)
-			.check(substring("Upload tribunal form")))
+			.check(substring("Enter the date of your Criminal Injuries Compensation Authority")))
 
     .pause(Environment.constantthinkTime)
 
-		.exec(http("CUI_ST_070_UploadAppealForm")
+		.exec(http("CUI_ST_080_EnterCICDecisionDate")
+			.post(cuiSTURL + "/cica-decision-date")
+			.headers(Headers.cuiSTHeader)
+			.formParam("_csrf", "#{csrf}")
+			.formParam("initialCicaDecisionDate-day", "10")
+			.formParam("initialCicaDecisionDate-month", "03")
+			.formParam("initialCicaDecisionDate-year", "2026")
+			.formParam("saveAndContinue", "true")
+			.check(CsrfCheck.save)
+			.check(substring("Upload tribunal form")))
+
+		.pause(Environment.constantthinkTime)
+
+			//new page for entering date
+
+		.exec(http("CUI_ST_090_UploadAppealForm")
 			.post(cuiSTURL + "/upload-appeal-form?_csrf=#{csrf}")
 			.headers(Headers.cuiSTHeader)
       .header("content-type", "multipart/form-data")
@@ -102,7 +117,7 @@ object cuiSpecialTribs {
 
     .pause(Environment.constantthinkTime)
 
-		.exec(http("CUI_ST_080_SubmitAppealFormPage")
+		.exec(http("CUI_ST_100_SubmitAppealFormPage")
 			.post(cuiSTURL + "/upload-appeal-form")
 			.headers(Headers.cuiSTHeader)
 			.formParam("_csrf", "#{csrf}")
@@ -113,7 +128,7 @@ object cuiSpecialTribs {
 
 		.pause(Environment.constantthinkTime)
 
-		.exec(http("CUI_ST_090_UploadSupportingDocument")
+		.exec(http("CUI_ST_110_UploadSupportingDocument")
 			.post(cuiSTURL + "/upload-supporting-documents?_csrf=#{csrf}")
 			.headers(Headers.cuiSTHeader)
       .header("content-type", "multipart/form-data")
@@ -126,7 +141,7 @@ object cuiSpecialTribs {
 
 		.pause(Environment.constantthinkTime)
 
-		.exec(http("CUI_ST_100_SubmitSupportingDocumentPage")
+		.exec(http("CUI_ST_120_SubmitSupportingDocumentPage")
 			.post(cuiSTURL + "/upload-supporting-documents")
 			.headers(Headers.cuiSTHeader)
 			.formParam("_csrf", "#{csrf}")
@@ -137,7 +152,7 @@ object cuiSpecialTribs {
 
 		.pause(Environment.constantthinkTime)
 
-		.exec(http("CUI_ST_110_AddOtherInformation")
+		.exec(http("CUI_ST_130_AddOtherInformation")
 			.post(cuiSTURL + "/upload-other-information?_csrf=#{csrf}")
 			.headers(Headers.cuiSTHeader)
 			.formParam("documentRelevance", "perf")
@@ -148,7 +163,7 @@ object cuiSpecialTribs {
 
     .pause(Environment.constantthinkTime)
 
-		.exec(http("CUI_ST_120_SubmitCase")
+		.exec(http("CUI_ST_140_SubmitCase")
 			.post(cuiSTURL + "/check-your-answers")
 			.headers(Headers.cuiSTHeader)
 			.formParam("_csrf", "#{csrf}")
@@ -158,7 +173,7 @@ object cuiSpecialTribs {
 
     .pause(Environment.constantthinkTime)
 
-    .exec(http("CUI_ST_130_Logout")
+    .exec(http("CUI_ST_150_Logout")
       .get(cuiSTURL + "/logout")
       .headers(Headers.cuiSTHeader)
 			.header("path", "/logout")

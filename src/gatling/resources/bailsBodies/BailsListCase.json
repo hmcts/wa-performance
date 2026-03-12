@@ -1,0 +1,18 @@
+{
+  "data": {
+    "listingEvent": "initialListing",
+    "listingLocation": "manchester",
+    "listingHearingDuration": "30",
+    "listingHearingDate": "#{currentDate}T12:00:00.000",
+    "sendDirectionDescription": null,
+    "sendDirectionList": null,
+    "dateOfCompliance": null
+  },
+  "event": {
+    "id": "caseListing",
+    "summary": "",
+    "description": ""
+  },
+  "event_token": "#{eventToken}",
+  "ignore_warning": false
+}

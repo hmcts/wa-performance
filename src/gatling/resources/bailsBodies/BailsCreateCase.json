@@ -1,0 +1,43 @@
+{
+  "data": {
+    "hasPreviousBailApplication": "No",
+    "previousApplicationDoneViaAria": "No",
+    "previousApplicationDoneViaCcd": "No",
+    "applicantGivenNames": "Perf#{randomString}",
+    "applicantFamilyName": "Test#{randomString}",
+    "applicantDateOfBirth": "#{dob}",
+    "applicantGender": "Male",
+    "applicantNationality": "STATELESS",
+    "homeOfficeReferenceNumber": "123456789",
+    "applicantDetainedLoc": "immigrationRemovalCentre",
+    "ircName": "Tinsley House",
+    "applicantArrivalInUKDate": null,
+    "applicantHasMobile": "No",
+    "hasAppealHearingPending": "No",
+    "applicantHasAddress": "No",
+    "hasProbationOffenderManager": "No",
+    "agreesToBoundByFinancialCond": "No",
+    "hasFinancialCondSupporter": "No",
+    "groundsForBailReasons": "Perf testing",
+    "groundsForBailProvideEvidenceOption": "No",
+    "transferBailManagementObjectionYesOrNo": "No",
+    "interpreterYesNo": "No",
+    "applicantDisability1": "No",
+    "videoHearing1": "Yes",
+    "isLegalRep": "Yes",
+    "legalRepCompany": "perf-prl-aALof",
+    "legalRepName": "Steve",
+    "legalRepFamilyName": "Smith",
+    "legalRepEmail": "ia.legalrep.a.ccd@gmail.com",
+    "legalRepPhone": "07000000000",
+    "legalRepReference": "12345"
+  },
+  "event": {
+    "id": "startApplication",
+    "summary": "",
+    "description": ""
+  },
+  "event_token": "#{eventToken}",
+  "ignore_warning": false,
+  "draft_id": null
+}
