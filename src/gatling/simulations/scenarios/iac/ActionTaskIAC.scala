@@ -4,7 +4,6 @@ import io.gatling.core.Predef._
 import scenarios.common.wa._
 import scenarios.common.xui._
 import scenarios.iac.actions._
-import xui.XuiHelper
 
 import scala.util.Random
 
@@ -18,19 +17,19 @@ object ActionTaskIAC {
   val execute =
 
     feed(feedTribunalUserData)
-    .exec(XuiHelper.Homepage)
-    .exec(XuiHelper.Login("#{user}", "#{password}"))
-    .exec(SearchCase.execute)
-    .exec(_.set("taskName", "reviewTheAppeal"))
-    .exec(ViewCase.execute)
-    .feed(randomFeeder)
-    .doIfOrElse(session => if (debugMode == "off") session("cancel-percentage").as[Int] < completePercentage else true) {
-      exec(AssignTask.execute)
-      .exec(RequestRespondentEvidence.execute)
-    }
-    {
-      exec(CancelTask.execute)
-    }
-    .exec(XuiHelper.Logout)
+//    .exec(XuiHelper.Homepage)
+//    .exec(XuiHelper.Login("#{user}", "#{password}"))
+//    .exec(SearchCase.execute)
+//    .exec(_.set("taskName", "reviewTheAppeal"))
+//    .exec(ViewCase.execute)
+//    .feed(randomFeeder)
+//    .doIfOrElse(session => if (debugMode == "off") session("cancel-percentage").as[Int] < completePercentage else true) {
+//      exec(AssignTask.execute)
+//      .exec(RequestRespondentEvidence.execute)
+//    }
+//    {
+//      exec(CancelTask.execute)
+//    }
+//    .exec(XuiHelper.Logout)
 
 }
