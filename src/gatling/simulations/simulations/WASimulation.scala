@@ -51,7 +51,7 @@ class WASimulation extends Simulation  {
   val randomFeeder = Iterator.continually(Map("cancel-percentage" -> Random.nextInt(100)))
 
   /* PERFORMANCE TEST CONFIGURATION */
-	val iacTargetPerHour: Double = 700 //700
+	val iacTargetPerHour: Double = 1970 //700
   val civilCompleteTargetPerHour: Double = 1970 //200
   val prlTargetPerHour: Double = 130 //130
   val fplTargetPerHour: Double = 335 //335
