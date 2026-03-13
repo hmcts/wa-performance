@@ -7,8 +7,10 @@ object ActionTaskWA {
 
   val debugMode = System.getProperty("debug", "off")
 
-  val execute =
+  val execute = {
 
-    exec(TaskManagement.SearchTask)
+//    exec(TaskManagement.SearchTask)
+    pause(1)
+  }
 
 }
