@@ -4,6 +4,7 @@ import io.gatling.core.Predef._
 import scenarios.common.wa._
 import scenarios.common.xui._
 import scenarios.iac.actions._
+import xui.XuiHelper
 
 import scala.util.Random
 
