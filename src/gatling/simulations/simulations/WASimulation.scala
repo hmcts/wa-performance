@@ -105,14 +105,14 @@ class WASimulation extends Simulation  {
     }
 
   val IACScenario = buildScenario(CcdCaseTypes.IA_Asylum, iac.CreateTaskIAC.execute, iac.ActionTaskIAC.execute)
-//  val PRLScenario = buildScenario(CcdCaseTypes.PRIVATELAW_PRLAPPS, prl.CreateTaskPRL.execute, prl.ActionTaskPRL.execute)
-//  val ETScenario = buildScenario(CcdCaseTypes.EMPLOYMENT_EnglandWales, et.CreateTaskET.execute, et.ActionTaskET.execute)
-//  val FPLScenario = buildScenario(CcdCaseTypes.PUBLICLAW_CARE_SUPERVISION_EPO, fpl.CreateTaskFPL.execute, fpl.ActionTaskFPL.execute)
-//  val CivilScenario = buildScenario(CcdCaseTypes.CIVIL_CIVIL, civil.CreateTaskCivil.execute, civil.ActionTaskCivil.execute)
-//  val STScenario = buildScenario(CcdCaseTypes.ST_CIC_CriminalInjuriesCompensation, st.CreateTaskST.execute, st.ActionTaskST.execute)
-//  val SSCSScenario = buildScenario(CcdCaseTypes.SSCS_Benefit, sscs.CreateTaskSSCS.execute, sscs.ActionTaskSSCS.execute)
-//  val BailsScenario = buildScenario(CcdCaseTypes.IA_Bail, bails.CreateTaskBails.execute, bails.ActionTaskBails.execute)
-//  val WAScenario = buildScenario(CcdCaseTypes.WA_WaCaseType, wa.CreateTaskWA.execute, wa.ActionTaskWA.execute)
+  val PRLScenario = buildScenario(CcdCaseTypes.PRIVATELAW_PRLAPPS, prl.CreateTaskPRL.execute, prl.ActionTaskPRL.execute)
+  val ETScenario = buildScenario(CcdCaseTypes.EMPLOYMENT_EnglandWales, et.CreateTaskET.execute, et.ActionTaskET.execute)
+  val FPLScenario = buildScenario(CcdCaseTypes.PUBLICLAW_CARE_SUPERVISION_EPO, fpl.CreateTaskFPL.execute, fpl.ActionTaskFPL.execute)
+  val CivilScenario = buildScenario(CcdCaseTypes.CIVIL_CIVIL, civil.CreateTaskCivil.execute, civil.ActionTaskCivil.execute)
+  val STScenario = buildScenario(CcdCaseTypes.ST_CIC_CriminalInjuriesCompensation, st.CreateTaskST.execute, st.ActionTaskST.execute)
+  val SSCSScenario = buildScenario(CcdCaseTypes.SSCS_Benefit, sscs.CreateTaskSSCS.execute, sscs.ActionTaskSSCS.execute)
+  val BailsScenario = buildScenario(CcdCaseTypes.IA_Bail, bails.CreateTaskBails.execute, bails.ActionTaskBails.execute)
+  val WAScenario = buildScenario(CcdCaseTypes.WA_WaCaseType, wa.CreateTaskWA.execute, wa.ActionTaskWA.execute)
 
   //Debugging/Data Gen journeys - NOT USED FOR PERF TESTING!
   /*
@@ -191,13 +191,13 @@ class WASimulation extends Simulation  {
   }
 
   setUp(
-//    STScenario.inject(simulationProfile(testType, stTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    STScenario.inject(simulationProfile(testType, stTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     IACScenario.inject(simulationProfile(testType, iacTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-//    ETScenario.inject(simulationProfile(testType, etTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-//    FPLScenario.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-//    CivilScenario.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-//    PRLScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-//    BailsScenario.inject(simulationProfile(testType, bailsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    ETScenario.inject(simulationProfile(testType, etTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    FPLScenario.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    CivilScenario.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    PRLScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    BailsScenario.inject(simulationProfile(testType, bailsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 //    WAScenario.inject(simulationProfile(testType, waTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption), // Only used for specific WA/TM ticket testing
 //    SSCSScenario.inject(simulationProfile(testType, sscsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption), //Not onboarded so currently disabled - 4th August 2025
 
