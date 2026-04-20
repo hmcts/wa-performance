@@ -29,7 +29,7 @@ object SearchCase {
         .header("accept", "application/json, text/plain, */*")
         .header("content-type", "application/json")
         .header("x-xsrf-token", "#{XSRFToken}")
-        .body(ElFileBody("xuiBodies/FPLCaseSearch.json"))
+        .body(ElFileBody("xuiBodies/GlobalSearchRequest.json"))
         .check(jsonPath("$.results[*].processForAccess").optional.saveAs("accessRequired")))
 
       .exec(Common.isAuthenticated)
