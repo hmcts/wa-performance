@@ -33,7 +33,7 @@ object ViewCase {
 
       group("XUI_SelectCaseTask") {
         exec(http("XUI_SelectCaseTask_#{counter}")
-          .get("/workallocation/case/task/#{caseId}")
+          .post("/workallocation/case/task/#{caseId}")
           .headers(Headers.commonHeader)
           .header("Accept", "application/json, text/plain, */*")
           .header("x-xsrf-token", "#{XSRFToken}")
