@@ -31,7 +31,7 @@ object ViewCase {
         session
       })
 
-      group("XUI_SelectCaseTask") {
+      .group("XUI_SelectCaseTask") {
         exec(http("XUI_SelectCaseTask_#{counter}")
           .post("/workallocation/case/task/#{caseId}")
           .headers(Headers.commonHeader)
@@ -39,15 +39,23 @@ object ViewCase {
           .header("x-xsrf-token", "#{XSRFToken}")
           .check(jsonPath("$[?(@.type=='#{taskName}')].id").optional.saveAs("taskId"))
           .check(jsonPath("$[?(@.type=='#{taskName}')].type").optional.saveAs("taskType")))
-    }
+      }
+
+      .exec(session => {
+        if (session.contains("taskId")) {
+          println(s"Task found on iteration ${session("counter").as[Int]}: taskId=${session("taskId").as[String]}, caseId=${session("caseId").as[String]}")
+        }
+        session
+      })
 
       .pause(60)
     }
 
     .doIf(session => !session.contains("taskId")) {
       exec { session =>
-          println("Could not retrieve task after 20 attempts, exiting user...")
-          session.markAsFailed
+        println("Could not retrieve task after 20 attempts, exiting user...")
+        println(s"Iteration ${session("counter").as[Int]}, caseId: ${session("caseId").as[String]}, taskId present: ${session.contains("taskId")}")
+        session.markAsFailed
       }
       .exitHereIfFailed
     }
