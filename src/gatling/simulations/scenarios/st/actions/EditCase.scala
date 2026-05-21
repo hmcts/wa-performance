@@ -84,9 +84,9 @@ object EditCase {
 
     .pause(Environment.constantthinkTime)
 
-    .exec(Common.postcodeLookup)
-
-    .pause(Environment.constantthinkTime)
+//    .exec(Common.postcodeLookup)
+//
+//    .pause(Environment.constantthinkTime)
 
     .group("XUI_ST_EditCase_Page5"){
       exec(http("XUI_ST_EditCase_Page5")
