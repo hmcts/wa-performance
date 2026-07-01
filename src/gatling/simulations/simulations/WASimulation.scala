@@ -10,6 +10,7 @@ import io.gatling.core.structure.{ChainBuilder, ScenarioBuilder}
 import io.gatling.http.Predef._
 import utils._
 import scenarios._
+import scenarios.common.wa.LiveReportingJourney
 
 import scala.concurrent.duration._
 import scala.util.Random
@@ -60,6 +61,7 @@ class WASimulation extends Simulation  {
   val stTargetPerHour: Double = 50 //50
   val waTargetPerHour: Double = 1970
   val bailsTargetPerHour: Double = 120 //120
+	val wlrTargetPerHour: Double = 100
 
   val rampUpDurationMins = 5
 	val rampDownDurationMins = 5
@@ -113,6 +115,12 @@ class WASimulation extends Simulation  {
   val SSCSScenario = buildScenario(CcdCaseTypes.SSCS_Benefit, sscs.CreateTaskSSCS.execute, sscs.ActionTaskSSCS.execute)
   val BailsScenario = buildScenario(CcdCaseTypes.IA_Bail, bails.CreateTaskBails.execute, bails.ActionTaskBails.execute)
   val WAScenario = buildScenario(CcdCaseTypes.WA_WaCaseType, wa.CreateTaskWA.execute, wa.ActionTaskWA.execute)
+
+  val WALiveReportingScenario = scenario("WA Live Reporting Scenario")
+    .exec(_.set("env", s"${env}"))
+    .exec(LiveReportingJourney.HomePage)
+		.exec(LiveReportingJourney.Login)
+		.exec(LiveReportingJourney.Overview)
 
   //Debugging/Data Gen journeys - NOT USED FOR PERF TESTING!
   /*
@@ -191,15 +199,16 @@ class WASimulation extends Simulation  {
   }
 
   setUp(
-    STScenario.inject(simulationProfile(testType, stTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    IACScenario.inject(simulationProfile(testType, iacTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    ETScenario.inject(simulationProfile(testType, etTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    FPLScenario.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    CivilScenario.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    PRLScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-    BailsScenario.inject(simulationProfile(testType, bailsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//    STScenario.inject(simulationProfile(testType, stTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//    IACScenario.inject(simulationProfile(testType, iacTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//    ETScenario.inject(simulationProfile(testType, etTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//    FPLScenario.inject(simulationProfile(testType, fplTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//    CivilScenario.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//    PRLScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//    BailsScenario.inject(simulationProfile(testType, bailsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 //    WAScenario.inject(simulationProfile(testType, waTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption), // Only used for specific WA/TM ticket testing
 //    SSCSScenario.inject(simulationProfile(testType, sscsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption), //Not onboarded so currently disabled - 4th August 2025
+		WALiveReportingScenario.inject(simulationProfile(testType, wlrTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 
     //Not used for testing
     // getTaskFromCamunda.inject(rampUsers(1) during (1 minute))

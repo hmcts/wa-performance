@@ -18,5 +18,7 @@ object Environment {
   val cuiStURL = "https://sptribs-frontend.#{env}.platform.hmcts.net"
   val paymentsUrl = "http://payment-api-#{env}.service.core-compute-#{env}.internal"
   val civilUrl = "http://civil-service-#{env}.service.core-compute-#{env}.internal"
+  val waLiveReportingUrl = "https://wa-reporting-frontend.#{env}.platform.hmcts.net"
+  val hmctsAccessUrl = "https://hmcts-access.#{env}.platform.hmcts.net"
 
 }
