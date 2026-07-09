@@ -121,6 +121,10 @@ class WASimulation extends Simulation  {
     .exec(LiveReportingJourney.HomePage)
 		.exec(LiveReportingJourney.Login)
 		.exec(LiveReportingJourney.Overview)
+		.exec(LiveReportingJourney.Outstanding)
+		.exec(LiveReportingJourney.Completed)
+		.exec(LiveReportingJourney.Users)
+		.exec(LiveReportingJourney.Logout)
 
   //Debugging/Data Gen journeys - NOT USED FOR PERF TESTING!
   /*
