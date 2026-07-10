@@ -69,12 +69,7 @@ tasks.named("gatlingRun") {
   dependsOn("runSimulation")
   enabled = false
 }
- 
-gatling {
-  gatlingVersion '3.15.0'
-  scalaVersion '2.13.11'
-}
- 
+
 sourceSets {
   gatling {
     scala {
