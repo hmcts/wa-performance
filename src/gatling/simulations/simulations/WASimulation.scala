@@ -117,14 +117,16 @@ class WASimulation extends Simulation  {
   val WAScenario = buildScenario(CcdCaseTypes.WA_WaCaseType, wa.CreateTaskWA.execute, wa.ActionTaskWA.execute)
 
   val WALiveReportingScenario = scenario("WA Live Reporting Scenario")
-    .exec(_.set("env", s"${env}"))
-    .exec(LiveReportingJourney.HomePage)
-		.exec(LiveReportingJourney.Login)
-		.exec(LiveReportingJourney.Overview)
-		.exec(LiveReportingJourney.Outstanding)
-		.exec(LiveReportingJourney.Completed)
-		.exec(LiveReportingJourney.Users)
-		.exec(LiveReportingJourney.Logout)
+		.exitBlockOnFail {
+			exec(_.set("env", s"${env}"))
+			.exec(LiveReportingJourney.HomePage)
+			.exec(LiveReportingJourney.Login)
+			.exec(LiveReportingJourney.Overview)
+			.exec(LiveReportingJourney.Outstanding)
+			.exec(LiveReportingJourney.Completed)
+			.exec(LiveReportingJourney.Users)
+			.exec(LiveReportingJourney.Logout)
+		}
 
   //Debugging/Data Gen journeys - NOT USED FOR PERF TESTING!
   /*
