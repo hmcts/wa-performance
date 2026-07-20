@@ -62,6 +62,7 @@ class WASimulation extends Simulation  {
   val waTargetPerHour: Double = 1970
   val bailsTargetPerHour: Double = 120 //120
 	val wlrTargetPerHour: Double = 7500
+	val waLrConcurrentUsers = 400
 
   val rampUpDurationMins = 5
 	val rampDownDurationMins = 5
@@ -216,9 +217,9 @@ class WASimulation extends Simulation  {
 //    SSCSScenario.inject(simulationProfile(testType, sscsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption), //Not onboarded so currently disabled - 4th August 2025
 //		WALiveReportingScenario.inject(simulationProfile(testType, wlrTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 		WALiveReportingScenario.inject(
-			rampConcurrentUsers(0).to(750).during(10.minutes),
-			constantConcurrentUsers(750).during(60.minutes),
-			rampConcurrentUsers(750).to(0).during(10.minutes)
+			rampConcurrentUsers(0).to(waLrConcurrentUsers).during(10.minutes),
+			constantConcurrentUsers(waLrConcurrentUsers).during(60.minutes),
+			rampConcurrentUsers(waLrConcurrentUsers).to(0).during(10.minutes)
 		).pauses(pauseOption)
     //Not used for testing
     // getTaskFromCamunda.inject(rampUsers(1) during (1 minute))
