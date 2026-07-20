@@ -216,9 +216,9 @@ class WASimulation extends Simulation  {
 //    SSCSScenario.inject(simulationProfile(testType, sscsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption), //Not onboarded so currently disabled - 4th August 2025
 //		WALiveReportingScenario.inject(simulationProfile(testType, wlrTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 		WALiveReportingScenario.inject(
-			rampConcurrentUsers(0).to(1000).during(10.minutes),
-			constantConcurrentUsers(1000).during(60.minutes),
-			rampConcurrentUsers(1000).to(0).during(10.minutes)
+			rampConcurrentUsers(0).to(500).during(10.minutes),
+			constantConcurrentUsers(500).during(60.minutes),
+			rampConcurrentUsers(500).to(0).during(10.minutes)
 		).pauses(pauseOption)
     //Not used for testing
     // getTaskFromCamunda.inject(rampUsers(1) during (1 minute))
