@@ -215,12 +215,12 @@ class WASimulation extends Simulation  {
 //    BailsScenario.inject(simulationProfile(testType, bailsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 //    WAScenario.inject(simulationProfile(testType, waTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption), // Only used for specific WA/TM ticket testing
 //    SSCSScenario.inject(simulationProfile(testType, sscsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption), //Not onboarded so currently disabled - 4th August 2025
-//		WALiveReportingScenario.inject(simulationProfile(testType, wlrTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-		WALiveReportingScenario.inject(
-			rampConcurrentUsers(0).to(waLrConcurrentUsers).during(10.minutes),
-			constantConcurrentUsers(waLrConcurrentUsers).during(60.minutes),
-			rampConcurrentUsers(waLrConcurrentUsers).to(0).during(10.minutes)
-		).pauses(pauseOption)
+		WALiveReportingScenario.inject(simulationProfile(testType, wlrTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//		WALiveReportingScenario.inject(
+//			rampConcurrentUsers(0).to(waLrConcurrentUsers).during(10.minutes),
+//			constantConcurrentUsers(waLrConcurrentUsers).during(60.minutes),
+//			rampConcurrentUsers(waLrConcurrentUsers).to(0).during(10.minutes)
+//		).pauses(pauseOption)
     //Not used for testing
     // getTaskFromCamunda.inject(rampUsers(1) during (1 minute))
     // cancelTaskInTM.inject(rampUsers(1) during (1 minute))
