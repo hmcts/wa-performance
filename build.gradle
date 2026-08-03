@@ -32,6 +32,8 @@ repositories {
 
 dependencies {
   gatlingImplementation project(':common-performance')
+  // Used only by the task-message latency simulation to poll the task database.
+  gatlingImplementation 'org.postgresql:postgresql:42.7.8'
 }
 
 dependencyCheck {
@@ -48,7 +50,7 @@ tasks.register("runSimulation", JavaExec) {
 
   // Add simulation class and results directory
   args += [
-          "-s", "simulations.WASimulation", // Main simulation used for WA testing
+          "-s", System.getProperty("simulationClass", "simulations.WASimulation"),
           "-rf", layout.buildDirectory.get().asFile.toString() + "/reports/gatling"
   ]
 
