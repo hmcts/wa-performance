@@ -1,0 +1,338 @@
+{
+  "data": {
+    "regionId": "1",
+    "caseManagementLocationNumber": "20262",
+    "orgNameFound": "Yes",
+    "claimantName": "Possessions Claim Solicitor Org",
+    "isClaimantNameCorrect": "YES",
+    "legislativeCountry": "England",
+    "claimantType": {
+      "value": {
+        "code": "PROVIDER_OF_SOCIAL_HOUSING",
+        "label": "Registered provider of social housing or local authority"
+      },
+      "list_items": [
+        {
+          "code": "PRIVATE_LANDLORD",
+          "label": "Private landlord"
+        },
+        {
+          "code": "PROVIDER_OF_SOCIAL_HOUSING",
+          "label": "Registered provider of social housing or local authority"
+        },
+        {
+          "code": "MORTGAGE_LENDER",
+          "label": "Mortgage lender"
+        },
+        {
+          "code": "OTHER",
+          "label": "Other"
+        }
+      ],
+      "valueCode": "PROVIDER_OF_SOCIAL_HOUSING"
+    },
+    "claimAgainstTrespassers": "NO",
+    "claimantContactEmail": "pcs-solicitor101@test.com",
+    "isCorrectClaimantContactEmail": "YES",
+    "orgAddressFound": "Yes",
+    "organisationAddress": {
+      "AddressLine1": "Ministry Of Justice",
+      "AddressLine2": "Seventh Floor 102 Petty France",
+      "PostTown": "London",
+      "PostCode": "SW1H 9AJ",
+      "Country": "United Kingdom"
+    },
+    "formattedClaimantContactAddress": "Ministry Of Justice<br>Seventh Floor 102 Petty France<br>London<br>SW1H 9AJ",
+    "isCorrectClaimantContactAddress": "YES",
+    "claimantProvidePhoneNumber": "NO",
+    "defendant1": {
+      "nameKnown": "YES",
+      "firstName": "Perf",
+      "lastName": "Test",
+      "addressKnown": "NO",
+      "addressSameAsPossession": null,
+      "correspondenceAddress": {
+        "AddressLine1": null,
+        "AddressLine2": null,
+        "AddressLine3": null,
+        "PostTown": null,
+        "County": null,
+        "Country": null,
+        "PostCode": null
+      }
+    },
+    "addAnotherDefendant": "NO",
+    "tenancy_TypeOfTenancyLicence": "SECURE_TENANCY",
+    "tenancy_TenancyLicenceDate": "2024-02-01",
+    "tenancy_HasCopyOfTenancyLicence": "YES",
+    "tenancy_TenancyLicenceDocuments": [
+      {
+        "id": "#{randomUuid()}",
+        "value": {
+          "document_url": "#{TenancyDocumentURL}",
+          "document_binary_url": "#{TenancyDocumentURL}/binary",
+          "document_filename": "1MB.pdf",
+          "document_hash": "#{TenancyDocumentHash}"
+        }
+      }
+    ],
+    "secureOrFlexibleDiscretionaryGrounds": [
+      "RENT_ARREARS_OR_BREACH_OF_TENANCY"
+    ],
+    "secureOrFlexibleMandatoryGrounds": [],
+    "secureOrFlexibleMandatoryGroundsAlt": [
+      "OVERCROWDING"
+    ],
+    "secureOrFlexibleDiscretionaryGroundsAlt": [],
+    "rentArrearsOrBreachOfTenancy": [
+      "RENT_ARREARS"
+    ],
+    "overcrowdingGround": "Perf testing the overcrowding",
+    "showBreachOfTenancyTextarea": "No",
+    "showReasonsForGroundsPage": "Yes",
+    "preActionProtocolCompleted": "YES",
+    "mediationAttempted": "YES",
+    "settlementAttempted": "YES",
+    "noticeServed": "Yes",
+    "notice_ServiceMethod": "FIRST_CLASS_POST",
+    "notice_PostedDate": "2025-05-01",
+    "notice_AbleToUploadDocument": "Yes",
+    "notice_Documents": [
+      {
+        "id": "#{randomUuid()}",
+        "value": {
+          "document_url": "#{NoticeDocumentURL}",
+          "document_binary_url": "#{NoticeDocumentURL}/binary",
+          "document_filename": "1MB.pdf",
+          "document_hash": "#{NoticeDocumentHash}"
+        }
+      }
+    ],
+    "rentDetails_CurrentRent": "100000",
+    "rentDetails_Frequency": "MONTHLY",
+    "rentDetails_CalculatedDailyCharge": "3285",
+    "rentArrears_StatementDocuments": [
+      {
+        "id": "#{randomUuid()}",
+        "value": {
+          "document_url": "#{RentArrearsDocumentURL}",
+          "document_binary_url": "#{RentArrearsDocumentURL}/binary",
+          "document_filename": "1MB.pdf",
+          "document_hash": "#{RentArrearsDocumentHash}"
+        }
+      }
+    ],
+    "rentArrears_Total": "50000",
+    "rentArrears_RecoveryAttempted": "YES",
+    "rentArrears_RecoveryAttemptDetails": "Perf testing the rent arrears",
+    "arrearsJudgmentWanted": "YES",
+    "claimantNamePossessiveForm": "Possessions Claim Solicitor Org’s",
+    "claimantCircumstancesSelect": "YES",
+    "claimantCircumstancesDetails": "Perf testing the claimant circumstances",
+    "hasDefendantCircumstancesInfo": "YES",
+    "defendantCircumstancesInfo": "Perf testing the defendant circumstances",
+    "suspensionOfRTB_ShowHousingActsPage": "Yes",
+    "demotionOfTenancy_ShowHousingActsPage": "No",
+    "suspensionToBuyDemotionOfTenancyPages": "No",
+    "alternativesToPossession": [
+      "SUSPENSION_OF_RIGHT_TO_BUY"
+    ],
+    "suspensionOfRTB_HousingAct": "SECTION_82A_2",
+    "suspensionOfRTB_Reason": "Perf testing the suspension of right to buy",
+    "additionalReasonsForPossession": {
+      "hasReasons": "YES",
+      "reasons": "Perf testing the reasons for possession"
+    },
+    "hasUnderlesseeOrMortgagee": "YES",
+    "underlesseeOrMortgagee1": {
+      "nameKnown": "NO",
+      "name": null,
+      "addressKnown": "NO",
+      "address": {
+        "AddressLine1": null,
+        "AddressLine2": null,
+        "AddressLine3": null,
+        "PostTown": null,
+        "County": null,
+        "Country": null,
+        "PostCode": null
+      }
+    },
+    "addAdditionalUnderlesseeOrMortgagee": "NO",
+    "wantToUploadDocuments": "YES",
+    "additionalDocuments": [
+      {
+        "value": {
+          "documentType": {
+            "value": {
+              "code": "df60a7f6-2c47-485c-a37b-56b7d3cedd79",
+              "label": "Rent statement"
+            },
+            "list_items": [
+              {
+                "code": "bd6693b3-bf35-469f-b62f-bfcd6749b61a",
+                "label": "Witness statement"
+              },
+              {
+                "code": "df60a7f6-2c47-485c-a37b-56b7d3cedd79",
+                "label": "Rent statement"
+              },
+              {
+                "code": "e6df1e6d-22b2-4316-9e66-fda5e1333c88",
+                "label": "Tenancy agreement"
+              },
+              {
+                "code": "664c21e9-f0c6-4d81-9db6-061e31d83f8e",
+                "label": "Certificate of service"
+              },
+              {
+                "code": "340056e5-7652-4e30-acf2-a8e2d94440a0",
+                "label": "Correspondence from defendant"
+              },
+              {
+                "code": "686590ed-e498-4686-aaed-27221ba6426d",
+                "label": "Correspondence from claimant"
+              },
+              {
+                "code": "bb441d7c-c7e2-4098-8855-6db328dc6d85",
+                "label": "Possession notice"
+              },
+              {
+                "code": "149968b2-7f3f-46dc-84f3-582032567f6f",
+                "label": "Notice for service out of the jurisdiction"
+              },
+              {
+                "code": "9b3586af-4d55-4e28-9603-4bbd9a32ff13",
+                "label": "Photographic evidence"
+              },
+              {
+                "code": "76a1fcfb-ea55-4ac3-93fa-d5b91b520aac",
+                "label": "Inspection or report"
+              },
+              {
+                "code": "70f4fd3b-0842-41bc-93f9-1b5727068305",
+                "label": "Certificate of suitability as litigation friend"
+              },
+              {
+                "code": "f998ac4e-48ee-401c-8dc5-92fa2ee4048e",
+                "label": "Legal aid certificate"
+              },
+              {
+                "code": "5ebf4601-384d-499f-be28-2589e97a56e8",
+                "label": "Other document"
+              }
+            ],
+            "valueCode": "df60a7f6-2c47-485c-a37b-56b7d3cedd79",
+            "valueLabel": "Rent statement"
+          },
+          "description": "The rent statement",
+          "document": {
+            "document_url": "#{RentStatementDocumentURL}",
+            "document_binary_url": "#{RentStatementDocumentURL}/binary",
+            "document_filename": "2MB.pdf",
+            "document_hash": "#{RentStatementDocumentHash}"
+          }
+        },
+        "id": "#{randomUuid()}"
+      },
+      {
+        "value": {
+          "documentType": {
+            "value": {
+              "code": "e6df1e6d-22b2-4316-9e66-fda5e1333c88",
+              "label": "Tenancy agreement"
+            },
+            "list_items": [
+              {
+                "code": "bd6693b3-bf35-469f-b62f-bfcd6749b61a",
+                "label": "Witness statement"
+              },
+              {
+                "code": "df60a7f6-2c47-485c-a37b-56b7d3cedd79",
+                "label": "Rent statement"
+              },
+              {
+                "code": "e6df1e6d-22b2-4316-9e66-fda5e1333c88",
+                "label": "Tenancy agreement"
+              },
+              {
+                "code": "664c21e9-f0c6-4d81-9db6-061e31d83f8e",
+                "label": "Certificate of service"
+              },
+              {
+                "code": "340056e5-7652-4e30-acf2-a8e2d94440a0",
+                "label": "Correspondence from defendant"
+              },
+              {
+                "code": "686590ed-e498-4686-aaed-27221ba6426d",
+                "label": "Correspondence from claimant"
+              },
+              {
+                "code": "bb441d7c-c7e2-4098-8855-6db328dc6d85",
+                "label": "Possession notice"
+              },
+              {
+                "code": "149968b2-7f3f-46dc-84f3-582032567f6f",
+                "label": "Notice for service out of the jurisdiction"
+              },
+              {
+                "code": "9b3586af-4d55-4e28-9603-4bbd9a32ff13",
+                "label": "Photographic evidence"
+              },
+              {
+                "code": "76a1fcfb-ea55-4ac3-93fa-d5b91b520aac",
+                "label": "Inspection or report"
+              },
+              {
+                "code": "70f4fd3b-0842-41bc-93f9-1b5727068305",
+                "label": "Certificate of suitability as litigation friend"
+              },
+              {
+                "code": "f998ac4e-48ee-401c-8dc5-92fa2ee4048e",
+                "label": "Legal aid certificate"
+              },
+              {
+                "code": "5ebf4601-384d-499f-be28-2589e97a56e8",
+                "label": "Other document"
+              }
+            ],
+            "valueCode": "e6df1e6d-22b2-4316-9e66-fda5e1333c88",
+            "valueLabel": "Tenancy agreement"
+          },
+          "description": "The tenancy agreement",
+          "document": {
+            "document_url": "#{TenancyAgreementDocumentURL}",
+            "document_binary_url": "#{TenancyAgreementDocumentURL}/binary",
+            "document_filename": "3MB.pdf",
+            "document_hash": "#{TenancyAgreementDocumentHash}"
+          }
+        },
+        "id": "#{randomUuid()}"
+      }
+    ],
+    "applicationWithClaim": "YES",
+    "languageUsed": "ENGLISH",
+    "completionNextStep": "SUBMIT_AND_PAY_NOW",
+    "endButtonLabel": "Submit claim",
+    "statementOfTruth": {
+      "completedBy": "CLAIMANT",
+      "fullNameParty": "Perf testing",
+      "positionParty": "CA",
+      "fullNameLegalRep": null,
+      "firmNameLegalRep": null,
+      "positionLegalRep": null,
+      "agreementClaimant": [
+        "BELIEVE_TRUE"
+      ],
+      "agreementClaimantLegalRep": [],
+      "agreementDefendantLegalRep": []
+    }
+  },
+  "event": {
+    "id": "resumePossessionClaim",
+    "summary": "",
+    "description": ""
+  },
+  "event_token": "#{eventToken}",
+  "ignore_warning": false
+}
