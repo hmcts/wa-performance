@@ -39,8 +39,8 @@ object CreateTaskPCS {
 		.feed(feedPCSUserData)
 		.exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.PCS_PCS.copy(microservice = "pcs_api"), "#{caseId}", "resumePossessionClaim", "pcsBodies/PCSSubmitClaim.json"))
 		.exec(payments.AddPCSPayment)
-		.feed(feedPCSCWUserData)
-		.exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.PCS_PCS, "#{caseId}", "changeCaseState", "pcsBodies/PCSChangeState.json"))
+//		.feed(feedPCSCWUserData)
+//		.exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.PCS_PCS, "#{caseId}", "changeCaseState", "pcsBodies/PCSChangeState.json"))
 	}
 
 
