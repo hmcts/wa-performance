@@ -37,10 +37,15 @@ object CreateTaskPCS {
 			jsonPath("$.documents[0].hashToken").saveAs("TenancyAgreementDocumentHash")
 		)))
 		.feed(feedPCSUserData)
-		.exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.PCS_PCS.copy(microservice = "pcs_api"), "#{caseId}", "resumePossessionClaim", "pcsBodies/PCSSubmitClaim.json"))
+		.exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.PCS_PCS.copy(microservice = "pcs_api"), "#{caseId}", "resumePossessionClaim", "pcsBodies/PCSSubmitClaim2.json"))
 		.exec(payments.AddPCSPayment)
-//		.feed(feedPCSCWUserData)
-//		.exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.PCS_PCS, "#{caseId}", "changeCaseState", "pcsBodies/PCSChangeState.json"))
+		.feed(feedPCSCWUserData)
+//		.exec(CcdHelper.uploadDocumentToCdam("#{email}", "#{password}", CcdCaseTypes.PCS_PCS.copy(microservice = "pcs_api"), "1MB.pdf", additionalChecks = Seq(
+//			jsonPath("$.documents[0]._links.self.href").saveAs("GADocumentURL"),
+//			jsonPath("$.documents[0].hashToken").saveAs("GADocumentHash")
+//		)))
+//		.exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.PCS_PCS, "#{caseId}", "enterGenApp", "pcsBodies/PCSEnterGeneralApplication.json"))
+				.exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.PCS_PCS, "#{caseId}", "changeCaseState", "pcsBodies/PCSChangeState.json"))
 	}
 
 
