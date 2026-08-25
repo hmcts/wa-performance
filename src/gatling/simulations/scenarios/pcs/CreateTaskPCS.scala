@@ -37,7 +37,7 @@ object CreateTaskPCS {
 			jsonPath("$.documents[0].hashToken").saveAs("TenancyAgreementDocumentHash")
 		)))
 		.feed(feedPCSUserData)
-		.exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.PCS_PCS.copy(microservice = "pcs_api"), "#{caseId}", "resumePossessionClaim", "pcsBodies/PCSSubmitClaim2.json"))
+		.exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.PCS_PCS.copy(microservice = "pcs_api"), "#{caseId}", "resumePossessionClaim", "pcsBodies/PCSSubmitClaim.json"))
 		.exec(payments.AddPCSPayment)
 		.feed(feedPCSCWUserData)
 //		.exec(CcdHelper.uploadDocumentToCdam("#{email}", "#{password}", CcdCaseTypes.PCS_PCS.copy(microservice = "pcs_api"), "1MB.pdf", additionalChecks = Seq(
