@@ -15,31 +15,93 @@ object cuiSpecialTribs {
 			.headers(Headers.cuiSTHeader)
 			.check(substring("Submit a First-tier Tribunal form")))
 
+//		.pause(Environment.constantthinkTime)
+//
+//		.exec(http("CUI_ST_020_LoginPage")
+//			.get(cuiSTURL + "/login")
+//			.headers(Headers.cuiSTHeader)
+//      .check(css("input[name='_csrf']", "value").saveAs("csrfToken"))
+//			.check(substring("Sign in or create an account")))
+//
+//    .pause(Environment.constantthinkTime)
+//
+//		.exec(http("CUI_ST_030_Login")
+//			.post(Environment.idamURL + "/login?client_id=sptribs-frontend&response_type=code&redirect_uri=" + cuiSTURL + "/receiver")
+//			.headers(Headers.cuiIdamHeader)
+//			.formParam("username", "#{email}")
+//			.formParam("password", "#{password}")
+//			.formParam("selfRegistrationEnabled", "true")
+//			.formParam("_csrf", "#{csrfToken}")
+//      .check(CsrfCheck.save)
+//			.check(substring("The subject of a case may be you")))
+//
 		.pause(Environment.constantthinkTime)
 
-		.exec(http("CUI_ST_020_LoginPage")
-			.get(cuiSTURL + "/login")
+		.group("CUI_ST_020_SignInPage") {
+			exec(http("CUI_ST_020_005_SignInPage")
+				.get(cuiSTURL + "/login")
+				.headers(Headers.cuiSTHeader)
+				.check(substring("Sign in or create an account")))
+		}
+
+		/*======================================================================================
+			Civil Citizen - Log in - Open Enter Email Page
+			======================================================================================*/
+
+		.group("CUI_ST_030_SignIn"){
+			exec(http("CUI_ST_030_005_SignIn")
+				.get(Environment.idamURL + "/enter-email")
+				.headers(Headers.cuiIdamHeader)
+				.check(CsrfCheck.save)
+				.check(substring("Enter your email address")))
+		}
+
+		.pause(Environment.constantthinkTime)
+
+		/*======================================================================================
+		Civil Citizen - Log in - Validate Email
+		======================================================================================*/
+
+		.group("CUI_ST_040_AddEmail"){
+			exec(http("CUI_ST_040_005_AddEmail")
+				.post(Environment.idamURL + "/enter-email")
+				.headers(Headers.cuiIdamHeader)
+				.formParam("_csrf", "#{csrf}")
+				.formParam("email", "#{email}")
+				.check(CsrfCheck.save)
+				.check(substring("Enter your password")))
+		}
+		.pause(Environment.constantthinkTime)
+
+		/*======================================================================================
+		Civil Citizen - Log in - Validate Password and log in
+		======================================================================================*/
+
+		.group("CUI_ST_050_AddPassword"){
+			exec(http("CUI_ST_050_005_AddPassword")
+				.post(Environment.idamURL + "/enter-password")
+				.headers(Headers.cuiIdamHeader)
+				.formParam("_csrf", "#{csrf}")
+				.formParam("action","_submit")
+				.formParam("password", "#{password}")
+				.check(CsrfCheck.save)
+				.check(substring("Enter your HMCTS reference number")))
+		}
+
+		.pause(Environment.constantthinkTime)
+
+  val cuiCreateSTCase =
+
+		exec(http("CUI_ST_060_StartNewAppeal")
+			.post(cuiSTURL + "/cica-lookup")
 			.headers(Headers.cuiSTHeader)
-      .check(css("input[name='_csrf']", "value").saveAs("csrfToken"))
-			.check(substring("Sign in or create an account")))
-		
-    .pause(Environment.constantthinkTime)
+			.formParam("_csrf", "#{csrf}")
+			.formParam("ccdReference", "")
+			.formParam("cancel", "true")
+			.check(CsrfCheck.save)
+			.check(substring("Who is the subject")))
 
-		.exec(http("CUI_ST_030_Login")
-			.post(Environment.idamURL + "/login?client_id=sptribs-frontend&response_type=code&redirect_uri=" + cuiSTURL + "/receiver")
-			.headers(Headers.cuiIdamHeader)
-			.formParam("username", "#{email}")
-			.formParam("password", "#{password}")
-			.formParam("selfRegistrationEnabled", "true")
-			.formParam("_csrf", "#{csrfToken}")
-      .check(CsrfCheck.save)
-			.check(substring("The subject of a case may be you")))
-			
-		.pause(Environment.constantthinkTime)
-
-  val cuiCreateSTCase = 
-
-		exec(http("CUI_ST_040_EnterSubjectDetails")
+		.exec(http("CUI_ST_070_EnterSubjectDetails")
 			.post(cuiSTURL + "/subject-details")
 			.headers(Headers.cuiSTHeader)
 			.formParam("_csrf", "#{csrf}")
@@ -148,7 +210,7 @@ object cuiSpecialTribs {
 			.formParam("documentUploadProceed", "true")
 			.formParam("saveAndContinue", "true")
       .check(CsrfCheck.save)
-			.check(substring("Add information to a case")))
+			.check(substring("Add information to an appeal")))
 
 		.pause(Environment.constantthinkTime)
 
