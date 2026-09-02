@@ -26,7 +26,8 @@ object ActionTaskIAC {
     .feed(randomFeeder)
     .doIfOrElse(session => if (debugMode == "off") session("cancel-percentage").as[Int] < completePercentage else true) {
       exec(AssignTask.execute)
-      .exec(RequestRespondentEvidence.execute)
+      .exec(CompleteCaseReview.execute)
+//      .exec(RequestRespondentEvidence.execute)
     }
     {
       exec(CancelTask.execute)

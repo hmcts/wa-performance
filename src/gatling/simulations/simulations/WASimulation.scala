@@ -60,6 +60,7 @@ class WASimulation extends Simulation  {
   val stTargetPerHour: Double = 50 //50
   val waTargetPerHour: Double = 1970
   val bailsTargetPerHour: Double = 120 //120
+	val pcsTargetPerHour: Double = 100 //100
 
   val rampUpDurationMins = 5
 	val rampDownDurationMins = 5
@@ -113,6 +114,7 @@ class WASimulation extends Simulation  {
   val SSCSScenario = buildScenario(CcdCaseTypes.SSCS_Benefit, sscs.CreateTaskSSCS.execute, sscs.ActionTaskSSCS.execute)
   val BailsScenario = buildScenario(CcdCaseTypes.IA_Bail, bails.CreateTaskBails.execute, bails.ActionTaskBails.execute)
   val WAScenario = buildScenario(CcdCaseTypes.WA_WaCaseType, wa.CreateTaskWA.execute, wa.ActionTaskWA.execute)
+	val PCSScenario = buildScenario(CcdCaseTypes.PCS_PCS, pcs.CreateTaskPCS.execute, pcs.ActionTaskPCS.execute)
 
   //Debugging/Data Gen journeys - NOT USED FOR PERF TESTING!
   /*
@@ -169,7 +171,8 @@ class WASimulation extends Simulation  {
             details("XUI_AddCaseNumber_Submit").successfulRequests.count.gte((prlTargetPerHour * 0.9).ceil.toInt),
             details("XUI_JudicialSDO_Submit_Request").successfulRequests.count.gte((civilCompleteTargetPerHour * 0.9).ceil.toInt),
             details("XUI_ReplyToMessage_Submit").successfulRequests.count.gte((fplTargetPerHour * 0.9).ceil.toInt),
-            details("XUI_SubmitAcceptance").successfulRequests.count.gte((etTargetPerHour * 0.9).ceil.toInt)
+            details("XUI_SubmitAcceptance").successfulRequests.count.gte((etTargetPerHour * 0.9).ceil.toInt),
+						details("XUI_PCS_CreateNewHearing_CompleteTask").successfulRequests.count.gte((pcsTargetPerHour * 0.9).ceil.toInt)
           )
         }
         else{
@@ -178,7 +181,8 @@ class WASimulation extends Simulation  {
             details("XUI_AddCaseNumber_Submit").successfulRequests.count.is(1),
             details("XUI_JudicialSDO_Submit_Request").successfulRequests.count.is(1),
             details("XUI_ReplyToMessage_Submit").successfulRequests.count.is(1),
-            details("XUI_SubmitAcceptance").successfulRequests.count.is(1)
+            details("XUI_SubmitAcceptance").successfulRequests.count.is(1),
+						details("XUI_PCS_ReviewDateDue_CompleteTask").successfulRequests.count.is(1)
           )
         }
       case "pipeline" =>
@@ -198,6 +202,7 @@ class WASimulation extends Simulation  {
     CivilScenario.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     PRLScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     BailsScenario.inject(simulationProfile(testType, bailsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+		PCSScenario.inject(simulationProfile(testType, pcsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 //    WAScenario.inject(simulationProfile(testType, waTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption), // Only used for specific WA/TM ticket testing
 //    SSCSScenario.inject(simulationProfile(testType, sscsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption), //Not onboarded so currently disabled - 4th August 2025
 
