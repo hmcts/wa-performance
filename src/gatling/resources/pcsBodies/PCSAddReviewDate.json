@@ -3,7 +3,7 @@
     "reviewDates": [
       {
         "value": {
-          "date": "2026-08-01",
+          "date": "#{pastDate}",
           "reason": "UNLESS_ORDER",
           "description": "WA Perftest"
         },

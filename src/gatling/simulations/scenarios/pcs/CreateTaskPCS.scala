@@ -4,6 +4,7 @@ import ccd._
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import scenarios.api.payments
+import utilities._
 
 object CreateTaskPCS {
 
@@ -45,6 +46,7 @@ object CreateTaskPCS {
 		)))
 		.exec(CcdHelper.addCaseEvent("#{solicitorEmail}", "#{solicitorPassword}", CcdCaseTypes.PCS_PCS.copy(microservice = "pcs_api"), "#{caseId}", "resumePossessionClaim", "pcsBodies/PCSSubmitClaim.json"))
 		.exec(payments.AddPCSPayment)
+		.exec(_.set("pastDate", DateUtils.getDatePast("yyyy-MM-dd", days = 10)))
 		.exec(CcdHelper.addCaseEvent("#{cwEmail}", "#{cwPassword}", CcdCaseTypes.PCS_PCS, "#{caseId}", "addCaseReviewDate", "pcsBodies/PCSAddReviewDate.json"))
 	}
 
