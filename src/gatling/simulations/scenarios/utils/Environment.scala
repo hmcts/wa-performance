@@ -18,6 +18,6 @@ object Environment {
   val cuiStURL = "https://sptribs-frontend.#{env}.platform.hmcts.net"
   val paymentsUrl = "http://payment-api-#{env}.service.core-compute-#{env}.internal"
   val civilUrl = "http://civil-service-#{env}.service.core-compute-#{env}.internal"
-  val pcsUrl = "http://pcs-api-perftest.service.core-compute-perftest.internal"
+  val pcsUrl = "http://pcs-api-#{env}.service.core-compute-#{env}.internal"
 
 }
