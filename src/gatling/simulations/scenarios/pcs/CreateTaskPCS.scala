@@ -13,39 +13,39 @@ object CreateTaskPCS {
 	val execute = {
 
 		feed(feedPCSUserData)
+			.exec(session => session
+				.set("solicitorEmail", session("email").as[String])
+				.set("solicitorPassword", session("password").as[String]))
 
-		.exec(CcdHelper.createCase("#{email}", "#{password}", CcdCaseTypes.PCS_PCS, "createPossessionClaim", "pcsBodies/PCSCreateCase.json"))
+		.exec(CcdHelper.createCase("#{solicitorEmail}", "#{solicitorPassword}", CcdCaseTypes.PCS_PCS, "createPossessionClaim", "pcsBodies/PCSCreateCase.json"))
 		.feed(feedPCSCWUserData)
-		.exec(CcdHelper.uploadDocumentToCdam("#{email}", "#{password}", CcdCaseTypes.PCS_PCS.copy(microservice = "pcs_api"), "1MB.pdf", additionalChecks = Seq(
+			.exec(session => session
+				.set("cwEmail", session("email").as[String])
+				.set("cwPassword", session("password").as[String]))
+
+		.exec(CcdHelper.uploadDocumentToCdam("#{cwEmail}", "#{cwPassword}", CcdCaseTypes.PCS_PCS.copy(microservice = "pcs_api"), "1MB.pdf", additionalChecks = Seq(
 			jsonPath("$.documents[0]._links.self.href").saveAs("TenancyDocumentURL"),
 			jsonPath("$.documents[0].hashToken").saveAs("TenancyDocumentHash")
 		)))
-		.exec(CcdHelper.uploadDocumentToCdam("#{email}", "#{password}", CcdCaseTypes.PCS_PCS.copy(microservice = "pcs_api"), "1MB.pdf", additionalChecks = Seq(
+		.exec(CcdHelper.uploadDocumentToCdam("#{cwEmail}", "#{cwPassword}", CcdCaseTypes.PCS_PCS.copy(microservice = "pcs_api"), "1MB.pdf", additionalChecks = Seq(
 			jsonPath("$.documents[0]._links.self.href").saveAs("NoticeDocumentURL"),
 			jsonPath("$.documents[0].hashToken").saveAs("NoticeDocumentHash")
 		)))
-		.exec(CcdHelper.uploadDocumentToCdam("#{email}", "#{password}", CcdCaseTypes.PCS_PCS.copy(microservice = "pcs_api"), "1MB.pdf", additionalChecks = Seq(
+		.exec(CcdHelper.uploadDocumentToCdam("#{cwEmail}", "#{cwPassword}", CcdCaseTypes.PCS_PCS.copy(microservice = "pcs_api"), "1MB.pdf", additionalChecks = Seq(
 			jsonPath("$.documents[0]._links.self.href").saveAs("RentArrearsDocumentURL"),
 			jsonPath("$.documents[0].hashToken").saveAs("RentArrearsDocumentHash")
 		)))
-		.exec(CcdHelper.uploadDocumentToCdam("#{email}", "#{password}", CcdCaseTypes.PCS_PCS.copy(microservice = "pcs_api"), "1MB.pdf", additionalChecks = Seq(
+		.exec(CcdHelper.uploadDocumentToCdam("#{cwEmail}", "#{cwPassword}", CcdCaseTypes.PCS_PCS.copy(microservice = "pcs_api"), "1MB.pdf", additionalChecks = Seq(
 			jsonPath("$.documents[0]._links.self.href").saveAs("RentStatementDocumentURL"),
 			jsonPath("$.documents[0].hashToken").saveAs("RentStatementDocumentHash")
 		)))
-		.exec(CcdHelper.uploadDocumentToCdam("#{email}", "#{password}", CcdCaseTypes.PCS_PCS.copy(microservice = "pcs_api"), "1MB.pdf", additionalChecks = Seq(
+		.exec(CcdHelper.uploadDocumentToCdam("#{cwEmail}", "#{cwPassword}", CcdCaseTypes.PCS_PCS.copy(microservice = "pcs_api"), "1MB.pdf", additionalChecks = Seq(
 			jsonPath("$.documents[0]._links.self.href").saveAs("TenancyAgreementDocumentURL"),
 			jsonPath("$.documents[0].hashToken").saveAs("TenancyAgreementDocumentHash")
 		)))
-		.feed(feedPCSUserData)
-		.exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.PCS_PCS.copy(microservice = "pcs_api"), "#{caseId}", "resumePossessionClaim", "pcsBodies/PCSSubmitClaim.json"))
+		.exec(CcdHelper.addCaseEvent("#{solicitorEmail}", "#{solicitorPassword}", CcdCaseTypes.PCS_PCS.copy(microservice = "pcs_api"), "#{caseId}", "resumePossessionClaim", "pcsBodies/PCSSubmitClaim.json"))
 		.exec(payments.AddPCSPayment)
-		.feed(feedPCSCWUserData)
-//		.exec(CcdHelper.uploadDocumentToCdam("#{email}", "#{password}", CcdCaseTypes.PCS_PCS.copy(microservice = "pcs_api"), "1MB.pdf", additionalChecks = Seq(
-//			jsonPath("$.documents[0]._links.self.href").saveAs("GADocumentURL"),
-//			jsonPath("$.documents[0].hashToken").saveAs("GADocumentHash")
-//		)))
-//		.exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.PCS_PCS, "#{caseId}", "enterGenApp", "pcsBodies/PCSEnterGeneralApplication.json"))
-				.exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.PCS_PCS, "#{caseId}", "changeCaseState", "pcsBodies/PCSChangeState.json"))
+		.exec(CcdHelper.addCaseEvent("#{cwEmail}", "#{cwPassword}", CcdCaseTypes.PCS_PCS, "#{caseId}", "addCaseReviewDate", "pcsBodies/PCSAddReviewDate.json"))
 	}
 
 
