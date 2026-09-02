@@ -20,8 +20,6 @@ object ActionTaskPCS {
 		feed(feedPCSCWUserData)
 		.exec(XuiHelper.Homepage)
 		.exec(XuiHelper.Login("#{email}", "#{password}"))
-//		.exec(_.set("caseId", "1787675892930997"))
-//		.exec(_.set("idamId", "1ea1149b-0e87-4af4-8534-13a3f78936dd"))
 		.exec(SearchCase.execute)
 		.exec(_.set("taskName", "NewClaimCreateNewHearing"))
 		.exec(ViewCase.execute)
