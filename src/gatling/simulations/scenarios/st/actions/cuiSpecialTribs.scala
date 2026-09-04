@@ -108,7 +108,7 @@ object cuiSpecialTribs {
 
     .pause(Environment.constantthinkTime)
 
-		.exec(http("CUI_ST_069_SelectRepresentation")
+		.exec(http("CUI_ST_090_SelectRepresentation")
 			.post(cuiSTURL + "/representation")
 			.headers(Headers.cuiSTHeader)
 			.formParam("_csrf", "#{csrf}")
