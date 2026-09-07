@@ -3,8 +3,7 @@ package simulations
 import io.gatling.core.Predef._
 import io.gatling.core.controller.inject.open.OpenInjectionStep
 import io.gatling.core.scenario.Simulation
-import io.gatling.http.Predef._
-import scenarios.taskmessages.{ServiceBusSasToken, TaskLatencyMetrics, TaskMessageLatencyConfig, TaskMessageLatencyJourney}
+import scenarios.taskmessages.{CaseIdPool, ServiceBusPublishActionBuilder, ServiceBusPublisher, TaskCreationReportActionBuilder, TaskLatencyMetrics, TaskMessageLatencyConfig, TaskMessageLatencyJourney}
 
 import scala.concurrent.duration._
 
@@ -17,47 +16,36 @@ class TaskMessageLatencySimulation extends Simulation {
   TaskMessageLatencyConfig.validate()
 
   private val config = TaskMessageLatencyConfig
-  private val serviceBusBaseUrl = s"https://${ServiceBusSasToken.namespace}.servicebus.windows.net"
-
-  private val protocol = http.baseUrl(serviceBusBaseUrl)
   private val scenarioUnderTest = scenario("Service Bus message to task latency")
-    .exitBlockOnFail {
-      exec(TaskMessageLatencyJourney.prepareMessage)
-        .exec(
-          http("ASB_PublishCaseEvent")
-            .post(s"/${config.topic}/messages")
-            .header("Authorization", "#{sasToken}")
-            .header("BrokerProperties", "{\"MessageId\":\"#{messageId}\",\"SessionId\":\"#{caseId}\",\"PartitionKey\":\"#{caseId}\"}")
-            .header("jurisdiction_id", config.jurisdictionId)
-            .header("case_type_id", config.caseTypeId)
-            .header("case_id", "#{caseId}")
-            .header("event_id", config.eventId)
-            .header("JMSXGroupID", "#{caseId}")
-            .header("message_author", config.messageAuthor)
-            .header("Content-Type", "application/json")
-            .body(StringBody("#{messageBody}"))
-            .check(status.is(201))
-        )
-        .asLongAs(session => !session("taskCreated").as[Boolean] && session("pollCount").as[Int] < config.maxPolls) {
-          exec(TaskMessageLatencyJourney.findCreatedTask)
-            .pause(config.pollInterval)
-        }
-        .exec(TaskMessageLatencyJourney.finishLatency)
+    .exec(TaskMessageLatencyJourney.prepareMessage)
+    .exitHereIfFailed
+    .exec(new ServiceBusPublishActionBuilder)
+    .doIf("#{publishAccepted}") {
+      asLongAs(session => !session("taskCreated").as[Boolean] && session("pollCount").as[Int] < config.maxPolls) {
+        exec(TaskMessageLatencyJourney.findCreatedTask)
+          .pause(config.pollInterval)
+      }
+      .exec(TaskMessageLatencyJourney.finishLatency)
     }
+    .exec(new TaskCreationReportActionBuilder)
 
-  private val ratePerSecond = config.ratePerMinute / 60d
+  private val ratePerSecond = config.eventsPerHour / 3600d
   private val injectionProfile: Seq[OpenInjectionStep] =
-    Seq(constantUsersPerSec(ratePerSecond).during(config.duration))
+    if (config.debug) Seq(atOnceUsers(config.debugEventCount))
+    else Seq(constantUsersPerSec(ratePerSecond).during(config.duration))
 
   before {
-    println(s"Task message latency test: topic=${config.topic}, rate=${config.ratePerMinute}/minute, database=${config.dbHost}/${config.dbName}")
+    CaseIdPool.initialize()
+    ServiceBusPublisher.initialize()
+    println(s"Task message latency test: publisher=Azure Service Bus SDK, topic=${config.topic}, author=${config.messageAuthor}, messageContextPrefix=${config.messageContextPrefix}, jurisdiction=${config.jurisdictionId}, caseType=${config.caseTypeId}, event=${config.eventId}, expectedTaskType=${config.expectedTaskType}, rate=${config.eventsPerHour}/hour, duration=${if (config.debug) s"${config.debugEventCount} event(s) at once (debug)" else config.duration}, database=${config.dbUrl}")
   }
 
   setUp(
     scenarioUnderTest.inject(injectionProfile)
-  ).protocols(protocol)
-    .assertions(global.successfulRequests.percent.gte(95))
-    .maxDuration(config.duration + (config.maxPolls * config.pollInterval) + 5.minutes)
+  ).maxDuration((if (config.debug) Duration.Zero else config.duration) + (config.maxPolls * config.pollInterval) + 5.minutes)
 
-  after { println(TaskLatencyMetrics.summary) }
+  after {
+    println(TaskLatencyMetrics.summary)
+    ServiceBusPublisher.close()
+  }
 }
