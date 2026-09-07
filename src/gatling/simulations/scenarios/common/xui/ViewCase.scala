@@ -41,12 +41,12 @@ object ViewCase {
           .check(jsonPath("$[?(@.type=='#{taskName}')].type").optional.saveAs("taskType")))
       }
 
-      .exec(session => {
-        if (session.contains("taskId")) {
-          println(s"Task found on iteration ${session("counter").as[Int]}: taskId=${session("taskId").as[String]}, caseId=${session("caseId").as[String]}")
-        }
-        session
-      })
+//      .exec(session => {
+//        if (session.contains("taskId")) {
+//          println(s"Task found on iteration ${session("counter").as[Int]}: taskId=${session("taskId").as[String]}, caseId=${session("caseId").as[String]}")
+//        }
+//        session
+//      })
 
       .pause(60)
     }
