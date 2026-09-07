@@ -26,12 +26,12 @@ object ViewCase {
     .exec(session => session.set("counter", 0))
 
     .doWhile(session => !session.contains("taskId") && session("counter").as[Int] < 20, "counter") {
-      exec(session => {
-        println(s"Iteration ${session("counter").as[Int]}, taskId present: ${session.contains("taskId")}")
-        session
-      })
+//      exec(session => {
+//        println(s"Iteration ${session("counter").as[Int]}, taskId present: ${session.contains("taskId")}")
+//        session
+//      })
 
-      .group("XUI_SelectCaseTask") {
+      group("XUI_SelectCaseTask") {
         exec(http("XUI_SelectCaseTask_#{counter}")
           .post("/workallocation/case/task/#{caseId}")
           .headers(Headers.commonHeader)
