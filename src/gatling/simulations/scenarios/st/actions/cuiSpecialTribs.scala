@@ -209,7 +209,7 @@ object cuiSpecialTribs {
 			.headers(Headers.cuiSTHeader)
 			.formParam("_csrf", "#{csrf}")
 			.formParam("saveAndContinue", "true")
-			.check(regex("Case Number:</font><br>(.+?)</strong>").transform(string => string.replace(" - ", "")).saveAs("caseId"))
+			.check(regex("Number:</font><br>(.+?)</strong>").transform(string => string.replace(" - ", "")).saveAs("caseId"))
 			.check(substring("Tribunal form sent")))
 
     .pause(Environment.constantthinkTime)
