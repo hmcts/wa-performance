@@ -203,7 +203,7 @@ class WASimulation extends Simulation  {
     PRLScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     BailsScenario.inject(simulationProfile(testType, bailsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 		PCSScenario.inject(simulationProfile(testType, pcsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-   WAScenario.inject(simulationProfile(testType, waTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption), // Only used for specific WA/TM ticket testing
+//   WAScenario.inject(simulationProfile(testType, waTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption), // Only used for specific WA/TM ticket testing
 //    SSCSScenario.inject(simulationProfile(testType, sscsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption), //Not onboarded so currently disabled - 4th August 2025
 
     //Not used for testing
