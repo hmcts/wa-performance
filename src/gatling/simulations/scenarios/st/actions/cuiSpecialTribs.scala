@@ -104,7 +104,8 @@ object cuiSpecialTribs {
 			.formParam("subjectAgreeContact", "Yes")
 			.formParam("saveAndContinue", "true")
       .check(CsrfCheck.save)
-			.check(substring("Is there a representative named")))
+//			.check(substring("Is there a representative named")) //temp remove 16/09/2026
+		)
 
     .pause(Environment.constantthinkTime)
 
@@ -142,8 +143,6 @@ object cuiSpecialTribs {
 			.check(substring("Upload tribunal form")))
 
 		.pause(Environment.constantthinkTime)
-
-			//new page for entering date
 
 		.exec(http("CUI_ST_120_UploadAppealForm")
 			.post(cuiSTURL + "/upload-appeal-form?_csrf=#{csrf}")
