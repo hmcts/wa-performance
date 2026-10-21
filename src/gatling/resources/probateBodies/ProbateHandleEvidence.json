@@ -1,0 +1,12 @@
+{
+  "data": {
+    "evidenceHandled": "No"
+  },
+  "event": {
+    "id": "handleEvidence",
+    "summary": "",
+    "description": ""
+  },
+  "event_token": "#{eventToken}",
+  "ignore_warning": false
+}

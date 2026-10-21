@@ -61,6 +61,7 @@ class WASimulation extends Simulation  {
   val waTargetPerHour: Double = 1970
   val bailsTargetPerHour: Double = 120 //120
 	val pcsTargetPerHour: Double = 130 //100
+	val probateTargetPerHour: Double = 100
 
   val rampUpDurationMins = 5
 	val rampDownDurationMins = 5
@@ -115,6 +116,7 @@ class WASimulation extends Simulation  {
   val BailsScenario = buildScenario(CcdCaseTypes.IA_Bail, bails.CreateTaskBails.execute, bails.ActionTaskBails.execute)
   val WAScenario = buildScenario(CcdCaseTypes.WA_WaCaseType, wa.CreateTaskWA.execute, wa.ActionTaskWA.execute)
 	val PCSScenario = buildScenario(CcdCaseTypes.PCS_PCS, pcs.CreateTaskPCS.execute, pcs.ActionTaskPCS.execute)
+	val ProbateScenario = buildScenario(CcdCaseTypes.PROBATE_GrantOfRepresentation, probate.CreateTaskProbate.execute, probate.ActionTaskProbate.execute)
 
   //Debugging/Data Gen journeys - NOT USED FOR PERF TESTING!
   /*
@@ -202,9 +204,12 @@ class WASimulation extends Simulation  {
     CivilScenario.inject(simulationProfile(testType, civilCompleteTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     PRLScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
     BailsScenario.inject(simulationProfile(testType, bailsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-//		PCSScenario.inject(simulationProfile(testType, pcsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+		PCSScenario.inject(simulationProfile(testType, pcsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+		ProbateScenario.inject(simulationProfile(testType, probateTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+
+
 //   WAScenario.inject(simulationProfile(testType, waTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption), // Only used for specific WA/TM ticket testing
-//    SSCSScenario.inject(simulationProfile(testType, sscsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption), //Not onboarded so currently disabled - 4th August 2025
+//   SSCSScenario.inject(simulationProfile(testType, sscsTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption), //Not onboarded so currently disabled - 4th August 2025
 
     //Not used for testing
     // getTaskFromCamunda.inject(rampUsers(1) during (1 minute))

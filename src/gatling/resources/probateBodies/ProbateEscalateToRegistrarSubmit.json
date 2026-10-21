@@ -1,0 +1,12 @@
+{
+  "data": {
+    "registrarEscalateReason": "referrals"
+  },
+  "event": {
+    "id": "boEscalateToRegistrar",
+    "summary": "WA perf test",
+    "description": ""
+  },
+  "event_token": "#{eventToken}",
+  "ignore_warning": false
+}
