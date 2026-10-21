@@ -27,10 +27,10 @@ object ActionTaskProbate {
 		.doIfOrElse(session => if (debugMode == "off") session("cancel-percentage").as[Int] < completePercentage else true) {
 			exec(AssignTask.execute)
 			.exec(EscalateToRegistrar.execute)
-			}
-			{
-				exec(CancelTask.execute)
-			}
+		}
+		{
+			exec(CancelTask.execute)
+		}
 		.exec(XuiHelper.Logout)
 
 }
