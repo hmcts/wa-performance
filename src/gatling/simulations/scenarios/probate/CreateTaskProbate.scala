@@ -13,11 +13,5 @@ object CreateTaskProbate {
 
 		feed(feedProbateUserData)
 		.exec(CcdHelper.createCase("#{email}", "#{password}", CcdCaseTypes.PROBATE_GrantOfRepresentation, "applyforGrantPaperApplicationMan", "probateBodies/ProbateCreateCase.json"))
-//		.exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.PROBATE_GrantOfRepresentation, "#{caseId}", "boEscalateToRegistrar", "probateBodies/ProbateEscalateToRegistrar.json"))
-//		.exec(CcdHelper.addCaseEvent("#{email}", "#{password}", CcdCaseTypes.PROBATE_GrantOfRepresentation, "#{caseId}", "handleEvidence", "probateBodies/ProbateHandleEvidence.json"))
-//		.exec { session =>
-//			println(s"Case ID = ${session("caseId").as[String]}")
-//			session
-//		}
 	}
 }
