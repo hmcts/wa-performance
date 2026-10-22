@@ -61,7 +61,7 @@ class WASimulation extends Simulation  {
   val waTargetPerHour: Double = 1970
   val bailsTargetPerHour: Double = 120 //120
 	val pcsTargetPerHour: Double = 130 //100
-	val probateTargetPerHour: Double = 100
+	val probateTargetPerHour: Double = 245 //245
 
   val rampUpDurationMins = 5
 	val rampDownDurationMins = 5
