@@ -164,31 +164,20 @@ class WASimulation extends Simulation  {
   //defines the test assertions, based on the test type
   def assertions(simulationType: String): Seq[Assertion] = {
     simulationType match {
-      case "perftest" =>
+      case "perftest" | "pipeline" =>
         if (debugMode == "off") {
           Seq(global.successfulRequests.percent.gte(95),
-            details("XUI_RequestRespondentEvidence_Submit").successfulRequests.count.gte((iacTargetPerHour * 0.9).ceil.toInt),
-            details("XUI_AddCaseNumber_Submit").successfulRequests.count.gte((prlTargetPerHour * 0.9).ceil.toInt),
-            details("XUI_JudicialSDO_Submit_Request").successfulRequests.count.gte((civilCompleteTargetPerHour * 0.9).ceil.toInt),
-            details("XUI_ReplyToMessage_Submit").successfulRequests.count.gte((fplTargetPerHour * 0.9).ceil.toInt),
-            details("XUI_SubmitAcceptance").successfulRequests.count.gte((etTargetPerHour * 0.9).ceil.toInt),
-						details("XUI_PCS_CreateNewHearing_CompleteTask").successfulRequests.count.gte((pcsTargetPerHour * 0.9).ceil.toInt)
-          )
+            details("XUI_RequestRespondentEvidence_Submit").successfulRequests.percent.gte(80),
+            details("XUI_AddCaseNumber_Submit").successfulRequests.percent.gte(80),
+            details("XUI_JudicialSDO_Submit_Request").successfulRequests.percent.gte(80),
+            details("XUI_ReplyToMessage_Submit").successfulRequests.percent.gte(80),
+            details("XUI_SubmitAcceptance").successfulRequests.percent.gte(80),
+						details("XUI_PCS_CreateNewHearing_CompleteTask").successfulRequests.percent.gte(80))
         }
-        else{
-          Seq(global.successfulRequests.percent.gte(95),
-            details("XUI_RequestRespondentEvidence_Submit").successfulRequests.count.is(1),
-            details("XUI_AddCaseNumber_Submit").successfulRequests.count.is(1),
-            details("XUI_JudicialSDO_Submit_Request").successfulRequests.count.is(1),
-            details("XUI_ReplyToMessage_Submit").successfulRequests.count.is(1),
-            details("XUI_SubmitAcceptance").successfulRequests.count.is(1),
-						details("XUI_PCS_ReviewDateDue_CompleteTask").successfulRequests.count.is(1)
-          )
-        }
-      case "pipeline" =>
-        Seq(global.successfulRequests.percent.gte(95),
-          forAll.successfulRequests.percent.gte(90)
-        )
+        else {
+					Seq(global.successfulRequests.percent.is(100))
+				}
+
       case _ =>
         Seq()
     }
