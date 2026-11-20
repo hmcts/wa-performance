@@ -1,0 +1,99 @@
+{
+  "data":{
+    "isAdmin":"No",
+    "applicantRepresented":"Yes",
+    "solicitorName":"Perf Sol",
+    "ApplicantOrganisationPolicy":{
+      "OrgPolicyCaseAssignedRole":"[APPSOLICITOR]",
+      "OrgPolicyReference":null,
+      "PrepopulateToUsersOrganisation":null,
+      "LastNoCRequestedBy":null,
+      "newCase":null,
+      "Organisation":{
+        "OrganisationID":"#{orgref}",
+        "OrganisationName":"#{orgname}"
+      },
+      "PreviousOrganisations":[
+
+      ]
+    },
+    "solicitorFirm":"#{orgname}",
+    "solicitorReference":"#{orgref}",
+    "solicitorAddress":{
+      "AddressLine1":"1 Perf Test Road",
+      "AddressLine2":"Perf Test",
+      "AddressLine3":"Perf",
+      "PostTown":"Perf Test Town",
+      "County":"Perf Test County",
+      "PostCode":"PR1 1RF",
+      "Country":"UK"
+    },
+    "solicitorPhone":"07000000000",
+    "solicitorEmail":"#{email}",
+    "solicitorDXnumber":null,
+    "solicitorAgreeToReceiveEmails":"No",
+    "divorceCaseNumber":"EZ12D91234",
+    "civilPartnership":"No",
+    "divorceStageReached":"Decree Absolute",
+    "divorceUploadEvidence2":{
+      "document_url":"#{divorceUploadEvidence2DocumentURL}",
+      "document_binary_url":"#{divorceUploadEvidence2DocumentURL}/binary",
+      "document_filename":"1MB.pdf",
+      "document_hash":"#{divorceUploadEvidence2DocumentHash}"
+    },
+    "divorceDecreeAbsoluteDate":"#{currentDate}",
+    "applicantFMName":"Perf",
+    "applicantLName":"Applicant",
+    "regionList":"london",
+    "londonFRCList":"london",
+    "londonCourtList":"FR_londonList_11",
+    "appRespondentFMName":"Perf",
+    "appRespondentLName":"Respondent",
+    "appRespondentRep":"No",
+    "respondentResideOutsideUK":"No",
+    "respondentAddress":{
+      "AddressLine1":"Flat 1",
+      "AddressLine2":"Bramber House",
+      "AddressLine3":"Seven Kings Way",
+      "PostTown":"Kingston Upon Thames",
+      "County":"",
+      "Country":"United Kingdom",
+      "PostCode":"KT2 5BU"
+    },
+    "respondentPhone":null,
+    "respondentEmail":null,
+    "natureOfApplication2":[
+      "Pension Sharing Order"
+    ],
+    "otherDocLabel":null,
+    "consentVariationOrderLabelL":null,
+    "consentVariationOrderLabelC":null,
+    "consentOrder":{
+      "document_url":"#{consentOrderDocumentURL}",
+      "document_binary_url":"#{consentOrderDocumentURL}/binary",
+      "document_filename":"CaseSummary.pdf",
+      "document_hash":"#{consentOrderDocumentHash}"
+    },
+    "d81Question":"Yes",
+    "d81Joint":{
+      "document_url":"#{d81JointDocumentURL}",
+      "document_binary_url":"#{d81JointDocumentURL}/binary",
+      "document_filename":"1MB.pdf",
+      "document_hash":"#{d81JointDocumentHash}"
+    },
+    "pensionCollection":[
+
+    ],
+    "otherCollection":[
+
+    ]
+  },
+  "event":{
+    "id":"FR_solicitorCreate",
+    "summary":"",
+    "description":""
+  },
+  "event_token":"#{eventToken}",
+  "ignore_warning":false,
+  "draft_id":null
+}

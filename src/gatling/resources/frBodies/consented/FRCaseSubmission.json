@@ -1,0 +1,31 @@
+{
+  "data": {
+    "authorisationName": "Perf Sol",
+    "authorisationFirm": "#{orgname}",
+    "authorisation2b": "Solicitor",
+    "authorisation3": "#{currentDate}",
+    "helpWithFeesQuestion": "Yes",
+    "HWFNumber": "HWF123",
+    "orderSummary": {
+      "PaymentReference": "null",
+      "PaymentTotal": "6200",
+      "Fees": [
+        {
+          "value": {
+            "FeeCode": "FEE0228",
+            "FeeAmount": "6200",
+            "FeeDescription": "Application (without notice)",
+            "FeeVersion": "6"
+          }
+        }
+      ]
+    }
+  },
+  "event": {
+    "id": "FR_applicationPaymentSubmission",
+    "summary": "",
+    "description": ""
+  },
+  "event_token": "#{eventToken}",
+  "ignore_warning": false
+}

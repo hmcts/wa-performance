@@ -1,0 +1,16 @@
+{
+  "data": {
+    "issueDate": "#{currentDate}"
+  },
+  "event": {
+    "id": "FR_HWFAcceptedAndIssue",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "issueDate": "#{currentDate}"
+  },
+  "event_token": "#{eventToken}",
+  "ignore_warning": false,
+  "case_reference": "#{caseId}"
+}

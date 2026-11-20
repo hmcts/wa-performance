@@ -1,0 +1,16 @@
+{
+  "data": {
+    "scannedDocuments": []
+  },
+  "event": {
+    "id": "attachScannedDocs",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "scannedDocuments": []
+  },
+  "event_token": "#{eventToken}",
+  "ignore_warning": false,
+  "case_reference": "#{caseId}"
+}
