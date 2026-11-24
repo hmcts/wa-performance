@@ -11,3 +11,7 @@ java {
 performance {
     simulationClass = 'simulations.WASimulation'
 }
+
+gatling {
+    jvmArgs += ['-Xms2048m', '-Xmx4096m']
+}
