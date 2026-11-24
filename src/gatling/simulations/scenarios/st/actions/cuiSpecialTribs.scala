@@ -14,6 +14,7 @@ object cuiSpecialTribs {
 			.get(cuiSTURL + "/")
 			.headers(Headers.cuiSTHeader)
 			.check(substring("Submit a Criminal Injuries Compensation")))
+	
 		.pause(Environment.constantthinkTime)
 
 		.group("CUI_ST_020_SignInPage") {
@@ -217,5 +218,5 @@ object cuiSpecialTribs {
       .get(cuiSTURL + "/logout")
       .headers(Headers.cuiSTHeader)
 			.header("path", "/logout")
-			.check(substring("Submit a First-tier Tribunal form")))
+			.check(substring("Submit a Criminal")))
 }
