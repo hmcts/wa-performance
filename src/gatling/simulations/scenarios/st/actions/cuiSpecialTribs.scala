@@ -218,5 +218,5 @@ object cuiSpecialTribs {
       .get(cuiSTURL + "/logout")
       .headers(Headers.cuiSTHeader)
 			.header("path", "/logout")
-			.check(substring("Submit a First-tier Tribunal form")))
+			.check(substring("Submit a Criminal")))
 }
