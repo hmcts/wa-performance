@@ -13,7 +13,7 @@ object cuiSpecialTribs {
     exec(http("CUI_ST_010_HomePage")
 			.get(cuiSTURL + "/")
 			.headers(Headers.cuiSTHeader)
-			.check(substring("Submit a First-tier Tribunal form")))
+			.check(substring("Submit a Criminal Injuries Compensation")))
 		.pause(Environment.constantthinkTime)
 
 		.group("CUI_ST_020_SignInPage") {
