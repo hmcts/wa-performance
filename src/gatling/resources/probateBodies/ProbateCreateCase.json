@@ -1,0 +1,60 @@
+{
+  "data": {
+    "dateOfDeathAfterEstateSwitch": "No",
+    "schemaVersion": null,
+    "registryLocation": "ctsc",
+    "applicationType": "Personal",
+    "applicationSubmittedDate": "2020-11-20",
+    "caseType": "gop",
+    "languagePreferenceWelsh": "No",
+    "extraCopiesOfGrant": null,
+    "outsideUKGrantCopies": null,
+    "primaryApplicantForenames": "Perf",
+    "primaryApplicantSurname": "Tester",
+    "primaryApplicantEmailAddress": null,
+    "primaryApplicantIsApplying": "Yes",
+    "solsPrimaryExecutorNotApplyingReason": null,
+    "primaryApplicantAddress": {
+      "AddressLine1": "Flat 1",
+      "AddressLine2": "Bramber House",
+      "AddressLine3": "Seven Kings Way",
+      "PostTown": "Kingston Upon Thames",
+      "County": "",
+      "PostCode": "KT2 5BU",
+      "Country": "United Kingdom"
+    },
+    "otherExecutorExists": "No",
+    "boDeceasedTitle": "Mr",
+    "deceasedForenames": "Dead",
+    "deceasedSurname": "Tester",
+    "boDeceasedHonours": null,
+    "deceasedAddress": {
+      "AddressLine1": "Flat 10",
+      "AddressLine2": "Bramber House",
+      "AddressLine3": "Seven Kings Way",
+      "PostTown": "Kingston Upon Thames",
+      "County": "",
+      "PostCode": "KT2 5BU",
+      "Country": "United Kingdom"
+    },
+    "deceasedDateOfBirth": "1980-02-01",
+    "dateOfDeathType": "diedOn",
+    "deceasedDateOfDeath": "2020-05-05",
+    "deceasedAnyOtherNames": "No",
+    "deceasedDomicileInEngWales": "Yes",
+    "applicationGrounds": null,
+    "ihtFormId": "IHT400",
+    "foreignAsset": "No",
+    "hmrcLetterId": "No",
+    "ihtGrossValue": "5000000",
+    "ihtNetValue": "5000000"
+  },
+  "event": {
+    "id": "applyforGrantPaperApplicationMan",
+    "summary": "",
+    "description": ""
+  },
+  "event_token": "#{eventToken}",
+  "ignore_warning": false,
+  "draft_id": null
+}

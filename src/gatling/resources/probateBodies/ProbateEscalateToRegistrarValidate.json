@@ -1,0 +1,16 @@
+{
+  "data": {
+    "registrarEscalateReason": "referrals"
+  },
+  "event": {
+    "id": "boEscalateToRegistrar",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "registrarEscalateReason": "referrals"
+  },
+  "event_token": "#{eventToken}",
+  "ignore_warning": false,
+  "case_reference": "#{caseId}"
+}
