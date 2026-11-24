@@ -19,7 +19,7 @@ object CreateTaskIAC {
   val execute =
 
     exec(_.setAll("randomString" -> randomString(5),
-      "dob" -> DateUtils.getDatePastRandom("yyyy-MM-dd", minYears = 20, maxYears = 50),
+      "dob" -> "1976-02-05",
       "todayDate" -> DateUtils.getDateNow("yyyy-MM-dd")))
 
     .feed(feedIACUserData)

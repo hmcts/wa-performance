@@ -18,7 +18,7 @@
          "checklist6": []
       },
       "appellantInUk": "Yes",
-      "homeOfficeReferenceNumber": "123123123",
+      "homeOfficeReferenceNumber": "1342-5786-9120-3564",
       "homeOfficeDecisionDate": "#{todayDate}",
       "uploadTheNoticeOfDecisionDocs": [
          {
@@ -34,8 +34,8 @@
          }
       ],
       "appellantTitle": "Mr",
-      "appellantGivenNames": "Perf#{randomString}",
-      "appellantFamilyName": "Test#{randomString}",
+      "appellantGivenNames": "Abhishek Amitabh",
+      "appellantFamilyName": "Bachchan",
       "appellantDateOfBirth": "#{dob}",
       "appellantStateless": "isStateless",
       "appellantHasFixedAddress": "No",
